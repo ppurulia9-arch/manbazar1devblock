@@ -146,25 +146,32 @@
 
 
   // LOGIN
-  async function login() {
+ async function login() {
 
-    const email =
-      document.getElementById("email").value.trim();
+  const email =
+    document.getElementById("email").value.trim();
 
-    const password =
-      document.getElementById("password").value;
+  const password =
+    document.getElementById("password").value;
 
-    const message =
-      document.getElementById("message");
+  const message =
+    document.getElementById("message");
 
-    message.className = "";
-    message.textContent = "";
+  message.className = "";
+  message.textContent = "Logging in...";
 
-    if (!email || !password) {
-      message.className = "error";
-      message.textContent = "Email and password required.";
-      return;
-    }
+
+  if (!email || !password) {
+
+    message.className = "error";
+    message.textContent =
+      "Email and password required.";
+
+    return;
+  }
+
+
+  try {
 
     const { data, error } =
       await supabaseClient.auth.signInWithPassword({
@@ -172,17 +179,52 @@
         password: password
       });
 
+
     if (error) {
+
       message.className = "error";
-      message.textContent = error.message;
+
+      message.textContent =
+        "Login failed: " + error.message;
+
       return;
     }
 
-    if (data.session) {
-      window.location.href = "dashboard.html";
+
+    if (data && data.session) {
+
+      message.className = "success";
+
+      message.textContent =
+        "Login successful. Opening dashboard...";
+
+
+      setTimeout(function() {
+
+        window.location.href =
+          "dashboard.html";
+
+      }, 500);
+
+      return;
     }
+
+
+    message.className = "error";
+
+    message.textContent =
+      "Login completed but no session was created.";
+
+  } catch (err) {
+
+    message.className = "error";
+
+    message.textContent =
+      "Error: " + err.message;
+
   }
 
+}
 
   // FORGOT PASSWORD
   async function forgotPassword() {
