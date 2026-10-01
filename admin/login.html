@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Login - Manbazar-I Dev Block</title>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     body {
       margin: 0;
@@ -65,14 +67,14 @@
       cursor: pointer;
     }
 
-    button:hover {
-      background: #172554;
+    button:disabled {
+      background: #888;
     }
 
     #message {
       text-align: center;
       margin-top: 15px;
-      color: red;
+      color: #dc2626;
     }
   </style>
 </head>
@@ -89,7 +91,7 @@
 
     <form id="loginForm">
 
-      <label for="email">Email</label>
+      <label>Email</label>
       <input
         type="email"
         id="email"
@@ -97,7 +99,7 @@
         required
       >
 
-      <label for="password">Password</label>
+      <label>Password</label>
       <input
         type="password"
         id="password"
@@ -105,7 +107,7 @@
         required
       >
 
-      <button type="submit">
+      <button type="submit" id="loginButton">
         Login
       </button>
 
@@ -115,14 +117,57 @@
 
   </div>
 
-  <script>
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+<script>
+  const SUPABASE_URL = "https://nqfcofeqesemnttcwr.supabase.co";
 
-      document.getElementById("message").innerText =
-        "Supabase connection will be added in the next step.";
-    });
-  </script>
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  const form = document.getElementById("loginForm");
+  const message = document.getElementById("message");
+  const button = document.getElementById("loginButton");
+
+  form.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    message.textContent = "";
+    button.disabled = true;
+    button.textContent = "Logging in...";
+
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+    if (error) {
+
+      message.textContent = error.message;
+
+      button.disabled = false;
+      button.textContent = "Login";
+
+      return;
+    }
+
+    if (data.session) {
+
+      message.style.color = "green";
+      message.textContent = "Login successful...";
+
+      window.location.href = "dashboard.html";
+    }
+
+  });
+</script>
 
 </body>
 </html>
