@@ -26,29 +26,30 @@ const supabase = window.supabase.createClient(
 
 .floating-notices {
   margin: 30px 7%;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background: #fff;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 3px 12px rgba(0,0,0,.08);
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.10);
 }
 
 .floating-title {
-  background: #1e3a8a;
+  background: linear-gradient(90deg,#1e3a8a,#2563eb);
   color: #fff;
-  padding: 12px 16px;
+  padding: 14px 18px;
+  font-size: 18px;
   font-weight: bold;
 }
 
 .floating-window {
-  height: 150px;
+  height: 155px;
   overflow: hidden;
   position: relative;
 }
 
 #floatingNoticeList {
   padding: 10px 18px;
-  animation: noticeFloat 15s linear infinite;
+  animation: noticeFloat 16s linear infinite;
 }
 
 #floatingNoticeList:hover {
@@ -56,37 +57,75 @@ const supabase = window.supabase.createClient(
 }
 
 .float-notice {
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
+  padding: 12px 5px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #eeeeee;
 }
 
 .float-notice a {
   color: #1e3a8a;
   text-decoration: none;
   font-weight: bold;
+  font-size: 16px;
 }
 
 .float-notice a:hover {
-  text-decoration: underline;
+  color: #dc2626;
 }
 
 .float-date {
-  color: #777;
+  color: #666;
   font-size: 13px;
-  margin-top: 4px;
+  margin-top: 5px;
+}
+
+.new-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 7px;
+  background: #dc2626;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: bold;
 }
 
 .float-pdf {
   display: inline-block;
-  margin-top: 5px;
-  font-size: 13px;
+  margin-top: 6px;
+  padding: 5px 9px;
+  background: #2563eb;
+  color: #fff !important;
+  border-radius: 5px;
+  font-size: 12px !important;
 }
 
 @keyframes noticeFloat {
-
   0% {
-    transform: translateY(150px);
+    transform: translateY(155px);
   }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@media (max-width: 600px) {
+
+  .floating-notices {
+    margin: 20px 4%;
+  }
+
+  .floating-title {
+    font-size: 16px;
+  }
+
+  .float-notice a {
+    font-size: 14px;
+  }
+
+}
+</style>
 
   100% {
     transform: translateY(-100%);
