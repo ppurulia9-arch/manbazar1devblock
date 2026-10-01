@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Notice Management - Manbazar-I Development Block</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #1e3a8a;
+    }
+
+    header {
+      background: #1e3a8a;
+      color: white;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 25px auto;
+      padding: 15px;
+    }
+
+    .box {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    button {
+      border: none;
+      padding: 10px 16px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 12px;
+    }
+
+    .save-btn {
+      background: #1e3a8a;
+      color: white;
+    }
+
+    .cancel-btn {
+      background: #777;
+      color: white;
+      margin-left: 8px;
+    }
+
+    .edit-btn {
+      background: #f59e0b;
+      color: white;
+      margin-right: 5px;
+    }
+
+    .delete-btn {
+      background: #dc2626;
+      color: white;
+    }
+
+    .back-btn {
+      background: white;
+      color: #1e3a8a;
+      margin-top: 0;
+    }
+
+    .notice {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 12px;
+    }
+
+    .notice h3 {
+      margin-top: 0;
+      color: #1e3a8a;
+    }
+
+    .date {
+      color: #666;
+      font-size: 13px;
+    }
+
+    #message {
+      margin-top: 12px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Notice Management</h1>
+  <p>Manbazar-I Development Block</p>
+  <button class="back-btn" onclick="goBack()">← Dashboard</button>
+</header>
+
+<div class="container">
+
+  <!-- ADD / EDIT NOTICE -->
+  <div class="box">
+
+    <h2 id="formTitle">নতুন Notice যোগ করুন</h2>
+
+    <form id="noticeForm">
+
+      <input type="hidden" id="noticeId">
+
+      <label>Notice Title</label>
+      <input
+        type="text"
+        id="title"
+        placeholder="Notice-এর শিরোনাম লিখুন"
+        required
+      >
+
+      <label>Description</label>
+      <textarea
+        id="description"
+        placeholder="Notice-এর বিস্তারিত তথ্য লিখুন"
+      ></textarea>
+
+      <label>Notice Date</label>
+      <input
+        type="date"
+        id="noticeDate"
+      >
+
+      <label>File URL (যদি PDF/Document থাকে)</label>
+      <input
+        type="url"
+        id="fileUrl"
+        placeholder="https://..."
+      >
+
+      <button type="submit" class="save-btn">
+        Save Notice
+      </button>
+
+      <button
+        type="button"
+        class="cancel-btn"
+        id="cancelBtn"
+        onclick="cancelEdit()"
+        style="display:none;"
+      >
+        Cancel Edit
+      </button>
+
+      <div id="message"></div>
+
+    </form>
+
+  </div>
+
+
+  <!-- NOTICE LIST -->
+  <div class="box">
+
+    <h2>Published Notices</h2>
+
+    <div id="noticeList">
+      Loading notices...
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  /*
+   * IMPORTANT:
+   * নিচের SUPABASE_URL এবং SUPABASE_KEY
+   * আপনার working login.html/dashboard.html
+   * থেকে একই values ব্যবহার করুন।
+   *
+   * Publishable/anon key ব্যবহার করবেন।
+   * service_role/secret key কখনো এখানে দেবেন না।
+   */
+
+  const SUPABASE_URL = "https://nqfcoofeqsesenmttcwr.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+  // =========================
+  // LOGIN CHECK
+  // =========================
+
+  async function checkLogin() {
+
+    const {
+      data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+      window.location.href = "login.html";
+      return false;
+    }
+
+    return true;
+  }
+
+
+  // =========================
+  // LOAD NOTICES
+  // =========================
+
+  async function loadNotices() {
+
+    const noticeList = document.getElementById("noticeList");
+
+    noticeList.innerHTML = "Loading...";
+
+    const { data, error } = await supabaseClient
+      .from("notices")
+      .select("*")
+      .order("notice_date", { ascending: false });
+
+    if (error) {
+
+      noticeList.innerHTML =
+        "<p style='color:red;'>Error: " +
+        escapeHtml(error.message) +
+        "</p>";
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      noticeList.innerHTML =
+        "<p>এখনও কোনো Notice যোগ করা হয়নি।</p>";
+
+      return;
+    }
+
+
+    noticeList.innerHTML = "";
+
+    data.forEach(notice => {
+
+      const div = document.createElement("div");
+
+      div.className = "notice";
+
+      div.innerHTML = `
+
+        <h3>${escapeHtml(notice.title)}</h3>
+
+        <div class="date">
+          Date: ${notice.notice_date || ""}
+        </div>
+
+        <p>
+          ${escapeHtml(notice.description || "")}
+        </p>
+
+        ${
+          notice.file_url
+          ? `<p>
+              <a
+                href="${escapeAttribute(notice.file_url)}"
+                target="_blank"
+                rel="noopener"
+              >
+                📄 View / Download Document
+              </a>
+             </p>`
+          : ""
+        }
+
+        <button
+          class="edit-btn"
+          onclick="editNotice(${notice.id})"
+        >
+          Edit
+        </button>
+
+        <button
+          class="delete-btn"
+          onclick="deleteNotice(${notice.id})"
+        >
+          Delete
+        </button>
+
+      `;
+
+      noticeList.appendChild(div);
+
+    });
+
+  }
+
+
+  // =========================
+  // ADD / UPDATE NOTICE
+  // =========================
+
+  document
+    .getElementById("noticeForm")
+    .addEventListener("submit", async function(e) {
+
+      e.preventDefault();
+
+      const id =
+        document.getElementById("noticeId").value;
+
+      const title =
+        document.getElementById("title").value.trim();
+
+      const description =
+        document.getElementById("description").value.trim();
+
+      const noticeDate =
+        document.getElementById("noticeDate").value ||
+        new Date().toISOString().split("T")[0];
+
+      const fileUrl =
+        document.getElementById("fileUrl").value.trim();
+
+
+      if (!title) {
+
+        showMessage(
+          "Notice title দিন।",
+          "red"
+        );
+
+        return;
+      }
+
+
+      const noticeData = {
+        title: title,
+        description: description,
+        notice_date: noticeDate,
+        file_url: fileUrl || null
+      };
+
+
+      showMessage(
+        "Saving...",
+        "#1e3a8a"
+      );
+
+
+      let result;
+
+
+      if (id) {
+
+        // UPDATE
+
+        result = await supabaseClient
+          .from("notices")
+          .update(noticeData)
+          .eq("id", id);
+
+      } else {
+
+        // INSERT
+
+        result = await supabaseClient
+          .from("notices")
+          .insert([noticeData]);
+
+      }
+
+
+      if (result.error) {
+
+        showMessage(
+          "Error: " + result.error.message,
+          "red"
+        );
+
+        return;
+      }
+
+
+      showMessage(
+        id
+          ? "Notice সফলভাবে update হয়েছে।"
+          : "Notice সফলভাবে যোগ হয়েছে।",
+        "green"
+      );
+
+
+      cancelEdit();
+
+      loadNotices();
+
+    });
+
+
+  // =========================
+  // EDIT NOTICE
+  // =========================
+
+  async function editNotice(id) {
+
+    const { data, error } =
+      await supabaseClient
+        .from("notices")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+
+    if (error) {
+
+      alert(
+        "Notice পাওয়া যায়নি: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    document.getElementById("noticeId").value =
+      data.id;
+
+    document.getElementById("title").value =
+      data.title || "";
+
+    document.getElementById("description").value =
+      data.description || "";
+
+    document.getElementById("noticeDate").value =
+      data.notice_date || "";
+
+    document.getElementById("fileUrl").value =
+      data.file_url || "";
+
+
+    document.getElementById("formTitle").innerText =
+      "Notice Edit করুন";
+
+    document.getElementById("cancelBtn").style.display =
+      "inline-block";
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  // =========================
+  // DELETE NOTICE
+  // =========================
+
+  async function deleteNotice(id) {
+
+    const confirmDelete =
+      confirm(
+        "আপনি কি এই Notice delete করতে চান?"
+      );
+
+
+    if (!confirmDelete) {
+      return;
+    }
+
+
+    const { error } =
+      await supabaseClient
+        .from("notices")
+        .delete()
+        .eq("id", id);
+
+
+    if (error) {
+
+      alert(
+        "Delete failed: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    alert(
+      "Notice সফলভাবে delete হয়েছে।"
+    );
+
+
+    loadNotices();
+
+  }
+
+
+  // =========================
+  // CANCEL EDIT
+  // =========================
+
+  function cancelEdit() {
+
+    document.getElementById("noticeForm").reset();
+
+    document.getElementById("noticeId").value = "";
+
+    document.getElementById("formTitle").innerText =
+      "নতুন Notice যোগ করুন";
+
+    document.getElementById("cancelBtn").style.display =
+      "none";
+
+  }
+
+
+  // =========================
+  // MESSAGE
+  // =========================
+
+  function showMessage(text, color) {
+
+    const message =
+      document.getElementById("message");
+
+    message.innerText = text;
+
+    message.style.color = color;
+
+  }
+
+
+  // =========================
+  // BACK TO DASHBOARD
+  // =========================
+
+  function goBack() {
+
+    window.location.href =
+      "dashboard.html";
+
+  }
+
+
+  // =========================
+  // BASIC HTML ESCAPING
+  // =========================
+
+  function escapeHtml(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  function escapeAttribute(value) {
+
+    return String(value)
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+
+  }
+
+
+  // =========================
+  // START
+  // =========================
+
+  (async function() {
+
+    const loggedIn =
+      await checkLogin();
+
+    if (loggedIn) {
+      loadNotices();
+    }
+
+  })();
+
+</script>
+
+</body>
+</html>
