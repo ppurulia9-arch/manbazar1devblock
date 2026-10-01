@@ -362,8 +362,11 @@
         document.getElementById("noticeDate").value ||
         new Date().toISOString().split("T")[0];
 
-      const fileUrl =
-        document.getElementById("fileUrl").value.trim();
+      const fileInput =
+    document.getElementById("noticeFile");
+
+const selectedFile =
+    fileInput.files[0];
 
 
       if (!title) {
@@ -377,12 +380,66 @@
       }
 
 
-      const noticeData = {
-        title: title,
-        description: description,
-        notice_date: noticeDate,
-        file_url: fileUrl || null
-      };
+    let fileUrl = null;
+
+// Edit হলে আগের PDF URL রেখে দিন
+if (id) {
+  const { data: oldNotice } = await supabaseClient
+    .from("notices")
+    .select("file_url")
+    .eq("id", id)
+    .single();
+
+  fileUrl = oldNotice?.file_url || null;
+}
+
+// নতুন PDF নির্বাচন করলে Upload করুন
+if (selectedFile) {
+
+  if (selectedFile.type !== "application/pdf") {
+    showMessage("শুধু PDF file upload করা যাবে।", "red");
+    return;
+  }
+
+  if (selectedFile.size > 50 * 1024 * 1024) {
+    showMessage("PDF file 50 MB-এর মধ্যে হতে হবে।", "red");
+    return;
+  }
+
+  const safeName = selectedFile.name.replace(/[^\w.\-]+/g, "_");
+
+  const filePath =
+    Date.now() + "-" + safeName;
+
+  showMessage("PDF Upload হচ্ছে...", "#1e3a8a");
+
+  const { error: uploadError } =
+    await supabaseClient.storage
+      .from("notices")
+      .upload(filePath, selectedFile);
+
+  if (uploadError) {
+    showMessage(
+      "PDF Upload failed: " + uploadError.message,
+      "red"
+    );
+    return;
+  }
+
+  const { data: publicUrlData } =
+    supabaseClient.storage
+      .from("notices")
+      .getPublicUrl(filePath);
+
+  fileUrl = publicUrlData.publicUrl;
+}
+
+const noticeData = {
+  title: title,
+  description: description,
+  notice_date: noticeDate,
+  file_url: fileUrl
+};
 
 
       showMessage(
