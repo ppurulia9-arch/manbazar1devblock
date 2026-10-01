@@ -24,7 +24,8 @@ const supabaseClient = window.supabase.createClient(
 
 <style>
 :root{
-  --maroon:#6b1025;
+  -- 
+dusky saffron:#6b1025;
   --dark:#430817;
   --gold:#d4a017;
   --cream:#fff8e7;
@@ -68,17 +69,22 @@ body{
 }
 
 .logo{
-  width:75px;
-  height:75px;
-  border-radius:50%;
-  background:var(--maroon);
-  color:#fff;
+  width:90px;
+  height:120px;
   display:flex;
   align-items:center;
   justify-content:center;
-  text-align:center;
-  font-weight:bold;
-  border:4px solid var(--gold);
+  background:transparent;
+  border:0;
+  border-radius:0;
+  overflow:hidden;
+}
+
+.logo img{
+  width:82px;
+  height:112px;
+  object-fit:contain;
+  display:block;
 }
 
 .brand h1{
@@ -344,9 +350,9 @@ body{
 <header class="header">
 
   <div class="brand">
-    <div class="logo">
-      MANBAZAR-I<br>DEV. BLOCK
-    </div>
+   <div class="logo">
+  <img src="ashoka-stambha.png" alt="Ashoka Stambha">
+</div>
 
     <div>
       <h1>Manbazar-I Development Block</h1>
