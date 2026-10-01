@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login - Manbazar-I Dev Block</title>
+  <title>Admin Login - Manbazar-I Development Block</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -11,7 +11,7 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f1f5f9;
+      background: #f3f6fb;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -20,61 +20,78 @@
 
     .login-box {
       width: 90%;
-      max-width: 400px;
+      max-width: 430px;
       background: white;
-      padding: 30px;
-      border-radius: 12px;
+      padding: 35px;
+      border-radius: 15px;
       box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+      box-sizing: border-box;
     }
 
     h1 {
       text-align: center;
-      color: #1e3a8a;
+      color: #1769d1;
       margin-bottom: 5px;
     }
 
     .subtitle {
       text-align: center;
       color: #666;
-      margin-bottom: 25px;
+      margin-bottom: 30px;
     }
 
     label {
       display: block;
-      margin-top: 15px;
-      margin-bottom: 6px;
       font-weight: bold;
+      margin: 15px 0 7px;
     }
 
     input {
       width: 100%;
-      box-sizing: border-box;
-      padding: 12px;
+      padding: 13px;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 7px;
+      box-sizing: border-box;
       font-size: 16px;
     }
 
     button {
       width: 100%;
-      margin-top: 22px;
       padding: 13px;
+      margin-top: 20px;
       border: none;
-      border-radius: 6px;
-      background: #1e3a8a;
+      border-radius: 7px;
+      background: #1769d1;
       color: white;
       font-size: 17px;
       cursor: pointer;
     }
 
-    button:disabled {
-      background: #888;
+    button:hover {
+      background: #0d55ad;
+    }
+
+    .forgot {
+      display: block;
+      text-align: center;
+      margin-top: 18px;
+      color: #1769d1;
+      cursor: pointer;
+      text-decoration: underline;
     }
 
     #message {
       text-align: center;
       margin-top: 15px;
-      color: #dc2626;
+      font-weight: bold;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
     }
   </style>
 </head>
@@ -84,63 +101,70 @@
   <div class="login-box">
 
     <h1>Admin Login</h1>
+    <div class="subtitle">Manbazar-I Development Block</div>
 
-    <div class="subtitle">
-      Manbazar-I Development Block
-    </div>
+    <label for="email">Email</label>
+    <input
+      type="email"
+      id="email"
+      placeholder="Enter admin email"
+      required
+    >
 
-    <form id="loginForm">
+    <label for="password">Password</label>
+    <input
+      type="password"
+      id="password"
+      placeholder="Enter password"
+      required
+    >
 
-      <label>Email</label>
-      <input
-        type="email"
-        id="email"
-        placeholder="Enter admin email"
-        required
-      >
+    <button onclick="login()">Login</button>
 
-      <label>Password</label>
-      <input
-        type="password"
-        id="password"
-        placeholder="Enter password"
-        required
-      >
-
-      <button type="submit" id="loginButton">
-        Login
-      </button>
-
-    </form>
+    <span class="forgot" onclick="forgotPassword()">
+      Forgot Password?
+    </span>
 
     <div id="message"></div>
 
   </div>
 
 <script>
-  const SUPABASE_URL = "https://nqfcoofeqsesenmttcwr.supabase.co";
 
-  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
+  // Supabase Project URL
+  const SUPABASE_URL =
+    "https://nqfcoofeqsesenmttcwr.supabase.co";
+
+  // এখানে আপনার আগের Publishable Key-টি রাখুন
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
 
   const supabaseClient = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
   );
 
-  const form = document.getElementById("loginForm");
-  const message = document.getElementById("message");
-  const button = document.getElementById("loginButton");
 
-  form.addEventListener("submit", async function(event) {
+  // LOGIN
+  async function login() {
 
-    event.preventDefault();
+    const email =
+      document.getElementById("email").value.trim();
 
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
+    const password =
+      document.getElementById("password").value;
 
+    const message =
+      document.getElementById("message");
+
+    message.className = "";
     message.textContent = "";
-    button.disabled = true;
-    button.textContent = "Logging in...";
+
+    if (!email || !password) {
+      message.className = "error";
+      message.textContent = "Email and password required.";
+      return;
+    }
 
     const { data, error } =
       await supabaseClient.auth.signInWithPassword({
@@ -149,24 +173,62 @@
       });
 
     if (error) {
-
+      message.className = "error";
       message.textContent = error.message;
-
-      button.disabled = false;
-      button.textContent = "Login";
-
       return;
     }
 
     if (data.session) {
-
-      message.style.color = "green";
-      message.textContent = "Login successful...";
-
       window.location.href = "dashboard.html";
     }
+  }
 
-  });
+
+  // FORGOT PASSWORD
+  async function forgotPassword() {
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const message =
+      document.getElementById("message");
+
+    message.className = "";
+    message.textContent = "";
+
+    if (!email) {
+      message.className = "error";
+      message.textContent =
+        "Please enter your email address first.";
+      return;
+    }
+
+    const redirectUrl =
+      window.location.origin +
+      window.location.pathname.replace(
+        "login.html",
+        "reset-password.html"
+      );
+
+    const { error } =
+      await supabaseClient.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo: redirectUrl
+        }
+      );
+
+    if (error) {
+      message.className = "error";
+      message.textContent = error.message;
+      return;
+    }
+
+    message.className = "success";
+    message.textContent =
+      "Password reset link has been sent to your email.";
+  }
+
 </script>
 
 </body>
