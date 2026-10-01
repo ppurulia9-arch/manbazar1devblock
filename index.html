@@ -16,7 +16,7 @@ const SUPABASE_URL = "https://nqfcoofeqsesenmttcwr.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
 
-const supabase = window.supabase.createClient(
+const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_PUBLISHABLE_KEY
 );
@@ -298,7 +298,7 @@ document.getElementById("floatingNoticeList");
 
 
 const { data, error } =
-await supabase
+await supabaseClient
 
 .from("notices")
 
