@@ -23,268 +23,476 @@ const supabaseClient = window.supabase.createClient(
 </script>
 
 <style>
-
-.floating-notices {
-  margin: 30px 7%;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 5px 18px rgba(0,0,0,0.10);
+:root{
+  --maroon:#6b1025;
+  --dark:#430817;
+  --gold:#d4a017;
+  --cream:#fff8e7;
+  --white:#fff;
+  --text:#2d2024;
+  --shadow:0 8px 25px rgba(67,8,23,.15);
 }
 
-.floating-title {
-  background: linear-gradient(90deg,#1e3a8a,#2563eb);
-  color: #fff;
-  padding: 14px 18px;
-  font-size: 18px;
-  font-weight: bold;
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Bengali",sans-serif;
+  background:#fffaf2;
+  color:var(--text);
 }
 
-.floating-window {
-  height: 155px;
-  overflow: hidden;
-  position: relative;
+.topbar{
+  background:var(--dark);
+  color:#fff;
+  padding:8px 5%;
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
 }
 
-#floatingNoticeList {
-  padding: 10px 18px;
-  animation: noticeFloat 16s linear infinite;
+.header{
+  background:var(--cream);
+  padding:15px 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  border-bottom:4px solid var(--gold);
 }
 
-#floatingNoticeList:hover {
-  animation-play-state: paused;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:15px;
 }
 
-.float-notice {
-  padding: 12px 5px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid #eeeeee;
+.logo{
+  width:75px;
+  height:75px;
+  border-radius:50%;
+  background:var(--maroon);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-weight:bold;
+  border:4px solid var(--gold);
 }
 
-.float-notice a {
-  color: #1e3a8a;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 16px;
+.brand h1{
+  margin:0;
+  color:var(--maroon);
+  font-size:28px;
 }
 
-.float-notice a:hover {
-  color: #dc2626;
+.brand p{
+  margin:5px 0 0;
+  color:#70404b;
 }
 
-.float-date {
-  color: #666;
-  font-size: 13px;
-  margin-top: 5px;
+.leaders{
+  display:flex;
+  gap:12px;
 }
 
-.new-badge {
-  display: inline-block;
-  margin-left: 8px;
-  padding: 3px 7px;
-  background: #dc2626;
-  color: #fff;
-  border-radius: 5px;
-  font-size: 10px;
-  font-weight: bold;
+.leader{
+  width:85px;
+  height:95px;
+  object-fit:cover;
+  object-position:top;
+  border-radius:10px;
+  border:3px solid var(--gold);
+  box-shadow:var(--shadow);
 }
 
-.float-pdf {
-  display: inline-block;
-  margin-top: 6px;
-  padding: 5px 9px;
-  background: #2563eb;
-  color: #fff !important;
-  border-radius: 5px;
-  font-size: 12px !important;
+.nav{
+  background:var(--maroon);
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
 }
 
-@keyframes noticeFloat {
-  0% {
-    transform: translateY(155px);
+.nav a{
+  color:#fff;
+  text-decoration:none;
+  padding:14px 18px;
+  font-weight:bold;
+}
+
+.nav a:hover{
+  background:var(--gold);
+  color:var(--dark);
+}
+
+.hero{
+  margin:0;
+  padding:65px 7%;
+  text-align:center;
+  background:
+    linear-gradient(rgba(67,8,23,.88),rgba(107,16,37,.88)),
+    linear-gradient(135deg,#7d1833,#430817);
+  color:#fff;
+}
+
+.hero h2{
+  color:#fff !important;
+  font-size:40px;
+  margin:0 0 12px;
+}
+
+.hero p{
+  font-size:18px;
+  margin:0 auto 25px;
+  max-width:800px;
+}
+
+.hero-btn{
+  display:inline-block;
+  background:var(--gold);
+  color:var(--dark);
+  padding:13px 25px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.section{
+  padding:40px 5%;
+}
+
+.section-title{
+  text-align:center;
+  color:var(--maroon);
+  font-size:28px;
+  margin-bottom:25px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+
+.card{
+  background:#fff;
+  padding:25px 15px;
+  text-align:center;
+  border-radius:14px;
+  border-top:5px solid var(--maroon);
+  box-shadow:var(--shadow);
+  text-decoration:none;
+  color:var(--text);
+  transition:.2s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  border-top-color:var(--gold);
+}
+
+.card .icon{
+  font-size:35px;
+  margin-bottom:10px;
+}
+
+.card h3{
+  color:var(--maroon);
+  margin:8px 0;
+}
+
+.notice-box{
+  background:#fff;
+  border-radius:15px;
+  padding:25px;
+  box-shadow:var(--shadow);
+  border-left:6px solid var(--gold);
+}
+
+.float-notice{
+  padding:14px;
+  margin-bottom:12px;
+  background:#fff8e7;
+  border-radius:10px;
+  border-bottom:1px solid #ead8aa;
+}
+
+.float-notice a{
+  color:var(--maroon);
+  font-weight:bold;
+  text-decoration:none;
+}
+
+.float-date{
+  font-size:13px;
+  color:#777;
+  margin-top:5px;
+}
+
+.float-pdf{
+  display:inline-block;
+  margin-top:8px;
+  background:var(--maroon);
+  color:#fff !important;
+  padding:7px 12px;
+  border-radius:6px;
+  font-size:13px;
+}
+
+.links{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.link-box{
+  background:var(--maroon);
+  color:#fff;
+  padding:20px;
+  border-radius:12px;
+  text-decoration:none;
+  text-align:center;
+  font-weight:bold;
+}
+
+.link-box:hover{
+  background:var(--gold);
+  color:var(--dark);
+}
+
+.footer{
+  background:var(--dark);
+  color:#fff;
+  padding:30px 5%;
+  text-align:center;
+  margin-top:30px;
+}
+
+.footer p{
+  margin:7px;
+}
+
+@media(max-width:800px){
+  .topbar{
+    flex-direction:column;
+    text-align:center;
+    gap:4px;
   }
 
-  100% {
-    transform: translateY(-100%);
+  .header{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .brand{
+    flex-direction:column;
+  }
+
+  .brand h1{
+    font-size:22px;
+  }
+
+  .leaders{
+    justify-content:center;
+  }
+
+  .nav a{
+    padding:11px 10px;
+    font-size:13px;
+  }
+
+  .hero{
+    padding:45px 20px;
+  }
+
+  .hero h2{
+    font-size:28px;
+  }
+
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+  }
+
+  .links{
+    grid-template-columns:1fr;
   }
 }
 
-@media (max-width: 600px) {
-
-  .floating-notices {
-    margin: 20px 4%;
+@media(max-width:480px){
+  .cards{
+    grid-template-columns:1fr;
   }
 
-  .floating-title {
-    font-size: 16px;
+  .leader{
+    width:70px;
+    height:80px;
   }
-
-  .float-notice a {
-    font-size: 14px;
-  }
-
 }
 </style>
+
 </head>
-<body> 
-<div class="top">
-Manbazar-I Development Block, Purulia, West Bengal
+
+<body>
+
+<div class="topbar">
+  <span>Government of West Bengal</span>
+  <span>Manbazar-I Development Block, Purulia</span>
 </div>
 
-<header>
+<header class="header">
 
-<div>
-<h1>Manbazar-I DevBlock</h1>
-<p>Office of the Block Development Officer</p>
-</div>
+  <div class="brand">
+    <div class="logo">
+      MANBAZAR-I<br>DEV. BLOCK
+    </div>
 
-<a class="admin" href="admin/login.html">
-Admin Login
-</a>
+    <div>
+      <h1>Manbazar-I Development Block</h1>
+      <p>Purulia, West Bengal</p>
+    </div>
+  </div>
+
+  <div class="leaders">
+    <img
+      class="leader"
+      src="https://www.pmindia.gov.in/wp-content/uploads/2025/12/02.jpg"
+      alt="Prime Minister of India">
+
+    <img
+      class="leader"
+      src="https://wb.gov.in/images/cm_new2.jpg"
+      alt="Chief Minister of West Bengal">
+  </div>
 
 </header>
 
-<nav>
-
-<a class="active" href="index.html">Home</a>
-
-<a href="about.html">
-About Block
-</a>
-
-<a href="administration.html">
-Administration
-</a>
-
-<a href="schemes.html">
-Schemes
-</a>
-
-<a href="development.html">
-Development
-</a>
-
-<a href="notices.html">
-Notices
-</a>
-
-<a href="downloads.html">
-Downloads
-</a>
-
-<a href="gallery.html">
-Gallery
-</a>
-
-<a href="contact.html">
-Contact
-</a>
-
+<nav class="nav">
+  <a href="index.html">🏠 Home</a>
+  <a href="about.html">ℹ️ About</a>
+  <a href="administration.html">🏛️ Administration</a>
+  <a href="development.html">📈 Development</a>
+  <a href="schemes.html">📋 Schemes</a>
+  <a href="notices.html">🔔 Notices</a>
+  <a href="downloads.html">⬇️ Downloads</a>
+  <a href="gallery.html">🖼️ Gallery</a>
+  <a href="contact.html">☎️ Contact</a>
 </nav>
 
-
 <section class="hero">
+  <h2>Manbazar-I Development Block</h2>
+  <p>
+    Official Information & Citizen Services Portal
+  </p>
+  <a class="hero-btn" href="notices.html">
+    🔔 Latest Notices
+  </a>
+</section>
 
-<div>
+<section class="section">
 
-<small>WELCOME TO</small>
+  <h2 class="section-title">Important Services</h2>
 
-<h2>
-Manbazar-I Development Block
-</h2>
+  <div class="cards">
 
-<p>
-Official information portal for citizens, schemes, development,
-notices and public services.
-</p>
+    <a class="card" href="about.html">
+      <div class="icon">ℹ️</div>
+      <h3>About Block</h3>
+      <p>Block সম্পর্কিত তথ্য</p>
+    </a>
 
-<a class="btn" href="schemes.html">
-Explore Schemes
-</a>
+    <a class="card" href="administration.html">
+      <div class="icon">🏛️</div>
+      <h3>Administration</h3>
+      <p>প্রশাসনিক তথ্য</p>
+    </a>
 
-</div>
+    <a class="card" href="development.html">
+      <div class="icon">📈</div>
+      <h3>Development</h3>
+      <p>উন্নয়নমূলক কার্যক্রম</p>
+    </a>
+
+    <a class="card" href="schemes.html">
+      <div class="icon">📋</div>
+      <h3>Government Schemes</h3>
+      <p>সরকারি প্রকল্প</p>
+    </a>
+
+    <a class="card" href="notices.html">
+      <div class="icon">🔔</div>
+      <h3>Notices</h3>
+      <p>সাম্প্রতিক বিজ্ঞপ্তি</p>
+    </a>
+
+    <a class="card" href="downloads.html">
+      <div class="icon">⬇️</div>
+      <h3>Downloads</h3>
+      <p>প্রয়োজনীয় ফাইল</p>
+    </a>
+
+    <a class="card" href="gallery.html">
+      <div class="icon">🖼️</div>
+      <h3>Gallery</h3>
+      <p>ছবি ও কার্যক্রম</p>
+    </a>
+
+    <a class="card" href="contact.html">
+      <div class="icon">☎️</div>
+      <h3>Contact</h3>
+      <p>যোগাযোগ করুন</p>
+    </a>
+
+  </div>
 
 </section>
 
+<section class="section">
 
-<section class="cards">
+  <h2 class="section-title">🔔 Latest Notices</h2>
 
-<div>
-🏛️
-<h3>Administration</h3>
-<p>Officers and departments.</p>
-</div>
-
-<div>
-📋
-<h3>Schemes</h3>
-<p>Government schemes and services.</p>
-</div>
-
-<div>
-📈
-<h3>Development</h3>
-<p>Projects and progress.</p>
-</div>
-
-<div>
-
-<a
-href="notices.html"
-style="text-decoration:none;color:inherit;display:block;cursor:pointer;"
->
-
-🔔
-<h3>Notices</h3>
-<p>Latest official notices.</p>
-
-</a>
-
-</div>
-
-<div>
-⬇️
-<h3>Downloads</h3>
-<p>Forms and documents.</p>
-</div>
-
-<div>
-📸
-<h3>Gallery</h3>
-<p>Events and development photos.</p>
-</div>
+  <div class="notice-box">
+    <div id="floatingNoticeList">
+      Notice loading হচ্ছে...
+    </div>
+  </div>
 
 </section>
 
+<section class="section">
 
-<!-- FLOATING LATEST NOTICES -->
+  <h2 class="section-title">Important Links</h2>
 
-<section class="floating-notices">
+  <div class="links">
 
-<div class="floating-title">
-🔔 Latest Notices
-</div>
+    <a class="link-box" href="notices.html">
+      🔔 All Notices
+    </a>
 
-<div class="floating-window">
+    <a class="link-box" href="downloads.html">
+      📥 Downloads
+    </a>
 
-<div id="floatingNoticeList">
-Notice loading হচ্ছে...
-</div>
+    <a class="link-box" href="contact.html">
+      ☎️ Contact Block
+    </a>
 
-</div>
+  </div>
 
 </section>
 
+<footer class="footer">
 
-<footer>
+  <p><strong>Manbazar-I Development Block</strong></p>
 
-© <span id="y"></span>
-Manbazar-I Development Block
+  <p>Purulia, West Bengal</p>
+
+  <p>Official Information & Citizen Services Portal</p>
+
+  <p>© <span id="y"></span> Manbazar-I Development Block</p>
 
 </footer>
-
-
 <script>
 
 document.getElementById('y').textContent =
