@@ -1,1 +1,207 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Notices | Manbazar-I DevBlock</title><link rel="stylesheet" href="css/style.css"></head><body><div class="top">Manbazar-I Development Block, Purulia, West Bengal</div><header><h1>Notices</h1><a class="admin" href="admin/login.html">Admin Login</a></header><nav><a href="index.html">Home</a><a href="about.html">About Block</a><a href="administration.html">Administration</a><a href="schemes.html">Schemes</a><a href="development.html">Development</a><a href="notices.html">Notices</a><a href="downloads.html">Downloads</a><a href="gallery.html">Gallery</a><a href="contact.html">Contact</a></nav><main style="padding:50px 7%;min-height:450px;background:#fff"><h2>Notices</h2><p>This section will be connected to the Supabase database and Admin Panel in the next steps.</p></main><footer>© Manbazar-I Development Block</footer></body></html>
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Notices | Manbazar-I DevBlock</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    .notice-card {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 15px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .notice-card h3 {
+      margin: 0 0 8px;
+      color: #1e3a8a;
+    }
+
+    .notice-date {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .pdf-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 9px 14px;
+      background: #1e3a8a;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    #noticeList {
+      margin-top: 20px;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="top">
+  Manbazar-I Development Block, Purulia, West Bengal
+</div>
+
+<header>
+  <h1>Notices</h1>
+  <a class="admin" href="admin/login.html">Admin Login</a>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="about.html">About Block</a>
+  <a href="administration.html">Administration</a>
+  <a href="schemes.html">Schemes</a>
+  <a href="development.html">Development</a>
+  <a href="notices.html">Notices</a>
+  <a href="downloads.html">Downloads</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<main style="padding:50px 7%;min-height:450px;background:#fff">
+
+  <h2>Latest Notices</h2>
+
+  <div id="noticeList">
+    Notice loading হচ্ছে...
+  </div>
+
+</main>
+
+<footer>
+  © Manbazar-I Development Block
+</footer>
+
+<script>
+
+const SUPABASE_URL =
+  "https://nqfcoofeqsesenmttcwr.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+async function loadPublicNotices() {
+
+  const noticeList =
+    document.getElementById("noticeList");
+
+  const { data, error } =
+    await supabaseClient
+      .from("notices")
+      .select("id,title,description,notice_date,file_url")
+      .order("notice_date", {
+        ascending: false
+      });
+
+  if (error) {
+
+    noticeList.innerHTML =
+      "<p class='error'>Notice load করা যাচ্ছে না।</p>";
+
+    console.error(error);
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    noticeList.innerHTML =
+      "<p>এখনও কোনো Notice প্রকাশিত হয়নি।</p>";
+
+    return;
+  }
+
+  noticeList.innerHTML = "";
+
+  data.forEach(notice => {
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "notice-card";
+
+    div.innerHTML = `
+
+      <h3>
+        ${escapeHtml(notice.title || "")}
+      </h3>
+
+      <div class="notice-date">
+        প্রকাশের তারিখ:
+        ${escapeHtml(notice.notice_date || "")}
+      </div>
+
+      <p>
+        ${escapeHtml(notice.description || "")}
+      </p>
+
+      ${
+        notice.file_url
+        ? `
+          <a
+            class="pdf-btn"
+            href="${escapeAttribute(notice.file_url)}"
+            target="_blank"
+            rel="noopener"
+          >
+            📄 View / Download PDF
+          </a>
+        `
+        : ""
+      }
+
+    `;
+
+    noticeList.appendChild(div);
+
+  });
+
+}
+
+function escapeHtml(value) {
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+function escapeAttribute(value) {
+
+  return String(value)
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+}
+
+loadPublicNotices();
+
+</script>
+
+</body>
+</html>
