@@ -425,6 +425,29 @@ body{
   text-shadow:1px 1px 4px #000;
 }
 
+/* ===== LIVE WEATHER ===== */
+.weather-location{font-size:18px;font-weight:800;color:var(--maroon);}
+.weather-updated{font-size:12px;color:#777;margin-top:3px;}
+.weather-icon{font-size:52px;margin:10px 0 2px;}
+.weather-temp{font-size:40px;font-weight:800;color:var(--dark);line-height:1;margin:5px 0;}
+.weather-condition{font-size:16px;font-weight:700;margin:8px 0 12px;}
+.weather-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.weather-item{background:#fff8e7;border-radius:9px;padding:8px 4px;font-size:12px;}
+.weather-item strong{display:block;font-size:14px;color:var(--maroon);margin-top:2px;}
+.forecast{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:13px;}
+.forecast-day{background:#f7f0df;border-radius:8px;padding:7px 2px;font-size:11px;text-align:center;}
+.forecast-icon{font-size:22px;margin:3px 0;}
+.forecast-temp{font-weight:700;}
+
+.whatsnew-window{flex:1;min-height:0;overflow:hidden;position:relative;border-radius:9px;background:#fffaf0;}
+.notice-track{animation:noticeScroll 22s linear infinite;}
+.notice-track:hover{animation-play-state:paused;}
+@keyframes noticeScroll{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
+.hero-notice{padding:10px 5px;border-bottom:1px solid #e5d8b9;}
+.hero-notice a{color:#7b1e2b;font-weight:700;text-decoration:none;line-height:1.35;font-size:14px;}
+.hero-notice-date{font-size:11px;color:#777;margin-top:4px;}
+.hero-notice-pdf{display:inline-block;margin-top:5px;font-size:11px;color:#9a6b00!important;text-decoration:none;font-weight:700;}
+
 /* ===== HERO 3 COLUMN LAYOUT ===== */
 
 .hero-side-layout{
@@ -818,154 +841,122 @@ new Date().getFullYear();
 
 
 async function loadFloatingNotices() {
+  const heroBox = document.getElementById("heroNoticeList");
+  const latestBox = document.getElementById("latestNoticeList");
 
-const box =
-document.getElementById("floatingNoticeList");
+  try {
+    const { data, error } = await supabaseClient
+      .from("notices")
+      .select("id,title,description,notice_date,file_url")
+      .order("notice_date", { ascending:false })
+      .limit(5);
 
+    if (error) throw error;
 
-const { data, error } =
-await supabaseClient
+    if (!data || data.length === 0) {
+      heroBox.innerHTML = "<div style='padding:15px;text-align:center;'>এখনও কোনো Notice প্রকাশিত হয়নি।</div>";
+      latestBox.innerHTML = "<p>এখনও কোনো Notice প্রকাশিত হয়নি।</p>";
+      return;
+    }
 
-.from("notices")
+    const items = data.map(notice => noticeHTML(notice)).join("");
+    heroBox.innerHTML = `<div class="notice-track">${items}${items}</div>`;
 
-.select(
-"id,title,description,notice_date,file_url"
-)
-
-.order(
-"notice_date",
-{
-ascending:false
-}
-)
-
-.limit(5);
-
-
-if (error) {
-
-box.innerHTML =
-"Notice load করা যাচ্ছে না।";
-
-console.error(error);
-
-return;
-
-}
-
-
-if (!data || data.length === 0) {
-
-box.innerHTML =
-"এখনও কোনো Notice প্রকাশিত হয়নি।";
-
-return;
-
-}
-
-
-box.innerHTML =
-data.map(notice => `
-
-<div class="float-notice">
-
-<a href="notices.html">
-
-🔔 ${escapeFloating(notice.title || "Notice")}
-
-</a>
-
-<div class="float-date">
-
-প্রকাশের তারিখ:
-${escapeFloating(notice.notice_date || "")}
-
-</div>
-
-${
-notice.file_url
-
-?
-
-`
-<a
-class="float-pdf"
-href="${escapeAttribute(notice.file_url)}"
-target="_blank"
-rel="noopener"
->
-📄 View / Download PDF
-</a>
-`
-
-:
-
-""
-
-}
-
-</div>
-
-`).join("");
-
-}
-
-
-function escapeFloating(value) {
-
-return String(value)
-
-.replace(/&/g,"&amp;")
-
-.replace(/</g,"&lt;")
-
-.replace(/>/g,"&gt;")
-
-.replace(/"/g,"&quot;")
-
-.replace(/'/g,"&#039;");
-
-}
-
-
-function escapeAttribute(value) {
-
-return String(value)
-
-.replace(/&/g,"&amp;")
-
-.replace(/"/g,"&quot;")
-
-.replace(/</g,"&lt;")
-
-.replace(/>/g,"&gt;");
-
-}
-
-
-loadFloatingNotices().catch(function(error) {
-  document.getElementById("floatingNoticeList").innerHTML =
-    "Notice load error: " + error.message;
-  console.error(error);
-});
-
-const heroSlides = document.querySelectorAll(".hero-slide");
-
-let currentSlide = 0;
-
-setInterval(function() {
-
-  heroSlides[currentSlide].classList.remove("active");
-
-  currentSlide++;
-
-  if (currentSlide >= heroSlides.length) {
-    currentSlide = 0;
+    latestBox.innerHTML = data.map(notice => `
+      <div class="float-notice">
+        <a href="notices.html">🔔 ${escapeHTML(notice.title || "Notice")}</a>
+        ${notice.notice_date ? `<div class="float-date">প্রকাশের তারিখ: ${escapeHTML(notice.notice_date)}</div>` : ""}
+        ${notice.file_url ? `<a class="float-pdf" href="${escapeAttribute(notice.file_url)}" target="_blank" rel="noopener">📄 View / Download PDF</a>` : ""}
+      </div>
+    `).join("");
+  } catch (error) {
+    console.error("Notice error:", error);
+    heroBox.innerHTML = "<div style='padding:15px;'>Notice load error.</div>";
+    latestBox.innerHTML = "<p>Notice load error.</p>";
   }
+}
 
-  heroSlides[currentSlide].classList.add("active");
+function escapeHTML(value){
+  return String(value ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
+function escapeAttribute(value){
+  return String(value ?? "").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+function noticeHTML(notice){
+  const title = escapeHTML(notice.title || "Notice");
+  const date = escapeHTML(notice.notice_date || "");
+  const pdf = notice.file_url ? `<a class="hero-notice-pdf" href="${escapeAttribute(notice.file_url)}" target="_blank" rel="noopener">📄 View / Download PDF</a>` : "";
+  return `<div class="hero-notice"><a href="notices.html">🔔 ${title}</a>${date ? `<div class="hero-notice-date">📅 ${date}</div>` : ""}${pdf}</div>`;
+}
 
-}, 5000);
+/* ===== LIVE WEATHER: Manbazar-I, Purulia ===== */
+const MANBAZAR_LAT = 23.0615;
+const MANBAZAR_LON = 86.6642;
+
+function weatherIcon(code){
+  if(code===0) return "☀️";
+  if(code===1||code===2) return "🌤️";
+  if(code===3) return "☁️";
+  if([45,48].includes(code)) return "🌫️";
+  if([51,53,55,56,57].includes(code)) return "🌦️";
+  if([61,63,65,66,67,80,81,82].includes(code)) return "🌧️";
+  if([71,73,75,77,85,86].includes(code)) return "🌨️";
+  if([95,96,99].includes(code)) return "⛈️";
+  return "🌤️";
+}
+function weatherText(code){
+  if(code===0) return "Clear sky";
+  if(code===1) return "Mainly clear";
+  if(code===2) return "Partly cloudy";
+  if(code===3) return "Overcast";
+  if([45,48].includes(code)) return "Fog";
+  if([51,53,55].includes(code)) return "Drizzle";
+  if([61,63,65].includes(code)) return "Rain";
+  if([66,67].includes(code)) return "Freezing rain";
+  if([71,73,75,77].includes(code)) return "Snow";
+  if([80,81,82].includes(code)) return "Rain showers";
+  if([95,96,99].includes(code)) return "Thunderstorm";
+  return "Weather update";
+}
+function formatDay(dateString){
+  return new Date(dateString+"T12:00:00").toLocaleDateString("en-IN",{weekday:"short"});
+}
+async function loadWeather(){
+  const box=document.getElementById("weatherBox");
+  try{
+    const url="https://api.open-meteo.com/v1/forecast?latitude="+MANBAZAR_LAT+"&longitude="+MANBAZAR_LON+"&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FKolkata&forecast_days=4";
+    const response=await fetch(url);
+    if(!response.ok) throw new Error("Weather service unavailable");
+    const data=await response.json();
+    const c=data.current, d=data.daily;
+    let forecast="";
+    for(let i=1;i<=3;i++){
+      forecast+=`<div class="forecast-day"><strong>${formatDay(d.time[i])}</strong><div class="forecast-icon">${weatherIcon(d.weather_code[i])}</div><div class="forecast-temp">${Math.round(d.temperature_2m_max[i])}° / ${Math.round(d.temperature_2m_min[i])}°</div></div>`;
+    }
+    const updated=new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});
+    box.innerHTML=`<div class="weather-location">Manbazar-I, Purulia</div><div class="weather-updated">Live update: ${updated}</div><div class="weather-icon">${weatherIcon(c.weather_code)}</div><div class="weather-temp">${Math.round(c.temperature_2m)}°C</div><div class="weather-condition">${weatherText(c.weather_code)}</div><div class="weather-info"><div class="weather-item">💧 Humidity<strong>${c.relative_humidity_2m}%</strong></div><div class="weather-item">🌡️ Feels like<strong>${Math.round(c.apparent_temperature)}°C</strong></div><div class="weather-item">💨 Wind<strong>${Math.round(c.wind_speed_10m)} km/h</strong></div><div class="weather-item">📍 Location<strong>Purulia</strong></div></div><div class="forecast">${forecast}</div>`;
+  }catch(error){
+    console.error("Weather error:",error);
+    box.innerHTML=`<div class="weather-location">Manbazar-I, Purulia</div><div style="margin-top:25px;">🌤️ Weather data temporarily unavailable.</div><div style="font-size:12px;color:#777;margin-top:10px;">Please refresh the page.</div>`;
+  }
+}
+
+/* ===== HERO SLIDER ===== */
+const heroSlides=document.querySelectorAll(".hero-slide");
+let currentSlide=0;
+if(heroSlides.length>1){
+  setInterval(function(){
+    heroSlides[currentSlide].classList.remove("active");
+    currentSlide=(currentSlide+1)%heroSlides.length;
+    heroSlides[currentSlide].classList.add("active");
+  },5000);
+}
+
+document.getElementById("y").textContent=new Date().getFullYear();
+loadWeather();
+loadFloatingNotices();
+setInterval(loadWeather,600000);
+setInterval(loadFloatingNotices,300000);
 </script>
 </body>
 </html>
