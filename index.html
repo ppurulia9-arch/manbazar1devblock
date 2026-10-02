@@ -665,7 +665,6 @@ loadFloatingNotices().catch(function(error) {
     "Notice load error: " + error.message;
   console.error(error);
 });
-
 <script>
 const heroPhotos = [
   "manbazar-block.jpg",
@@ -680,63 +679,64 @@ const hero = document.querySelector(".hero");
 hero.style.position = "relative";
 hero.style.overflow = "hidden";
 
-const slide1 = document.createElement("div");
-const slide2 = document.createElement("div");
+const slider = document.createElement("div");
 
-function setupSlide(slide, image) {
-  slide.style.position = "absolute";
-  slide.style.top = "0";
-  slide.style.left = "0";
-  slide.style.width = "100%";
+slider.style.position = "absolute";
+slider.style.top = "0";
+slider.style.left = "0";
+slider.style.width = "100%";
+slider.style.height = "100%";
+slider.style.display = "flex";
+slider.style.zIndex = "0";
+slider.style.transition = "transform 1s ease-in-out";
+
+heroPhotos.forEach(function(image) {
+
+  const slide = document.createElement("div");
+
+  slide.style.minWidth = "100%";
   slide.style.height = "100%";
   slide.style.backgroundImage = "url('" + image + "')";
-  slide.style.backgroundSize = "92% 92%";
+  slide.style.backgroundSize = "contain";
   slide.style.backgroundPosition = "center";
   slide.style.backgroundRepeat = "no-repeat";
-  slide.style.transition = "transform 0.8s ease-in-out";
-  slide.style.zIndex = "0";
-}
+  slide.style.backgroundColor = "transparent";
 
-setupSlide(slide1, heroPhotos[0]);
-hero.appendChild(slide1);
+  slider.appendChild(slide);
 
-hero.querySelectorAll(":scope > *:not(div)").forEach(function(el) {
-  el.style.position = "relative";
-  el.style.zIndex = "2";
 });
 
-let current = 0;
-let activeSlide = slide1;
+hero.appendChild(slider);
 
+/* Hero-এর লেখা ও button ছবির উপরে থাকবে */
+const heroContent = hero.children;
+
+for (let i = 0; i < heroContent.length; i++) {
+  if (heroContent[i] !== slider) {
+    heroContent[i].style.position = "relative";
+    heroContent[i].style.zIndex = "2";
+  }
+}
+
+let currentSlide = 0;
+
+/* প্রতি 5 সেকেন্ডে বাম দিকে slide */
 setInterval(function() {
 
-  const next = (current + 1) % heroPhotos.length;
+  currentSlide++;
 
-  const newSlide = document.createElement("div");
+  if (currentSlide >= heroPhotos.length) {
+    currentSlide = 0;
+  }
 
-  setupSlide(newSlide, heroPhotos[next]);
-
-  newSlide.style.transform = "translateX(100%)";
-
-  hero.appendChild(newSlide);
-
-  setTimeout(function() {
-
-    activeSlide.style.transform = "translateX(-100%)";
-    newSlide.style.transform = "translateX(0)";
-
-  }, 50);
-
-  setTimeout(function() {
-
-    activeSlide.remove();
-    activeSlide = newSlide;
-    current = next;
-
-  }, 900);
+  slider.style.transform =
+    "translateX(-" +
+    (currentSlide * 100) +
+    "%)";
 
 }, 5000);
 </script>
+
   
 </body>
 </html>
