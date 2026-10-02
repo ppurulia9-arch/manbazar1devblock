@@ -666,23 +666,76 @@ loadFloatingNotices().catch(function(error) {
   console.error(error);
 });
 
- const heroPhotos = [
-    "manbazar-block.jpg",
-    "manbazar-block1.jpeg",
-    "manbazar-block2.jpeg",
-    "manbazar-block3.jpeg",
-    "manbazar-block4.jpeg"
+<script>
+const heroPhotos = [
+  "manbazar-block.jpg",
+  "manbazar-block1.jpeg",
+  "manbazar-block2.jpeg",
+  "manbazar-block3.jpeg",
+  "manbazar-block4.jpeg"
 ];
 
-let heroPhotoIndex = 0;
+const hero = document.querySelector(".hero");
 
-setInterval(function () {
-    heroPhotoIndex =
-        (heroPhotoIndex + 1) % heroPhotos.length;
+hero.style.position = "relative";
+hero.style.overflow = "hidden";
 
-    document.querySelector(".hero").style.backgroundImage =
-        "url('" + heroPhotos[heroPhotoIndex] + "')";
-}, 5000); 
+const slide1 = document.createElement("div");
+const slide2 = document.createElement("div");
+
+function setupSlide(slide, image) {
+  slide.style.position = "absolute";
+  slide.style.top = "0";
+  slide.style.left = "0";
+  slide.style.width = "100%";
+  slide.style.height = "100%";
+  slide.style.backgroundImage = "url('" + image + "')";
+  slide.style.backgroundSize = "92% 92%";
+  slide.style.backgroundPosition = "center";
+  slide.style.backgroundRepeat = "no-repeat";
+  slide.style.transition = "transform 0.8s ease-in-out";
+  slide.style.zIndex = "0";
+}
+
+setupSlide(slide1, heroPhotos[0]);
+hero.appendChild(slide1);
+
+hero.querySelectorAll(":scope > *:not(div)").forEach(function(el) {
+  el.style.position = "relative";
+  el.style.zIndex = "2";
+});
+
+let current = 0;
+let activeSlide = slide1;
+
+setInterval(function() {
+
+  const next = (current + 1) % heroPhotos.length;
+
+  const newSlide = document.createElement("div");
+
+  setupSlide(newSlide, heroPhotos[next]);
+
+  newSlide.style.transform = "translateX(100%)";
+
+  hero.appendChild(newSlide);
+
+  setTimeout(function() {
+
+    activeSlide.style.transform = "translateX(-100%)";
+    newSlide.style.transform = "translateX(0)";
+
+  }, 50);
+
+  setTimeout(function() {
+
+    activeSlide.remove();
+    activeSlide = newSlide;
+    current = next;
+
+  }, 900);
+
+}, 5000);
 </script>
   
 </body>
