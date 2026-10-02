@@ -384,6 +384,64 @@ body{
     height:80px;
   }
 }
+  .hero{
+  position:relative;
+  width:100%;
+  height:500px;
+  padding:0;
+  overflow:hidden;
+  background:#430817;
+}
+
+.hero-slides{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+
+.hero-slide{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-position:center top;
+  background-repeat:no-repeat;
+  opacity:0;
+  transition:opacity 1s ease-in-out;
+}
+
+.hero-slide.active{
+  opacity:1;
+}
+
+.hero-content{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  z-index:5;
+  background:rgba(0,0,0,.20);
+}
+
+.hero-content h2{
+  color:#fff !important;
+  font-size:42px;
+  font-weight:800;
+  margin:0 0 15px;
+  text-shadow:2px 2px 6px #000;
+}
+
+.hero-content p{
+  color:#fff;
+  font-size:18px;
+  margin:0 0 25px;
+  text-shadow:1px 1px 4px #000;
+}
 </style>
 
 </head>
@@ -436,21 +494,44 @@ body{
 
 <section class="hero">
 
-  <div class="hero-slider" id="heroSlider">
-    <img class="hero-slide" src="manbazar-block.jpg" alt="Manbazar Block">
-    <img class="hero-slide" src="manbazar-block1.jpeg" alt="Manbazar Block">
-    <img class="hero-slide" src="manbazar-block2.jpeg" alt="Manbazar Block">
-    <img class="hero-slide" src="manbazar-block3.jpeg" alt="Manbazar Block">
-    <img class="hero-slide" src="manbazar-block4.jpeg" alt="Manbazar Block">
+  <div class="hero-slides">
+
+    <div class="hero-slide active"
+         style="background-image:url('manbazar-block.jpg');">
+    </div>
+
+    <div class="hero-slide"
+         style="background-image:url('manbazar-block1.jpeg');">
+    </div>
+
+    <div class="hero-slide"
+         style="background-image:url('manbazar-block2.jpeg');">
+    </div>
+
+    <div class="hero-slide"
+         style="background-image:url('manbazar-block3.jpeg');">
+    </div>
+
+    <div class="hero-slide"
+         style="background-image:url('manbazar-block4.jpeg');">
+    </div>
+
   </div>
 
-  <h2>Manbazar-I Development Block</h2>
-  <p>
-    Official Information & Citizen Services Portal
-  </p>
-  <a class="hero-btn" href="notices.html">
-    🔔 Latest Notices
-  </a>
+  <div class="hero-content">
+
+    <h2>Manbazar-I Development Block</h2>
+
+    <p>
+      Official Information & Citizen Services Portal
+    </p>
+
+    <a class="hero-btn" href="notices.html">
+      🔔 Latest Notices
+    </a>
+
+  </div>
+
 </section>
 
 <section class="section">
@@ -694,19 +775,21 @@ loadFloatingNotices().catch(function(error) {
   console.error(error);
 });
 
-const heroSlider = document.getElementById("heroSlider");
+const heroSlides = document.querySelectorAll(".hero-slide");
+
 let currentSlide = 0;
 
 setInterval(function() {
 
+  heroSlides[currentSlide].classList.remove("active");
+
   currentSlide++;
 
-  if (currentSlide >= 5) {
+  if (currentSlide >= heroSlides.length) {
     currentSlide = 0;
   }
 
-  heroSlider.style.transform =
-    "translateX(-" + (currentSlide * 20) + "%)";
+  heroSlides[currentSlide].classList.add("active");
 
 }, 5000);
 </script>
