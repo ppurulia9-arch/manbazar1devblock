@@ -1,207 +1,152 @@
-<!doctype html>
-<html lang="bn">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Notices | Manbazar-I DevBlock</title>
-
-  <link rel="stylesheet" href="css/style.css">
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    .notice-card {
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 18px;
-      margin-bottom: 15px;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
-
-    .notice-card h3 {
-      margin: 0 0 8px;
-      color: #1e3a8a;
-    }
-
-    .notice-date {
-      color: #666;
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-
-    .pdf-btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 9px 14px;
-      background: #1e3a8a;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-    }
-
-    #noticeList {
-      margin-top: 20px;
-    }
-
-    .error {
-      color: red;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Latest notices, office updates and tender information - Manbazar-I Development Block, Purulia">
+<title>Notices & Tenders | Manbazar-I Development Block</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--maroon:#900b28;--deep:#560016;--gold:#e0a900;--cream:#fff9e9;--ink:#242024;--muted:#6b6b6b;--white:#fff;--line:#eadfbd;--green:#14733b}
+*{box-sizing:border-box}html,body{margin:0;padding:0;font-family:Arial,"Noto Sans Bengali",sans-serif;background:#f5f6f8;color:var(--ink)}a{text-decoration:none}
+.topbar{min-height:42px;padding:8px 3.4%;background:var(--deep);color:#fff;display:flex;align-items:center;justify-content:space-between;font-size:13px}
+.top-left,.top-right{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.header{min-height:125px;padding:12px 3.4%;background:var(--cream);display:flex;align-items:center;justify-content:space-between;border-bottom:4px solid var(--gold)}
+.brand{display:flex;align-items:center;gap:18px}.emblem{width:76px;height:92px;background:#fff;overflow:hidden}.emblem img{width:100%;height:100%;object-fit:contain}.brand h1{margin:0;color:#751126;font-size:34px}.brand p{margin:6px 0 0;color:#751126}
+.leaders{display:flex;gap:12px}.leader{width:72px;height:82px;border:3px solid var(--gold);border-radius:9px;object-fit:cover;object-position:top;background:#fff}
+.nav{background:var(--maroon);border-bottom:4px solid var(--gold);display:flex;justify-content:center;flex-wrap:wrap}.nav a{color:#fff;padding:17px 19px;font-weight:700;border-right:1px solid rgba(255,255,255,.18)}.nav a:hover,.nav a.active{background:var(--gold);color:#351000}
+.hero{padding:46px 5%;background:linear-gradient(135deg,var(--deep),#8b1230);color:#fff;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;right:-140px;top:-210px;background:rgba(255,255,255,.08)}.hero h2,.hero p{position:relative;z-index:1}.hero h2{margin:0;font-size:42px}.hero p{margin:10px 0 0;color:#f5e9ec;max-width:850px}
+.container{max-width:1250px;margin:auto;padding:35px 22px 55px}.layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.75fr);gap:24px}
+.panel,.tender{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px rgba(30,20,20,.08)}
+.panel-head{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:15px;align-items:center}.panel-head h3{margin:0;color:var(--maroon);font-size:27px}.live{background:#e9f8ef;color:var(--green);font-size:11px;font-weight:800;border-radius:999px;padding:6px 10px}
+.tools{padding:16px 20px;background:#fffaf0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 160px;gap:10px}.tools input,.tools select{width:100%;padding:12px 13px;border:1px solid #d8d0b8;border-radius:9px;background:#fff;font-size:14px;outline:none}.tools input:focus,.tools select:focus{border-color:var(--maroon);box-shadow:0 0 0 3px rgba(144,11,40,.08)}
+.notice-list{padding:4px 20px 20px}.notice-card{padding:20px 5px;border-bottom:1px solid #eee7d8}.notice-card:last-child{border-bottom:0}.notice-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.new{background:#e51d2a;color:#fff;border-radius:5px;padding:3px 7px;font-size:9px;font-weight:800}.date{font-size:12px;color:#777}.notice-card h4{margin:8px 0 7px;font-size:20px;color:#172d4a}.notice-card p{margin:0;color:#666;line-height:1.65;font-size:14px;white-space:pre-line}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 13px;border-radius:8px;font-size:12px;font-weight:800;border:1px solid #ddd}.btn-primary{background:var(--maroon);border-color:var(--maroon);color:#fff}.btn-soft{background:#fff8e7;color:#6d4200;border-color:#e9d49b}.btn-outline{color:var(--maroon);background:#fff}
+.empty,.loading,.error{padding:40px 20px;text-align:center;color:#777}.error{color:#9b1c31}
+.tender{overflow:hidden}.tender-image{padding:18px;background:#edf3fa}.tender-image svg{display:block;width:100%;height:auto;border-radius:12px}.tender-body{padding:22px}.tender-body h3{margin:0;color:var(--maroon);font-size:23px}.tender-body p{color:#666;line-height:1.65;font-size:14px}.tender-btn{display:block;text-align:center;background:var(--maroon);color:#fff;padding:13px;border-radius:9px;font-weight:800}.tender-link{display:block;text-align:center;margin-top:11px;color:#173e68;font-size:13px;font-weight:800}
+.quick{margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.quick a{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 7px 20px rgba(0,0,0,.05)}.quick strong{display:block;color:#173e68;margin-bottom:5px}.quick span{color:#777;font-size:13px;line-height:1.5}
+.footer{padding:26px;background:var(--deep);color:#fff;text-align:center;font-size:13px}.footer p{margin:5px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.quick{grid-template-columns:1fr}.tools{grid-template-columns:1fr}.header{flex-direction:column;gap:15px;text-align:center}.brand{justify-content:center}.brand h1{font-size:28px}}
+@media(max-width:600px){.topbar{justify-content:center;text-align:center}.top-left,.top-right{justify-content:center}.nav a{padding:11px 9px;font-size:12px}.hero{padding:34px 5%}.hero h2{font-size:31px}.container{padding:24px 12px 40px}.panel-head{padding:18px;align-items:flex-start}.panel-head h3{font-size:23px}.notice-list{padding:4px 16px 16px}.notice-card h4{font-size:18px}}
+</style>
 </head>
-
 <body>
-
-<div class="top">
-  Manbazar-I Development Block, Purulia, West Bengal
-</div>
-
-<header>
-  <h1>Notices</h1>
-  <a class="admin" href="admin/login.html">Admin Login</a>
+<div class="topbar"><div class="top-left"><span>📍 Manbazar-I, Purulia, West Bengal</span><span>✉️ Official Information Portal</span></div><div class="top-right"><span>Government Services</span></div></div>
+<header class="header">
+  <div class="brand">
+    <div class="emblem"><img src="ashoka.jpg" alt="Government Emblem"></div>
+    <div><h1>Manbazar-I Development Block</h1><p>Purulia, West Bengal</p></div>
+  </div>
+  <div class="leaders">
+    <img class="leader" src="https://www.pmindia.gov.in/wp-content/uploads/2025/12/02.jpg" alt="Prime Minister of India">
+    <img class="leader" src="https://wb.gov.in/images/cm_new2.jpg" alt="Chief Minister of West Bengal">
+  </div>
 </header>
-
-<nav>
-  <a href="index.html">Home</a>
-  <a href="about.html">About Block</a>
-  <a href="administration.html">Administration</a>
-  <a href="schemes.html">Schemes</a>
-  <a href="development.html">Development</a>
-  <a href="notices.html">Notices</a>
-  <a href="downloads.html">Downloads</a>
-  <a href="gallery.html">Gallery</a>
-  <a href="contact.html">Contact</a>
+<nav class="nav">
+  <a href="index.html">🏠 Home</a><a href="about.html">ℹ️ About</a><a href="administration.html">🏛️ Administration</a><a href="development.html">📈 Development</a><a href="schemes.html">📋 Schemes</a><a class="active" href="notices.html">🔔 Notices</a><a href="downloads.html">⬇️ Downloads</a><a href="gallery.html">🖼️ Gallery</a><a href="contact.html">☎️ Contact</a>
 </nav>
+<section class="hero"><h2>Notices & Tenders</h2><p>সর্বশেষ সরকারি বিজ্ঞপ্তি, অফিস আপডেট এবং West Bengal e-Tender Portal-এর দ্রুত প্রবেশাধিকার।</p></section>
 
-<main style="padding:50px 7%;min-height:450px;background:#fff">
+<main class="container">
+  <div class="layout">
+    <section class="panel">
+      <div class="panel-head"><h3>🔔 Latest Notices</h3><span class="live">● LIVE FROM SUPABASE</span></div>
+      <div class="tools">
+        <input id="search" type="search" placeholder="Search notice title or description...">
+        <select id="sort"><option value="new">Newest First</option><option value="old">Oldest First</option></select>
+      </div>
+      <div id="noticeList" class="notice-list"><div class="loading">Notice loading হচ্ছে...</div></div>
+    </section>
 
-  <h2>Latest Notices</h2>
-
-  <div id="noticeList">
-    Notice loading হচ্ছে...
+    <aside class="tender">
+      <div class="tender-image">
+        <svg viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg" aria-label="West Bengal Government e-Tender Portal preview">
+          <defs><linearGradient id="tb" x1="0" x2="1"><stop offset="0" stop-color="#07345f"/><stop offset="1" stop-color="#176aa0"/></linearGradient></defs>
+          <rect width="900" height="540" rx="22" fill="#eef3f8"/><rect x="55" y="55" width="790" height="430" rx="18" fill="#fff"/>
+          <rect x="55" y="55" width="790" height="92" rx="18" fill="url(#tb)"/><circle cx="105" cy="101" r="25" fill="#fff"/>
+          <text x="145" y="94" font-family="Arial" font-size="23" font-weight="700" fill="#fff">Government of West Bengal</text>
+          <text x="145" y="121" font-family="Arial" font-size="16" fill="#dceeff">eProcurement System</text>
+          <rect x="92" y="175" width="716" height="48" rx="8" fill="#f3f6f9"/><text x="115" y="206" font-family="Arial" font-size="18" font-weight="700" fill="#07345f">Latest Tenders</text>
+          <rect x="92" y="245" width="716" height="42" rx="7" fill="#f8fafc"/><text x="112" y="272" font-family="Arial" font-size="14" fill="#34495e">Tender Title • Reference No • Closing Date</text>
+          <rect x="92" y="301" width="716" height="42" rx="7" fill="#f8fafc"/><text x="112" y="328" font-family="Arial" font-size="14" fill="#34495e">Active Tenders • Corrigendum • Tender Search</text>
+          <rect x="92" y="370" width="210" height="54" rx="9" fill="#8f1830"/><text x="125" y="404" font-family="Arial" font-size="17" font-weight="700" fill="#fff">OPEN e-TENDER</text>
+        </svg>
+      </div>
+      <div class="tender-body">
+        <h3>West Bengal e-Tender Portal</h3>
+        <p>সরকারি e-Procurement Portal-এ Active Tenders, Tender Search এবং Corrigendum সরাসরি দেখুন।</p>
+        <a class="tender-btn" href="https://www.wbtenders.gov.in/" target="_blank" rel="noopener noreferrer">🔗 Open WB Tender Portal</a>
+        <a class="tender-link" href="https://www.wbtenders.gov.in/nicgep/app?page=FrontEndLatestActiveTenders&service=page" target="_blank" rel="noopener noreferrer">📋 View Active Tenders ↗</a>
+      </div>
+    </aside>
   </div>
 
+  <div class="quick">
+    <a href="https://www.wbtenders.gov.in/" target="_blank" rel="noopener noreferrer"><strong>🔎 Tender Search</strong><span>সরকারি tender title/reference দিয়ে অনুসন্ধান করুন।</span></a>
+    <a href="https://www.wbtenders.gov.in/nicgep/app?page=FrontEndLatestActiveTenders&service=page" target="_blank" rel="noopener noreferrer"><strong>📋 Active Tenders</strong><span>বর্তমান active tender তালিকা দেখুন।</span></a>
+    <a href="downloads.html"><strong>⬇️ Notice Downloads</strong><span>প্রকাশিত notice ও document দেখুন।</span></a>
+  </div>
 </main>
-
-<footer>
-  © Manbazar-I Development Block
-</footer>
+<footer class="footer"><p><strong>Manbazar-I Development Block</strong></p><p>Purulia, West Bengal</p><p>Official Information & Citizen Services Portal</p><p>© <span id="year"></span> Manbazar-I Development Block</p></footer>
 
 <script>
+const SUPABASE_URL = "https://nqfcoofeqsesenmttcwr.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const listEl=document.getElementById("noticeList"), searchEl=document.getElementById("search"), sortEl=document.getElementById("sort");
+let notices=[];
 
-const SUPABASE_URL =
-  "https://nqfcoofeqsesenmttcwr.supabase.co";
-
-const SUPABASE_KEY =
-  "sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-async function loadPublicNotices() {
-
-  const noticeList =
-    document.getElementById("noticeList");
-
-  const { data, error } =
-    await supabaseClient
-      .from("notices")
-      .select("id,title,description,notice_date,file_url")
-      .order("notice_date", {
-        ascending: false
-      });
-
-  if (error) {
-
-    noticeList.innerHTML =
-      "<p class='error'>Notice load করা যাচ্ছে না।</p>";
-
-    console.error(error);
-    return;
-  }
-
-  if (!data || data.length === 0) {
-
-    noticeList.innerHTML =
-      "<p>এখনও কোনো Notice প্রকাশিত হয়নি।</p>";
-
-    return;
-  }
-
-  noticeList.innerHTML = "";
-
-  data.forEach(notice => {
-
-    const div =
-      document.createElement("div");
-
-    div.className =
-      "notice-card";
-
-    div.innerHTML = `
-
-      <h3>
-        ${escapeHtml(notice.title || "")}
-      </h3>
-
-      <div class="notice-date">
-        প্রকাশের তারিখ:
-        ${escapeHtml(notice.notice_date || "")}
-      </div>
-
-      <p>
-        ${escapeHtml(notice.description || "")}
-      </p>
-
-      ${
-        notice.file_url
-        ? `
-          <a
-            class="pdf-btn"
-            href="${escapeAttribute(notice.file_url)}"
-            target="_blank"
-            rel="noopener"
-          >
-            📄 View / Download PDF
-          </a>
-        `
-        : ""
-      }
-
-    `;
-
-    noticeList.appendChild(div);
-
+function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
+function formatDate(v){
+  if(!v) return "তারিখ উল্লেখ নেই";
+  const d=new Date(v+"T00:00:00");
+  return isNaN(d) ? esc(v) : d.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
+}
+function card(n){
+  const pdf=n.file_url ? `<a class="btn btn-primary" href="${esc(n.file_url)}" target="_blank" rel="noopener noreferrer">📄 View PDF</a><a class="btn btn-soft" href="#" onclick="downloadPDF('${esc(n.file_url)}','${esc(n.title||"notice")}');return false;">⬇️ Download PDF</a>` : "";
+  return `<article class="notice-card" id="notice-${esc(n.id)}">
+    <div class="notice-top"><span class="new">NEW</span><span class="date">📅 ${formatDate(n.notice_date)}</span></div>
+    <h4>${esc(n.title||"Notice")}</h4>
+    ${n.description ? `<p>${esc(n.description)}</p>` : `<p>এই বিজ্ঞপ্তির বিস্তারিত তথ্য দেখতে Notice document খুলুন।</p>`}
+    <div class="actions"><a class="btn btn-outline" href="#notice-${esc(n.id)}">🔎 Details</a>${pdf}</div>
+  </article>`;
+}
+function render(){
+  const q=searchEl.value.trim().toLowerCase();
+  let rows=notices.filter(n=>(n.title||"").toLowerCase().includes(q)||(n.description||"").toLowerCase().includes(q));
+  rows.sort((a,b)=>{
+    const da=a.notice_date||"",db=b.notice_date||"";
+    return sortEl.value==="new"?db.localeCompare(da):da.localeCompare(db);
   });
-
+  listEl.innerHTML=rows.length?rows.map(card).join(""):`<div class="empty">🔔 কোনো Notice পাওয়া যায়নি।</div>`;
 }
-
-function escapeHtml(value) {
-
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
+async function downloadPDF(url,title){
+  try{
+    const response=await fetch(url);
+    if(!response.ok) throw new Error("Download failed");
+    const blob=await response.blob();
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download=(String(title||"notice").replace(/[^a-z0-9\u0980-\u09ff\s_-]/gi,"").trim()||"notice")+".pdf";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  }catch(e){
+    console.error(e);
+    window.open(url,"_blank","noopener,noreferrer");
+  }
 }
-
-function escapeAttribute(value) {
-
-  return String(value)
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-
+async function loadNotices(){
+  const old=listEl.innerHTML;
+  if(!notices.length) listEl.innerHTML=`<div class="loading">Notice loading হচ্ছে...</div>`;
+  const {data,error}=await supabaseClient.from("notices").select("id,title,description,notice_date,file_url").order("notice_date",{ascending:false});
+  if(error){console.error(error);if(!notices.length)listEl.innerHTML=`<div class="error">Notice load করা যাচ্ছে না। Supabase connection বা RLS policy পরীক্ষা করুন।</div>`;return;}
+  notices=data||[]; render();
 }
-
-loadPublicNotices();
-
+searchEl.addEventListener("input",render);sortEl.addEventListener("change",render);
+document.getElementById("year").textContent=new Date().getFullYear();
+loadNotices();
+setInterval(loadNotices,60000);
 </script>
-
 </body>
 </html>
