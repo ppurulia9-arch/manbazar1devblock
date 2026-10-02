@@ -155,12 +155,10 @@ body{
   padding:80px 7%;
   text-align:center;
 
-  background:
-    linear-gradient(
-      rgba(255,153,51,.72),
-      rgba(139,69,19,.78)
-    ),
-    url('manbazar-block.jpg') center center / cover no-repeat !important;
+  background-image:url('manbazar-block.jpg');
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
 
   color:#fff;
   min-height:360px;
@@ -668,6 +666,23 @@ loadFloatingNotices().catch(function(error) {
   console.error(error);
 });
 
+ const heroPhotos = [
+    "manbazar-block.jpg",
+    "manbazar-block1.jpeg",
+    "manbazar-block2.jpeg",
+    "manbazar-block3.jpeg",
+    "manbazar-block4.jpeg"
+];
+
+let heroPhotoIndex = 0;
+
+setInterval(function () {
+    heroPhotoIndex =
+        (heroPhotoIndex + 1) % heroPhotos.length;
+
+    document.querySelector(".hero").style.backgroundImage =
+        "url('" + heroPhotos[heroPhotoIndex] + "')";
+}, 5000); 
 </script>
   
 </body>
