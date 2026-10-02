@@ -1,1 +1,337 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Schemes | Manbazar-I DevBlock</title><link rel="stylesheet" href="css/style.css"></head><body><div class="top">Manbazar-I Development Block, Purulia, West Bengal</div><header><h1>Schemes</h1><a class="admin" href="admin/login.html">Admin Login</a></header><nav><a href="index.html">Home</a><a href="about.html">About Block</a><a href="administration.html">Administration</a><a href="schemes.html">Schemes</a><a href="development.html">Development</a><a href="notices.html">Notices</a><a href="downloads.html">Downloads</a><a href="gallery.html">Gallery</a><a href="contact.html">Contact</a></nav><main style="padding:50px 7%;min-height:450px;background:#fff"><h2>Schemes</h2><p>This section will be connected to the Supabase database and Admin Panel in the next steps.</p></main><footer>© Manbazar-I Development Block</footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Schemes | Manbazar-I Development Block</title>
+<style>
+:root{--maroon:#8b001b;--dark:#650014;--gold:#f2b000;--blue:#1268d9;--green:#168a52;--orange:#f57900;--purple:#6923c7;--red:#e41d35;--text:#17202a}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Noto Sans Bengali",sans-serif;background:#f5f7fa;color:var(--text)}
+a{text-decoration:none}
+.topbar{background:var(--maroon);color:#fff;min-height:40px;padding:7px 4%;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.topbar span{margin-right:16px}
+.header{background:#fffdf5;border-bottom:4px solid var(--gold);min-height:125px;padding:8px 4%;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:17px}
+.brand img{width:82px;height:94px;object-fit:contain}
+.brand h1{margin:0;color:#7a1024;font-size:37px}
+.brand p{margin:5px 0;color:#7a1024;font-size:18px}
+.header-photo{width:475px;height:108px;object-fit:cover;border-radius:0 0 28px 28px}
+.nav{background:var(--maroon);display:flex;justify-content:center;flex-wrap:wrap;border-bottom:3px solid var(--gold)}
+.nav a{color:#fff;padding:15px 24px;font-weight:700;border-right:1px solid rgba(255,255,255,.16)}
+.nav a:hover,.nav a.active{background:var(--gold);color:#111}
+.breadcrumb{background:#fff;padding:9px 3%;color:#711025}
+.container{width:96%;max-width:1600px;margin:auto}
+.hero{height:110px;border-radius:15px;margin:8px 0 12px;display:flex;align-items:center;padding:0 28px;color:#fff;overflow:hidden;background:linear-gradient(90deg,rgba(120,0,27,.97),rgba(142,0,35,.75)),url("manbazar-block.jpg") center/cover}
+.hero-icon{font-size:52px;margin-right:18px}
+.hero h2{font-size:34px;margin:0}
+.hero p{margin:4px 0 0;font-size:16px}
+.tabs{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:10px}
+.tab{padding:10px 22px;border-radius:22px;color:#fff;font-weight:800;cursor:pointer;border:0;font-size:14px}
+.tab.all{background:var(--maroon)} .tab.central{background:#1268d9} .tab.wb{background:#168a52}
+.toolbar{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.search{flex:1;display:flex}
+.search input{width:100%;padding:12px 15px;border:1px solid #ccd3da;border-radius:9px 0 0 9px;font-size:15px}
+.search button{border:0;background:var(--maroon);color:#fff;padding:0 20px;border-radius:0 9px 9px 0;font-weight:800}
+.layout{display:grid;grid-template-columns:250px 1fr 270px;gap:14px}
+.panel{background:#fff;border:1px solid #d8dde3;border-radius:10px;overflow:hidden;box-shadow:0 2px 7px #00000012}
+.panel-title{background:var(--blue);color:#fff;padding:10px 14px;font-weight:800;font-size:17px}
+.filter button{width:100%;padding:10px 13px;border:0;border-bottom:1px solid #eee;background:#fff;text-align:left;font-weight:700;cursor:pointer}
+.filter button:hover{background:#eef6ff}
+.scheme-header{background:var(--maroon);color:#fff;padding:10px 15px;font-size:18px;font-weight:800;border-radius:10px 10px 0 0}
+.scheme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:#fff;padding:10px}
+.scheme-card{border:1px solid #d8dce2;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 2px 6px #00000012}
+.scheme-art{height:128px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.scheme-art:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:#ffffff30;right:-80px;top:-90px}
+.agri .scheme-art{background:linear-gradient(135deg,#f7c53d,#2f9c55)}
+.health .scheme-art{background:linear-gradient(135deg,#43b8e8,#1484c5)}
+.employment .scheme-art{background:linear-gradient(135deg,#67b85a,#147c3e)}
+.food .scheme-art{background:linear-gradient(135deg,#efbd35,#d77c13)}
+.solar .scheme-art{background:linear-gradient(135deg,#ffca28,#e88b13)}
+.insurance .scheme-art{background:linear-gradient(135deg,#56a6eb,#275bc5)}
+.anna .scheme-art{background:linear-gradient(135deg,#ef9d38,#d86517)}
+.skill .scheme-art{background:linear-gradient(135deg,#e7a449,#a8601a)}
+.sanitation .scheme-art{background:linear-gradient(135deg,#59bf79,#168a52)}
+.housing .scheme-art{background:linear-gradient(135deg,#64a8e9,#2868bb)}
+.scheme-icon{font-size:58px;filter:drop-shadow(0 3px 3px #0005);z-index:2}
+.art-title{position:absolute;bottom:7px;left:8px;right:8px;color:#fff;font-size:14px;font-weight:900;text-shadow:0 2px 3px #000;z-index:3}
+.scheme-body{padding:8px}
+.tag{display:inline-block;background:#eaf2ff;color:#1354aa;padding:4px 7px;border-radius:5px;font-size:10px;font-weight:800}
+.scheme-body p{font-size:13px;line-height:1.35;min-height:53px;margin:7px 0}
+.scheme-actions{display:flex;gap:6px}
+.scheme-actions a{flex:1;text-align:center;padding:8px 5px;border-radius:6px;font-size:11px;font-weight:800;color:#fff}
+.know{background:var(--maroon)} .apply{background:#078a43}
+.side-list a{display:block;padding:9px 12px;border-bottom:1px solid #eee;color:#233;font-size:13px;font-weight:700}
+.side-list a:hover{background:#f0f7ff;color:#075bc3}
+.green-title{background:var(--green)} .orange-title{background:var(--orange)} .purple-title{background:var(--purple)}
+.support{margin-top:12px}
+.bottom{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:14px 0}
+.bottom-card{padding:18px;border-radius:11px;color:#fff;min-height:105px}
+.bottom-card h3{margin:0 0 7px} .bottom-card p{margin:0;font-size:13px}
+.bg-blue{background:#1268d9} .bg-green{background:#168a52} .bg-purple{background:#6a22c7}
+.footer{background:var(--dark);color:#fff;text-align:center;padding:17px}
+@media(max-width:1200px){.layout{grid-template-columns:210px 1fr}.right{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px}.scheme-grid{grid-template-columns:repeat(2,1fr)}.header-photo{width:350px}}
+@media(max-width:800px){.topbar,.header{flex-direction:column;text-align:center}.header-photo{width:100%}.brand{flex-direction:column}.brand h1{font-size:28px}.layout{grid-template-columns:1fr}.right{display:block}.scheme-grid,.bottom{grid-template-columns:1fr}.toolbar{flex-direction:column}.search{width:100%}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+ <div><span>☎ +91 00000 00000</span><span>✉ manbazar1block@gmail.com</span><span>📍 Manbazar-I, Purulia, West Bengal - 723131</span></div>
+ <div><span>A-</span><span>A</span><span>A+</span><span>🌐 English⌄</span></div>
+</div>
+
+<header class="header">
+ <div class="brand"><img src="ashoka.jpg" alt="Government emblem"><div><h1>Manbazar-I Development Block</h1><p>Purulia, West Bengal</p></div></div>
+ <img class="header-photo" src="manbazar-block.jpg" alt="Manbazar-I Development Block">
+</header>
+
+<nav class="nav">
+ <a href="index.html">🏠 Home</a><a href="about.html">ℹ️ About Block</a><a href="administration.html">🏛️ Administration</a><a href="development.html">📊 Development</a><a class="active" href="schemes.html">📋 Schemes</a><a href="notices.html">🔔 Notices</a><a href="downloads.html">⬇️ Downloads</a><a href="gallery.html">🖼️ Gallery</a><a href="contact.html">☎️ Contact</a>
+</nav>
+
+<div class="breadcrumb">🏠 Home &nbsp;›&nbsp; Schemes</div>
+
+<main class="container">
+<section class="hero">
+ <div class="hero-icon">📋</div><div><h2>Schemes</h2><p>Central Government & West Bengal Government Schemes</p><div>Information and official portal links for citizens of Manbazar-I Development Block</div></div>
+</section>
+
+<div class="tabs">
+ <button class="tab all" onclick="filterSchemes('all')">All Schemes (10)</button>
+ <button class="tab central" onclick="filterSchemes('central')">Central Government Schemes</button>
+ <button class="tab wb" onclick="filterSchemes('wb')">West Bengal Government Schemes</button>
+</div>
+
+<div class="toolbar">
+ <div class="search"><input id="schemeSearch" type="search" placeholder="Search schemes..." oninput="searchSchemes()"><button onclick="searchSchemes()">🔎 Search</button></div>
+</div>
+
+<section class="layout">
+ <aside class="panel">
+  <div class="panel-title">🔎 Filter by Category</div>
+  <div class="filter">
+   <button onclick="filterCategory('all')">▦ All Categories <span>10</span></button>
+   <button onclick="filterCategory('agriculture')">🌱 Agriculture</button>
+   <button onclick="filterCategory('health')">❤ Health</button>
+   <button onclick="filterCategory('food')">🍚 Food & Nutrition</button>
+   <button onclick="filterCategory('housing')">🏠 Housing</button>
+   <button onclick="filterCategory('solar')">☀️ Solar Energy</button>
+   <button onclick="filterCategory('employment')">👷 Employment</button>
+   <button onclick="filterCategory('sanitation')">🧹 Sanitation</button>
+   <button onclick="filterCategory('skill')">🛠️ Skill Development</button>
+   <button onclick="filterCategory('insurance')">🛡️ Insurance</button>
+  </div>
+ </aside>
+
+ <section class="panel">
+  <div class="scheme-header">📋 All Schemes (10)</div>
+  <div class="scheme-grid" id="schemeGrid">
+   
+      <article class="scheme-card agri">
+        <div class="scheme-art">
+          <div class="scheme-icon">🌾</div>
+          <div class="art-title">PM-KISAN Samman Nidhi</div>
+        </div>
+        <div class="scheme-body">
+          <div class="tag">Central Govt • Agriculture</div>
+          <p>Landholding farmer families-এর জন্য income support ও beneficiary services.</p>
+          <div class="scheme-actions">
+            <a class="know" href="https://pmkisan.gov.in/" target="_blank" rel="noopener noreferrer">Know More →</a>
+            <a class="apply" href="https://www.pmkisan.gov.in/RegistrationFormupdated.aspx" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
+          </div>
+        </div>
+      </article>
+      <article class="scheme-card health">
+        <div class="scheme-art">
+          <div class="scheme-icon">🏥</div>
+          <div class="art-title">Ayushman Bharat PM-JAY</div>
+        </div>
+        <div class="scheme-body">
+          <div class="tag">Central Govt • Health</div>
+          <p>Eligible families-এর জন্য cashless health-care coverage ও beneficiary services.</p>
+          <div class="scheme-actions">
+            <a class="know" href="https://pmjay.gov.in/" target="_blank" rel="noopener noreferrer">Know More →</a>
+            <a class="apply" href="https://beneficiary.nha.gov.in/" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
+          </div>
+        </div>
+      </article>
+      <article class="scheme-card employment">
+        <div class="scheme-art">
+          <div class="scheme-icon">🧑‍🌾</div>
+          <div class="art-title">VB-G RAM G</div>
+        </div>
+        <div class="scheme-body">
+          <div class="tag">West Bengal • Employment</div>
+          <p>West Bengal-এ rural employment ও livelihood mission-এর official information.</p>
+          <div class="scheme-actions">
+            <a class="know" href="https://prd.wb.gov.in/schemes/detail/dccde0b0-17b8-448a-bf8c-66d888eda023" target="_blank" rel="noopener noreferrer">Know More →</a>
+            <a class="apply" href="https://prd.wb.gov.in/schemes/detail/dccde0b0-17b8-448a-bf8c-66d888eda023" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
+          </div>
+        </div>
+      </article>
+      <article class="scheme-card food">
+        <div class="scheme-art">
+          <div class="scheme-icon">🌾</div>
+          <div class="art-title">Garib Anna Kalyan Yojana</div>
+        </div>
+        <div class="scheme-body">
+          <div class="tag">Central Govt • Food Security</div>
+          <p>PMGKAY-এর official information, foodgrain allocation ও related updates.</p>
+          <div class="scheme-actions">
+            <a class="know" href="https://dfpd.gov.in/pradhan-mantri-garib-kalyan-anna-yojana/hi" target="_blank" rel="noopener noreferrer">Know More →</a>
+            <a class="apply" href="https://dfpd.gov.in/en" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
+          </div>
+        </div>
+      </article>
+      <article class="scheme-card solar">
+        <div class="scheme-art">
+          <div class="scheme-icon">☀️</div>
+          <div class="art-title">PM Surya Ghar Yojana</div>
+        </div>
+        <div class="scheme-body">
+          <div class="tag">Central Govt • Solar Energy</div>
+          <p>Rooftop solar-এর জন্য National Portal, guidelines ও application access.</p>
+          <div class="scheme-actions">
+            <a class="know" href="https://pmsuryaghar.gov.in/" target="_blank" rel="noopener noreferrer">Know More →</a>
+            <a class="apply" href="https://pmsuryaghar.gov.in/" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
+          </div>
+        </div>
+      </article>
+      <article class="scheme-card insurance">
+        <div class="scheme-art">
+          <div class="scheme-icon">🛡️</div>
+          <div class="art-title">PMSBY</div>
+        </div>
+        <div class="scheme-body">
+          <div class="tag">Central Govt • Insurance</div>
+          <p>Pradhan Mantri Suraksha Bima Yojana-এর official information ও enrolment form.</p>
+          <div class="scheme-actions">
+            <a class="know" href="https://jansuraksha.gov.in/Forms-PMSBY.aspx" target="_blank" rel="noopener noreferrer">Know More →</a>
+            <a class="apply" href="https://jansuraksha.gov.in/Forms-PMSBY.aspx" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
+          </div>
+        </div>
+      </article>
+      <article class="scheme-card anna">
+        <div class="scheme-art">
+          <div class="scheme-icon">🍚</div>
+          <div class="art-title">Annapurna Yojana</div>
+        </div>
+        <div class="scheme-body">
+          <div class="tag">Central Govt • Food Security</div>
+          <p>Annapurna Scheme-এর official food-security information for eligible senior citizens.</p>
+          <div class="scheme-actions">
+            <a class="know" href="https://dfpd.gov.in/allocation-of-food-grains/en" target="_blank" rel="noopener noreferrer">Know More →</a>
+            <a class="apply" href="https://dfpd.gov.in/en" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
+          </div>
+        </div>
+      </article>
+      <article class="scheme-card skill">
+        <div class="scheme-art">
+          <div class="scheme-icon">🛠️</div>
+          <div class="art-title">PM Vishwakarma</div>
+        </div>
+        <div class="scheme-body">
+          <div class="tag">Central Govt • Skill Development</div>
+          <p>Traditional artisans ও craftspeople-এর জন্য scheme information ও portal access.</p>
+          <div class="scheme-actions">
+            <a class="know" href="https://pmvishwakarma.gov.in/" target="_blank" rel="noopener noreferrer">Know More →</a>
+            <a class="apply" href="https://pmvishwakarma.gov.in/" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
+          </div>
+        </div>
+      </article>
+      <article class="scheme-card sanitation">
+        <div class="scheme-art">
+          <div class="scheme-icon">🧹</div>
+          <div class="art-title">Swachh Bharat Mission</div>
+        </div>
+        <div class="scheme-body">
+          <div class="tag">Central Govt • Sanitation</div>
+          <p>Swachh Bharat Mission-Grameen-এর sanitation ও ODF Plus information.</p>
+          <div class="scheme-actions">
+            <a class="know" href="https://www.swachhbharatmission.ddws.gov.in/" target="_blank" rel="noopener noreferrer">Know More →</a>
+            <a class="apply" href="https://www.swachhbharatmission.ddws.gov.in/" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
+          </div>
+        </div>
+      </article>
+      <article class="scheme-card housing">
+        <div class="scheme-art">
+          <div class="scheme-icon">🏠</div>
+          <div class="art-title">PMAY-G (Housing)</div>
+        </div>
+        <div class="scheme-body">
+          <div class="tag">Central Govt • Housing</div>
+          <p>Pradhan Mantri Awaas Yojana-Gramin-এর official rural housing portal.</p>
+          <div class="scheme-actions">
+            <a class="know" href="https://pmayg.nic.in/" target="_blank" rel="noopener noreferrer">Know More →</a>
+            <a class="apply" href="https://pmayg.nic.in/" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
+          </div>
+        </div>
+      </article>
+  </div>
+ </section>
+
+ <aside class="right">
+  <div class="panel">
+   <div class="panel-title">🔗 Important Links</div>
+   <div class="side-list">
+    <a href="https://www.india.gov.in/" target="_blank" rel="noopener noreferrer">🇮🇳 National Portal of India →</a>
+    <a href="https://www.wb.gov.in/" target="_blank" rel="noopener noreferrer">🏛️ West Bengal Government →</a>
+    <a href="https://wb.gov.in/e-governance.aspx" target="_blank" rel="noopener noreferrer">💻 West Bengal e-Governance →</a>
+    <a href="https://prd.wb.gov.in/" target="_blank" rel="noopener noreferrer">🏘️ WB Panchayat & Rural Development →</a>
+    <a href="https://www.myscheme.gov.in/" target="_blank" rel="noopener noreferrer">🔎 myScheme Government Portal →</a>
+   </div>
+  </div>
+  <div class="panel support">
+   <div class="panel-title green-title">☎️ Helpline & Support</div>
+   <div class="side-list">
+    <a href="contact.html">☎ Block Office →</a>
+    <a href="contact.html">☎ BDO Office →</a>
+    <a href="contact.html">🌱 Agriculture Section →</a>
+    <a href="contact.html">🏥 Health Section →</a>
+    <a href="contact.html">🍚 Food & Supply Section →</a>
+   </div>
+  </div>
+  <div class="panel support">
+   <div class="panel-title orange-title">📄 Documents</div>
+   <div class="side-list">
+    <a href="downloads.html">🪪 Aadhaar Card →</a>
+    <a href="downloads.html">🍚 Ration Card →</a>
+    <a href="downloads.html">📜 Income Certificate →</a>
+    <a href="downloads.html">📜 Caste Certificate →</a>
+    <a href="downloads.html">🏦 Bank Passbook →</a>
+   </div>
+  </div>
+ </aside>
+</section>
+
+<section class="bottom">
+ <div class="bottom-card bg-blue"><h3>🏛️ Central Government Schemes</h3><p>Official portals and citizen information for Government of India schemes.</p></div>
+ <div class="bottom-card bg-green"><h3>🏛️ West Bengal Government Schemes</h3><p>Official West Bengal government scheme information and services.</p></div>
+ <div class="bottom-card bg-purple"><h3>📝 How to Apply</h3><p>Open the official scheme portal from the Apply / Portal button on each card.</p></div>
+</section>
+</main>
+
+<footer class="footer">Manbazar-I Development Block, Purulia, West Bengal</footer>
+
+<script>
+function filterSchemes(type){
+ document.querySelectorAll('.scheme-card').forEach(card=>{
+  const tag=card.querySelector('.tag').textContent.toLowerCase();
+  card.style.display=(type==='all'||(type==='central'&&tag.includes('central'))||(type==='wb'&&tag.includes('west bengal'))) ? '' : 'none';
+ });
+}
+function filterCategory(type){
+ document.querySelectorAll('.scheme-card').forEach(card=>{
+  card.style.display=(type==='all'||card.classList.contains(type))?'':'none';
+ });
+}
+function searchSchemes(){
+ const q=document.getElementById('schemeSearch').value.toLowerCase().trim();
+ document.querySelectorAll('.scheme-card').forEach(card=>{
+  card.style.display=card.textContent.toLowerCase().includes(q)?'':'none';
+ });
+}
+</script>
+</body>
+</html>
