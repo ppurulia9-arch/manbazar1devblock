@@ -683,7 +683,7 @@ const slider = document.createElement("div");
 slider.style.position = "absolute";
 slider.style.top = "0";
 slider.style.left = "0";
-slider.style.width = "100%";
+slider.style.width = (heroPhotos.length * 100) + "%";
 slider.style.height = "100%";
 slider.style.display = "flex";
 slider.style.zIndex = "0";
@@ -705,10 +705,6 @@ heroPhotos.forEach(function(image) {
 
   slider.appendChild(slide);
 });
-  slide.style.backgroundRepeat = "no-repeat";
-
-  slider.appendChild(slide);
-});
 
 hero.insertBefore(slider, hero.firstChild);
 
@@ -723,7 +719,6 @@ for (let i = 1; i < heroContent.length; i++) {
 
 let currentSlide = 0;
 
-/* প্রতি 5 সেকেন্ডে বাম দিকে slide */
 setInterval(function() {
 
   currentSlide++;
@@ -732,10 +727,11 @@ setInterval(function() {
     currentSlide = 0;
   }
 
- slider.style.transform =
-  "translateX(-" +
-  (currentSlide * 20) +
-  "%)";
+  slider.style.transform =
+    "translateX(-" +
+    (currentSlide * 20) +
+    "%)";
+
 }, 5000);
 </script>
 
