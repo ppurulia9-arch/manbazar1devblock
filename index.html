@@ -665,7 +665,6 @@ loadFloatingNotices().catch(function(error) {
     "Notice load error: " + error.message;
   console.error(error);
 });
-<script>
 const heroPhotos = [
   "manbazar-block.jpg",
   "manbazar-block1.jpeg",
@@ -684,7 +683,7 @@ const slider = document.createElement("div");
 slider.style.position = "absolute";
 slider.style.top = "0";
 slider.style.left = "0";
-slider.style.width = "100%";
+slider.style.width = (heroPhotos.length * 100) + "%";
 slider.style.height = "100%";
 slider.style.display = "flex";
 slider.style.zIndex = "0";
@@ -697,21 +696,18 @@ heroPhotos.forEach(function(image) {
   slide.style.minWidth = "100%";
   slide.style.height = "100%";
   slide.style.backgroundImage = "url('" + image + "')";
- slide.style.backgroundSize = "cover";
+  slide.style.backgroundSize = "cover";
   slide.style.backgroundPosition = "center";
   slide.style.backgroundRepeat = "no-repeat";
-  slide.style.backgroundColor = "transparent";
 
   slider.appendChild(slide);
-
 });
 
-hero.appendChild(slider);
+hero.insertBefore(slider, hero.firstChild);
 
-/* Hero-এর লেখা ও button ছবির উপরে থাকবে */
 const heroContent = hero.children;
 
-for (let i = 0; i < heroContent.length; i++) {
+for (let i = 1; i < heroContent.length; i++) {
   if (heroContent[i] !== slider) {
     heroContent[i].style.position = "relative";
     heroContent[i].style.zIndex = "2";
@@ -731,7 +727,7 @@ setInterval(function() {
 
   slider.style.transform =
     "translateX(-" +
-    (currentSlide * 100) +
+    (currentSlide * (100 / heroPhotos.length)) +
     "%)";
 
 }, 5000);
