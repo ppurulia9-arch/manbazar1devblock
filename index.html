@@ -155,7 +155,7 @@ body{
   padding:80px 7%;
   text-align:center;
 
-  background:none;
+  background:#430817;
 
   color:#fff;
   min-height:360px;
@@ -166,6 +166,26 @@ body{
   flex-direction:column;
   justify-content:center;
   align-items:center;
+}
+
+.hero-slider{
+  position:absolute;
+  top:0;
+  left:0;
+  width:500%;
+  height:100%;
+  display:flex;
+  transition:transform 1s ease-in-out;
+  z-index:0;
+}
+
+.hero-slide{
+  width:20%;
+  height:100%;
+  flex:0 0 20%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
 }
 
 .hero h2{
@@ -415,6 +435,15 @@ body{
 </nav>
 
 <section class="hero">
+
+  <div class="hero-slider" id="heroSlider">
+    <img class="hero-slide" src="manbazar-block.jpg" alt="Manbazar Block">
+    <img class="hero-slide" src="manbazar-block1.jpeg" alt="Manbazar Block">
+    <img class="hero-slide" src="manbazar-block2.jpeg" alt="Manbazar Block">
+    <img class="hero-slide" src="manbazar-block3.jpeg" alt="Manbazar Block">
+    <img class="hero-slide" src="manbazar-block4.jpeg" alt="Manbazar Block">
+  </div>
+
   <h2>Manbazar-I Development Block</h2>
   <p>
     Official Information & Citizen Services Portal
@@ -665,34 +694,19 @@ loadFloatingNotices().catch(function(error) {
   console.error(error);
 });
 
-const heroPhotos = [
-  "manbazar-block.jpg",
-  "manbazar-block1.jpeg",
-  "manbazar-block2.jpeg",
-  "manbazar-block3.jpeg",
-  "manbazar-block4.jpeg"
-];
-
-const hero = document.querySelector(".hero");
-
-hero.style.backgroundImage = "url('" + heroPhotos[0] + "')";
-hero.style.backgroundSize = "cover";
-hero.style.backgroundPosition = "center";
-hero.style.backgroundRepeat = "no-repeat";
-hero.style.transition = "background-image 1s ease-in-out";
-
+const heroSlider = document.getElementById("heroSlider");
 let currentSlide = 0;
 
 setInterval(function() {
 
   currentSlide++;
 
-  if (currentSlide >= heroPhotos.length) {
+  if (currentSlide >= 5) {
     currentSlide = 0;
   }
 
-  hero.style.backgroundImage =
-    "url('" + heroPhotos[currentSlide] + "')";
+  heroSlider.style.transform =
+    "translateX(-" + (currentSlide * 20) + "%)";
 
 }, 5000);
 </script>
