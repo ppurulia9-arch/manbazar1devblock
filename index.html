@@ -1,205 +1,246 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Manbazar-I Development Block</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Official Information & Citizen Services Portal of Manbazar-I Development Block, Purulia, West Bengal">
+<title>Manbazar-I Development Block | Purulia</title>
 
-<link rel="stylesheet" href="css/style.css">
+<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-const SUPABASE_URL = "https://nqfcoofeqsesenmttcwr.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
-</script>
 
 <style>
 :root{
-  --maroon:#7b1026;
-  --dark:#4b0618;
-  --gold:#d6a21a;
-  --cream:#fff8e8;
-  --text:#2c2024;
+  --maroon:#8b1028;
+  --dark-maroon:#560516;
+  --gold:#e0a900;
+  --cream:#fff9ea;
+  --white:#ffffff;
+  --text:#242424;
+  --soft:#f8f1df;
+  --shadow:0 5px 18px rgba(0,0,0,.18);
 }
 
 *{box-sizing:border-box}
 
+html{scroll-behavior:smooth}
+
 body{
   margin:0;
   font-family:Arial,"Noto Sans Bengali",sans-serif;
-  background:#fffaf2;
+  background:#fffaf0;
   color:var(--text);
 }
 
-.topbar{
-  background:var(--dark);
-  color:#fff;
-  padding:8px 5%;
-  display:flex;
-  justify-content:space-between;
-  font-size:14px;
-}
+a{text-decoration:none}
 
-.header{
-  background:var(--cream);
-  padding:15px 5%;
+/* ================= HEADER ================= */
+
+.topbar{
+  min-height:42px;
+  padding:8px 4%;
+  background:var(--dark-maroon);
+  color:#fff;
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:15px;
+  font-size:14px;
+}
+
+.topbar-left,
+.topbar-right{
+  display:flex;
+  align-items:center;
   gap:20px;
+}
+
+.topbar-right{
+  gap:14px;
+}
+
+.header{
+  min-height:132px;
+  padding:12px 4%;
+  background:var(--cream);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
   border-bottom:4px solid var(--gold);
 }
 
 .brand{
   display:flex;
   align-items:center;
-  gap:15px;
+  gap:18px;
+  min-width:0;
 }
 
 .logo{
-  width:85px;
-  height:100px;
+  width:82px;
+  height:105px;
+  flex:0 0 82px;
+  background:#fff;
+  border-radius:10px;
   display:flex;
   align-items:center;
   justify-content:center;
+  box-shadow:var(--shadow);
+  overflow:hidden;
 }
 
 .logo img{
-  width:82px;
-  height:95px;
+  width:100%;
+  height:100%;
   object-fit:contain;
 }
 
-.brand h1{
+.brand-title{
+  min-width:0;
+}
+
+.brand-title h1{
   margin:0;
-  color:#28151b;
-  font-size:29px;
+  color:#6e1024;
+  font-size:38px;
+  line-height:1.08;
   font-weight:800;
 }
 
-.brand p{
-  margin:5px 0 0;
-  color:#70404b;
+.brand-title p{
+  margin:6px 0 0;
+  color:#6e1024;
+  font-size:19px;
 }
 
 .leaders{
   display:flex;
-  gap:12px;
+  gap:14px;
+  flex:0 0 auto;
 }
 
 .leader{
-  width:85px;
-  height:95px;
+  width:92px;
+  height:104px;
   object-fit:cover;
-  object-position:top;
-  border-radius:10px;
+  object-position:top center;
   border:3px solid var(--gold);
+  border-radius:11px;
+  background:#fff;
+  box-shadow:var(--shadow);
 }
 
+/* ================= NAVIGATION ================= */
+
 .nav{
-  background:#8d1028;
+  min-height:70px;
+  background:var(--maroon);
   display:flex;
+  align-items:stretch;
   justify-content:center;
   flex-wrap:wrap;
-  border-bottom:3px solid var(--gold);
+  border-bottom:4px solid var(--gold);
 }
 
 .nav a{
   color:#fff;
-  text-decoration:none;
-  padding:14px 18px;
+  padding:16px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
   font-weight:700;
-  font-size:15px;
-  border-right:1px solid rgba(255,255,255,.2);
+  font-size:16px;
+  border-right:1px solid rgba(255,255,255,.22);
+  transition:.2s;
 }
 
-.nav a:hover{
+.nav a:hover,
+.nav a.active{
   background:var(--gold);
-  color:var(--dark);
+  color:#35100b;
 }
 
-/* =========================
-   HERO
-   ========================= */
+/* ================= HERO ================= */
 
 .hero{
-  position:relative;
   width:100%;
-  min-height:520px;
-  padding:24px 2.5%;
-  overflow:hidden;
-  background:var(--dark);
+  background:var(--dark-maroon);
+  padding:8px 1.25% 10px;
 }
 
-.hero-layout{
+.hero-grid{
   width:100%;
-  min-height:470px;
   display:grid;
-  grid-template-columns:22% 56% 22%;
-  gap:0;
-  align-items:center;
+  grid-template-columns:19% 62% 19%;
+  align-items:stretch;
 }
 
-/* LEFT + RIGHT */
+/* SIDE PANELS */
 
-.side-panel{
-  height:390px;
-  margin:10px 14px;
-  padding:16px;
-  background:rgba(255,255,255,.97);
-  border:2px solid var(--gold);
-  border-radius:16px;
-  box-shadow:0 8px 24px rgba(0,0,0,.28);
+.side-card{
+  margin:0 7px;
+  background:rgba(255,255,255,.98);
+  border:2px solid #ead9a6;
+  border-radius:15px;
+  box-shadow:var(--shadow);
   overflow:hidden;
+  height:435px;
   position:relative;
   z-index:10;
 }
 
-.panel-title{
-  color:var(--maroon);
-  font-size:20px;
-  font-weight:800;
+.side-title{
+  color:#1e1e1e;
   text-align:center;
-  padding:10px 4px;
-  margin-bottom:12px;
+  font-size:22px;
+  font-weight:800;
+  padding:17px 8px 12px;
+  margin:0 14px;
   border-bottom:2px solid var(--gold);
+}
+
+.side-inner{
+  padding:12px 15px;
 }
 
 /* WEATHER */
 
-.weather-panel{text-align:center}
-
 .weather-location{
-  color:var(--maroon);
+  text-align:center;
+  color:#202020;
   font-weight:800;
   font-size:18px;
+  margin-top:5px;
 }
 
 .weather-updated{
+  text-align:center;
   color:#777;
   font-size:11px;
-  margin-top:4px;
+  margin-top:5px;
 }
 
 .weather-icon{
-  font-size:52px;
-  margin-top:12px;
+  text-align:center;
+  font-size:55px;
+  margin:12px 0 2px;
 }
 
 .weather-temp{
-  color:var(--dark);
-  font-size:40px;
+  text-align:center;
+  color:#5a0817;
+  font-size:42px;
+  line-height:1;
   font-weight:800;
-  line-height:1.05;
 }
 
 .weather-condition{
+  text-align:center;
+  font-size:17px;
   font-weight:700;
-  margin:8px 0 12px;
+  margin:7px 0 13px;
 }
 
 .weather-info{
@@ -212,140 +253,72 @@ body{
   background:#fff8e8;
   border-radius:8px;
   padding:7px 3px;
+  text-align:center;
   font-size:11px;
 }
 
 .weather-item strong{
   display:block;
-  color:var(--maroon);
+  color:#6f1025;
   font-size:13px;
-  margin-top:2px;
+  margin-top:3px;
 }
 
 .forecast{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:5px;
-  margin-top:10px;
+  margin-top:12px;
 }
 
 .forecast-day{
-  background:#f5eedf;
+  background:#f6edda;
   border-radius:7px;
   padding:6px 2px;
+  text-align:center;
   font-size:10px;
 }
 
 .forecast-icon{
-  font-size:20px;
-  margin:2px 0;
+  font-size:21px;
+  margin:3px 0;
 }
 
-.forecast-temp{font-weight:700}
-
-/* RIGHT WHAT'S NEW */
-
-.whatsnew-panel{
-  display:flex;
-  flex-direction:column;
-}
-
-.whatsnew-window{
-  height:275px;
-  overflow:hidden;
-  background:#fffaf0;
-  border-radius:8px;
-}
-
-.notice-track{
-  animation:noticeScroll 20s linear infinite;
-}
-
-.notice-track:hover{
-  animation-play-state:paused;
-}
-
-@keyframes noticeScroll{
-  from{transform:translateY(0)}
-  to{transform:translateY(-50%)}
-}
-
-.hero-notice{
-  padding:10px 6px;
-  border-bottom:1px solid #e6d9b9;
-}
-
-.hero-notice a{
-  color:var(--maroon);
-  text-decoration:none;
-  font-size:14px;
+.forecast-temp{
   font-weight:700;
-  line-height:1.35;
 }
 
-.hero-notice-date{
-  color:#777;
-  font-size:11px;
-  margin-top:4px;
-}
+/* ================= CENTER SLIDER ================= */
 
-.hero-notice-pdf{
-  display:inline-block;
-  margin-top:5px;
-  color:#8b5e00 !important;
-  font-size:11px !important;
-}
-
-.all-notices-btn{
-  display:block;
-  margin-top:10px;
-  padding:9px;
-  text-align:center;
-  background:var(--gold);
-  color:var(--dark);
-  text-decoration:none;
-  border-radius:8px;
-  font-weight:800;
-}
-
-/* =========================
-   CENTER IMAGE SLIDER
-   ========================= */
-
-.center-hero{
+.slider-area{
   min-width:0;
-  position:relative;
-  z-index:5;
-  padding:0 8px;
+  padding:0 5px;
 }
 
-.photo-slider{
-  position:relative;
+.slider{
   width:100%;
-  height:330px;
+  height:435px;
+  position:relative;
   overflow:hidden;
-  border-radius:10px;
   background:#21030b;
-  box-shadow:0 8px 25px rgba(0,0,0,.38);
-  border:2px solid rgba(214,162,26,.65);
+  border-radius:4px;
+  box-shadow:var(--shadow);
 }
 
-.photo-slide{
+.slide{
   position:absolute;
   inset:0;
-  width:100%;
-  height:100%;
   opacity:0;
-  transition:opacity 1s ease-in-out;
+  transition:opacity .9s ease-in-out;
   z-index:1;
 }
 
-.photo-slide.active{
+.slide.active{
   opacity:1;
   z-index:2;
 }
 
-.photo-slide img{
+.slide img{
   width:100%;
   height:100%;
   display:block;
@@ -353,179 +326,257 @@ body{
   object-position:center top;
 }
 
-.photo-shade{
+.slide-overlay{
   position:absolute;
   inset:0;
   background:linear-gradient(
     to bottom,
-    rgba(0,0,0,0) 55%,
-    rgba(0,0,0,.45) 100%
+    rgba(0,0,0,.02) 45%,
+    rgba(0,0,0,.52) 100%
   );
   z-index:3;
   pointer-events:none;
 }
 
+.slide-caption{
+  position:absolute;
+  left:30px;
+  right:30px;
+  bottom:30px;
+  color:#fff;
+  z-index:5;
+  text-shadow:2px 2px 5px #000;
+}
+
+.slide-caption strong{
+  display:block;
+  font-size:20px;
+}
+
+.slide-caption span{
+  font-size:15px;
+}
+
+.slider-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:8;
+  width:45px;
+  height:45px;
+  border:0;
+  border-radius:50%;
+  background:rgba(0,0,0,.72);
+  color:#fff;
+  font-size:30px;
+  line-height:45px;
+  cursor:pointer;
+}
+
+.slider-arrow:hover{
+  background:var(--gold);
+  color:#321;
+}
+
+.slider-prev{left:14px}
+.slider-next{right:14px}
+
 .slider-dots{
   position:absolute;
-  bottom:10px;
+  z-index:8;
+  bottom:15px;
   left:50%;
   transform:translateX(-50%);
-  z-index:5;
   display:flex;
-  gap:6px;
+  gap:8px;
 }
 
 .slider-dot{
-  width:9px;
-  height:9px;
+  width:11px;
+  height:11px;
   border-radius:50%;
-  background:#fff;
-  opacity:.55;
+  border:1px solid #fff;
+  background:transparent;
+  cursor:pointer;
 }
 
 .slider-dot.active{
-  opacity:1;
-  background:var(--gold);
+  background:#fff;
 }
 
-.center-content{
-  text-align:center;
-  padding:17px 8px 0;
+/* ================= WHAT'S NEW ================= */
+
+.news-list{
+  height:327px;
+  overflow:hidden;
+  position:relative;
+  background:#fffaf0;
 }
 
-.center-content h2{
-  color:#fff;
-  font-size:35px;
+.news-track{
+  animation:newsMove 24s linear infinite;
+}
+
+.news-track:hover{
+  animation-play-state:paused;
+}
+
+@keyframes newsMove{
+  0%{transform:translateY(0)}
+  100%{transform:translateY(-50%)}
+}
+
+.news-item{
+  padding:11px 4px;
+  border-bottom:1px solid #e4d8ba;
+}
+
+.news-title{
+  display:block;
+  color:#6e1024;
+  font-size:14px;
+  line-height:1.35;
   font-weight:800;
-  margin:0 0 8px;
-  text-shadow:2px 2px 6px #000;
 }
 
-.center-content p{
-  color:#fff;
-  font-size:16px;
-  margin:0 0 14px;
-  text-shadow:1px 1px 4px #000;
+.news-date{
+  display:block;
+  color:#777;
+  font-size:11px;
+  margin-top:4px;
 }
 
-.hero-btn{
+.news-pdf{
   display:inline-block;
+  color:#c30c22;
+  font-size:12px;
+  font-weight:700;
+  margin-top:5px;
+}
+
+.news-new{
+  display:inline-block;
+  background:#e31c2b;
+  color:#fff;
+  padding:2px 5px;
+  border-radius:4px;
+  font-size:9px;
+  margin-right:4px;
+}
+
+.view-all{
+  display:block;
+  margin:8px 12px 10px;
+  padding:10px;
   background:var(--gold);
-  color:var(--dark);
-  padding:10px 20px;
+  color:#3b1700;
+  text-align:center;
   border-radius:8px;
-  text-decoration:none;
   font-weight:800;
 }
 
-/* SECTIONS */
+/* ================= SERVICES ================= */
 
 .section{
-  padding:38px 5%;
+  padding:30px 3.5%;
+  background:#fffaf0;
 }
 
 .section-title{
   text-align:center;
-  color:var(--maroon);
-  font-size:28px;
-  margin:0 0 24px;
-}
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:18px;
-}
-
-.card{
-  background:#fff;
-  padding:22px 14px;
-  text-align:center;
-  border-radius:13px;
-  border-top:5px solid var(--maroon);
-  box-shadow:0 6px 18px rgba(67,8,23,.12);
-  text-decoration:none;
-  color:var(--text);
-}
-
-.card:hover{
-  border-top-color:var(--gold);
-  transform:translateY(-3px);
-}
-
-.card .icon{
+  color:#751126;
   font-size:32px;
+  margin:0 0 25px;
+  font-weight:800;
 }
 
-.card h3{
-  color:var(--maroon);
-  margin:8px 0;
+.services{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:12px;
 }
 
-.notice-box{
+.service{
+  min-height:145px;
+  padding:14px 8px;
   background:#fff;
   border-radius:14px;
-  padding:22px;
-  box-shadow:0 6px 18px rgba(67,8,23,.12);
-  border-left:5px solid var(--gold);
-}
-
-.float-notice{
-  padding:12px;
-  margin-bottom:10px;
-  background:#fff8e8;
-  border-radius:9px;
-}
-
-.float-notice a{
-  color:var(--maroon);
-  font-weight:700;
-  text-decoration:none;
-}
-
-.float-date{
-  font-size:12px;
-  color:#777;
-  margin-top:4px;
-}
-
-.float-pdf{
-  display:inline-block;
-  margin-top:7px;
-  padding:6px 10px;
-  background:var(--maroon);
-  color:#fff !important;
-  border-radius:5px;
-  text-decoration:none;
-  font-size:12px;
-}
-
-.links{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-}
-
-.link-box{
-  background:var(--maroon);
-  color:#fff;
-  padding:18px;
+  box-shadow:0 4px 15px rgba(0,0,0,.10);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
   text-align:center;
-  border-radius:10px;
-  text-decoration:none;
-  font-weight:700;
+  color:#151515;
+  border:1px solid #eee;
+  transition:.2s;
 }
+
+.service:hover{
+  transform:translateY(-4px);
+  box-shadow:0 8px 20px rgba(0,0,0,.16);
+}
+
+.service-icon{
+  width:56px;
+  height:56px;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  margin-bottom:9px;
+}
+
+.service:nth-child(1) .service-icon{background:#dfeeff;color:#1468d4}
+.service:nth-child(2) .service-icon{background:#e7e2ff;color:#4434c5}
+.service:nth-child(3) .service-icon{background:#dff7e5;color:#13944b}
+.service:nth-child(4) .service-icon{background:#fff0db;color:#d87a0c}
+.service:nth-child(5) .service-icon{background:#dff5ff;color:#0087b9}
+.service:nth-child(6) .service-icon{background:#ffe1ee;color:#d72d72}
+.service:nth-child(7) .service-icon{background:#ffe0e0;color:#df2236}
+
+.service h3{
+  margin:2px 0 5px;
+  color:#151515;
+  font-size:16px;
+}
+
+.service p{
+  margin:0;
+  font-size:12px;
+  color:#555;
+}
+
+/* ================= FOOTER ================= */
 
 .footer{
-  background:var(--dark);
+  background:var(--dark-maroon);
   color:#fff;
   text-align:center;
-  padding:28px 5%;
+  padding:25px 5%;
 }
 
-/* MOBILE */
+.footer p{
+  margin:5px;
+}
 
-@media(max-width:900px){
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1100px){
+  .brand-title h1{font-size:30px}
+  .nav a{padding:14px 12px;font-size:14px}
+  .hero-grid{grid-template-columns:21% 58% 21%}
+  .side-title{font-size:19px}
+  .services{grid-template-columns:repeat(4,1fr)}
+}
+
+@media(max-width:800px){
+  .topbar{
+    flex-direction:column;
+    text-align:center;
+  }
+
   .header{
     flex-direction:column;
     text-align:center;
@@ -535,65 +586,60 @@ body{
     flex-direction:column;
   }
 
+  .brand-title h1{font-size:26px}
+  .brand-title p{font-size:16px}
+
   .hero{
-    padding:15px;
+    padding:10px;
   }
 
-  .hero-layout{
+  .hero-grid{
     grid-template-columns:1fr;
-    min-height:0;
-    gap:15px;
+    gap:12px;
   }
 
-  .side-panel{
-    height:300px;
-    margin:0 10px;
+  .slider-area{order:1}
+  .weather-card{order:2}
+  .news-card{order:3}
+
+  .side-card{
+    height:350px;
+    margin:0;
   }
 
-  .center-hero{
-    order:-1;
+  .slider{
+    height:360px;
   }
 
-  .photo-slider{
-    height:300px;
-  }
-
-  .center-content h2{
-    font-size:28px;
-  }
-
-  .cards{
+  .services{
     grid-template-columns:repeat(2,1fr);
-  }
-
-  .links{
-    grid-template-columns:1fr;
   }
 }
 
-@media(max-width:520px){
-  .topbar{
-    flex-direction:column;
-    text-align:center;
-    gap:4px;
-  }
-
+@media(max-width:480px){
   .nav a{
-    padding:10px 9px;
+    padding:10px 8px;
     font-size:12px;
   }
 
-  .leader{
+  .leaders .leader{
     width:70px;
     height:80px;
   }
 
-  .cards{
-    grid-template-columns:1fr;
+  .slider{
+    height:270px;
   }
 
-  .photo-slider{
-    height:250px;
+  .slide-caption{
+    left:15px;
+    bottom:20px;
+  }
+
+  .slide-caption strong{font-size:16px}
+
+  .services{
+    grid-template-columns:1fr;
   }
 }
 </style>
@@ -601,36 +647,56 @@ body{
 
 <body>
 
+<!-- ================= TOP BAR ================= -->
 <div class="topbar">
-  <span>Government of West Bengal</span>
-  <span>Manbazar-I Development Block, Purulia</span>
+  <div class="topbar-left">
+    <span>📞 +91 00000 00000</span>
+    <span>✉️ manbazar1block@gmail.com</span>
+    <span>📍 Manbazar-I, Purulia, West Bengal</span>
+  </div>
+
+  <div class="topbar-right">
+    <span>A-</span>
+    <span>A</span>
+    <span>A+</span>
+    <span>🌐 English</span>
+  </div>
 </div>
 
+<!-- ================= HEADER ================= -->
 <header class="header">
 
   <div class="brand">
+
     <div class="logo">
-      <img src="ashoka.jpg" alt="Ashoka Stambha">
+      <img src="ashoka.jpg" alt="Government emblem">
     </div>
-    <div>
+
+    <div class="brand-title">
       <h1>Manbazar-I Development Block</h1>
       <p>Purulia, West Bengal</p>
     </div>
+
   </div>
 
   <div class="leaders">
-    <img class="leader"
-         src="https://www.pmindia.gov.in/wp-content/uploads/2025/12/02.jpg"
-         alt="Prime Minister of India">
-    <img class="leader"
-         src="https://wb.gov.in/images/cm_new2.jpg"
-         alt="Chief Minister of West Bengal">
+    <img
+      class="leader"
+      src="https://www.pmindia.gov.in/wp-content/uploads/2025/12/02.jpg"
+      alt="Prime Minister of India">
+
+    <img
+      class="leader"
+      src="https://wb.gov.in/images/cm_new2.jpg"
+      alt="Chief Minister of West Bengal">
   </div>
 
 </header>
 
+<!-- ================= NAV ================= -->
 <nav class="nav">
-  <a href="index.html">🏠 Home</a>
+
+  <a class="active" href="index.html">🏠 Home</a>
   <a href="about.html">ℹ️ About</a>
   <a href="administration.html">🏛️ Administration</a>
   <a href="development.html">📈 Development</a>
@@ -639,75 +705,94 @@ body{
   <a href="downloads.html">⬇️ Downloads</a>
   <a href="gallery.html">🖼️ Gallery</a>
   <a href="contact.html">☎️ Contact</a>
+
 </nav>
 
+<!-- ================= HERO ================= -->
 <section class="hero">
 
-  <div class="hero-layout">
+  <div class="hero-grid">
 
-    <!-- LEFT -->
-    <aside class="side-panel weather-panel">
-      <div class="panel-title">🌤️ Live Weather</div>
-      <div id="weatherBox">Weather loading...</div>
-    </aside>
+    <!-- LEFT WEATHER -->
+    <aside class="side-card weather-card">
 
-    <!-- CENTER -->
-    <main class="center-hero">
+      <h2 class="side-title">🌤️ Live Weather</h2>
 
-      <div class="photo-slider">
-
-        <div class="photo-slide active">
-          <img src="manbazar-block.jpg" alt="Manbazar Block">
-        </div>
-
-        <div class="photo-slide">
-          <img src="manbazar-block1.jpeg" alt="Manbazar Block">
-        </div>
-
-        <div class="photo-slide">
-          <img src="manbazar-block2.jpeg" alt="Manbazar Block">
-        </div>
-
-        <div class="photo-slide">
-          <img src="manbazar-block3.jpeg" alt="Manbazar Block">
-        </div>
-
-        <div class="photo-slide">
-          <img src="manbazar-block4.jpeg" alt="Manbazar Block">
-        </div>
-
-        <div class="photo-shade"></div>
-
-        <div class="slider-dots">
-          <span class="slider-dot active"></span>
-          <span class="slider-dot"></span>
-          <span class="slider-dot"></span>
-          <span class="slider-dot"></span>
-          <span class="slider-dot"></span>
-        </div>
-
+      <div class="side-inner" id="weatherBox">
+        Weather loading...
       </div>
 
-      <div class="center-content">
-        <h2>Manbazar-I Development Block</h2>
-        <p>Official Information &amp; Citizen Services Portal</p>
-        <a class="hero-btn" href="notices.html">🔔 Latest Notices</a>
+    </aside>
+
+    <!-- CENTER SLIDER -->
+    <main class="slider-area">
+
+      <div class="slider" id="mainSlider">
+
+        <div class="slide active">
+          <img src="manbazar-block.jpg" alt="Manbazar-I Development Block">
+          <div class="slide-overlay"></div>
+          <div class="slide-caption">
+            <strong>Manbazar-I Development Block</strong>
+            <span>For a Better and Brighter Tomorrow</span>
+          </div>
+        </div>
+
+        <div class="slide">
+          <img src="manbazar-block1.jpeg" alt="Manbazar Block Activity">
+          <div class="slide-overlay"></div>
+        </div>
+
+        <div class="slide">
+          <img src="manbazar-block2.jpeg" alt="Manbazar Block Activity">
+          <div class="slide-overlay"></div>
+        </div>
+
+        <div class="slide">
+          <img src="manbazar-block3.jpeg" alt="Manbazar Block Activity">
+          <div class="slide-overlay"></div>
+        </div>
+
+        <div class="slide">
+          <img src="manbazar-block4.jpeg" alt="Manbazar Block Activity">
+          <div class="slide-overlay"></div>
+        </div>
+
+        <button class="slider-arrow slider-prev" id="prevSlide" type="button" aria-label="Previous">‹</button>
+        <button class="slider-arrow slider-next" id="nextSlide" type="button" aria-label="Next">›</button>
+
+        <div class="slider-dots" id="sliderDots">
+          <button class="slider-dot active" type="button" aria-label="Slide 1"></button>
+          <button class="slider-dot" type="button" aria-label="Slide 2"></button>
+          <button class="slider-dot" type="button" aria-label="Slide 3"></button>
+          <button class="slider-dot" type="button" aria-label="Slide 4"></button>
+          <button class="slider-dot" type="button" aria-label="Slide 5"></button>
+        </div>
+
       </div>
 
     </main>
 
-    <!-- RIGHT -->
-    <aside class="side-panel whatsnew-panel">
+    <!-- RIGHT WHAT'S NEW -->
+    <aside class="side-card news-card">
 
-      <div class="panel-title">🔔 What's New</div>
+      <h2 class="side-title">🔔 What's New</h2>
 
-      <div class="whatsnew-window">
-        <div id="heroNoticeList">Notice loading হচ্ছে...</div>
+      <div class="side-inner" style="padding-top:0">
+
+        <div class="news-list">
+          <div id="heroNoticeList">
+            <div style="padding:20px;text-align:center">
+              Notice loading হচ্ছে...
+            </div>
+          </div>
+        </div>
+
+        <a class="view-all" href="notices.html">
+          View All Notices →
+        </a>
+
       </div>
-
-      <a class="all-notices-btn" href="notices.html">
-        View All Notices →
-      </a>
 
     </aside>
 
@@ -715,80 +800,60 @@ body{
 
 </section>
 
+<!-- ================= IMPORTANT SERVICES ================= -->
 <section class="section">
+
   <h2 class="section-title">Important Services</h2>
 
-  <div class="cards">
+  <div class="services">
 
-    <a class="card" href="about.html">
-      <div class="icon">ℹ️</div>
+    <a class="service" href="about.html">
+      <div class="service-icon">ℹ️</div>
       <h3>About Block</h3>
-      <p>Block সম্পর্কিত তথ্য</p>
+      <p>ব্লক সম্পর্কিত তথ্য</p>
     </a>
 
-    <a class="card" href="administration.html">
-      <div class="icon">🏛️</div>
+    <a class="service" href="administration.html">
+      <div class="service-icon">🏛️</div>
       <h3>Administration</h3>
       <p>প্রশাসনিক তথ্য</p>
     </a>
 
-    <a class="card" href="development.html">
-      <div class="icon">📈</div>
+    <a class="service" href="development.html">
+      <div class="service-icon">📈</div>
       <h3>Development</h3>
       <p>উন্নয়নমূলক কার্যক্রম</p>
     </a>
 
-    <a class="card" href="schemes.html">
-      <div class="icon">📋</div>
-      <h3>Government Schemes</h3>
+    <a class="service" href="schemes.html">
+      <div class="service-icon">👥</div>
+      <h3>Schemes</h3>
       <p>সরকারি প্রকল্প</p>
     </a>
 
-    <a class="card" href="notices.html">
-      <div class="icon">🔔</div>
-      <h3>Notices</h3>
-      <p>সাম্প্রতিক বিজ্ঞপ্তি</p>
-    </a>
-
-    <a class="card" href="downloads.html">
-      <div class="icon">⬇️</div>
+    <a class="service" href="downloads.html">
+      <div class="service-icon">📄</div>
       <h3>Downloads</h3>
-      <p>প্রয়োজনীয় ফাইল</p>
+      <p>প্রয়োজনীয় ডাউনলোড</p>
     </a>
 
-    <a class="card" href="gallery.html">
-      <div class="icon">🖼️</div>
+    <a class="service" href="gallery.html">
+      <div class="service-icon">🖼️</div>
       <h3>Gallery</h3>
-      <p>ছবি ও কার্যক্রম</p>
+      <p>ছবি ও ভিডিও</p>
     </a>
 
-    <a class="card" href="contact.html">
-      <div class="icon">☎️</div>
+    <a class="service" href="contact.html">
+      <div class="service-icon">☎️</div>
       <h3>Contact</h3>
       <p>যোগাযোগ করুন</p>
     </a>
 
   </div>
+
 </section>
 
-<section class="section">
-  <h2 class="section-title">🔔 Latest Notices</h2>
-
-  <div class="notice-box">
-    <div id="latestNoticeList">Notice loading হচ্ছে...</div>
-  </div>
-</section>
-
-<section class="section">
-  <h2 class="section-title">Important Links</h2>
-
-  <div class="links">
-    <a class="link-box" href="notices.html">🔔 All Notices</a>
-    <a class="link-box" href="downloads.html">📥 Downloads</a>
-    <a class="link-box" href="contact.html">☎️ Contact Block</a>
-  </div>
-</section>
-
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
   <p><strong>Manbazar-I Development Block</strong></p>
   <p>Purulia, West Bengal</p>
@@ -797,99 +862,206 @@ body{
 </footer>
 
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
+/* =====================================================
+   SUPABASE
+   ===================================================== */
 
-/* =========================
-   PHOTO SLIDER
-   ========================= */
+const SUPABASE_URL =
+  "https://nqfcoofeqsesenmttcwr.supabase.co";
 
-const photoSlides = document.querySelectorAll(".photo-slide");
-const sliderDots = document.querySelectorAll(".slider-dot");
-let photoIndex = 0;
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
 
-function showPhoto(index){
-  photoSlides.forEach((slide,i)=>{
-    slide.classList.toggle("active",i === index);
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+/* =====================================================
+   YEAR
+   ===================================================== */
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+/* =====================================================
+   IMAGE SLIDER
+   ===================================================== */
+
+const slides =
+  Array.from(document.querySelectorAll(".slide"));
+
+const dots =
+  Array.from(document.querySelectorAll(".slider-dot"));
+
+let slideIndex = 0;
+let slideTimer = null;
+
+function showSlide(index){
+
+  if(index < 0){
+    index = slides.length - 1;
+  }
+
+  if(index >= slides.length){
+    index = 0;
+  }
+
+  slideIndex = index;
+
+  slides.forEach((slide,i)=>{
+    slide.classList.toggle("active", i === slideIndex);
   });
 
-  sliderDots.forEach((dot,i)=>{
-    dot.classList.toggle("active",i === index);
+  dots.forEach((dot,i)=>{
+    dot.classList.toggle("active", i === slideIndex);
   });
 }
 
-setInterval(()=>{
-  photoIndex++;
-  if(photoIndex >= photoSlides.length) photoIndex = 0;
-  showPhoto(photoIndex);
-},5000);
+function nextSlide(){
+  showSlide(slideIndex + 1);
+}
 
-/* =========================
-   WEATHER
-   ========================= */
+function previousSlide(){
+  showSlide(slideIndex - 1);
+}
 
-const LAT = 23.0615;
-const LON = 86.6642;
+function startSlider(){
+
+  clearInterval(slideTimer);
+
+  slideTimer =
+    setInterval(nextSlide,5000);
+}
+
+document.getElementById("nextSlide")
+  .addEventListener("click",()=>{
+    nextSlide();
+    startSlider();
+  });
+
+document.getElementById("prevSlide")
+  .addEventListener("click",()=>{
+    previousSlide();
+    startSlider();
+  });
+
+dots.forEach((dot,index)=>{
+  dot.addEventListener("click",()=>{
+    showSlide(index);
+    startSlider();
+  });
+});
+
+showSlide(0);
+startSlider();
+
+/* =====================================================
+   WEATHER - OPEN METEO
+   Manbazar-I approximate coordinates
+   ===================================================== */
+
+const WEATHER_LAT = 23.0615;
+const WEATHER_LON = 86.6642;
 
 function weatherIcon(code){
-  if(code===0) return "☀️";
-  if(code===1 || code===2) return "🌤️";
-  if(code===3) return "☁️";
-  if([45,48].includes(code)) return "🌫️";
-  if([51,53,55,56,57].includes(code)) return "🌦️";
-  if([61,63,65,66,67,80,81,82].includes(code)) return "🌧️";
-  if([71,73,75,77,85,86].includes(code)) return "🌨️";
-  if([95,96,99].includes(code)) return "⛈️";
+
+  if(code === 0) return "☀️";
+  if(code === 1 || code === 2) return "🌤️";
+  if(code === 3) return "☁️";
+
+  if(code === 45 || code === 48)
+    return "🌫️";
+
+  if([51,53,55,56,57].includes(code))
+    return "🌦️";
+
+  if([61,63,65,66,67,80,81,82].includes(code))
+    return "🌧️";
+
+  if([71,73,75,77,85,86].includes(code))
+    return "🌨️";
+
+  if([95,96,99].includes(code))
+    return "⛈️";
+
   return "🌤️";
 }
 
 function weatherText(code){
-  if(code===0) return "Clear sky";
-  if(code===1) return "Mainly clear";
-  if(code===2) return "Partly cloudy";
-  if(code===3) return "Overcast";
-  if([45,48].includes(code)) return "Fog";
-  if([51,53,55].includes(code)) return "Drizzle";
-  if([61,63,65].includes(code)) return "Rain";
-  if([80,81,82].includes(code)) return "Rain showers";
-  if([95,96,99].includes(code)) return "Thunderstorm";
+
+  if(code === 0) return "Clear sky";
+  if(code === 1) return "Mainly clear";
+  if(code === 2) return "Partly cloudy";
+  if(code === 3) return "Overcast";
+
+  if([45,48].includes(code))
+    return "Fog";
+
+  if([51,53,55].includes(code))
+    return "Drizzle";
+
+  if([61,63,65].includes(code))
+    return "Rain";
+
+  if([80,81,82].includes(code))
+    return "Rain showers";
+
+  if([95,96,99].includes(code))
+    return "Thunderstorm";
+
   return "Weather update";
 }
 
 function dayName(date){
-  return new Date(date+"T12:00:00")
-    .toLocaleDateString("en-IN",{weekday:"short"});
+
+  return new Date(date + "T12:00:00")
+    .toLocaleDateString(
+      "en-IN",
+      {weekday:"short"}
+    );
 }
 
 async function loadWeather(){
 
-  const box = document.getElementById("weatherBox");
+  const box =
+    document.getElementById("weatherBox");
 
   try{
 
     const url =
       "https://api.open-meteo.com/v1/forecast" +
-      "?latitude="+LAT+
-      "&longitude="+LON+
-      "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m"+
-      "&daily=weather_code,temperature_2m_max,temperature_2m_min"+
-      "&timezone=Asia%2FKolkata"+
+      "?latitude=" + WEATHER_LAT +
+      "&longitude=" + WEATHER_LON +
+      "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m" +
+      "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
+      "&timezone=Asia%2FKolkata" +
       "&forecast_days=4";
 
-    const response = await fetch(url);
+    const response =
+      await fetch(url);
 
-    if(!response.ok) throw new Error("Weather unavailable");
+    if(!response.ok){
+      throw new Error("Weather service unavailable");
+    }
 
-    const data = await response.json();
+    const data =
+      await response.json();
+
     const c = data.current;
     const d = data.daily;
 
     let forecast = "";
 
     for(let i=1;i<=3;i++){
+
       forecast += `
         <div class="forecast-day">
           <strong>${dayName(d.time[i])}</strong>
-          <div class="forecast-icon">${weatherIcon(d.weather_code[i])}</div>
+          <div class="forecast-icon">
+            ${weatherIcon(d.weather_code[i])}
+          </div>
           <div class="forecast-temp">
             ${Math.round(d.temperature_2m_max[i])}° /
             ${Math.round(d.temperature_2m_min[i])}°
@@ -898,16 +1070,25 @@ async function loadWeather(){
       `;
     }
 
-    const updateTime = new Date().toLocaleTimeString("en-IN",{
-      hour:"2-digit",
-      minute:"2-digit"
-    });
+    const updated =
+      new Date().toLocaleTimeString(
+        "en-IN",
+        {hour:"2-digit",minute:"2-digit"}
+      );
 
     box.innerHTML = `
-      <div class="weather-location">Manbazar-I, Purulia</div>
-      <div class="weather-updated">Updated ${updateTime}</div>
 
-      <div class="weather-icon">${weatherIcon(c.weather_code)}</div>
+      <div class="weather-location">
+        Manbazar-I, Purulia
+      </div>
+
+      <div class="weather-updated">
+        Updated: ${updated}
+      </div>
+
+      <div class="weather-icon">
+        ${weatherIcon(c.weather_code)}
+      </div>
 
       <div class="weather-temp">
         ${Math.round(c.temperature_2m)}°C
@@ -921,17 +1102,23 @@ async function loadWeather(){
 
         <div class="weather-item">
           💧 Humidity
-          <strong>${c.relative_humidity_2m}%</strong>
+          <strong>
+            ${c.relative_humidity_2m}%
+          </strong>
         </div>
 
         <div class="weather-item">
-          🌡️ Feels like
-          <strong>${Math.round(c.apparent_temperature)}°C</strong>
+          🌡️ Feels Like
+          <strong>
+            ${Math.round(c.apparent_temperature)}°C
+          </strong>
         </div>
 
         <div class="weather-item">
           💨 Wind
-          <strong>${Math.round(c.wind_speed_10m)} km/h</strong>
+          <strong>
+            ${Math.round(c.wind_speed_10m)} km/h
+          </strong>
         </div>
 
         <div class="weather-item">
@@ -941,16 +1128,21 @@ async function loadWeather(){
 
       </div>
 
-      <div class="forecast">${forecast}</div>
+      <div class="forecast">
+        ${forecast}
+      </div>
     `;
 
   }catch(error){
 
-    console.error(error);
+    console.error("Weather error:",error);
 
     box.innerHTML = `
-      <div class="weather-location">Manbazar-I, Purulia</div>
-      <div style="margin-top:25px;font-size:14px;">
+      <div class="weather-location">
+        Manbazar-I, Purulia
+      </div>
+
+      <div style="text-align:center;margin-top:30px">
         🌤️ Weather data temporarily unavailable.
       </div>
     `;
@@ -958,13 +1150,16 @@ async function loadWeather(){
 }
 
 loadWeather();
+
+/* Refresh weather every 10 minutes */
 setInterval(loadWeather,600000);
 
-/* =========================
-   SUPABASE NOTICES
-   ========================= */
+/* =====================================================
+   SUPABASE - WHAT'S NEW
+   ===================================================== */
 
-function esc(value){
+function escapeHTML(value){
+
   return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
@@ -973,31 +1168,53 @@ function esc(value){
     .replace(/'/g,"&#039;");
 }
 
-function noticeCard(n){
+function escapeURL(value){
+
+  return String(value ?? "")
+    .replace(/"/g,"%22")
+    .replace(/</g,"%3C")
+    .replace(/>/g,"%3E");
+}
+
+function noticeItem(notice){
+
+  const title =
+    escapeHTML(
+      notice.title || "Latest Notice"
+    );
+
+  const date =
+    notice.notice_date
+      ? escapeHTML(notice.notice_date)
+      : "";
+
+  const pdf =
+    notice.file_url
+      ? `
+        <a
+          class="news-pdf"
+          href="${escapeURL(notice.file_url)}"
+          target="_blank"
+          rel="noopener noreferrer">
+          📄 PDF
+        </a>
+      `
+      : "";
 
   return `
-    <div class="hero-notice">
+    <div class="news-item">
 
-      <a href="notices.html">
-        🔔 ${esc(n.title || "Notice")}
-      </a>
+      <span class="news-new">NEW</span>
 
-      ${
-        n.notice_date
-        ? `<div class="hero-notice-date">📅 ${esc(n.notice_date)}</div>`
-        : ""
-      }
+      <span class="news-date">
+        ${date}
+      </span>
 
-      ${
-        n.file_url
-        ? `<a class="hero-notice-pdf"
-              href="${esc(n.file_url)}"
-              target="_blank"
-              rel="noopener">
-              📄 View PDF
-           </a>`
-        : ""
-      }
+      <span class="news-title">
+        ${title}
+      </span>
+
+      ${pdf}
 
     </div>
   `;
@@ -1005,83 +1222,66 @@ function noticeCard(n){
 
 async function loadNotices(){
 
-  const heroBox = document.getElementById("heroNoticeList");
-  const latestBox = document.getElementById("latestNoticeList");
+  const box =
+    document.getElementById("heroNoticeList");
 
   try{
 
-    const {data,error} = await supabaseClient
-      .from("notices")
-      .select("id,title,description,notice_date,file_url")
-      .order("notice_date",{ascending:false})
-      .limit(6);
+    const {data,error} =
+      await supabaseClient
+        .from("notices")
+        .select(
+          "id,title,description,notice_date,file_url"
+        )
+        .order(
+          "notice_date",
+          {ascending:false}
+        )
+        .limit(6);
 
-    if(error) throw error;
+    if(error){
+      throw error;
+    }
 
-    if(!data || data.length===0){
+    if(!data || data.length === 0){
 
-      heroBox.innerHTML =
-        `<div style="padding:15px;text-align:center;">
+      box.innerHTML = `
+        <div style="padding:25px;text-align:center">
           এখনও কোনো Notice প্রকাশিত হয়নি।
-        </div>`;
-
-      latestBox.innerHTML =
-        `<p>এখনও কোনো Notice প্রকাশিত হয়নি।</p>`;
+        </div>
+      `;
 
       return;
     }
 
-    const cards = data.map(noticeCard).join("");
+    const items =
+      data.map(noticeItem).join("");
 
-    heroBox.innerHTML = `
-      <div class="notice-track">
-        ${cards}
-        ${cards}
+    /* Duplicate list for continuous scrolling */
+    box.innerHTML = `
+      <div class="news-track">
+        ${items}
+        ${items}
       </div>
     `;
 
-    latestBox.innerHTML = data.map(n=>`
-      <div class="float-notice">
-
-        <a href="notices.html">
-          🔔 ${esc(n.title || "Notice")}
-        </a>
-
-        ${
-          n.notice_date
-          ? `<div class="float-date">
-              📅 ${esc(n.notice_date)}
-             </div>`
-          : ""
-        }
-
-        ${
-          n.file_url
-          ? `<a class="float-pdf"
-                href="${esc(n.file_url)}"
-                target="_blank"
-                rel="noopener">
-                📄 View / Download PDF
-             </a>`
-          : ""
-        }
-
-      </div>
-    `).join("");
-
   }catch(error){
 
-    console.error("Notice error:",error);
+    console.error("Supabase notice error:",error);
 
-    heroBox.innerHTML =
-      `<div style="padding:15px;">Notice load error.</div>`;
-
-    latestBox.innerHTML =
-      `<p>Notice load error.</p>`;
+    box.innerHTML = `
+      <div style="padding:20px;text-align:center">
+        Notice loading error.
+        <br>
+        <small>Please refresh the page.</small>
+      </div>
+    `;
   }
 }
 
 loadNotices();
+
+/* Refresh notices every 5 minutes */
 setInterval(loadNotices,300000);
 </script>
 
