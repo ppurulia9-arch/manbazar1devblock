@@ -155,13 +155,12 @@ body{
   padding:80px 7%;
   text-align:center;
 
-background-image:url('manbazar-block.jpg');
-background-size:contain;
-background-position:center;
-background-repeat:no-repeat;
+  background:none !important;
 
   color:#fff;
   min-height:360px;
+  position:relative;
+  overflow:hidden;
 
   display:flex;
   flex-direction:column;
@@ -682,25 +681,25 @@ hero.style.overflow = "hidden";
 const slider = document.createElement("div");
 
 slider.style.position = "absolute";
-slider.style.inset = "0";
+slider.style.top = "0";
+slider.style.left = "0";
 slider.style.width = "100%";
 slider.style.height = "100%";
 slider.style.zIndex = "0";
 
 heroPhotos.forEach(function(image, index) {
 
-  const slide = document.createElement("div");
+  const slide = document.createElement("img");
 
+  slide.src = image;
   slide.style.position = "absolute";
-  slide.style.inset = "0";
+  slide.style.top = "0";
+  slide.style.left = "0";
   slide.style.width = "100%";
   slide.style.height = "100%";
-
-  slide.style.backgroundImage = "url('" + image + "')";
-  slide.style.backgroundSize = "cover";
-  slide.style.backgroundPosition = "center";
-  slide.style.backgroundRepeat = "no-repeat";
-
+  slide.style.objectFit = "cover";
+  slide.style.objectPosition = "center";
+  slide.style.display = "block";
   slide.style.opacity = index === 0 ? "1" : "0";
   slide.style.transition = "opacity 1s ease-in-out";
 
