@@ -1,1 +1,252 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Development | Manbazar-I DevBlock</title><link rel="stylesheet" href="css/style.css"></head><body><div class="top">Manbazar-I Development Block, Purulia, West Bengal</div><header><h1>Development</h1><a class="admin" href="admin/login.html">Admin Login</a></header><nav><a href="index.html">Home</a><a href="about.html">About Block</a><a href="administration.html">Administration</a><a href="schemes.html">Schemes</a><a href="development.html">Development</a><a href="notices.html">Notices</a><a href="downloads.html">Downloads</a><a href="gallery.html">Gallery</a><a href="contact.html">Contact</a></nav><main style="padding:50px 7%;min-height:450px;background:#fff"><h2>Development</h2><p>This section will be connected to the Supabase database and Admin Panel in the next steps.</p></main><footer>© Manbazar-I Development Block</footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Development | Manbazar-I Development Block</title>
+
+<style>
+:root{
+ --maroon:#8d001d;--maroon2:#620014;--gold:#f2b300;
+ --blue:#1268d9;--green:#16851d;--orange:#ff7900;
+ --purple:#6820c7;--red:#e92331;--cream:#fffaf0;
+ --text:#171717;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#f7f5ee;color:var(--text);font-family:Arial,"Noto Sans Bengali",sans-serif}
+a{text-decoration:none;color:inherit}
+.topbar{height:40px;background:var(--maroon2);color:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 4%;font-size:14px}
+.topbar div{display:flex;gap:20px;align-items:center}
+.header{min-height:126px;background:#fffdf5;border-bottom:4px solid var(--gold);display:flex;align-items:center;justify-content:space-between;padding:8px 4%;gap:20px}
+.brand{display:flex;align-items:center;gap:18px}
+.brand img{width:84px;height:96px;object-fit:contain}
+.brand h1{margin:0;color:#751025;font-size:38px;line-height:1.05}
+.brand p{margin:7px 0 0;color:#751025;font-size:19px}
+.header-photo{width:480px;height:108px;object-fit:cover;border-radius:0 0 28px 28px}
+.nav{display:flex;justify-content:center;background:var(--maroon);border-bottom:3px solid var(--gold);flex-wrap:wrap}
+.nav a{padding:15px 24px;color:#fff;font-weight:700;font-size:16px;border-right:1px solid rgba(255,255,255,.16)}
+.nav a:hover,.nav a.active{background:var(--gold);color:#171717}
+.breadcrumb{padding:9px 3%;background:#fff;color:#681020;font-size:15px}
+.container{width:96%;max-width:1600px;margin:auto}
+.hero{height:86px;margin:7px 0 15px;border-radius:14px;overflow:hidden;color:#fff;display:flex;align-items:center;padding:0 28px;background:linear-gradient(90deg,rgba(111,0,25,.98),rgba(146,0,37,.78)),url("manbazar-block.jpg") center/cover}
+.hero-icon{font-size:43px;margin-right:18px}
+.hero h2{margin:0;font-size:31px}
+.hero p{margin:4px 0 0;font-size:16px}
+.main-grid{display:grid;grid-template-columns:30% 46% 24%;gap:16px}
+.card{background:#fff;border:1px solid #ddd;border-radius:13px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.card-title{padding:9px 15px;color:#fff;font-size:19px;font-weight:800;display:flex;align-items:center;gap:9px}
+.blue .card-title{background:linear-gradient(90deg,#0861c8,#177ee6)}
+.maroon .card-title{background:linear-gradient(90deg,#720018,#a9002c)}
+.green .card-title{background:linear-gradient(90deg,#087d19,#19a02d)}
+.orange .card-title{background:linear-gradient(90deg,#f36c00,#ff8d13)}
+.purple .card-title{background:linear-gradient(90deg,#5b17bd,#7d2ce1)}
+.red .card-title{background:linear-gradient(90deg,#e71831,#f23b4e)}
+.card-body{padding:12px}
+.area-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.area{min-height:80px;border-radius:10px;padding:10px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700}
+.area b{font-size:30px}
+.area:nth-child(1){background:#e0efff}.area:nth-child(2){background:#ffe4ed}.area:nth-child(3){background:#e2f8e4}.area:nth-child(4){background:#e7e8ff}.area:nth-child(5){background:#fff1d8}.area:nth-child(6){background:#dcecff}.area:nth-child(7){background:#ffe4f0}.area:nth-child(8){background:#e1f6e5}
+.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.project{border:1px solid #ddd;border-radius:10px;overflow:hidden;background:#fff}
+.project img{width:100%;height:112px;object-fit:cover;display:block}
+.project-content{padding:8px}
+.project h3{font-size:16px;margin:0 0 5px}
+.project p{font-size:13px;line-height:1.4;margin:0 0 8px}
+.btn{display:inline-block;background:#8d001d;color:#fff;padding:7px 10px;border-radius:7px;font-size:12px;font-weight:700}
+.view{margin-left:auto;background:#fff;color:#751025;padding:5px 11px;border-radius:18px;font-size:12px}
+.stat-row{display:grid;grid-template-columns:30px 1fr auto;gap:8px;align-items:center;padding:8px 3px;border-bottom:1px solid #eee;font-size:14px}
+.stat-row strong{color:#143bc1;font-size:17px}
+.stat-icon{font-size:21px}
+.work-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:16px;margin-bottom:25px}
+.table-card{background:#fff;border:1px solid #ddd;border-radius:13px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.table-head{padding:10px 14px;color:#fff;font-size:18px;font-weight:800;display:flex;align-items:center}
+.orange-head{background:linear-gradient(90deg,#f06b00,#ff8d00)}
+.purple-head{background:linear-gradient(90deg,#5c19c0,#7a29e2)}
+.red-head{background:linear-gradient(90deg,#df172e,#f13b4d)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#e9edf1;text-align:left;padding:7px}
+td{padding:7px;border-bottom:1px solid #eee}
+.status{padding:3px 8px;border-radius:10px;font-size:11px;font-weight:800;background:#1b9a39;color:#fff}
+.progress{background:#ffd21a;color:#222}
+.footer{background:var(--maroon2);color:#fff;text-align:center;padding:18px;margin-top:5px}
+@media(max-width:1150px){
+ .main-grid{grid-template-columns:1fr 1fr}.right-col{grid-column:1/-1}
+ .work-grid{grid-template-columns:1fr}
+ .header-photo{width:360px}
+}
+@media(max-width:800px){
+ .topbar{height:auto;padding:8px 3%;flex-direction:column;gap:5px}
+ .header{flex-direction:column;text-align:center}.brand{flex-direction:column}
+ .brand h1{font-size:29px}.header-photo{width:100%;height:100px}
+ .nav a{padding:11px 12px;font-size:13px}
+ .main-grid{grid-template-columns:1fr}.right-col{grid-column:auto}
+ .project-grid{grid-template-columns:1fr}
+ .area-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:500px){
+ .area-grid{grid-template-columns:1fr}.hero{height:auto;padding:15px}
+ .hero h2{font-size:25px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+ <div>
+  <span>☎ +91 00000 00000</span>
+  <span>✉ manbazar1block@gmail.com</span>
+  <span>📍 Manbazar-I, Purulia, West Bengal - 723131</span>
+ </div>
+ <div><span>A-</span><span>A</span><span>A+</span><span>🌐 English⌄</span></div>
+</div>
+
+<header class="header">
+ <div class="brand">
+  <img src="ashoka.jpg" alt="Government Emblem">
+  <div><h1>Manbazar-I Development Block</h1><p>Purulia, West Bengal</p></div>
+ </div>
+ <img class="header-photo" src="manbazar-block.jpg" alt="Manbazar-I">
+</header>
+
+<nav class="nav">
+ <a href="index.html">🏠 Home</a>
+ <a href="about.html">ℹ️ About Block</a>
+ <a href="administration.html">🏛️ Administration</a>
+ <a class="active" href="development.html">📊 Development</a>
+ <a href="schemes.html">📋 Schemes</a>
+ <a href="notices.html">🔔 Notices</a>
+ <a href="downloads.html">⬇️ Downloads</a>
+ <a href="gallery.html">🖼️ Gallery</a>
+ <a href="contact.html">☎️ Contact</a>
+</nav>
+
+<div class="breadcrumb">🏠 Home &nbsp;›&nbsp; Development</div>
+
+<main class="container">
+
+<section class="hero">
+ <div class="hero-icon">📊</div>
+ <div>
+  <h2>Development</h2>
+  <p>Infrastructure, Rural Development, Public Services and People-Centric Initiatives</p>
+ </div>
+</section>
+
+<section class="main-grid">
+
+ <article class="card blue">
+  <div class="card-title">⚙️ Key Development Areas</div>
+  <div class="card-body">
+   <div class="area-grid">
+    <div class="area"><b>🛣️</b>Infrastructure Development</div>
+    <div class="area"><b>🏠</b>Rural Development & Panchayat Works</div>
+    <div class="area"><b>🌱</b>Agriculture & Allied Activities</div>
+    <div class="area"><b>💧</b>Water Supply & Sanitation</div>
+    <div class="area"><b>👥</b>Education Development</div>
+    <div class="area"><b>✚</b>Health & Family Welfare</div>
+    <div class="area"><b>🌳</b>Environment & Sustainability</div>
+    <div class="area"><b>📈</b>Livelihood & Self Help Groups</div>
+   </div>
+  </div>
+ </article>
+
+ <article class="card maroon">
+  <div class="card-title">🏢 Major Development Projects <span class="view">View All</span></div>
+  <div class="card-body">
+   <div class="project-grid">
+    <div class="project">
+     <img src="manbazar-block1.jpeg" alt="Rural Road Development">
+     <div class="project-content">
+      <h3>Rural Road Development</h3>
+      <p>Improvement and construction of rural roads for better connectivity.</p>
+      <a class="btn" href="development.html">Know More →</a>
+     </div>
+    </div>
+    <div class="project">
+     <img src="manbazar-block.jpg" alt="Water Supply Projects">
+     <div class="project-content">
+      <h3>Water Supply Projects</h3>
+      <p>Safe drinking water facilities and water conservation initiatives.</p>
+      <a class="btn" href="development.html">Know More →</a>
+     </div>
+    </div>
+    <div class="project">
+     <img src="manbazar-block3.jpeg" alt="Education Infrastructure">
+     <div class="project-content">
+      <h3>Education Infrastructure</h3>
+      <p>Development of school infrastructure and educational facilities.</p>
+      <a class="btn" href="development.html">Know More →</a>
+     </div>
+    </div>
+   </div>
+  </div>
+ </article>
+
+ <article class="card green right-col">
+  <div class="card-title">📊 Development Statistics</div>
+  <div class="card-body">
+   <div class="stat-row"><span class="stat-icon">🛣️</span><span>Rural Roads Developed</span><strong>125+ km</strong></div>
+   <div class="stat-row"><span class="stat-icon">💧</span><span>Drinking Water Projects</span><strong>18</strong></div>
+   <div class="stat-row"><span class="stat-icon">🏫</span><span>School Infrastructure</span><strong>22</strong></div>
+   <div class="stat-row"><span class="stat-icon">✚</span><span>Health Facilities</span><strong>08</strong></div>
+   <div class="stat-row"><span class="stat-icon">👥</span><span>Self Help Groups</span><strong>184+</strong></div>
+   <div class="stat-row"><span class="stat-icon">🌱</span><span>Agriculture Initiatives</span><strong>56</strong></div>
+   <div class="stat-row"><span class="stat-icon">🏠</span><span>Rural Housing (PMAY)</span><strong>1,250+</strong></div>
+  </div>
+ </article>
+
+</section>
+
+<section class="work-grid">
+
+ <article class="table-card">
+  <div class="table-head orange-head">🛠️ Ongoing Works <span class="view">View All</span></div>
+  <table>
+   <thead><tr><th>#</th><th>Work Name</th><th>Sector</th><th>Status</th></tr></thead>
+   <tbody>
+    <tr><td>1</td><td>Rural Road Improvement</td><td>Infrastructure</td><td><span class="status">Ongoing</span></td></tr>
+    <tr><td>2</td><td>Drinking Water Scheme</td><td>Water Supply</td><td><span class="status">Ongoing</span></td></tr>
+    <tr><td>3</td><td>School Building Construction</td><td>Education</td><td><span class="status progress">In Progress</span></td></tr>
+    <tr><td>4</td><td>Anganwadi Centre Repair</td><td>Social Welfare</td><td><span class="status">Ongoing</span></td></tr>
+   </tbody>
+  </table>
+ </article>
+
+ <article class="table-card">
+  <div class="table-head purple-head">✓ Completed Works <span class="view">View All</span></div>
+  <table>
+   <thead><tr><th>#</th><th>Work Name</th><th>Sector</th><th>Year</th></tr></thead>
+   <tbody>
+    <tr><td>1</td><td>Village Road Construction</td><td>Infrastructure</td><td>2023-24</td></tr>
+    <tr><td>2</td><td>Tube Well Installation</td><td>Water Supply</td><td>2023-24</td></tr>
+    <tr><td>3</td><td>School Boundary Wall</td><td>Education</td><td>2022-23</td></tr>
+    <tr><td>4</td><td>Community Hall Renovation</td><td>Rural Development</td><td>2022-23</td></tr>
+   </tbody>
+  </table>
+ </article>
+
+ <article class="table-card">
+  <div class="table-head red-head">📅 Upcoming Projects <span class="view">View All</span></div>
+  <table>
+   <thead><tr><th>#</th><th>Work Name</th><th>Sector</th><th>Expected</th></tr></thead>
+   <tbody>
+    <tr><td>1</td><td>New Bridge Construction</td><td>Infrastructure</td><td>2025-26</td></tr>
+    <tr><td>2</td><td>Additional Water Supply</td><td>Water Supply</td><td>2025-26</td></tr>
+    <tr><td>3</td><td>High School Upgradation</td><td>Education</td><td>2025-23</td></tr>
+    <tr><td>4</td><td>Health Sub-Centre Building</td><td>Health</td><td>2025-26</td></tr>
+   </tbody>
+  </table>
+ </article>
+
+</section>
+
+</main>
+
+<footer class="footer">
+ <strong>Manbazar-I Development Block</strong><br>
+ Purulia, West Bengal
+</footer>
+
+</body>
+</html>
