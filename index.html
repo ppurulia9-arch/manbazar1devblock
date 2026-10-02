@@ -155,7 +155,7 @@ body{
   padding:80px 7%;
   text-align:center;
 
-  background:none !important;
+  background:none;
 
   color:#fff;
   min-height:360px;
@@ -675,64 +675,26 @@ const heroPhotos = [
 
 const hero = document.querySelector(".hero");
 
-hero.style.position = "relative";
-hero.style.overflow = "hidden";
-
-const slider = document.createElement("div");
-
-slider.style.position = "absolute";
-slider.style.top = "0";
-slider.style.left = "0";
-slider.style.width = "100%";
-slider.style.height = "100%";
-slider.style.zIndex = "0";
-
-heroPhotos.forEach(function(image, index) {
-
-  const slide = document.createElement("img");
-
-  slide.src = image;
-  slide.style.position = "absolute";
-  slide.style.top = "0";
-  slide.style.left = "0";
-  slide.style.width = "100%";
-  slide.style.height = "100%";
-  slide.style.objectFit = "cover";
-  slide.style.objectPosition = "center";
-  slide.style.display = "block";
-  slide.style.opacity = index === 0 ? "1" : "0";
-  slide.style.transition = "opacity 1s ease-in-out";
-
-  slider.appendChild(slide);
-});
-
-hero.insertBefore(slider, hero.firstChild);
-
-const slides = slider.children;
-
-for (let i = 1; i < hero.children.length; i++) {
-  if (hero.children[i] !== slider) {
-    hero.children[i].style.position = "relative";
-    hero.children[i].style.zIndex = "2";
-  }
-}
+hero.style.backgroundImage = "url('" + heroPhotos[0] + "')";
+hero.style.backgroundSize = "cover";
+hero.style.backgroundPosition = "center";
+hero.style.backgroundRepeat = "no-repeat";
+hero.style.transition = "background-image 1s ease-in-out";
 
 let currentSlide = 0;
 
 setInterval(function() {
 
-  slides[currentSlide].style.opacity = "0";
-
   currentSlide++;
 
-  if (currentSlide >= slides.length) {
+  if (currentSlide >= heroPhotos.length) {
     currentSlide = 0;
   }
 
-  slides[currentSlide].style.opacity = "1";
+  hero.style.backgroundImage =
+    "url('" + heroPhotos[currentSlide] + "')";
 
 }, 5000);
 </script>
-  
 </body>
 </html>
