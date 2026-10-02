@@ -683,7 +683,7 @@ const slider = document.createElement("div");
 slider.style.position = "absolute";
 slider.style.top = "0";
 slider.style.left = "0";
-slider.style.width = (heroPhotos.length * 100) + "%";
+slider.style.width = "100%";
 slider.style.height = "100%";
 slider.style.display = "flex";
 slider.style.zIndex = "0";
@@ -693,11 +693,18 @@ heroPhotos.forEach(function(image) {
 
   const slide = document.createElement("div");
 
-  slide.style.minWidth = "100%";
+  slide.style.minWidth = (100 / heroPhotos.length) + "%";
+  slide.style.width = (100 / heroPhotos.length) + "%";
   slide.style.height = "100%";
+  slide.style.flexShrink = "0";
+
   slide.style.backgroundImage = "url('" + image + "')";
   slide.style.backgroundSize = "cover";
   slide.style.backgroundPosition = "center";
+  slide.style.backgroundRepeat = "no-repeat";
+
+  slider.appendChild(slide);
+});
   slide.style.backgroundRepeat = "no-repeat";
 
   slider.appendChild(slide);
@@ -725,11 +732,10 @@ setInterval(function() {
     currentSlide = 0;
   }
 
-  slider.style.transform =
-    "translateX(-" +
-    (currentSlide * (100 / heroPhotos.length)) +
-    "%)";
-
+ slider.style.transform =
+  "translateX(-" +
+  (currentSlide * 20) +
+  "%)";
 }, 5000);
 </script>
 
