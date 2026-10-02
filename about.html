@@ -1,1 +1,877 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>About | Manbazar-I DevBlock</title><link rel="stylesheet" href="css/style.css"></head><body><div class="top">Manbazar-I Development Block, Purulia, West Bengal</div><header><h1>About</h1><a class="admin" href="admin/login.html">Admin Login</a></header><nav><a href="index.html">Home</a><a href="about.html">About Block</a><a href="administration.html">Administration</a><a href="schemes.html">Schemes</a><a href="development.html">Development</a><a href="notices.html">Notices</a><a href="downloads.html">Downloads</a><a href="gallery.html">Gallery</a><a href="contact.html">Contact</a></nav><main style="padding:50px 7%;min-height:450px;background:#fff"><h2>About</h2><p>This section will be connected to the Supabase database and Admin Panel in the next steps.</p></main><footer>© Manbazar-I Development Block</footer></body></html>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Manbazar-I Development Block, Purulia - About, Geography, Population, Administration, Education, Health, Rivers and Tourism">
+<title>About Manbazar-I Development Block | Purulia</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --maroon:#8e0b28;
+  --deep:#560016;
+  --gold:#e0a900;
+  --cream:#fff9e9;
+  --blue:#0878d1;
+  --green:#07833d;
+  --pink:#ef3b88;
+  --purple:#6b27bd;
+  --orange:#f47708;
+  --red:#ef252f;
+  --text:#202020;
+  --soft:#f7f4ee;
+  --shadow:0 5px 18px rgba(0,0,0,.13);
+}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  background:#f7f4ee;
+  color:var(--text);
+  font-family:"Noto Sans Bengali",Arial,sans-serif;
+}
+
+a{text-decoration:none}
+
+/* HEADER */
+.topbar{
+  height:40px;
+  padding:0 3.5%;
+  background:var(--deep);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-family:Arial,sans-serif;
+  font-size:14px;
+}
+
+.header{
+  min-height:125px;
+  padding:12px 3.5%;
+  background:var(--cream);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:4px solid var(--gold);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.emblem{
+  width:78px;
+  height:96px;
+  background:#fff;
+  border-radius:8px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.emblem img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.brand h1{
+  margin:0;
+  color:#741126;
+  font-family:Arial,sans-serif;
+  font-size:36px;
+  font-weight:800;
+}
+
+.brand p{
+  margin:5px 0 0;
+  color:#741126;
+  font-size:17px;
+}
+
+.leaders{
+  display:flex;
+  gap:12px;
+}
+
+.leader{
+  width:80px;
+  height:92px;
+  border:3px solid var(--gold);
+  border-radius:10px;
+  object-fit:cover;
+  object-position:top;
+}
+
+/* NAV */
+.nav{
+  min-height:66px;
+  background:var(--maroon);
+  border-bottom:4px solid var(--gold);
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.nav a{
+  padding:14px 18px;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  font-weight:700;
+  font-size:15px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  border-right:1px solid rgba(255,255,255,.2);
+}
+
+.nav a.active,
+.nav a:hover{
+  background:var(--gold);
+  color:#351000;
+}
+
+/* PAGE */
+.page{
+  max-width:1500px;
+  margin:auto;
+  padding:18px 20px 45px;
+}
+
+.breadcrumb{
+  color:#6d1025;
+  font-family:Arial,sans-serif;
+  font-size:14px;
+  margin:0 0 14px;
+}
+
+.page-title{
+  background:linear-gradient(90deg,var(--maroon),#b61b3e);
+  color:#fff;
+  border-radius:13px;
+  padding:17px 24px;
+  box-shadow:var(--shadow);
+  margin-bottom:18px;
+}
+
+.page-title h2{
+  margin:0;
+  font-size:30px;
+}
+
+.page-title p{
+  margin:4px 0 0;
+  font-size:15px;
+}
+
+/* INFO GRID */
+.info-grid{
+  display:grid;
+  grid-template-columns:26% 48% 26%;
+  gap:14px;
+  align-items:start;
+}
+
+.column{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+/* CARDS */
+.card{
+  background:#fff;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  border:1px solid #e8e1d3;
+}
+
+.card-head{
+  padding:11px 15px;
+  color:#fff;
+  font-size:21px;
+  font-weight:800;
+  line-height:1.25;
+}
+
+.card-body{
+  padding:15px;
+}
+
+.blue .card-head{background:var(--blue)}
+.green .card-head{background:var(--green)}
+.pink .card-head{background:var(--pink)}
+.purple .card-head{background:var(--purple)}
+.orange .card-head{background:var(--orange)}
+.red .card-head{background:var(--red)}
+
+.card p{
+  margin:0;
+  font-size:15px;
+  line-height:1.8;
+}
+
+.bullets{
+  margin:0;
+  padding-left:22px;
+}
+
+.bullets li{
+  margin:7px 0;
+  line-height:1.5;
+}
+
+/* TABLE */
+.data-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+
+.data-table td{
+  padding:7px 5px;
+  border-bottom:1px solid #e8e2d7;
+  vertical-align:top;
+}
+
+.data-table td:first-child{
+  width:48%;
+  font-weight:700;
+}
+
+.data-table td:last-child{
+  font-weight:600;
+  color:#4b1220;
+}
+
+/* POPULATION */
+.population-box{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-bottom:12px;
+}
+
+.population-stat{
+  background:#f4effd;
+  padding:10px;
+  border-radius:9px;
+  text-align:center;
+}
+
+.population-stat strong{
+  display:block;
+  color:#5b1ea9;
+  font-size:20px;
+}
+
+.population-stat span{
+  font-size:12px;
+}
+
+.gender{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin:10px 0;
+}
+
+.gender div{
+  padding:9px;
+  border-radius:9px;
+  text-align:center;
+  font-weight:700;
+}
+
+.male{background:#e1f0ff;color:#0872c7}
+.female{background:#ffe4f1;color:#d72572}
+
+/* MAP */
+.map-wrap{
+  background:#fff;
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  border:1px solid #e5e0d5;
+}
+
+.map-head{
+  background:var(--green);
+  color:#fff;
+  padding:12px 16px;
+  font-size:22px;
+  font-weight:800;
+}
+
+.map-image{
+  width:100%;
+  display:block;
+  background:#eef5ea;
+  padding:10px;
+}
+
+.map-image img{
+  width:100%;
+  max-height:510px;
+  object-fit:contain;
+  display:block;
+  border-radius:8px;
+}
+
+.map-note{
+  padding:10px 15px;
+  background:#effaf1;
+  font-size:13px;
+  color:#345;
+}
+
+/* PANCHAYAT */
+.panchayats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:6px;
+}
+
+.panchayat{
+  padding:8px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:700;
+  background:#e8f8ff;
+  border:1px solid #bce9fb;
+}
+
+.panchayat:nth-child(2n){background:#fff4d8}
+.panchayat:nth-child(3n){background:#e6f8e7}
+.panchayat:nth-child(4n){background:#fce5f2}
+
+/* TOURISM */
+.place{
+  display:grid;
+  grid-template-columns:40% 60%;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid #eadfca;
+}
+
+.place:last-child{border-bottom:0}
+
+.place-image{
+  min-height:120px;
+  border-radius:9px;
+  background:linear-gradient(135deg,#7ba8ca,#dbe9ef);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  font-weight:800;
+  text-align:center;
+  padding:10px;
+}
+
+.place h3{
+  margin:0 0 4px;
+  color:#d82424;
+  font-size:18px;
+}
+
+.place p{
+  margin:0;
+  font-size:13px;
+  line-height:1.6;
+}
+
+/* FULL INFO IMAGE */
+.source-image{
+  margin-top:18px;
+  background:#fff;
+  border-radius:14px;
+  padding:12px;
+  box-shadow:var(--shadow);
+}
+
+.source-image h2{
+  margin:0 0 10px;
+  color:#741126;
+  font-size:24px;
+}
+
+.source-image img{
+  width:100%;
+  display:block;
+  border-radius:9px;
+}
+
+/* FOOTER */
+.footer{
+  background:var(--deep);
+  color:#fff;
+  text-align:center;
+  padding:25px;
+  font-family:Arial,sans-serif;
+}
+
+.footer p{margin:5px}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .info-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .center-column{
+    grid-column:1 / -1;
+    grid-row:1;
+  }
+
+  .left-column{grid-column:1}
+  .right-column{grid-column:2}
+}
+
+@media(max-width:800px){
+  .topbar{
+    height:auto;
+    padding:8px;
+    text-align:center;
+  }
+
+  .header{
+    flex-direction:column;
+    text-align:center;
+    gap:12px;
+  }
+
+  .brand{
+    flex-direction:column;
+  }
+
+  .brand h1{font-size:27px}
+
+  .nav a{
+    padding:10px 9px;
+    font-size:12px;
+  }
+
+  .info-grid{
+    grid-template-columns:1fr;
+  }
+
+  .center-column,
+  .left-column,
+  .right-column{
+    grid-column:1;
+  }
+
+  .center-column{grid-row:auto}
+
+  .page{
+    padding:10px;
+  }
+}
+
+@media(max-width:520px){
+  .panchayats{
+    grid-template-columns:1fr;
+  }
+
+  .place{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <span>Government of West Bengal</span>
+  <span>Manbazar-I Development Block, Purulia</span>
+</div>
+
+<header class="header">
+
+  <div class="brand">
+
+    <div class="emblem">
+      <img src="ashoka.jpg" alt="Government Emblem">
+    </div>
+
+    <div>
+      <h1>Manbazar-I Development Block</h1>
+      <p>Purulia, West Bengal</p>
+    </div>
+
+  </div>
+
+  <div class="leaders">
+    <img class="leader"
+         src="https://www.pmindia.gov.in/wp-content/uploads/2025/12/02.jpg"
+         alt="Prime Minister of India">
+
+    <img class="leader"
+         src="https://wb.gov.in/images/cm_new2.jpg"
+         alt="Chief Minister of West Bengal">
+  </div>
+
+</header>
+
+<nav class="nav">
+  <a href="index.html">🏠 Home</a>
+  <a class="active" href="about.html">ℹ️ About</a>
+  <a href="administration.html">🏛️ Administration</a>
+  <a href="development.html">📈 Development</a>
+  <a href="schemes.html">📋 Schemes</a>
+  <a href="notices.html">🔔 Notices</a>
+  <a href="downloads.html">⬇️ Downloads</a>
+  <a href="gallery.html">🖼️ Gallery</a>
+  <a href="contact.html">☎️ Contact</a>
+</nav>
+
+<main class="page">
+
+  <div class="breadcrumb">
+    🏠 Home &nbsp;›&nbsp; ℹ️ About Manbazar-I Development Block
+  </div>
+
+  <div class="page-title">
+    <h2>মানবাজার-I সমষ্টি উন্নয়ন ব্লক</h2>
+    <p>Manbazar-I Development Block · Purulia, West Bengal</p>
+  </div>
+
+  <div class="info-grid">
+
+    <!-- LEFT -->
+    <div class="column left-column">
+
+      <section class="card blue">
+        <div class="card-head">🏢 পরিচিতি</div>
+        <div class="card-body">
+          <p>
+            মানবাজার ১ (Manbazar-I) হলো ভারতের পশ্চিমবঙ্গ রাজ্যের
+            পুরুলিয়া জেলার মানবাজার মহকুমার অন্তর্গত একটি সমষ্টি
+            উন্নয়ন ব্লক (Community Development Block)। এই ব্লকটি
+            প্রাকৃতিক সৌন্দর্য, সমৃদ্ধ ঐতিহ্য, কৃষিভিত্তিক অর্থনীতি
+            এবং আদিবাসী সংস্কৃতির জন্য পরিচিত।
+          </p>
+        </div>
+      </section>
+
+      <section class="card pink">
+        <div class="card-head">🏛️ প্রশাসনিক তথ্য</div>
+        <div class="card-body">
+          <table class="data-table">
+            <tr><td>📍 সদর দপ্তর</td><td>মানবাজার</td></tr>
+            <tr><td>👥 গ্রাম পঞ্চায়েত</td><td>১০টি</td></tr>
+            <tr><td>🏠 মৌজা</td><td>২৪৪টি</td></tr>
+            <tr><td>🏘️ জনবসতিপূর্ণ গ্রাম</td><td>২১৯টি</td></tr>
+            <tr><td>🏙️ জনগণনা নগর</td><td>১টি</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="card purple">
+        <div class="card-head">👥 জনসংখ্যা ও জনমিতি (২০১১)</div>
+        <div class="card-body">
+
+          <div class="population-box">
+            <div class="population-stat">
+              <strong>১,৫৪,০৭১</strong>
+              <span>মোট জনসংখ্যা</span>
+            </div>
+
+            <div class="population-stat">
+              <strong>১,৪৪,৫৫০</strong>
+              <span>গ্রামীণ জনসংখ্যা</span>
+            </div>
+
+            <div class="population-stat">
+              <strong>৯,৫২১</strong>
+              <span>শহরে জনসংখ্যা</span>
+            </div>
+
+            <div class="population-stat">
+              <strong>৬৩.৭৮%</strong>
+              <span>সাক্ষরতার হার</span>
+            </div>
+          </div>
+
+          <div class="gender">
+            <div class="male">
+              👨 পুরুষ<br>
+              ৭৮,০৩৯ (৫১%)
+            </div>
+
+            <div class="female">
+              👩 মহিলা<br>
+              ৭৬,০৩২ (৪৯%)
+            </div>
+          </div>
+
+          <table class="data-table">
+            <tr><td>তফসিলি জাতি (SC)</td><td>২২.৮৮%</td></tr>
+            <tr><td>তফসিলি উপজাতি (ST)</td><td>২২.০০%</td></tr>
+            <tr><td>প্রধান ভাষা</td><td>বাংলা (৬৭.৪৯%), সাঁওতালি (১২.২৬%)</td></tr>
+            <tr><td>প্রধান ধর্ম</td><td>হিন্দু (৮৫.৬২%), মুসলিম (৩.০৪%), আদিবাসী/অন্যান্য (১১.৩১%)</td></tr>
+          </table>
+
+        </div>
+      </section>
+
+    </div>
+
+    <!-- CENTER -->
+    <div class="column center-column">
+
+      <section class="map-wrap">
+
+        <div class="map-head">
+          🗺️ Manbazar-I Development Block — Map & Location
+        </div>
+
+        <div class="map-image">
+          <img
+            src="Manbazar-I_ Nature, Heritage & Development.png"
+            alt="Manbazar-I Development Block information and map">
+        </div>
+
+        <div class="map-note">
+          মানচিত্র ও তথ্যচিত্রটি প্রদত্ত source image অনুযায়ী উপস্থাপিত।
+          ছবিটি repository-তে upload করে একই filename রাখুন।
+        </div>
+
+      </section>
+
+      <section class="card blue">
+        <div class="card-head">👥 ১০টি গ্রাম পঞ্চায়েত</div>
+
+        <div class="card-body">
+
+          <div class="panchayats">
+
+            <div class="panchayat">১. বারোমাস্যা-রামনগর</div>
+            <div class="panchayat">২. বামনি-মাঝিহিরা</div>
+            <div class="panchayat">৩. ভালুবাসা</div>
+            <div class="panchayat">৪. বিসরি</div>
+            <div class="panchayat">৫. চন্দ্রা-পাইরাচালি</div>
+            <div class="panchayat">৬. ধানারা</div>
+            <div class="panchayat">৭. গোপালনগর</div>
+            <div class="panchayat">৮. জিতুজুড়ি</div>
+            <div class="panchayat">৯. কামটা-জাঁদিদিরি</div>
+            <div class="panchayat">১০. মানবাজার</div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <section class="card green">
+        <div class="card-head">🎓 শিক্ষা প্রতিষ্ঠান</div>
+
+        <div class="card-body">
+
+          <table class="data-table">
+            <tr><td>প্রাথমিক বিদ্যালয়</td><td>১৯৭টি</td></tr>
+            <tr><td>মিডল স্কুল</td><td>২২টি</td></tr>
+            <tr><td>হাই স্কুল</td><td>৩টি</td></tr>
+            <tr><td>হায়ার সেকেন্ডারি</td><td>১৪টি</td></tr>
+          </table>
+
+          <h3 style="color:#d31d69;margin:16px 0 7px">
+            🏫 নামকরা বিদ্যালয় (মানবাজার)
+          </h3>
+
+          <ul class="bullets">
+            <li>মানবাজার রাধামাধব ইনস্টিটিউশন (R.M. Institution)</li>
+            <li>মানবাজার গার্লস হাই স্কুল</li>
+            <li>স্বপন সুরত হাই স্কুল</li>
+            <li>পি.ডি.ডি.এম. হাই স্কুল</li>
+          </ul>
+
+          <h3 style="color:#0878d1;margin:16px 0 7px">
+            🏫 উচ্চ শিক্ষা (কলেজ)
+          </h3>
+
+          <p>
+            মানবাজার মহাবিদ্যালয়, মানবাজার
+            (সিধো-কানহো-বীরসা বিশ্ববিদ্যালয়ের অধিভুক্ত)
+            — আর্টস, সায়েন্স ও কমার্স অনার্স ও জেনারেল কোর্স।
+          </p>
+
+        </div>
+      </section>
+
+      <section class="card red">
+        <div class="card-head">🏥 স্বাস্থ্যসেবা</div>
+
+        <div class="card-body">
+
+          <h3 style="margin:0;color:#233b78">
+            🏥 মানবাজার গ্রামীণ হাসপাতাল
+          </h3>
+
+          <p>
+            (Manbazar Rural Hospital) — মানবাজার শহরে অবস্থিত।
+            শয্যা সংখ্যা: ৪০টি।
+          </p>
+
+          <h3 style="margin:14px 0 5px;color:#e31d63">
+            🩺 প্রাথমিক স্বাস্থ্য কেন্দ্র (PHC)
+          </h3>
+
+          <ul class="bullets">
+            <li>
+              কুমড়া প্রাথমিক স্বাস্থ্য কেন্দ্র
+              (মেহেরা পোস্ট অফিসের অধীন) —
+              শয্যা সংখ্যা: ৪টি।
+            </li>
+            <li>
+              পাইরাচালি প্রাথমিক স্বাস্থ্য কেন্দ্র —
+              শয্যা সংখ্যা: ১০টি।
+            </li>
+          </ul>
+
+          <p style="margin-top:10px">
+            এছাড়া ব্লকের বিভিন্ন প্রান্তিক এলাকায় একাধিক সরকারি
+            উপ-স্বাস্থ্য কেন্দ্র (Sub-centres) রয়েছে।
+          </p>
+
+        </div>
+      </section>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="column right-column">
+
+      <section class="card green">
+        <div class="card-head">📍 ভৌগোলিক অবস্থান ও সীমানা</div>
+
+        <div class="card-body">
+
+          <table class="data-table">
+            <tr>
+              <td>অবস্থান</td>
+              <td>পুরুলিয়া জেলার পূর্বাংশে</td>
+            </tr>
+            <tr>
+              <td>উত্তরে</td>
+              <td>পুঞ্চা ব্লক</td>
+            </tr>
+            <tr>
+              <td>পূর্বে</td>
+              <td>বাঁকুড়া জেলার হিরানন্দ ব্লক</td>
+            </tr>
+            <tr>
+              <td>দক্ষিণে</td>
+              <td>মানবাজার-II ব্লক</td>
+            </tr>
+            <tr>
+              <td>পশ্চিমে</td>
+              <td>বানবাজার ব্লক</td>
+            </tr>
+            <tr>
+              <td>আয়তন</td>
+              <td>প্রায় ৩৮১.৩২ বর্গকিলোমিটার</td>
+            </tr>
+          </table>
+
+        </div>
+      </section>
+
+      <section class="card blue">
+        <div class="card-head">🌊 নদী ও জলাধার</div>
+
+        <div class="card-body">
+
+          <p>
+            কংসাবতী নদী এই ব্লকের উপর দিয়ে প্রবাহিত হয়ে
+            কংসাবতী জলাধারে পড়েছে। কংসাবতী প্রকল্পের কারণে
+            মানবাজার অঞ্চলের বিভিন্ন এলাকা প্রভাবিত হয়েছিল।
+          </p>
+
+        </div>
+      </section>
+
+      <section class="card orange">
+        <div class="card-head">🏛️ দর্শনীয় ও ঐতিহাসিক স্থান</div>
+
+        <div class="card-body">
+
+          <div class="place">
+            <div class="place-image">বুঢ়েশ্বর<br>শিব মন্দির</div>
+            <div>
+              <h3>বুঢ়েশ্বর শিব মন্দির (বুঢ়পুর)</h3>
+              <p>
+                বুঢ়পুর গ্রামে কংসাবতী নদীর উত্তর তীরে
+                দ্বাদশ-ত্রয়োদশ শতাব্দীর নাগারা শৈলীর ধ্বংসপ্রায়
+                বুঢ়েশ্বর শিব মন্দির চত্বর।
+              </p>
+            </div>
+          </div>
+
+          <div class="place">
+            <div class="place-image">বারোমাস্যা</div>
+            <div>
+              <h3>বারোমাস্যা</h3>
+              <p>
+                ব্লকের অন্তর্গত বারোমাস্যা একটি পরিচিত
+                প্রত্নস্থল।
+              </p>
+            </div>
+          </div>
+
+          <div class="place">
+            <div class="place-image">DOLADANGA</div>
+            <div>
+              <h3>দোলাডাঙ্গা (Doladanga)</h3>
+              <p>
+                প্রাকৃতিক সৌন্দর্যে ভরপুর দোলাডাঙ্গা ব্লকের
+                একটি জনপ্রিয় পর্যটন কেন্দ্র। পাহাড়, জলাশয়
+                এবং প্রাকৃতিক দৃশ্যের জন্য এটি পর্যটকদের কাছে
+                আকর্ষণীয়।
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+  </div>
+
+  <!-- SOURCE INFOGRAPHIC -->
+  <section class="source-image">
+    <h2>📌 Manbazar-I — Nature, Heritage &amp; Development</h2>
+    <img
+      src="Manbazar-I_ Nature, Heritage & Development.png"
+      alt="Manbazar-I Nature Heritage and Development Information">
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p><strong>Manbazar-I Development Block</strong></p>
+  <p>Purulia, West Bengal</p>
+  <p>Official Information &amp; Citizen Services Portal</p>
+  <p>© <span id="year"></span> Manbazar-I Development Block</p>
+</footer>
+
+<script>
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+</script>
+
+</body>
+</html>
