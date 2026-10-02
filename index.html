@@ -424,8 +424,161 @@ body{
   margin:0 0 25px;
   text-shadow:1px 1px 4px #000;
 }
-</style>
 
+/* ===== HERO 3 COLUMN LAYOUT ===== */
+
+.hero-side-layout{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:grid;
+  grid-template-columns:22% 56% 22%;
+  align-items:stretch;
+  z-index:4;
+}
+
+/* SIDE PANELS */
+
+.hero-panel{
+  margin:25px 12px;
+  padding:18px;
+  border-radius:16px;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 8px 25px rgba(0,0,0,.25);
+  color:#222;
+  align-self:center;
+  min-height:300px;
+  max-height:390px;
+  overflow:hidden;
+}
+
+.panel-title{
+  font-size:20px;
+  font-weight:800;
+  text-align:center;
+  padding-bottom:12px;
+  margin-bottom:15px;
+  border-bottom:2px solid var(--gold);
+}
+
+/* WEATHER */
+
+.weather-panel{
+  text-align:center;
+}
+
+#weatherBox{
+  font-size:16px;
+  line-height:1.8;
+}
+
+.weather-temp{
+  font-size:38px;
+  font-weight:800;
+  margin:10px 0;
+}
+
+.weather-location{
+  font-weight:700;
+  font-size:18px;
+}
+
+.weather-info{
+  margin-top:10px;
+}
+
+/* CENTER */
+
+.hero-side-layout .hero-content{
+  position:relative;
+  inset:auto;
+  width:100%;
+  height:100%;
+  z-index:5;
+  background:rgba(0,0,0,.15);
+}
+
+/* WHAT'S NEW */
+
+.whatsnew-panel{
+  display:flex;
+  flex-direction:column;
+}
+
+.whatsnew-window{
+  flex:1;
+  overflow:hidden;
+  position:relative;
+}
+
+#floatingNoticeList{
+  max-height:260px;
+  overflow-y:auto;
+}
+
+.float-notice{
+  padding:10px 5px;
+  border-bottom:1px solid #ddd;
+}
+
+.float-notice a{
+  color:#7b001b;
+  font-weight:700;
+  text-decoration:none;
+  line-height:1.4;
+}
+
+.float-date{
+  font-size:12px;
+  color:#666;
+  margin-top:5px;
+}
+
+.float-pdf{
+  display:inline-block;
+  margin-top:5px;
+  font-size:12px;
+  color:#9a6b00 !important;
+}
+
+.all-notices-btn{
+  display:block;
+  margin-top:12px;
+  padding:9px;
+  text-align:center;
+  background:var(--gold);
+  color:var(--dark);
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:700;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+  .hero-side-layout{
+    grid-template-columns:1fr;
+    position:relative;
+    height:auto;
+  }
+
+  .hero{
+    height:auto;
+    min-height:900px;
+  }
+
+  .hero-panel{
+    margin:15px 20px;
+  }
+
+   .hero-side-layout .hero-content{
+    min-height:350px;
+  }
+
+}
+</style>
 </head>
 
 <body>
@@ -500,6 +653,23 @@ body{
 
   </div>
 
+ <div class="hero-side-layout">
+
+  <!-- LEFT: LIVE WEATHER -->
+  <div class="hero-panel weather-panel">
+
+    <div class="panel-title">
+      🌤️ Live Weather
+    </div>
+
+    <div id="weatherBox">
+      Weather loading...
+    </div>
+
+  </div>
+
+
+  <!-- CENTER: HERO CONTENT -->
   <div class="hero-content">
 
     <h2>Manbazar-I Development Block</h2>
@@ -513,6 +683,28 @@ body{
     </a>
 
   </div>
+
+
+  <!-- RIGHT: WHAT'S NEW -->
+  <div class="hero-panel whatsnew-panel">
+
+    <div class="panel-title">
+      🔔 What's New
+    </div>
+
+    <div class="whatsnew-window">
+      <div id="floatingNoticeList">
+        Notice loading হচ্ছে...
+      </div>
+    </div>
+
+    <a class="all-notices-btn" href="notices.html">
+      View All Notices →
+    </a>
+
+  </div>
+
+</div>
 
 </section>
 
