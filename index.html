@@ -425,36 +425,7 @@ body{
   text-shadow:1px 1px 4px #000;
 }
 
-/* ===== EXACT 3-COLUMN HERO LAYOUT ===== */
-.hero{
-  position:relative;
-  width:100%;
-  height:620px;
-  padding:0;
-  margin:0;
-  overflow:hidden;
-  background:#430817;
-}
-
-.hero-slides{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-}
-
-.hero-slide{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  background-size:cover;
-  background-position:center center;
-  background-repeat:no-repeat;
-  opacity:0;
-  transition:opacity 1s ease-in-out;
-}
-.hero-slide.active{opacity:1}
+/* ===== HERO 3 COLUMN LAYOUT ===== */
 
 .hero-side-layout{
   position:absolute;
@@ -462,177 +433,196 @@ body{
   width:100%;
   height:100%;
   display:grid;
-  grid-template-columns:25% 50% 25%;
-  gap:0;
+  grid-template-columns:22% 56% 22%;
   align-items:stretch;
   z-index:4;
 }
 
+/* SIDE PANELS */
+
 .hero-panel{
-  margin:10px 8px;
-  padding:12px;
-  border-radius:15px;
-  background:rgba(255,255,255,.97);
-  box-shadow:0 5px 18px rgba(0,0,0,.28);
+  margin:25px 12px;
+  padding:18px;
+  border-radius:16px;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 8px 25px rgba(0,0,0,.25);
   color:#222;
-  min-height:calc(100% - 20px);
-  height:calc(100% - 20px);
+  align-self:center;
+  min-height:300px;
+  max-height:390px;
   overflow:hidden;
-  border:2px solid #d4a017;
 }
 
 .panel-title{
-  font-size:25px;
+  font-size:20px;
   font-weight:800;
   text-align:center;
-  color:#7b001b;
-  padding:8px 4px 10px;
-  margin-bottom:8px;
-  border-bottom:3px solid #d4a017;
+  padding-bottom:12px;
+  margin-bottom:15px;
+  border-bottom:2px solid var(--gold);
 }
 
-/* IMPORTANT LINKS */
-.important-links-panel{
+/* WEATHER */
+
+.weather-panel{
+  text-align:center;
+}
+
+#weatherBox{
+  font-size:16px;
+  line-height:1.8;
+}
+
+.weather-temp{
+  font-size:38px;
+  font-weight:800;
+  margin:10px 0;
+}
+
+.weather-location{
+  font-weight:700;
+  font-size:18px;
+}
+
+.weather-info{
+  margin-top:10px;
+}
+
+/* CENTER */
+
+.hero-side-layout .hero-content{
+  position:relative;
+  inset:auto;
+  width:100%;
+  height:100%;
+  z-index:5;
+  background:rgba(0,0,0,.15);
+}
+
+/* WHAT'S NEW */
+
+.whatsnew-panel{
   display:flex;
   flex-direction:column;
 }
 
-.important-links-list{
+.whatsnew-window{
   flex:1;
-  overflow-y:auto;
-  padding-right:3px;
-  scrollbar-width:thin;
-}
-
-.apply-online{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  background:linear-gradient(135deg,#c90020,#e5091a);
-  color:#fff !important;
-  text-decoration:none;
-  border-radius:10px;
-  padding:12px 13px;
-  margin-bottom:7px;
-  font-weight:800;
-  font-size:18px;
-  box-shadow:0 3px 8px rgba(123,0,27,.22);
-}
-
-.important-link{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  min-height:52px;
-  margin:5px 0;
-  padding:7px 9px;
-  border-radius:10px;
-  text-decoration:none;
-  color:#173052 !important;
-  font-weight:800;
-  font-size:13px;
-  line-height:1.15;
-  border:1px solid rgba(0,0,0,.06);
-  transition:.18s ease;
-}
-.important-link:nth-child(odd){background:#e8f4ff}
-.important-link:nth-child(even){background:#f5ecff}
-.important-link:hover{transform:translateX(3px);box-shadow:0 3px 10px rgba(0,0,0,.12)}
-.important-link .link-icon{font-size:25px;min-width:29px;text-align:center}
-.important-link .arrow{margin-left:auto;font-size:20px}
-
-/* CENTER PHOTO SLIDER */
-.hero-center{
-  position:relative;
-  width:100%;
-  height:100%;
   overflow:hidden;
-  border-left:3px solid #d4a017;
-  border-right:3px solid #d4a017;
+  position:relative;
 }
 
-.hero-center .hero-slide{
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center center;
+#floatingNoticeList{
+  max-height:260px;
+  overflow-y:auto;
 }
 
-.slider-caption{
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  padding:18px 24px;
-  background:linear-gradient(transparent,rgba(0,0,0,.82));
-  color:#fff;
-  font-size:24px;
-  font-weight:800;
-  text-shadow:1px 2px 4px #000;
-  z-index:5;
-}
-
-.slider-dots{
-  position:absolute;
-  top:14px;
-  right:18px;
-  z-index:6;
-  display:flex;
-  gap:7px;
-}
-.slider-dots span{
-  width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid #fff;display:block;
-}
-.slider-dots span:first-child{background:#d4a017}
-
-.slider-arrow{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:6;
-  width:52px;height:52px;border-radius:50%;
-  background:rgba(0,0,0,.68);color:#fff;
-  display:flex;align-items:center;justify-content:center;
-  font-size:35px;font-weight:700;
-}
-.slider-prev{left:14px}.slider-next{right:14px}
-
-/* WHAT'S NEW */
-.whatsnew-panel{display:flex;flex-direction:column}
-.whatsnew-window{flex:1;overflow:hidden;position:relative}
-#floatingNoticeList{height:100%;max-height:none;overflow-y:auto;padding-right:3px}
 .float-notice{
-  padding:12px 8px;
-  margin-bottom:8px;
-  background:#fffaf0;
-  border:1px solid #ead8aa;
-  border-radius:10px;
+  padding:10px 5px;
+  border-bottom:1px solid #ddd;
 }
-.float-notice a{color:#173052;font-weight:800;text-decoration:none;line-height:1.35;font-size:15px}
-.float-date{font-size:12px;color:#666;margin-top:5px}
-.float-pdf{display:inline-block;margin-top:6px;font-size:12px;color:#9a0000 !important;font-weight:700}
-.all-notices-btn{display:block;margin-top:8px;padding:11px;text-align:center;background:#d4a017;color:#430817;border-radius:8px;text-decoration:none;font-weight:800}
 
-/* keep existing lower sections exactly as before */
+.float-notice a{
+  color:#7b001b;
+  font-weight:700;
+  text-decoration:none;
+  line-height:1.4;
+}
+
+.float-date{
+  font-size:12px;
+  color:#666;
+  margin-top:5px;
+}
+
+.float-pdf{
+  display:inline-block;
+  margin-top:5px;
+  font-size:12px;
+  color:#9a6b00 !important;
+}
+
+.all-notices-btn{
+  display:block;
+  margin-top:12px;
+  padding:9px;
+  text-align:center;
+  background:var(--gold);
+  color:var(--dark);
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:700;
+}
 
 /* MOBILE */
+
 @media(max-width:900px){
-  .hero{height:auto;min-height:0;overflow:visible}
-  .hero-side-layout{position:relative;grid-template-columns:1fr;height:auto}
-  .hero-panel{margin:8px 10px;min-height:430px;height:430px}
-  .hero-center{height:430px;min-height:430px;border-left:0;border-right:0}
-  .important-links-panel{order:1}
-  .hero-center{order:2}
-  .whatsnew-panel{order:3}
-  .slider-caption{font-size:18px;padding:14px}
+
+  .hero-side-layout{
+    grid-template-columns:1fr;
+    position:relative;
+    height:auto;
+  }
+
+  .hero{
+    height:auto;
+    min-height:900px;
+  }
+
+  .hero-panel{
+    margin:15px 20px;
+  }
+
+   .hero-side-layout .hero-content{
+    min-height:350px;
+  }
+
 }
-@media(max-width:480px){
-  .hero-panel{margin:6px 8px;height:400px;min-height:400px}
-  .hero-center{height:360px;min-height:360px}
-  .panel-title{font-size:21px}
-  .important-link{font-size:12px}
+
+/* ===== FINAL 3-COLUMN HOMEPAGE HERO ===== */
+.exact-home-hero{
+  position:relative !important;
+  width:100% !important;
+  height:560px !important;
+  min-height:560px !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  background:#6b1025 !important;
 }
+.exact-home-hero .hero-slides{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.exact-home-hero .hero-slide{position:absolute;inset:0;width:100%;height:100%;background-size:cover;background-position:center center;background-repeat:no-repeat;opacity:0;transition:opacity 1s ease-in-out}
+.exact-home-hero .hero-slide.active{opacity:1}
+.exact-three-column{position:absolute !important;inset:0 !important;width:100% !important;height:100% !important;display:grid !important;grid-template-columns:25% 50% 25% !important;gap:0 !important;z-index:4 !important;align-items:stretch !important}
+.exact-three-column .hero-panel{margin:0 !important;border-radius:0 !important;min-height:0 !important;max-height:none !important;height:100% !important;overflow:hidden !important;background:#f4a900 !important;border:3px solid #d4a017 !important;box-shadow:none !important;padding:14px 10px !important;color:#2d2024 !important}
+.important-links-panel{display:flex !important;flex-direction:column !important}
+.exact-three-column .panel-title{font-size:25px !important;font-weight:900 !important;color:#5a0b1d !important;text-align:center !important;padding:10px 5px 12px !important;margin:0 0 10px !important;border-bottom:3px solid #7b1e2b !important;flex-shrink:0 !important}
+.important-apply{display:flex;align-items:center;gap:8px;justify-content:space-between;background:#d40000;color:#fff;text-decoration:none;padding:11px 13px;border-radius:8px;font-size:18px;font-weight:900;margin-bottom:8px;box-shadow:0 3px 8px rgba(0,0,0,.2);flex-shrink:0}
+.important-apply span{flex:1;text-align:left}
+.important-links-list{display:flex;flex-direction:column;gap:6px;overflow-y:auto;padding-right:3px;flex:1}
+.important-links-list::-webkit-scrollbar,.whatsnew-window::-webkit-scrollbar{width:7px}
+.important-links-list::-webkit-scrollbar-thumb,.whatsnew-window::-webkit-scrollbar-thumb{background:#7b1e2b;border-radius:10px}
+.important-links-list a{display:grid;grid-template-columns:32px 1fr 16px;align-items:center;gap:5px;text-decoration:none;color:#17233b;background:#fff7df;border-radius:7px;padding:7px 6px;border:1px solid rgba(123,30,43,.18);min-height:48px}
+.important-links-list a:hover{background:#fff;color:#7b1e2b;transform:translateX(2px)}
+.important-links-list .link-icon{font-size:20px;text-align:center}
+.important-links-list strong{display:block;font-size:14px;line-height:1.12}
+.important-links-list small{display:block;font-size:10.5px;line-height:1.15;color:#555;margin-top:2px}
+.important-links-list b{font-size:22px;color:#b07800;text-align:center}
+.exact-center-slider{position:relative !important;inset:auto !important;width:100% !important;height:100% !important;display:block !important;background:linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.12)) !important;overflow:hidden !important}
+.exact-center-slider:before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 55%,rgba(0,0,0,.65) 100%);z-index:1;pointer-events:none}
+.slider-ar{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,.62);color:#fff;font-size:48px;line-height:45px;text-align:center;z-index:8;cursor:pointer}
+.slider-ar.left{left:18px}.slider-ar.right{right:18px}
+.slider-dots{position:absolute;top:14px;right:18px;display:flex;gap:8px;z-index:8}.slider-dots i{display:block;width:13px;height:13px;border-radius:50%;background:#fff;border:2px solid rgba(0,0,0,.2)}.slider-dots i.active{background:#f4b000}
+.slider-caption{position:absolute;left:18px;right:18px;bottom:18px;z-index:8;background:rgba(0,0,0,.55);border-left:6px solid #f4b000;color:#fff;padding:12px 16px;text-align:left}.slider-caption strong{display:block;font-size:24px}.slider-caption span{display:block;font-size:15px;margin-top:4px}
+.exact-whatsnew-panel{display:flex !important;flex-direction:column !important}
+.exact-whatsnew-panel .panel-title{display:flex !important;align-items:center;justify-content:space-between;gap:5px}
+.view-all-top{font-size:12px;background:#7b1e2b;color:#fff !important;padding:7px 8px;border-radius:6px;text-decoration:none !important;white-space:nowrap}
+.exact-whatsnew-panel .whatsnew-window{flex:1 !important;min-height:0 !important;overflow-y:auto !important;overflow-x:hidden !important;background:transparent !important}
+.exact-whatsnew-panel #floatingNoticeList{max-height:none !important;overflow:visible !important}
+.exact-whatsnew-panel .float-notice{background:#fff7df !important;border:1px solid rgba(123,30,43,.18) !important;border-radius:8px !important;padding:11px !important;margin:0 0 7px !important}
+.exact-whatsnew-panel .float-notice a{color:#17233b !important;font-size:14px}.exact-whatsnew-panel .float-date{font-size:11px}.exact-whatsnew-panel .float-pdf{background:#7b1e2b !important;color:#fff !important;padding:5px 8px !important;border-radius:5px !important}
+.exact-whatsnew-panel .all-notices-btn{background:#7b1e2b !important;color:#fff !important;flex-shrink:0 !important;margin-top:8px !important}
+@media(max-width:900px){.exact-home-hero{height:auto !important;min-height:0 !important}.exact-three-column{position:relative !important;grid-template-columns:1fr !important;height:auto !important}.exact-three-column .hero-panel{height:430px !important}.exact-center-slider{height:480px !important;order:2}.important-links-panel{order:1}.exact-whatsnew-panel{order:3}.slider-caption strong{font-size:20px}}
 </style>
 </head>
 
@@ -682,95 +672,56 @@ body{
   <a href="contact.html">☎️ Contact</a>
 </nav>
 
-<section class="hero">
+<section class="hero exact-home-hero">
 
-    <div class="hero-slide"
-         style="background-image:url('manbazar-block1.jpeg');">
-    </div>
-
-    <div class="hero-slide"
-         style="background-image:url('manbazar-block2.jpeg');">
-    </div>
-
-    <div class="hero-slide"
-         style="background-image:url('manbazar-block3.jpeg');">
-    </div>
-
-    <div class="hero-slide"
-         style="background-image:url('manbazar-block4.jpeg');">
-    </div>
-
-  </div>
-
- <div class="hero-side-layout">
-
-  <!-- LEFT: IMPORTANT LINKS -->
-  <div class="hero-panel important-links-panel">
-    <div class="panel-title">🔗 Important Links</div>
-    <div class="important-links-list">
-
-      <a class="apply-online" href="https://edistrict.wb.gov.in/portal/home" target="_blank" rel="noopener">
-        <span>🖥️ Apply Online</span><span>›</span>
-      </a>
-
-      <a class="important-link" href="https://banglarbhumi.gov.in/" target="_blank" rel="noopener">
-        <span class="link-icon">🌐</span><span>BanglarBhumi<br><small>Land &amp; Land Records, Govt. of WB</small></span><span class="arrow">›</span>
-      </a>
-      <a class="important-link" href="https://edistrict.wb.gov.in/portal/home" target="_blank" rel="noopener">
-        <span class="link-icon">◉</span><span>e-District West Bengal<br><small>Apply for various certificates &amp; services</small></span><span class="arrow">›</span>
-      </a>
-      <a class="important-link" href="https://castcertificatewb.gov.in/" target="_blank" rel="noopener">
-        <span class="link-icon">📋</span><span>Caste Certificate (WB)<br><small>Online Application</small></span><span class="arrow">›</span>
-      </a>
-      <a class="important-link" href="https://wbpms.in/citizen/" target="_blank" rel="noopener">
-        <span class="link-icon">👥</span><span>WB Pension Management System<br><small>Social Security Pension Schemes</small></span><span class="arrow">›</span>
-      </a>
-      <a class="important-link" href="https://food.wb.gov.in/" target="_blank" rel="noopener">
-        <span class="link-icon">🌾</span><span>Food &amp; Supplies Department<br><small>Ration Card, Food Security</small></span><span class="arrow">›</span>
-      </a>
-      <a class="important-link" href="https://voters.eci.gov.in/" target="_blank" rel="noopener">
-        <span class="link-icon">🗳️</span><span>Voter Portal<br><small>Electoral Services</small></span><span class="arrow">›</span>
-      </a>
-      <a class="important-link" href="https://uidai.gov.in/hi" target="_blank" rel="noopener">
-        <span class="link-icon">🪪</span><span>UIDAI (Aadhaar)<br><small>Aadhaar Card Services</small></span><span class="arrow">›</span>
-      </a>
-      <a class="important-link" href="https://parivahan.gov.in/" target="_blank" rel="noopener">
-        <span class="link-icon">🚗</span><span>Parivahan Sewa<br><small>Vehicle Related Services</small></span><span class="arrow">›</span>
-      </a>
-      <a class="important-link" href="https://pcc.wb.gov.in/" target="_blank" rel="noopener">
-        <span class="link-icon">🛡️</span><span>Police Clearance Certificate<br><small>PCC Services, Govt. of WB</small></span><span class="arrow">›</span>
-      </a>
-      <a class="important-link" href="https://wbhealth.gov.in/" target="_blank" rel="noopener">
-        <span class="link-icon">🏛️</span><span>WB Health Department<br><small>Health Schemes &amp; Services</small></span><span class="arrow">›</span>
-      </a>
-
-    </div>
-  </div>
-
-  <!-- CENTER: PHOTO SLIDER -->
-  <div class="hero-center">
+  <div class="hero-slides">
     <div class="hero-slide active" style="background-image:url('manbazar-block.jpg');"></div>
     <div class="hero-slide" style="background-image:url('manbazar-block1.jpeg');"></div>
     <div class="hero-slide" style="background-image:url('manbazar-block2.jpeg');"></div>
     <div class="hero-slide" style="background-image:url('manbazar-block3.jpeg');"></div>
     <div class="hero-slide" style="background-image:url('manbazar-block4.jpeg');"></div>
-    <div class="slider-dots"><span></span><span></span><span></span><span></span><span></span></div>
-    <div class="slider-arrow slider-prev">‹</div>
-    <div class="slider-arrow slider-next">›</div>
-    <div class="slider-caption">শিক্ষার্থীদের জন্য সাইকেল বিতরণ কর্মসূচি<br><small>মানবাজার-I উন্নয়ন ব্লক, পুরুলিয়া</small></div>
   </div>
 
-  <!-- RIGHT: WHAT'S NEW -->
-  <div class="hero-panel whatsnew-panel">
-    <div class="panel-title">🔔 What's New</div>
-    <div class="whatsnew-window">
-      <div id="floatingNoticeList">Notice loading হচ্ছে...</div>
+  <div class="hero-side-layout exact-three-column">
+
+    <aside class="hero-panel important-links-panel">
+      <div class="panel-title">🔗 Important Links</div>
+
+      <a class="important-apply" href="https://edistrict.wb.gov.in/portal/home" target="_blank" rel="noopener">
+        🖥️ <span>Apply Online</span> <b>›</b>
+      </a>
+
+      <div class="important-links-list">
+        <a href="https://banglarbhumi.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🌐</span><span><strong>BanglarBhumi</strong><small>Land &amp; Land Records, Govt. of WB</small></span><b>›</b></a>
+        <a href="https://edistrict.wb.gov.in/portal/home" target="_blank" rel="noopener"><span class="link-icon">📄</span><span><strong>e-District West Bengal</strong><small>Apply for various certificates &amp; services</small></span><b>›</b></a>
+        <a href="https://castcertificatewb.gov.in/" target="_blank" rel="noopener"><span class="link-icon">👥</span><span><strong>Caste Certificate (WB)</strong><small>Apply for Caste Certificate</small></span><b>›</b></a>
+        <a href="https://wbpms.in/citizen/" target="_blank" rel="noopener"><span class="link-icon">🏛️</span><span><strong>WB Pension Management System</strong><small>Social Security Pension Schemes</small></span><b>›</b></a>
+        <a href="https://food.wb.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🌿</span><span><strong>Food &amp; Supplies Department</strong><small>Ration Card, Food Security</small></span><b>›</b></a>
+        <a href="https://voters.eci.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🗳️</span><span><strong>Voter Portal</strong><small>Electoral Services</small></span><b>›</b></a>
+        <a href="https://uidai.gov.in/hi" target="_blank" rel="noopener"><span class="link-icon">🪪</span><span><strong>UIDAI (Aadhaar)</strong><small>Aadhaar Card Services</small></span><b>›</b></a>
+        <a href="https://parivahan.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🚗</span><span><strong>Parivahan Sewa</strong><small>Vehicle Related Services</small></span><b>›</b></a>
+        <a href="https://pcc.wb.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🛡️</span><span><strong>Police Clearance Certificate</strong><small>PCC Services, Govt. of WB</small></span><b>›</b></a>
+        <a href="https://wbhealth.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🏛️</span><span><strong>WB Health Department</strong><small>Health Schemes &amp; Services</small></span><b>›</b></a>
+      </div>
+    </aside>
+
+    <div class="hero-content exact-center-slider">
+      <div class="slider-ar left">‹</div>
+      <div class="slider-ar right">›</div>
+      <div class="slider-dots"><i class="active"></i><i></i><i></i><i></i><i></i></div>
+      <div class="slider-caption">
+        <strong>মানবাজার-I উন্নয়ন ব্লক</strong>
+        <span>পুরুলিয়া জেলা, পশ্চিমবঙ্গ</span>
+      </div>
     </div>
-    <a class="all-notices-btn" href="notices.html">View All Notices →</a>
+
+    <aside class="hero-panel whatsnew-panel exact-whatsnew-panel">
+      <div class="panel-title">🔔 What's New <a class="view-all-top" href="notices.html">View All →</a></div>
+      <div class="whatsnew-window"><div id="floatingNoticeList">Notice loading হচ্ছে...</div></div>
+      <a class="all-notices-btn" href="notices.html">View All Notices →</a>
+    </aside>
+
   </div>
-
-</div>
-
 </section>
 
 <section class="section">
