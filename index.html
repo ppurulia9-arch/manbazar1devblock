@@ -841,6 +841,48 @@ body{
   }
 }
 
+
+/* ===== FINAL VIEWPORT EDGE-TO-EDGE FIX ===== */
+html,body{
+  width:100%;
+  max-width:none !important;
+  overflow-x:hidden;
+}
+.hero{
+  width:100vw !important;
+  max-width:none !important;
+  margin-left:calc(50% - 50vw) !important;
+  margin-right:0 !important;
+  height:620px !important;
+  min-height:620px !important;
+}
+.hero-slides{
+  width:100vw !important;
+  max-width:none !important;
+}
+.hero-slide{
+  width:100vw !important;
+  max-width:none !important;
+  background-size:cover !important;
+  background-position:center center !important;
+}
+.hero-side-layout{
+  left:0 !important;
+  right:auto !important;
+  width:100vw !important;
+  max-width:none !important;
+  grid-template-columns:20% 60% 20% !important;
+  margin:0 !important;
+}
+.hero-panel{
+  width:100% !important;
+  min-width:0 !important;
+}
+.hero-side-layout .hero-content{
+  width:100% !important;
+  min-width:0 !important;
+}
+
 </style>
 </head>
 
