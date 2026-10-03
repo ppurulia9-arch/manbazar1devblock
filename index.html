@@ -155,7 +155,7 @@ body{
   padding:80px 7%;
   text-align:center;
 
-  background:none;
+  background:#430817;
 
   color:#fff;
   min-height:360px;
@@ -167,6 +167,8 @@ body{
   justify-content:center;
   align-items:center;
 }
+
+
 
 .hero h2{
   color:#fff !important;
@@ -364,53 +366,318 @@ body{
     height:80px;
   }
 }
+  .hero{
+  position:relative;
+  width:100%;
+  height:500px;
+  padding:0;
+  overflow:hidden;
+  background:#430817;
+}
 
+.hero-slides{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+
+.hero-slide{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-position:center top;
+  background-repeat:no-repeat;
+  opacity:0;
+  transition:opacity 1s ease-in-out;
+}
+
+.hero-slide.active{
+  opacity:1;
+}
+
+.hero-content{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  z-index:5;
+  background:rgba(0,0,0,.20);
+}
+
+.hero-content h2{
+  color:#fff !important;
+  font-size:42px;
+  font-weight:800;
+  margin:0 0 15px;
+  text-shadow:2px 2px 6px #000;
+}
+
+.hero-content p{
+  color:#fff;
+  font-size:18px;
+  margin:0 0 25px;
+  text-shadow:1px 1px 4px #000;
+}
+
+/* ===== HERO 3 COLUMN LAYOUT ===== */
+
+.hero-side-layout{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:grid;
+  grid-template-columns:22% 56% 22%;
+  align-items:stretch;
+  z-index:4;
+}
+
+/* SIDE PANELS */
+
+.hero-panel{
+  margin:25px 12px;
+  padding:18px;
+  border-radius:16px;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 8px 25px rgba(0,0,0,.25);
+  color:#222;
+  align-self:center;
+  min-height:300px;
+  max-height:390px;
+  overflow:hidden;
+}
+
+.panel-title{
+  font-size:20px;
+  font-weight:800;
+  text-align:center;
+  padding-bottom:12px;
+  margin-bottom:15px;
+  border-bottom:2px solid var(--gold);
+}
+
+/* WEATHER */
+
+.weather-panel{
+  text-align:center;
+}
+
+#weatherBox{
+  font-size:16px;
+  line-height:1.8;
+}
+
+.weather-temp{
+  font-size:38px;
+  font-weight:800;
+  margin:10px 0;
+}
+
+.weather-location{
+  font-weight:700;
+  font-size:18px;
+}
+
+.weather-info{
+  margin-top:10px;
+}
+
+/* CENTER */
+
+.hero-side-layout .hero-content{
+  position:relative;
+  inset:auto;
+  width:100%;
+  height:100%;
+  z-index:5;
+  background:rgba(0,0,0,.15);
+}
+
+/* WHAT'S NEW */
+
+.whatsnew-panel{
+  display:flex;
+  flex-direction:column;
+}
+
+.whatsnew-window{
+  flex:1;
+  overflow:hidden;
+  position:relative;
+}
+
+#floatingNoticeList{
+  max-height:260px;
+  overflow-y:auto;
+}
+
+.float-notice{
+  padding:10px 5px;
+  border-bottom:1px solid #ddd;
+}
+
+.float-notice a{
+  color:#7b001b;
+  font-weight:700;
+  text-decoration:none;
+  line-height:1.4;
+}
+
+.float-date{
+  font-size:12px;
+  color:#666;
+  margin-top:5px;
+}
+
+.float-pdf{
+  display:inline-block;
+  margin-top:5px;
+  font-size:12px;
+  color:#9a6b00 !important;
+}
+
+.all-notices-btn{
+  display:block;
+  margin-top:12px;
+  padding:9px;
+  text-align:center;
+  background:var(--gold);
+  color:var(--dark);
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:700;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+  .hero-side-layout{
+    grid-template-columns:1fr;
+    position:relative;
+    height:auto;
+  }
+
+  .hero{
+    height:auto;
+    min-height:900px;
+  }
+
+  .hero-panel{
+    margin:15px 20px;
+  }
+
+   .hero-side-layout .hero-content{
+    min-height:350px;
+  }
+
+}
+
+/* ===== IMPORTANT LINKS + CITIZEN SERVICES ===== */
+.important-links-panel{
+  background:rgba(255,183,0,.96);
+  color:#430817;
+}
+.important-links-panel .panel-title{
+  color:#430817;
+  border-bottom-color:#8b001b;
+}
+.important-link-list{
+  height:305px;
+  overflow-y:auto;
+  padding-right:3px;
+}
+.important-link-list a{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  background:#fff8e7;
+  color:#650014;
+  text-decoration:none;
+  font-weight:700;
+  font-size:12px;
+  margin-bottom:7px;
+  padding:8px 9px;
+  border-radius:7px;
+  border-left:4px solid #8b001b;
+}
+.important-link-list a:hover{
+  background:#fff;
+  transform:translateX(2px);
+}
+.apply-badge,.new-badge{
+  flex:none;
+  background:#d00000;
+  color:#fff;
+  border-radius:5px;
+  padding:3px 5px;
+  font-size:9px;
+  font-weight:900;
+  animation:blinkBadge .8s infinite;
+}
+@keyframes blinkBadge{
+  0%,45%{opacity:1}
+  46%,100%{opacity:.2}
+}
+.whatsnew-panel{
+  background:rgba(255,183,0,.96);
+}
+.whatsnew-panel .panel-title{
+  color:#430817;
+  border-bottom-color:#8b001b;
+}
+.whatsnew-panel .new-badge{
+  display:inline-block;
+  margin-left:5px;
+}
 .citizen-services{
-  padding-top:10px;
+  padding-top:28px;
+  padding-bottom:28px;
 }
 .citizen-cards{
-  grid-template-columns:repeat(2,1fr);
-  max-width:900px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:20px;
+  max-width:950px;
   margin:0 auto;
 }
 .citizen-card{
-  position:relative;
-  min-height:210px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:28px 22px;
+  background:#fff;
+  border-radius:15px;
+  padding:25px;
+  text-align:center;
+  text-decoration:none;
+  color:#2d2024;
+  box-shadow:var(--shadow);
+  border-top:6px solid #8b001b;
+  transition:.2s;
 }
-.citizen-card.grievance{
-  border-top-color:#b00020;
-}
-.citizen-card.status{
-  border-top-color:#1268d9;
-}
-.citizen-card.grievance h3{
-  color:#8b001b;
-}
-.citizen-card.status h3{
-  color:#1268d9;
-}
-.service-btn{
+.citizen-card:hover{transform:translateY(-4px)}
+.citizen-card.status{border-top-color:#1268d9}
+.citizen-icon{font-size:40px}
+.citizen-card h3{margin:10px 0 7px;color:#8b001b}
+.citizen-card.status h3{color:#1268d9}
+.citizen-card p{margin:0 0 12px;color:#666}
+.citizen-card span{
   display:inline-block;
-  margin-top:14px;
-  padding:10px 18px;
-  border-radius:8px;
-  background:var(--gold);
-  color:var(--dark);
+  padding:9px 16px;
+  border-radius:7px;
+  background:#d4a017;
+  color:#430817;
   font-weight:800;
 }
-@media(max-width:800px){
-  .citizen-cards{
-    grid-template-columns:1fr;
-  }
+@media(max-width:900px){
+  .citizen-cards{grid-template-columns:1fr}
 }
 
 </style>
-
 </head>
 
 <body>
@@ -460,72 +727,115 @@ body{
 </nav>
 
 <section class="hero">
-  <h2>Manbazar-I Development Block</h2>
-  <p>
-    Official Information & Citizen Services Portal
-  </p>
-  <a class="hero-btn" href="notices.html">
-    🔔 Latest Notices
-  </a>
-</section>
 
+  <div class="hero-slides">
 
-
-<section class="section citizen-services">
-  <h2 class="section-title">Citizen Services</h2>
-
-  <div class="cards citizen-cards">
-
-    <a class="card citizen-card grievance" href="public-grievance.html">
-      <div class="icon">📜</div>
-      <h3>Public Grievance & Redressal</h3>
-      <p>নাগরিক অভিযোগ / আবেদন করুন</p>
-      <span class="service-btn">Apply Now →</span>
-    </a>
-
-    <a class="card citizen-card status" href="grievance-status.html">
-      <div class="icon">🔎</div>
-      <h3>Citizen Application Status Check</h3>
-      <p>Application ID ও Mobile দিয়ে Status দেখুন</p>
-      <span class="service-btn">Check Status →</span>
-    </a>
-
-  </div>
-</section>
-
-<section class="section">
-
-  <h2 class="section-title">🔔 Latest Notices</h2>
-
-  <div class="notice-box">
-    <div id="floatingNoticeList">
-      Notice loading হচ্ছে...
+    <div class="hero-slide active"
+         style="background-image:url('manbazar-block.jpg');">
     </div>
-  </div>
 
-</section>
+    <div class="hero-slide"
+         style="background-image:url('manbazar-block1.jpeg');">
+    </div>
 
-<section class="section">
+    <div class="hero-slide"
+         style="background-image:url('manbazar-block2.jpeg');">
+    </div>
 
-  <h2 class="section-title">Important Links</h2>
+    <div class="hero-slide"
+         style="background-image:url('manbazar-block3.jpeg');">
+    </div>
 
-  <div class="links">
-
-    <a class="link-box" href="notices.html">
-      🔔 All Notices
-    </a>
-
-    <a class="link-box" href="downloads.html">
-      📥 Downloads
-    </a>
-
-    <a class="link-box" href="contact.html">
-      ☎️ Contact Block
-    </a>
+    <div class="hero-slide"
+         style="background-image:url('manbazar-block4.jpeg');">
+    </div>
 
   </div>
 
+ <div class="hero-side-layout">
+
+  <!-- LEFT: IMPORTANT LINKS -->
+  <div class="hero-panel important-links-panel">
+
+    <div class="panel-title">
+      🔗 Important Links
+    </div>
+
+    <div class="important-link-list">
+      <a href="https://banglarbhumi.gov.in/" target="_blank" rel="noopener">
+        🏠 BanglarBhumi <span class="apply-badge">APPLY</span>
+      </a>
+      <a href="https://edistrict.wb.gov.in/portal/home" target="_blank" rel="noopener">
+        📄 e-District <span class="apply-badge">APPLY</span>
+      </a>
+      <a href="https://castcertificatewb.gov.in/" target="_blank" rel="noopener">
+        📜 Caste Certificate <span class="apply-badge">APPLY</span>
+      </a>
+      <a href="https://wbpms.in/citizen/" target="_blank" rel="noopener">
+        🏘️ WB Panchayat Management System <span class="apply-badge">APPLY</span>
+      </a>
+      <a href="https://food.wb.gov.in/" target="_blank" rel="noopener">
+        🍚 Food & Supplies <span class="apply-badge">APPLY</span>
+      </a>
+      <a href="https://voters.eci.gov.in/" target="_blank" rel="noopener">
+        🗳️ Voter Services <span class="apply-badge">APPLY</span>
+      </a>
+      <a href="https://uidai.gov.in/hi" target="_blank" rel="noopener">
+        🪪 Aadhaar <span class="apply-badge">APPLY</span>
+      </a>
+      <a href="https://parivahan.gov.in/" target="_blank" rel="noopener">
+        🚗 Parivahan <span class="apply-badge">APPLY</span>
+      </a>
+      <a href="https://pcc.wb.gov.in/" target="_blank" rel="noopener">
+        👮 Police Clearance <span class="apply-badge">APPLY</span>
+      </a>
+      <a href="https://wbhealth.gov.in/" target="_blank" rel="noopener">
+        🏥 WB Health <span class="apply-badge">APPLY</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- CENTER: HERO CONTENT -->
+  <div class="hero-content">
+
+    <h2>Manbazar-I Development Block</h2>
+
+    <p>
+      Official Information & Citizen Services Portal
+    </p>
+
+    <a class="hero-btn" href="notices.html">
+      🔔 Latest Notices
+    </a>
+
+  </div>
+
+
+  <!-- RIGHT: WHAT'S NEW -->
+  <div class="hero-panel whatsnew-panel">
+
+    <div class="panel-title">
+      🔔 What's New
+    </div>
+
+    <div class="whatsnew-window">
+      <div id="floatingNoticeList">
+        Notice loading হচ্ছে...
+      </div>
+    </div>
+
+    <a class="all-notices-btn" href="notices.html">
+      View All Notices →
+    </a>
+
+  </div>
+
+</div>
+
 </section>
+
+
 
 <footer class="footer">
 
@@ -598,7 +908,7 @@ data.map(notice => `
 
 <a href="notices.html">
 
-🔔 ${escapeFloating(notice.title || "Notice")}
+🔔 ${escapeFloating(notice.title || "Notice")} <span class="new-badge">NEW</span>
 
 </a>
 
@@ -676,34 +986,21 @@ loadFloatingNotices().catch(function(error) {
   console.error(error);
 });
 
-const heroPhotos = [
-  "manbazar-block.jpg",
-  "manbazar-block1.jpeg",
-  "manbazar-block2.jpeg",
-  "manbazar-block3.jpeg",
-  "manbazar-block4.jpeg"
-];
-
-const hero = document.querySelector(".hero");
-
-hero.style.backgroundImage = "url('" + heroPhotos[0] + "')";
-hero.style.backgroundSize = "cover";
-hero.style.backgroundPosition = "center";
-hero.style.backgroundRepeat = "no-repeat";
-hero.style.transition = "background-image 1s ease-in-out";
+const heroSlides = document.querySelectorAll(".hero-slide");
 
 let currentSlide = 0;
 
 setInterval(function() {
 
+  heroSlides[currentSlide].classList.remove("active");
+
   currentSlide++;
 
-  if (currentSlide >= heroPhotos.length) {
+  if (currentSlide >= heroSlides.length) {
     currentSlide = 0;
   }
 
-  hero.style.backgroundImage =
-    "url('" + heroPhotos[currentSlide] + "')";
+  heroSlides[currentSlide].classList.add("active");
 
 }, 5000);
 </script>
