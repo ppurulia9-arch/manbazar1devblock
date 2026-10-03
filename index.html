@@ -883,6 +883,40 @@ html,body{
   min-width:0 !important;
 }
 
+
+/* ===== WHAT'S NEW: CONTINUOUS FLOATING NOTICES ONLY ===== */
+.whatsnew-window{
+  flex:1 !important;
+  min-height:0 !important;
+  overflow:hidden !important;
+  position:relative !important;
+}
+.whatsnew-window #floatingNoticeList{
+  height:100% !important;
+  max-height:none !important;
+  overflow:hidden !important;
+  position:relative !important;
+}
+.whatsnew-window .floating-notice-track{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:9px !important;
+  animation:whatsNewFloat 18s linear infinite !important;
+  will-change:transform !important;
+}
+.whatsnew-window:hover .floating-notice-track{
+  animation-play-state:paused !important;
+}
+.whatsnew-window .float-notice{
+  flex:none !important;
+  width:100% !important;
+  margin:0 !important;
+}
+@keyframes whatsNewFloat{
+  0%{transform:translateY(0)}
+  100%{transform:translateY(-50%)}
+}
+
 </style>
 </head>
 
@@ -1071,8 +1105,7 @@ return;
 }
 
 
-box.innerHTML =
-data.map(notice => `
+const noticeMarkup = data.map(notice => `
 
 <div class="float-notice">
 
@@ -1114,6 +1147,9 @@ rel="noopener"
 </div>
 
 `).join("");
+
+box.innerHTML =
+`<div class="floating-notice-track">${noticeMarkup}${noticeMarkup}</div>`;
 
 }
 
