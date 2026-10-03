@@ -579,102 +579,266 @@ body{
 
 }
 
-/* ===== IMPORTANT LINKS + CITIZEN SERVICES ===== */
-.important-links-panel{
-  background:rgba(255,183,0,.96);
-  color:#430817;
+/* ===== FULL COVER 3-COLUMN HERO ===== */
+.hero{
+  position:relative !important;
+  width:100% !important;
+  height:620px !important;
+  min-height:620px !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  background:#430817 !important;
 }
-.important-links-panel .panel-title{
-  color:#430817;
-  border-bottom-color:#8b001b;
+.hero-slides{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  z-index:0 !important;
+}
+.hero-slide{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  background-size:cover !important;
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+  opacity:0 !important;
+  transition:opacity 1s ease-in-out !important;
+}
+.hero-slide.active{
+  opacity:1 !important;
+}
+.hero-side-layout{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  display:grid !important;
+  grid-template-columns:23% 54% 23% !important;
+  gap:0 !important;
+  z-index:4 !important;
+}
+.hero-panel{
+  margin:0 !important;
+  padding:16px 14px !important;
+  width:100% !important;
+  height:100% !important;
+  min-height:0 !important;
+  max-height:none !important;
+  border-radius:0 !important;
+  align-self:stretch !important;
+  overflow:hidden !important;
+  background:rgba(255,183,0,.97) !important;
+  box-shadow:none !important;
+  color:#430817 !important;
+  border:0 !important;
+}
+.important-links-panel{
+  border-right:4px solid #d4a017 !important;
+}
+.whatsnew-panel{
+  border-left:4px solid #d4a017 !important;
+}
+.panel-title{
+  color:#430817 !important;
+  font-size:22px !important;
+  font-weight:900 !important;
+  text-align:center !important;
+  padding:10px 4px 12px !important;
+  margin:0 0 10px !important;
+  border-bottom:3px solid #8b001b !important;
 }
 .important-link-list{
-  height:305px;
-  overflow-y:auto;
-  padding-right:3px;
+  height:calc(100% - 62px) !important;
+  max-height:none !important;
+  overflow-y:auto !important;
+  padding:0 3px 8px 0 !important;
 }
 .important-link-list a{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:6px;
-  background:#fff8e7;
-  color:#650014;
-  text-decoration:none;
-  font-weight:700;
-  font-size:12px;
-  margin-bottom:7px;
-  padding:8px 9px;
-  border-radius:7px;
-  border-left:4px solid #8b001b;
-}
-.important-link-list a:hover{
-  background:#fff;
-  transform:translateX(2px);
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:5px !important;
+  background:#fff8e7 !important;
+  color:#650014 !important;
+  text-decoration:none !important;
+  font-weight:800 !important;
+  font-size:13px !important;
+  margin-bottom:8px !important;
+  padding:10px 9px !important;
+  border-radius:7px !important;
+  border-left:4px solid #8b001b !important;
 }
 .apply-badge,.new-badge{
-  flex:none;
-  background:#d00000;
-  color:#fff;
-  border-radius:5px;
-  padding:3px 5px;
-  font-size:9px;
-  font-weight:900;
-  animation:blinkBadge .8s infinite;
+  flex:none !important;
+  background:#d00000 !important;
+  color:#fff !important;
+  border-radius:5px !important;
+  padding:3px 5px !important;
+  font-size:9px !important;
+  font-weight:900 !important;
+  animation:blinkBadge .8s infinite !important;
 }
 @keyframes blinkBadge{
   0%,45%{opacity:1}
   46%,100%{opacity:.2}
 }
+
+/* CENTER: absolutely no opaque box, so the photograph fills the entire center */
+.hero-side-layout .hero-content{
+  position:relative !important;
+  inset:auto !important;
+  width:100% !important;
+  height:100% !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:center !important;
+  align-items:center !important;
+  text-align:center !important;
+  padding:30px !important;
+  background:rgba(0,0,0,.16) !important;
+  z-index:5 !important;
+}
+.hero-side-layout .hero-content h2{
+  color:#fff !important;
+  font-size:48px !important;
+  font-weight:900 !important;
+  line-height:1.1 !important;
+  margin:0 0 18px !important;
+  text-shadow:2px 3px 7px #000 !important;
+}
+.hero-side-layout .hero-content p{
+  color:#fff !important;
+  font-size:19px !important;
+  margin:0 0 25px !important;
+  text-shadow:1px 2px 5px #000 !important;
+}
+.hero-btn{
+  background:#d4a017 !important;
+  color:#430817 !important;
+  padding:14px 26px !important;
+  border-radius:8px !important;
+  font-weight:900 !important;
+  text-decoration:none !important;
+}
+
+/* RIGHT NOTICE PANEL */
 .whatsnew-panel{
-  background:rgba(255,183,0,.96);
+  display:flex !important;
+  flex-direction:column !important;
+  background:rgba(255,183,0,.97) !important;
 }
-.whatsnew-panel .panel-title{
-  color:#430817;
-  border-bottom-color:#8b001b;
+.whatsnew-window{
+  flex:1 !important;
+  min-height:0 !important;
+  overflow:hidden !important;
+  position:relative !important;
 }
-.whatsnew-panel .new-badge{
-  display:inline-block;
-  margin-left:5px;
+.whatsnew-window #floatingNoticeList{
+  height:100% !important;
+  max-height:none !important;
+  overflow-y:auto !important;
 }
+.float-notice{
+  padding:11px 8px !important;
+  margin:0 0 9px !important;
+  background:#fff8e7 !important;
+  border-radius:8px !important;
+  border-bottom:1px solid #ead8aa !important;
+}
+.float-notice a{
+  color:#7b001b !important;
+  font-weight:800 !important;
+  text-decoration:none !important;
+  line-height:1.35 !important;
+}
+.float-date{
+  font-size:12px !important;
+  color:#666 !important;
+  margin-top:5px !important;
+}
+.float-pdf{
+  display:inline-block !important;
+  margin-top:6px !important;
+  font-size:11px !important;
+  color:#9a6b00 !important;
+}
+.all-notices-btn{
+  display:block !important;
+  margin-top:10px !important;
+  padding:11px !important;
+  text-align:center !important;
+  background:#8b001b !important;
+  color:#fff !important;
+  border-radius:7px !important;
+  text-decoration:none !important;
+  font-weight:900 !important;
+}
+
+/* Citizen services stays below the 3-column hero */
 .citizen-services{
-  padding-top:28px;
-  padding-bottom:28px;
+  padding:30px 5% !important;
 }
 .citizen-cards{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:20px;
-  max-width:950px;
-  margin:0 auto;
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:20px !important;
+  max-width:950px !important;
+  margin:0 auto !important;
 }
 .citizen-card{
-  background:#fff;
-  border-radius:15px;
-  padding:25px;
-  text-align:center;
-  text-decoration:none;
-  color:#2d2024;
-  box-shadow:var(--shadow);
-  border-top:6px solid #8b001b;
-  transition:.2s;
+  background:#fff !important;
+  border-radius:15px !important;
+  padding:25px !important;
+  text-align:center !important;
+  text-decoration:none !important;
+  color:#2d2024 !important;
+  box-shadow:var(--shadow) !important;
+  border-top:6px solid #8b001b !important;
 }
-.citizen-card:hover{transform:translateY(-4px)}
-.citizen-card.status{border-top-color:#1268d9}
-.citizen-icon{font-size:40px}
-.citizen-card h3{margin:10px 0 7px;color:#8b001b}
-.citizen-card.status h3{color:#1268d9}
-.citizen-card p{margin:0 0 12px;color:#666}
+.citizen-card.status{border-top-color:#1268d9 !important}
+.citizen-icon{font-size:40px !important}
+.citizen-card h3{color:#8b001b !important}
+.citizen-card.status h3{color:#1268d9 !important}
 .citizen-card span{
-  display:inline-block;
-  padding:9px 16px;
-  border-radius:7px;
-  background:#d4a017;
-  color:#430817;
-  font-weight:800;
+  display:inline-block !important;
+  padding:9px 16px !important;
+  border-radius:7px !important;
+  background:#d4a017 !important;
+  color:#430817 !important;
+  font-weight:800 !important;
 }
+
 @media(max-width:900px){
-  .citizen-cards{grid-template-columns:1fr}
+  .hero{
+    height:auto !important;
+    min-height:0 !important;
+  }
+  .hero-side-layout{
+    position:relative !important;
+    height:auto !important;
+    grid-template-columns:1fr !important;
+  }
+  .hero-slides{
+    position:absolute !important;
+    min-height:1100px !important;
+  }
+  .hero-slide{
+    min-height:1100px !important;
+  }
+  .hero-panel{
+    min-height:330px !important;
+    height:330px !important;
+  }
+  .hero-side-layout .hero-content{
+    min-height:360px !important;
+  }
+  .citizen-cards{
+    grid-template-columns:1fr !important;
+  }
 }
 
 </style>
@@ -729,37 +893,18 @@ body{
 <section class="hero">
 
   <div class="hero-slides">
-
-    <div class="hero-slide active"
-         style="background-image:url('manbazar-block.jpg');">
-    </div>
-
-    <div class="hero-slide"
-         style="background-image:url('manbazar-block1.jpeg');">
-    </div>
-
-    <div class="hero-slide"
-         style="background-image:url('manbazar-block2.jpeg');">
-    </div>
-
-    <div class="hero-slide"
-         style="background-image:url('manbazar-block3.jpeg');">
-    </div>
-
-    <div class="hero-slide"
-         style="background-image:url('manbazar-block4.jpeg');">
-    </div>
-
+    <div class="hero-slide active" style="background-image:url('manbazar-block.jpg');"></div>
+    <div class="hero-slide" style="background-image:url('manbazar-block1.jpeg');"></div>
+    <div class="hero-slide" style="background-image:url('manbazar-block2.jpeg');"></div>
+    <div class="hero-slide" style="background-image:url('manbazar-block3.jpeg');"></div>
+    <div class="hero-slide" style="background-image:url('manbazar-block4.jpeg');"></div>
   </div>
 
- <div class="hero-side-layout">
+  <div class="hero-side-layout">
 
   <!-- LEFT: IMPORTANT LINKS -->
   <div class="hero-panel important-links-panel">
-
-    <div class="panel-title">
-      🔗 Important Links
-    </div>
+    <div class="panel-title">🔗 Important Links</div>
 
     <div class="important-link-list">
       <a href="https://banglarbhumi.gov.in/" target="_blank" rel="noopener">
@@ -793,47 +938,30 @@ body{
         🏥 WB Health <span class="apply-badge">APPLY</span>
       </a>
     </div>
-
   </div>
 
-  <!-- CENTER: HERO CONTENT -->
+  <!-- CENTER: FULL PHOTO SLIDER WITH CONTENT OVERLAY -->
   <div class="hero-content">
-
     <h2>Manbazar-I Development Block</h2>
-
-    <p>
-      Official Information & Citizen Services Portal
-    </p>
-
-    <a class="hero-btn" href="notices.html">
-      🔔 Latest Notices
-    </a>
-
+    <p>Official Information &amp; Citizen Services Portal</p>
+    <a class="hero-btn" href="notices.html">🔔 Latest Notices</a>
   </div>
-
 
   <!-- RIGHT: WHAT'S NEW -->
   <div class="hero-panel whatsnew-panel">
-
-    <div class="panel-title">
-      🔔 What's New
-    </div>
+    <div class="panel-title">🔔 What's New</div>
 
     <div class="whatsnew-window">
-      <div id="floatingNoticeList">
-        Notice loading হচ্ছে...
-      </div>
+      <div id="floatingNoticeList">Notice loading হচ্ছে...</div>
     </div>
 
-    <a class="all-notices-btn" href="notices.html">
-      View All Notices →
-    </a>
-
+    <a class="all-notices-btn" href="notices.html">View All Notices →</a>
   </div>
 
 </div>
 
 </section>
+
 
 
 
