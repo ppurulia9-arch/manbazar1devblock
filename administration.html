@@ -156,7 +156,7 @@ body{
 
 .grid-top{
   display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-template-columns:1.05fr 1.3fr 1.12fr .92fr;
   gap:16px;
 }
 
@@ -185,6 +185,12 @@ body{
 .purple .card-title{background:linear-gradient(90deg,#5b18c4,#7929e3)}
 .red .card-title{background:linear-gradient(90deg,#e91638,#f93654)}
 .sky .card-title{background:linear-gradient(90deg,#0767c9,#2189e5)}
+.grievance-card{grid-column:4}
+.grievance-card .card-body{text-align:center;padding:18px}
+.grievance-card .grievance-icon{font-size:42px;margin-bottom:8px}
+.grievance-card .grievance-text{font-size:15px;line-height:1.45;margin:6px 0 12px}
+.grievance-card .grievance-btn{display:inline-block;background:#8b001b;color:#fff;padding:10px 15px;border-radius:8px;font-weight:800;text-decoration:none}
+
 
 .card-body{padding:12px 15px}
 
@@ -369,6 +375,7 @@ body{
 
 @media(max-width:1200px){
   .grid-top{grid-template-columns:1fr 1fr}
+  .grievance-card{grid-column:auto}
   .bottom-grid{grid-template-columns:1fr 1fr}
   .header-photo{width:350px}
 }
@@ -464,15 +471,7 @@ body{
           <p>Purulia, West Bengal</p>
         </div>
       </div>
-      <div class="info-list">
-        <div class="info-row"><span class="ico">☎️</span><span>00000 00000</span></div>
-        <div class="info-row"><span class="ico">✉️</span><span>bdo.manbazar1@gmail.com</span></div>
-        <div class="info-row"><span class="ico">📍</span><span>Manbazar-I Development Block<br>Manbazar, Purulia - 723131</span></div>
-      </div>
-    </div>
-  </article>
-
-  <article class="card maroon">
+      <article class="card maroon">
     <div class="card-title">🏛️ Joint Block Development Officer (Jt.BDO)</div>
     <div class="card-body">
       <div class="jt.bdo">
@@ -495,10 +494,10 @@ body{
   <article class="card green">
     <div class="card-title">👥 Key Officials</div>
     <div class="card-body">
-      <div class="official"><div class="avatar">👨‍💼</div><div><b>Block Land & Land Reforms Officer (BL&LRO)</b><span>☎ 00000 00000<br>✉ abdo.manbazar1@gmail.com</span></div></div>
+      <div class="official"><div class="avatar">👨‍💼</div><div><b>Joint Block Development Officer (Jt.BDO)</b><span>☎ 00000 00000<br>✉ abdo.manbazar1@gmail.com</span></div></div>
       <div class="official"><div class="avatar">👨‍💼</div><div><b>Block Agricultural Officer (ADO)</b><span>☎ 00000 00000<br>✉ bao.manbazar1@gmail.com</span></div></div>
       <div class="official"><div class="avatar">👨‍💼</div><div><b>Block Welfare Officer (BWO)</b><span>☎ 00000 00000<br>✉ bwo.manbazar1@gmail.com</span></div></div>
-      <div class="official"><div class="avatar">👩‍💼</div><div><b>Block Medical Officer of Health (BMOH)</b><span>☎ 00000 00000<br>✉ beo.manbazar1@gmail.com</span></div></div>
+      <div class="official"><div class="avatar">👩‍💼</div><div><b>Samity Education Officer (SEO)</b><span>☎ 00000 00000<br>✉ beo.manbazar1@gmail.com</span></div></div>
     </div>
   </article>
 
@@ -517,6 +516,17 @@ body{
         <li><span><i class="gp-num">9</i>কামতা জাঙ্গিদিরি</span>›</li>
         <li><span><i class="gp-num">10</i>মানবাজার</span>›</li>
       </ul>
+    </div>
+  </article>
+
+  <article class="card red grievance-card">
+    <div class="card-title">📜 Public Services & Grievance Redressal</div>
+    <div class="card-body">
+      <div class="grievance-icon">📝</div>
+      <div class="grievance-text">
+        Citizens can submit an application or grievance online.
+      </div>
+      <a class="grievance-btn" href="public-grievance.html">Application by Citizen →</a>
     </div>
   </article>
 
@@ -547,7 +557,9 @@ body{
         <div class="service"><span>📖</span>Education</div>
         <div class="service"><span>🏥</span>Health Services</div>
         <div class="service"><span>🛣️</span>Infrastructure Development</div>
-        <div class="service"><span>📜</span>Public Services & Grievance Redressal</div>
+        <a class="service" href="public-grievance.html" style="text-decoration:none;color:inherit;cursor:pointer;">
+  <span>📜</span>Public Services & Grievance Redressal
+</a>
       </div>
     </div>
   </article>
