@@ -57,7 +57,7 @@ async function submitApp(){
     dbErr.message.includes("ACTIVE_GRIEVANCE_EXISTS") ||
     (dbErr.details && dbErr.details.includes("previous grievance is Closed"))
   ){
-    alert("You have already submitted an application. Kindly wait until it is closed or disposed.");
+    alert("একই Mobile Number দিয়ে নতুন Application করা যাবে না, যতক্ষণ আগের Grievance টি Closed না হয়।");
     err("এই Mobile Number দিয়ে একটি Grievance ইতিমধ্যে Active আছে। আগের Grievance টি Admin দ্বারা Closed হওয়ার পরেই এই Mobile Number দিয়ে নতুন Application করা যাবে।");
   }else{
     err("Submission failed. Please try again.");
