@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Public Grievance | Manbazar-I Development Block</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://nqfcoofeqsesenmttcwr.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+</script>
+<style>
+:root{--maroon:#8b001b;--deep:#650014;--gold:#f0b400;--cream:#fffaf0;--text:#171717;--soft:#f6f7f9;--green:#087f4e}
+*{box-sizing:border-box} body{margin:0;background:#f5f6f8;color:var(--text);font-family:Arial,"Noto Sans Bengali",sans-serif}
+.topbar{height:40px;background:var(--maroon);color:#fff;padding:0 4%;display:flex;align-items:center;justify-content:space-between;font-size:14px}
+.header{min-height:125px;background:#fffdf6;border-bottom:4px solid var(--gold);padding:10px 4%;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:18px}.ashoka{width:78px;height:92px;object-fit:contain}.brand h1{margin:0;color:var(--maroon);font-size:36px}.brand p{margin:5px 0;color:var(--maroon);font-size:17px}
+.nav{background:var(--maroon);border-bottom:3px solid var(--gold);display:flex;justify-content:center;flex-wrap:wrap}.nav a{color:#fff;text-decoration:none;padding:15px 18px;font-weight:700;border-right:1px solid rgba(255,255,255,.15)}.nav a:hover,.nav a.active{background:var(--gold);color:#222}
+.container{width:94%;max-width:1200px;margin:18px auto}.breadcrumb{color:#761027;margin-bottom:12px}
+.hero{background:linear-gradient(90deg,#700018,#a40027);color:#fff;border-radius:15px;padding:22px 28px;box-shadow:0 4px 14px rgba(0,0,0,.12);margin-bottom:18px}.hero h2{margin:0;font-size:30px}.hero p{margin:6px 0 0}
+.form-card{background:#fff;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.10);overflow:hidden;border:1px solid #ddd}
+.form-head{background:linear-gradient(90deg,#f0a900,#ffbd19);padding:16px 20px;color:#3b2100;font-size:22px;font-weight:800}
+.form-body{padding:22px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}label{font-weight:700;color:#641024}input,select,textarea{width:100%;border:1px solid #cfd4da;border-radius:9px;padding:12px;font-size:15px;background:#fff;outline:none}input:focus,select:focus,textarea:focus{border-color:#c28b00;box-shadow:0 0 0 3px rgba(240,180,0,.15)}textarea{min-height:145px;resize:vertical}
+.required{color:#d00}.submit-row{display:flex;align-items:center;gap:12px;margin-top:18px}.submit{border:0;background:var(--maroon);color:#fff;padding:13px 24px;border-radius:9px;font-size:16px;font-weight:800;cursor:pointer}.submit:hover{background:#b00027}.submit:disabled{opacity:.6;cursor:not-allowed}
+.status{display:none;margin-top:18px;border-radius:10px;padding:15px;font-weight:700}.success{display:block;background:#e8f7ef;color:#07683f;border:1px solid #9ed8bb}.error{display:block;background:#fff0f0;color:#a40000;border:1px solid #efb0b0}
+.appid{font-size:24px;color:#087f4e;display:block;margin:5px 0}.note{font-size:13px;color:#666;margin-top:8px}.footer{margin-top:30px;background:var(--deep);color:#fff;text-align:center;padding:20px}
+@media(max-width:700px){.topbar{height:auto;padding:8px;gap:5px;flex-direction:column;text-align:center}.header{flex-direction:column;text-align:center;gap:10px}.brand{flex-direction:column}.brand h1{font-size:27px}.nav a{padding:11px 12px;font-size:13px}.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.container{width:96%}}
+</style>
+</head>
+<body>
+<div class="topbar"><span>Government of West Bengal</span><span>Manbazar-I Development Block, Purulia</span></div>
+<header class="header">
+  <div class="brand"><img class="ashoka" src="ashoka.jpg" alt="Ashoka Emblem"><div><h1>Manbazar-I Development Block</h1><p>Purulia, West Bengal</p></div></div>
+</header>
+<nav class="nav">
+  <a href="index.html">🏠 Home</a><a href="about.html">ℹ️ About</a><a href="administration.html" class="active">🏛️ Administration</a>
+  <a href="development.html">📈 Development</a><a href="schemes.html">📋 Schemes</a><a href="notices.html">🔔 Notices</a>
+  <a href="downloads.html">⬇️ Downloads</a><a href="gallery.html">🖼️ Gallery</a><a href="contact.html">☎️ Contact</a>
+</nav>
+
+<main class="container">
+  <div class="breadcrumb">🏠 Home › Administration › Public Grievance</div>
+  <section class="hero"><h2>📜 Public Services & Grievance Redressal</h2><p>Submit your grievance/application to the Manbazar-I Development Block.</p></section>
+
+  <section class="form-card">
+    <div class="form-head">📝 Application by Citizen</div>
+    <div class="form-body">
+      <form id="grievanceForm">
+        <div class="grid">
+          <div class="field">
+            <label>Applicant Name <span class="required">*</span></label>
+            <input id="applicant_name" maxlength="120" required placeholder="Enter applicant name">
+          </div>
+          <div class="field">
+            <label>Phone Number <span class="required">*</span></label>
+            <input id="phone" type="tel" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" required placeholder="10 digit mobile number">
+          </div>
+          <div class="field">
+            <label>Gram Panchayat <span class="required">*</span></label>
+            <select id="gp_name" required>
+              <option value="">Select Gram Panchayat</option>
+              <option>বারামাস্যা-রামনগর</option><option>বামনি-মাঝিহিরা</option><option>ভালুবাসা</option>
+              <option>বিসরি</option><option>চন্দ্রা-পাইরাচালি</option><option>ধানারা</option>
+              <option>গোপালনগর</option><option>জিতুজুরি</option><option>কামতা জাঙ্গিদিরি</option><option>মানবাজার</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Village Name <span class="required">*</span></label>
+            <input id="village_name" maxlength="150" required placeholder="Enter village name">
+          </div>
+          <div class="field full">
+            <label>Grievance Details <span class="required">*</span></label>
+            <textarea id="grievance_details" maxlength="5000" required placeholder="Describe your grievance/application in detail"></textarea>
+          </div>
+        </div>
+        <div class="submit-row">
+          <button class="submit" id="submitBtn" type="submit">📤 Submit Application</button>
+          <span class="note">After successful submission, an Application ID will be generated automatically.</span>
+        </div>
+        <div id="result" class="status"></div>
+      </form>
+    </div>
+  </section>
+</main>
+<footer class="footer">Manbazar-I Development Block, Purulia, West Bengal</footer>
+
+<script>
+const form=document.getElementById("grievanceForm");
+const result=document.getElementById("result");
+const btn=document.getElementById("submitBtn");
+
+function showResult(type,html){result.className="status "+type;result.innerHTML=html;result.scrollIntoView({behavior:"smooth",block:"center"});}
+
+form.addEventListener("submit",async(e)=>{
+  e.preventDefault();
+  btn.disabled=true;
+  result.className="status";
+  result.innerHTML="";
+  try{
+    const payload={
+      applicant_name:document.getElementById("applicant_name").value.trim(),
+      phone:document.getElementById("phone").value.trim(),
+      gp_name:document.getElementById("gp_name").value,
+      village_name:document.getElementById("village_name").value.trim(),
+      grievance_details:document.getElementById("grievance_details").value.trim()
+    };
+    const {data,error}=await supabaseClient.from("public_grievances").insert(payload).select("application_id").single();
+    if(error) throw error;
+    showResult("success",`✅ Application submitted successfully.<br><span>Your Application ID:</span><span class="appid">${escapeHtml(data.application_id)}</span><span>Please keep this Application ID for future reference.</span>`);
+    form.reset();
+  }catch(err){
+    console.error(err);
+    showResult("error","❌ Application could not be submitted. Please try again.");
+  }finally{btn.disabled=false;}
+});
+function escapeHtml(v){return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
+</script>
+</body>
+</html>
