@@ -3,145 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Admin Dashboard - Manbazar-I Development Block</title>
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f1f5f9;
-      color: #1e293b;
-    }
-
-    header {
-      background: #1e3a8a;
-      color: white;
-      padding: 18px 25px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 22px;
-    }
-
-    header p {
-      margin: 5px 0 0;
-      opacity: 0.9;
-    }
-
-    .logout {
-      background: #dc2626;
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
-
-    .welcome {
-      background: white;
-      padding: 22px;
-      border-radius: 10px;
-      margin-bottom: 25px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-    }
-
-    .welcome h2 {
-      margin-top: 0;
-      color: #1e3a8a;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-      text-align: center;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-    }
-
-    .icon {
-      font-size: 35px;
-      margin-bottom: 10px;
-    }
-
-    .card h3 {
-      margin: 8px 0;
-      color: #1e3a8a;
-    }
-
-    .card p {
-      color: #64748b;
-      margin-bottom: 0;
-    }
-
-    footer {
-      text-align: center;
-      padding: 25px;
-      color: #64748b;
-    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #f1f5f9; color: #1e293b; }
+    header { background: #1e3a8a; color: white; padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    header h1 { margin: 0; font-size: 22px; }
+    header p { margin: 5px 0 0; opacity: 0.9; }
+    .logout { background: #dc2626; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-size: 15px; }
+    .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+    .welcome { background: white; padding: 22px; border-radius: 10px; margin-bottom: 25px; box-shadow: 0 3px 12px rgba(0,0,0,0.08); }
+    .welcome h2 { margin-top: 0; color: #1e3a8a; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+    .card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 3px 12px rgba(0,0,0,0.08); text-align: center; cursor: pointer; transition: 0.2s; }
+    .card:hover { transform: translateY(-3px); }
+    .icon { font-size: 35px; margin-bottom: 10px; }
+    .card h3 { margin: 8px 0; color: #1e3a8a; }
+    .card p { color: #64748b; margin-bottom: 0; }
+    .grievance-card { border-top: 5px solid #b45309; }
+    .grievance-card h3 { color: #8b001b; }
+    footer { text-align: center; padding: 25px; color: #64748b; }
   </style>
 </head>
-
 <body>
 
 <header>
-
   <div>
     <h1>Manbazar-I Development Block</h1>
     <p>Admin Dashboard</p>
   </div>
-
-  <button class="logout" onclick="logout()">
-    Logout
-  </button>
-
+  <button class="logout" onclick="logout()">Logout</button>
 </header>
 
-
 <div class="container">
-
   <div class="welcome">
-
     <h2>Welcome, Administrator</h2>
-
-    <p>
-      এখান থেকে Manbazar-I Development Block-এর website-এর
-      information পরিচালনা করা যাবে।
-    </p>
-
+    <p>এখান থেকে Manbazar-I Development Block-এর website-এর information পরিচালনা করা যাবে।</p>
   </div>
-
 
   <div class="cards">
 
@@ -151,13 +50,11 @@
       <p>Notice পরিচালনা করুন</p>
     </div>
 
-
     <div class="card" onclick="openPage('schemes.html')">
       <div class="icon">📋</div>
       <h3>Schemes</h3>
       <p>Government schemes পরিচালনা করুন</p>
     </div>
-
 
     <div class="card" onclick="openPage('development.html')">
       <div class="icon">🏗️</div>
@@ -165,13 +62,11 @@
       <p>Development projects পরিচালনা করুন</p>
     </div>
 
-
     <div class="card" onclick="openPage('downloads.html')">
       <div class="icon">📄</div>
       <h3>Downloads</h3>
       <p>Documents পরিচালনা করুন</p>
     </div>
-
 
     <div class="card" onclick="openPage('gallery.html')">
       <div class="icon">🖼️</div>
@@ -179,31 +74,30 @@
       <p>Photos পরিচালনা করুন</p>
     </div>
 
-
     <div class="card" onclick="openPage('contact.html')">
       <div class="icon">📞</div>
       <h3>Contact</h3>
       <p>Contact information পরিচালনা করুন</p>
     </div>
 
-  </div>
+    <!-- NEW: PUBLIC GRIEVANCE -->
+    <div class="card grievance-card" onclick="openGrievance()">
+      <div class="icon">📜</div>
+      <h3>Public Grievance</h3>
+      <p>Citizen applications & grievances দেখুন</p>
+    </div>
 
+  </div>
 </div>
 
-
-<footer>
-  © Manbazar-I Development Block
-</footer>
-
+<footer>© Manbazar-I Development Block</footer>
 
 <script>
-
   const SUPABASE_URL =
     "https://nqfcoofeqsesenmttcwr.supabase.co";
 
   const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
-
 
   const supabaseClient =
     window.supabase.createClient(
@@ -211,45 +105,33 @@
       SUPABASE_PUBLISHABLE_KEY
     );
 
-
   async function checkLogin() {
-
     const {
       data: { session }
     } = await supabaseClient.auth.getSession();
 
-
     if (!session) {
-
       window.location.href = "login.html";
-
       return;
-
     }
-
   }
-
 
   async function logout() {
-
     await supabaseClient.auth.signOut();
-
     window.location.href = "login.html";
-
   }
 
-
   function openPage(page) {
-
     alert(
       "এই section-এর Admin management আমরা পরের ধাপে তৈরি করব।"
     );
-
   }
 
+  function openGrievance() {
+    window.location.href = "public-grievance.html";
+  }
 
   checkLogin();
-
 </script>
 
 </body>
