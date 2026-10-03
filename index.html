@@ -1,586 +1,322 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Official Information & Citizen Services Portal of Manbazar-I Development Block, Purulia, West Bengal">
-<title>Manbazar-I Development Block | Purulia</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Manbazar-I Development Block</title>
+
+<link rel="stylesheet" href="css/style.css">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+const SUPABASE_URL = "https://nqfcoofeqsesenmttcwr.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+</script>
+
 <style>
 :root{
-  --maroon:#900b28;
-  --deep:#560016;
-  --gold:#e0a900;
-  --cream:#fff9e9;
-  --ink:#242024;
+  -- 
+dusky saffron:#6b1025;
+  --dark:#430817;
+  --gold:#d4a017;
+  --cream:#fff8e7;
   --white:#fff;
-  --line:#e4c768;
+  --text:#2d2024;
+  --shadow:0 8px 25px rgba(67,8,23,.15);
 }
 
 *{box-sizing:border-box}
 
-html,body{
+body{
   margin:0;
-  padding:0;
-  width:100%;
-  min-height:100%;
   font-family:Arial,"Noto Sans Bengali",sans-serif;
-  background:var(--deep);
-  color:var(--ink);
+  background:#fffaf2;
+  color:var(--text);
 }
 
-body{overflow-x:hidden}
-a{text-decoration:none}
-
-/* ===== TOP BAR ===== */
 .topbar{
-  height:42px;
-  padding:0 3.4%;
-  background:var(--deep);
+  background:var(--dark);
   color:#fff;
+  padding:8px 5%;
   display:flex;
-  align-items:center;
   justify-content:space-between;
   font-size:14px;
-  white-space:nowrap;
 }
 
-.top-left,.top-right{
-  display:flex;
-  align-items:center;
-  gap:22px;
-}
-
-.top-right{gap:14px}
-
-/* ===== HEADER ===== */
 .header{
-  height:135px;
-  padding:10px 3.4%;
   background:var(--cream);
+  padding:15px 5%;
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:20px;
   border-bottom:4px solid var(--gold);
 }
 
 .brand{
   display:flex;
   align-items:center;
-  gap:20px;
-  min-width:0;
+  gap:15px;
 }
 
-.emblem{
-  width:86px;
-  height:108px;
-  flex:0 0 86px;
-  background:#fff;
+.logo{
+  width:90px;
+  height:120px;
   display:flex;
   align-items:center;
   justify-content:center;
+  background:transparent;
+  border:0;
+  border-radius:0;
   overflow:hidden;
 }
 
-.emblem img{
-  width:100%;
-  height:100%;
+.logo img{
+  width:82px;
+  height:112px;
   object-fit:contain;
+  display:block;
 }
 
-.brand-text h1{
+.brand h1{
   margin:0;
-  color:#751126;
-  font-size:39px;
-  line-height:1.05;
-  font-weight:800;
+  color:var(--maroon);
+  font-size:28px;
 }
 
-.brand-text p{
-  margin:7px 0 0;
-  color:#751126;
-  font-size:18px;
+.brand p{
+  margin:5px 0 0;
+  color:#70404b;
 }
 
 .leaders{
   display:flex;
-  gap:15px;
+  gap:12px;
 }
 
 .leader{
-  width:88px;
-  height:98px;
-  border:3px solid var(--gold);
-  border-radius:10px;
+  width:85px;
+  height:95px;
   object-fit:cover;
-  object-position:top center;
-  background:#fff;
+  object-position:top;
+  border-radius:10px;
+  border:3px solid var(--gold);
+  box-shadow:var(--shadow);
 }
 
-/* ===== NAV ===== */
 .nav{
-  height:72px;
-  padding:0 3.4%;
-  background:var(--maroon);
-  border-bottom:4px solid var(--gold);
+  background:#7b1e2b !important;
   display:flex;
-  align-items:stretch;
   justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:0;
+  border-top:3px solid #d4a017;
+  border-bottom:3px solid #d4a017;
+  box-shadow:0 4px 12px rgba(0,0,0,.15);
 }
 
 .nav a{
-  color:#fff;
-  padding:0 22px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  font-size:16px;
-  font-weight:700;
-  border-right:1px solid rgba(255,255,255,.2);
-  transition:.18s;
+  color:#ffffff !important;
+  background:#7b1e2b !important;
+  text-decoration:none !important;
+  padding:14px 18px !important;
+  font-size:15px !important;
+  font-weight:700 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:7px !important;
+  white-space:nowrap !important;
+  border-right:1px solid rgba(255,255,255,.25) !important;
+  visibility:visible !important;
+  opacity:1 !important;
 }
 
+.nav a:hover{
+  background:#d4a017 !important;
+  color:#430817 !important;
+  transform:translateY(-2px);
+}
 .nav a:first-child{
-  border-left:1px solid rgba(255,255,255,.2);
+  border-left:1px solid rgba(255,255,255,.18);
 }
-
-.nav a:hover,
-.nav a.active{
-  background:var(--gold);
-  color:#3b1600;
-}
-
-/* ===== MAIN HERO ===== */
 .hero{
-  width:100%;
-  background:var(--deep);
-  padding:8px 1%;
-}
+  margin:0;
+  padding:80px 7%;
+  text-align:center;
 
-.hero-grid{
-  width:100%;
-  height:610px;
-  display:grid;
-  grid-template-columns:18% 64% 18%;
-  align-items:stretch;
-}
+  background:#430817;
 
-/* ===== SIDE CARDS ===== */
-.side-card{
-  height:590px;
-  margin:0 7px;
-  border:2px solid var(--gold);
-  border-radius:16px;
-  background:rgba(255,255,255,.98);
-  box-shadow:0 7px 22px rgba(0,0,0,.28);
+  color:#fff;
+  min-height:360px;
+  position:relative;
   overflow:hidden;
-}
 
-.side-title{
-  margin:0 14px;
-  padding:18px 5px 13px;
-  border-bottom:2px solid var(--gold);
-  color:#751126;
-  text-align:center;
-  font-size:23px;
-  line-height:1.2;
-  font-weight:800;
-}
-
-.side-content{
-  padding:13px 14px;
-}
-
-/* ===== WEATHER ===== */
-.weather-location{
-  text-align:center;
-  color:#202020;
-  font-size:18px;
-  line-height:1.45;
-  font-weight:800;
-}
-
-.weather-updated{
-  margin-top:4px;
-  text-align:center;
-  color:#777;
-  font-size:11px;
-}
-
-.weather-icon{
-  text-align:center;
-  font-size:62px;
-  line-height:1;
-  margin:17px 0 6px;
-}
-
-.weather-temp{
-  text-align:center;
-  color:#5c0718;
-  font-size:48px;
-  line-height:1;
-  font-weight:800;
-}
-
-.weather-condition{
-  margin:8px 0 17px;
-  text-align:center;
-  color:#333;
-  font-size:17px;
-  font-weight:700;
-}
-
-.weather-info{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:9px;
-}
-
-.weather-item{
-  padding:8px 9px;
-  background:#fff8e7;
-  border-radius:9px;
-  font-size:13px;
   display:flex;
-  justify-content:space-between;
+  flex-direction:column;
+  justify-content:center;
   align-items:center;
 }
 
-.weather-item strong{
-  color:#741025;
-}
 
-.forecast{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:5px;
-  margin-top:12px;
-}
 
-.forecast-day{
-  background:#f7edda;
-  border-radius:8px;
-  text-align:center;
-  padding:7px 2px;
-  font-size:10px;
-}
-
-.forecast-icon{
-  font-size:20px;
-  margin:4px 0;
-}
-
-.forecast-temp{font-weight:700}
-
-/* ===== CENTER SLIDER ===== */
-.center{
-  min-width:0;
-  height:590px;
-}
-
-.slider{
-  position:relative;
-  width:100%;
-  height:590px;
-  overflow:hidden;
-  background:#160109;
-  border-radius:4px;
-  box-shadow:0 8px 26px rgba(0,0,0,.35);
-}
-
-.slide{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  opacity:0;
-  transition:opacity .85s ease-in-out;
-  z-index:1;
-}
-
-.slide.active{
-  opacity:1;
-  z-index:2;
-}
-
-.slide img{
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:cover;
-  object-position:center top;
-}
-
-.slide::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    to bottom,
-    rgba(0,0,0,0) 58%,
-    rgba(0,0,0,.62) 100%
-  );
-}
-
-.slider-caption{
-  position:absolute;
-  left:28px;
-  right:28px;
-  bottom:28px;
-  z-index:4;
-  color:#fff;
-  text-shadow:2px 2px 5px #000;
-}
-
-.slider-caption strong{
-  display:block;
-  font-size:25px;
-}
-
-.slider-caption span{
-  display:block;
-  margin-top:4px;
-  font-size:16px;
-}
-
-.arrow{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:6;
-  width:50px;
-  height:50px;
-  border:0;
-  border-radius:50%;
-  background:rgba(0,0,0,.68);
-  color:#fff;
-  font-size:36px;
-  line-height:45px;
-  cursor:pointer;
-}
-
-.arrow:hover{
-  background:var(--gold);
-  color:#351000;
-}
-
-.prev{left:17px}
-.next{right:17px}
-
-.dots{
-  position:absolute;
-  z-index:7;
-  left:50%;
-  bottom:14px;
-  transform:translateX(-50%);
-  display:flex;
-  gap:8px;
-}
-
-.dot{
-  width:12px;
-  height:12px;
-  padding:0;
-  border:1px solid #fff;
-  border-radius:50%;
-  background:transparent;
-  cursor:pointer;
-}
-
-.dot.active{background:#fff}
-
-/* ===== WHAT'S NEW ===== */
-.news-scroll{
-  height:465px;
-  overflow:hidden;
-  position:relative;
-  background:#fffaf0;
-}
-
-.news-track{
-  animation:noticeUp 26s linear infinite;
-}
-
-.news-track:hover{
-  animation-play-state:paused;
-}
-
-@keyframes noticeUp{
-  from{transform:translateY(0)}
-  to{transform:translateY(-50%)}
-}
-
-.news-item{
-  padding:12px 5px;
-  border-bottom:1px solid #e3d9c0;
-}
-
-.news-title{
-  display:block;
-  color:#741025;
+.hero h2{
+  color:#fff !important;
+  font-size:42px;
   font-weight:800;
-  font-size:14px;
-  line-height:1.4;
+  margin:0 0 15px;
+  text-shadow:2px 2px 5px rgba(0,0,0,.5);
 }
 
-.news-date{
-  display:block;
-  color:#777;
-  font-size:11px;
-  margin-top:4px;
+.hero p{
+  font-size:18px;
+  margin:0 auto 25px;
+  max-width:800px;
 }
 
-.news-pdf{
+.hero-btn{
   display:inline-block;
-  margin-top:6px;
-  color:#c40e23;
-  font-size:12px;
-  font-weight:700;
-}
-
-.new-badge{
-  display:inline-block;
-  padding:2px 5px;
-  margin-right:4px;
-  border-radius:4px;
-  background:#e41e2b;
-  color:#fff;
-  font-size:9px;
-  font-weight:800;
-}
-
-.view-all{
-  display:block;
-  margin:10px 12px;
-  padding:11px 8px;
   background:var(--gold);
-  color:#351000;
+  color:var(--dark);
+  padding:13px 25px;
   border-radius:8px;
-  text-align:center;
-  font-size:16px;
-  font-weight:800;
+  text-decoration:none;
+  font-weight:bold;
 }
 
-/* ===== LOWER AREA ===== */
 .section{
-  padding:34px 4%;
-  background:#fffaf0;
+  padding:40px 5%;
 }
 
 .section-title{
-  margin:0 0 24px;
   text-align:center;
-  color:#741025;
-  font-size:31px;
+  color:var(--maroon);
+  font-size:28px;
+  margin-bottom:25px;
 }
 
-.services{
+.cards{
   display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:13px;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
 }
 
-.service{
-  min-height:145px;
-  padding:14px 8px;
+.card{
   background:#fff;
-  border-radius:13px;
-  box-shadow:0 4px 15px rgba(0,0,0,.1);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+  padding:25px 15px;
   text-align:center;
-  color:#222;
-}
-
-.service:hover{
-  transform:translateY(-3px);
-}
-
-.service-icon{
-  width:55px;
-  height:55px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
   border-radius:14px;
-  font-size:29px;
-  background:#e9eefc;
-  margin-bottom:8px;
+  border-top:5px solid var(--maroon);
+  box-shadow:var(--shadow);
+  text-decoration:none;
+  color:var(--text);
+  transition:.2s;
 }
 
-.service h3{
-  margin:3px 0 5px;
-  font-size:16px;
+.card:hover{
+  transform:translateY(-5px);
+  border-top-color:var(--gold);
 }
 
-.service p{
-  margin:0;
-  color:#666;
-  font-size:12px;
+.card .icon{
+  font-size:35px;
+  margin-bottom:10px;
+}
+
+.card h3{
+  color:var(--maroon);
+  margin:8px 0;
+}
+
+.notice-box{
+  background:#fff;
+  border-radius:15px;
+  padding:25px;
+  box-shadow:var(--shadow);
+  border-left:6px solid var(--gold);
+}
+
+.float-notice{
+  padding:14px;
+  margin-bottom:12px;
+  background:#fff8e7;
+  border-radius:10px;
+  border-bottom:1px solid #ead8aa;
+}
+
+.float-notice a{
+  color:var(--maroon);
+  font-weight:bold;
+  text-decoration:none;
+}
+
+.float-date{
+  font-size:13px;
+  color:#777;
+  margin-top:5px;
+}
+
+.float-pdf{
+  display:inline-block;
+  margin-top:8px;
+  background:var(--maroon);
+  color:#fff !important;
+  padding:7px 12px;
+  border-radius:6px;
+  font-size:13px;
+}
+
+.links{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.link-box{
+  background:var(--maroon);
+  color:#fff;
+  padding:20px;
+  border-radius:12px;
+  text-decoration:none;
+  text-align:center;
+  font-weight:bold;
+}
+
+.link-box:hover{
+  background:var(--gold);
+  color:var(--dark);
 }
 
 .footer{
-  padding:25px;
-  background:var(--deep);
+  background:var(--dark);
   color:#fff;
+  padding:30px 5%;
   text-align:center;
+  margin-top:30px;
 }
 
-.footer p{margin:5px}
-
-/* ===== DESKTOP TUNING ===== */
-@media(min-width:1400px){
-  .hero-grid{
-    height:640px;
-  }
-
-  .side-card,
-  .center,
-  .slider{
-    height:620px;
-  }
-
-  .news-scroll{
-    height:495px;
-  }
-
-  .brand-text h1{
-    font-size:42px;
-  }
-}
-
-/* ===== TABLET / MOBILE ===== */
-@media(max-width:1050px){
-  .brand-text h1{font-size:30px}
-  .nav a{padding:0 12px;font-size:14px}
-  .hero-grid{grid-template-columns:20% 60% 20%}
-  .side-title{font-size:19px}
-  .services{grid-template-columns:repeat(4,1fr)}
+.footer p{
+  margin:7px;
 }
 
 @media(max-width:800px){
   .topbar{
-    height:auto;
-    min-height:42px;
-    padding:8px;
     flex-direction:column;
     text-align:center;
-  }
-
-  .top-left,.top-right{
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:8px 15px;
+    gap:4px;
   }
 
   .header{
-    height:auto;
-    padding:15px;
     flex-direction:column;
     text-align:center;
   }
@@ -589,116 +325,380 @@ a{text-decoration:none}
     flex-direction:column;
   }
 
-  .brand-text h1{font-size:27px}
-
-  .leaders .leader{
-    width:75px;
-    height:85px;
+  .brand h1{
+    font-size:22px;
   }
 
-  .nav{
-    height:auto;
+  .leaders{
+    justify-content:center;
   }
 
   .nav a{
-    padding:11px 9px;
-    font-size:12px;
+    padding:11px 10px;
+    font-size:13px;
   }
 
   .hero{
-    padding:10px;
+    padding:45px 20px;
   }
 
-  .hero-grid{
-    height:auto;
-    grid-template-columns:1fr;
+  .hero h2{
+    font-size:28px;
+  }
+
+  .cards{
+    grid-template-columns:repeat(2,1fr);
     gap:12px;
   }
 
-  .center{
-    height:390px;
-    order:1;
-  }
-
-  .slider{
-    height:390px;
-  }
-
-  .weather-card{
-    order:2;
-    height:390px;
-  }
-
-  .news-card{
-    order:3;
-    height:430px;
-  }
-
-  .news-scroll{
-    height:325px;
-  }
-
-  .services{
-    grid-template-columns:repeat(2,1fr);
+  .links{
+    grid-template-columns:1fr;
   }
 }
 
 @media(max-width:480px){
-  .center,.slider{height:300px}
-  .services{grid-template-columns:1fr}
-  .arrow{width:40px;height:40px;font-size:28px}
-  .slider-caption{left:15px;right:15px;bottom:20px}
-  .slider-caption strong{font-size:18px}
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .leader{
+    width:70px;
+    height:80px;
+  }
+}
+  .hero{
+  position:relative;
+  width:100%;
+  height:500px;
+  padding:0;
+  overflow:hidden;
+  background:#430817;
+}
+
+.hero-slides{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+
+.hero-slide{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-position:center top;
+  background-repeat:no-repeat;
+  opacity:0;
+  transition:opacity 1s ease-in-out;
+}
+
+.hero-slide.active{
+  opacity:1;
+}
+
+.hero-content{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  z-index:5;
+  background:rgba(0,0,0,.20);
+}
+
+.hero-content h2{
+  color:#fff !important;
+  font-size:42px;
+  font-weight:800;
+  margin:0 0 15px;
+  text-shadow:2px 2px 6px #000;
+}
+
+.hero-content p{
+  color:#fff;
+  font-size:18px;
+  margin:0 0 25px;
+  text-shadow:1px 1px 4px #000;
+}
+
+/* ===== HERO 3 COLUMN LAYOUT ===== */
+
+.hero-side-layout{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:grid;
+  grid-template-columns:26% 52% 22%;
+  align-items:stretch;
+  z-index:4;
+}
+
+/* SIDE PANELS */
+
+.hero-panel{
+  margin:25px 12px;
+  padding:18px;
+  border-radius:16px;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 8px 25px rgba(0,0,0,.25);
+  color:#222;
+  align-self:center;
+  min-height:300px;
+  max-height:390px;
+  overflow:hidden;
+}
+
+.panel-title{
+  font-size:20px;
+  font-weight:800;
+  text-align:center;
+  padding-bottom:12px;
+  margin-bottom:15px;
+  border-bottom:2px solid var(--gold);
+}
+
+/* IMPORTANT LINKS — replaces Live Weather only */
+
+.important-links-panel{
+  display:flex;
+  flex-direction:column;
+  padding:12px 10px;
+}
+
+.important-links-panel .panel-title{
+  font-size:20px;
+  margin-bottom:8px;
+  padding-bottom:8px;
+}
+
+.apply-online-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  background:linear-gradient(135deg,#a90022,#d10b2f);
+  color:#fff;
+  text-decoration:none;
+  font-size:17px;
+  font-weight:800;
+  border-radius:10px;
+  padding:10px 8px;
+  margin:0 0 8px;
+  box-shadow:0 4px 10px rgba(128,0,30,.22);
+}
+
+.important-links-list{
+  flex:1;
+  overflow-y:auto;
+  padding-right:2px;
+}
+
+.important-link{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-height:39px;
+  margin:5px 0;
+  padding:5px 8px;
+  border-radius:9px;
+  text-decoration:none;
+  color:#18213a;
+  background:linear-gradient(90deg,#eef7ff,#dcecff);
+  border:1px solid rgba(180,190,210,.45);
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+
+.important-link:nth-child(2){background:linear-gradient(90deg,#eaf4ff,#dce9ff)}
+.important-link:nth-child(3){background:linear-gradient(90deg,#edf9ed,#d9f3df)}
+.important-link:nth-child(4){background:linear-gradient(90deg,#fff0f6,#ffe0ec)}
+.important-link:nth-child(5){background:linear-gradient(90deg,#fff8df,#ffefbd)}
+.important-link:nth-child(6){background:linear-gradient(90deg,#f1ecff,#e4dcff)}
+.important-link:nth-child(7){background:linear-gradient(90deg,#fff0f0,#ffe0e0)}
+.important-link:nth-child(8){background:linear-gradient(90deg,#e9f4ff,#d7eaff)}
+.important-link:nth-child(9){background:linear-gradient(90deg,#f2f5ff,#e3e9ff)}
+.important-link:nth-child(10){background:linear-gradient(90deg,#e9f9f0,#d9f1e3)}
+
+.important-link:hover{
+  transform:translateX(3px);
+  box-shadow:0 4px 12px rgba(0,0,0,.12);
+}
+
+.important-link .link-icon{
+  width:30px;
+  height:30px;
+  flex:0 0 30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+}
+
+.important-link .link-text{
+  min-width:0;
+  flex:1;
+}
+
+.important-link strong{
+  display:block;
+  font-size:13px;
+  line-height:1.15;
+}
+
+.important-link small{
+  display:block;
+  font-size:10px;
+  line-height:1.15;
+  margin-top:2px;
+  color:#4b5563;
+}
+
+.important-link .arrow{
+  font-size:18px;
+  font-weight:900;
+}
+
+.ashoka-link-icon{
+  width:30px;
+  height:30px;
+  object-fit:contain;
+  border-radius:4px;
+  background:#fff;
+}
+
+/* CENTER */
+
+.hero-side-layout .hero-content{
+  position:relative;
+  inset:auto;
+  width:100%;
+  height:100%;
+  z-index:5;
+  background:rgba(0,0,0,.15);
+}
+
+/* WHAT'S NEW */
+
+.whatsnew-panel{
+  display:flex;
+  flex-direction:column;
+}
+
+.whatsnew-window{
+  flex:1;
+  overflow:hidden;
+  position:relative;
+}
+
+#floatingNoticeList{
+  max-height:260px;
+  overflow-y:auto;
+}
+
+.float-notice{
+  padding:10px 5px;
+  border-bottom:1px solid #ddd;
+}
+
+.float-notice a{
+  color:#7b001b;
+  font-weight:700;
+  text-decoration:none;
+  line-height:1.4;
+}
+
+.float-date{
+  font-size:12px;
+  color:#666;
+  margin-top:5px;
+}
+
+.float-pdf{
+  display:inline-block;
+  margin-top:5px;
+  font-size:12px;
+  color:#9a6b00 !important;
+}
+
+.all-notices-btn{
+  display:block;
+  margin-top:12px;
+  padding:9px;
+  text-align:center;
+  background:var(--gold);
+  color:var(--dark);
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:700;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+  .hero-side-layout{
+    grid-template-columns:1fr;
+    position:relative;
+    height:auto;
+  }
+
+  .hero{
+    height:auto;
+    min-height:900px;
+  }
+
+  .hero-panel{
+    margin:15px 20px;
+  }
+
+   .hero-side-layout .hero-content{
+    min-height:350px;
+  }
+
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
-  <div class="top-left">
-    <span>📞 +91 00000 00000</span>
-    <span>✉️ manbazar1block@gmail.com</span>
-    <span>📍 Manbazar-I, Purulia, West Bengal</span>
-  </div>
-  <div class="top-right">
-    <span>A-</span>
-    <span>A</span>
-    <span>A+</span>
-    <span>🌐 English⌄</span>
-  </div>
+  <span>Government of West Bengal</span>
+  <span>Manbazar-I Development Block, Purulia</span>
 </div>
 
-<!-- HEADER -->
 <header class="header">
 
   <div class="brand">
-    <div class="emblem">
-      <img src="ashoka.jpg" alt="Government Emblem">
-    </div>
+   <div class="logo">
+  <img src="ashoka.jpg" alt="Ashoka Stambha">
+</div>
 
-    <div class="brand-text">
+    <div>
       <h1>Manbazar-I Development Block</h1>
       <p>Purulia, West Bengal</p>
     </div>
   </div>
 
   <div class="leaders">
-    <img class="leader"
-         src="https://www.pmindia.gov.in/wp-content/uploads/2025/12/02.jpg"
-         alt="Prime Minister of India">
+    <img
+      class="leader"
+      src="https://www.pmindia.gov.in/wp-content/uploads/2025/12/02.jpg"
+      alt="Prime Minister of India">
 
-    <img class="leader"
-         src="https://wb.gov.in/images/cm_new2.jpg"
-         alt="Chief Minister of West Bengal">
+    <img
+      class="leader"
+      src="https://wb.gov.in/images/cm_new2.jpg"
+      alt="Chief Minister of West Bengal">
   </div>
 
 </header>
 
-<!-- NAV -->
 <nav class="nav">
-  <a class="active" href="index.html">🏠 Home</a>
+  <a href="index.html">🏠 Home</a>
   <a href="about.html">ℹ️ About</a>
   <a href="administration.html">🏛️ Administration</a>
   <a href="development.html">📈 Development</a>
@@ -709,138 +709,201 @@ a{text-decoration:none}
   <a href="contact.html">☎️ Contact</a>
 </nav>
 
-<!-- MAIN HERO -->
 <section class="hero">
 
-  <div class="hero-grid">
+  <div class="hero-slides">
 
-    <!-- WEATHER -->
-    <aside class="side-card weather-card">
+    <div class="hero-slide active"
+         style="background-image:url('manbazar-block.jpg');">
+    </div>
 
-      <h2 class="side-title">🌤️ Live Weather</h2>
+    <div class="hero-slide"
+         style="background-image:url('manbazar-block1.jpeg');">
+    </div>
 
-      <div class="side-content" id="weatherBox">
-        Weather loading...
-      </div>
+    <div class="hero-slide"
+         style="background-image:url('manbazar-block2.jpeg');">
+    </div>
 
-    </aside>
+    <div class="hero-slide"
+         style="background-image:url('manbazar-block3.jpeg');">
+    </div>
 
-    <!-- PHOTO -->
-    <main class="center">
-
-      <div class="slider" id="slider">
-
-        <div class="slide active">
-          <img src="manbazar-block.jpg" alt="Manbazar-I Development Block">
-          <div class="slider-caption">
-            <strong>Manbazar-I Development Block</strong>
-            <span>Official Information &amp; Citizen Services Portal</span>
-          </div>
-        </div>
-
-        <div class="slide">
-          <img src="manbazar-block1.jpeg" alt="Manbazar-I Block Activity">
-        </div>
-
-        <div class="slide">
-          <img src="manbazar-block2.jpeg" alt="Manbazar-I Block Activity">
-        </div>
-
-        <div class="slide">
-          <img src="manbazar-block3.jpeg" alt="Manbazar-I Block Activity">
-        </div>
-
-        <div class="slide">
-          <img src="manbazar-block4.jpeg" alt="Manbazar-I Block Activity">
-        </div>
-
-        <button class="arrow prev" id="prev" type="button" aria-label="Previous">‹</button>
-        <button class="arrow next" id="next" type="button" aria-label="Next">›</button>
-
-        <div class="dots" id="dots">
-          <button class="dot active" type="button"></button>
-          <button class="dot" type="button"></button>
-          <button class="dot" type="button"></button>
-          <button class="dot" type="button"></button>
-          <button class="dot" type="button"></button>
-        </div>
-
-      </div>
-
-    </main>
-
-    <!-- WHAT'S NEW -->
-    <aside class="side-card news-card">
-
-      <h2 class="side-title">🔔 What's New</h2>
-
-      <div class="side-content">
-
-        <div class="news-scroll">
-          <div id="heroNoticeList">
-            <div style="padding:20px;text-align:center">
-              Notice loading হচ্ছে...
-            </div>
-          </div>
-        </div>
-
-        <a class="view-all" href="notices.html">
-          View All Notices →
-        </a>
-
-      </div>
-
-    </aside>
+    <div class="hero-slide"
+         style="background-image:url('manbazar-block4.jpeg');">
+    </div>
 
   </div>
 
+ <div class="hero-side-layout">
+
+  <!-- LEFT: IMPORTANT LINKS -->
+  <div class="hero-panel important-links-panel">
+
+    <div class="panel-title">
+      🔗 Important Links
+    </div>
+
+    <a class="apply-online-btn" href="https://edistrict.wb.gov.in/portal/home" target="_blank" rel="noopener">
+      🖱️ Apply Online <span>›</span>
+    </a>
+
+    <div class="important-links-list">
+
+      <a class="important-link" href="https://banglarbhumi.gov.in/" target="_blank" rel="noopener">
+        <div class="link-icon">🌐</div>
+        <div class="link-text"><strong>BanglarBhumi</strong><small>Land &amp; Land Records, Govt. of WB</small></div>
+        <div class="arrow">›</div>
+      </a>
+
+      <a class="important-link" href="https://edistrict.wb.gov.in/portal/home" target="_blank" rel="noopener">
+        <div class="link-icon">◉</div>
+        <div class="link-text"><strong>e-District West Bengal</strong><small>Apply for various certificates &amp; services</small></div>
+        <div class="arrow">›</div>
+      </a>
+
+      <a class="important-link" href="https://castcertificatewb.gov.in/" target="_blank" rel="noopener">
+        <div class="link-icon">📄</div>
+        <div class="link-text"><strong>Caste Certificate (WB)</strong><small>Online Caste Certificate</small></div>
+        <div class="arrow">›</div>
+      </a>
+
+      <a class="important-link" href="https://wbpms.in/citizen/" target="_blank" rel="noopener">
+        <div class="link-icon">👥</div>
+        <div class="link-text"><strong>WB Pension Management System</strong><small>Social Security Pension Schemes</small></div>
+        <div class="arrow">›</div>
+      </a>
+
+      <a class="important-link" href="https://food.wb.gov.in/" target="_blank" rel="noopener">
+        <div class="link-icon">🍚</div>
+        <div class="link-text"><strong>Food &amp; Supplies Department</strong><small>Ration Card, Food Security</small></div>
+        <div class="arrow">›</div>
+      </a>
+
+      <a class="important-link" href="https://voters.eci.gov.in/" target="_blank" rel="noopener">
+        <div class="link-icon">🗳️</div>
+        <div class="link-text"><strong>Voter Portal</strong><small>Electoral Services</small></div>
+        <div class="arrow">›</div>
+      </a>
+
+      <a class="important-link" href="https://uidai.gov.in/hi" target="_blank" rel="noopener">
+        <div class="link-icon">🪪</div>
+        <div class="link-text"><strong>UIDAI (Aadhaar)</strong><small>Aadhaar Card Services</small></div>
+        <div class="arrow">›</div>
+      </a>
+
+      <a class="important-link" href="https://parivahan.gov.in/" target="_blank" rel="noopener">
+        <div class="link-icon">🚗</div>
+        <div class="link-text"><strong>Parivahan Sewa</strong><small>Vehicle Related Services</small></div>
+        <div class="arrow">›</div>
+      </a>
+
+      <a class="important-link" href="https://pcc.wb.gov.in/" target="_blank" rel="noopener">
+        <div class="link-icon">👮</div>
+        <div class="link-text"><strong>Police Clearance Certificate</strong><small>West Bengal Police</small></div>
+        <div class="arrow">›</div>
+      </a>
+
+      <a class="important-link" href="https://wbhealth.gov.in/" target="_blank" rel="noopener">
+        <img class="ashoka-link-icon" src="ashoka.jpg" alt="Ashoka Stambha">
+        <div class="link-text"><strong>WB Health Department</strong><small>Government of West Bengal</small></div>
+        <div class="arrow">›</div>
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <!-- CENTER: HERO CONTENT -->
+  <div class="hero-content">
+
+    <h2>Manbazar-I Development Block</h2>
+
+    <p>
+      Official Information & Citizen Services Portal
+    </p>
+
+    <a class="hero-btn" href="notices.html">
+      🔔 Latest Notices
+    </a>
+
+  </div>
+
+
+  <!-- RIGHT: WHAT'S NEW -->
+  <div class="hero-panel whatsnew-panel">
+
+    <div class="panel-title">
+      🔔 What's New
+    </div>
+
+    <div class="whatsnew-window">
+      <div id="floatingNoticeList">
+        Notice loading হচ্ছে...
+      </div>
+    </div>
+
+    <a class="all-notices-btn" href="notices.html">
+      View All Notices →
+    </a>
+
+  </div>
+
+</div>
+
 </section>
 
-<!-- SERVICES -->
 <section class="section">
 
   <h2 class="section-title">Important Services</h2>
 
-  <div class="services">
+  <div class="cards">
 
-    <a class="service" href="about.html">
-      <div class="service-icon">ℹ️</div>
+    <a class="card" href="about.html">
+      <div class="icon">ℹ️</div>
       <h3>About Block</h3>
-      <p>ব্লক সম্পর্কিত তথ্য</p>
+      <p>Block সম্পর্কিত তথ্য</p>
     </a>
 
-    <a class="service" href="administration.html">
-      <div class="service-icon">🏛️</div>
+    <a class="card" href="administration.html">
+      <div class="icon">🏛️</div>
       <h3>Administration</h3>
       <p>প্রশাসনিক তথ্য</p>
     </a>
 
-    <a class="service" href="development.html">
-      <div class="service-icon">📈</div>
+    <a class="card" href="development.html">
+      <div class="icon">📈</div>
       <h3>Development</h3>
       <p>উন্নয়নমূলক কার্যক্রম</p>
     </a>
 
-    <a class="service" href="schemes.html">
-      <div class="service-icon">📋</div>
-      <h3>Schemes</h3>
+    <a class="card" href="schemes.html">
+      <div class="icon">📋</div>
+      <h3>Government Schemes</h3>
       <p>সরকারি প্রকল্প</p>
     </a>
 
-    <a class="service" href="downloads.html">
-      <div class="service-icon">📥</div>
+    <a class="card" href="notices.html">
+      <div class="icon">🔔</div>
+      <h3>Notices</h3>
+      <p>সাম্প্রতিক বিজ্ঞপ্তি</p>
+    </a>
+
+    <a class="card" href="downloads.html">
+      <div class="icon">⬇️</div>
       <h3>Downloads</h3>
       <p>প্রয়োজনীয় ফাইল</p>
     </a>
 
-    <a class="service" href="gallery.html">
-      <div class="service-icon">🖼️</div>
+    <a class="card" href="gallery.html">
+      <div class="icon">🖼️</div>
       <h3>Gallery</h3>
-      <p>ছবি ও ভিডিও</p>
+      <p>ছবি ও কার্যক্রম</p>
     </a>
 
-    <a class="service" href="contact.html">
-      <div class="service-icon">☎️</div>
+    <a class="card" href="contact.html">
+      <div class="icon">☎️</div>
       <h3>Contact</h3>
       <p>যোগাযোগ করুন</p>
     </a>
@@ -849,340 +912,206 @@ a{text-decoration:none}
 
 </section>
 
+<section class="section">
+
+  <h2 class="section-title">🔔 Latest Notices</h2>
+
+  <div class="notice-box">
+    <div id="floatingNoticeList">
+      Notice loading হচ্ছে...
+    </div>
+  </div>
+
+</section>
+
+<section class="section">
+
+  <h2 class="section-title">Important Links</h2>
+
+  <div class="links">
+
+    <a class="link-box" href="notices.html">
+      🔔 All Notices
+    </a>
+
+    <a class="link-box" href="downloads.html">
+      📥 Downloads
+    </a>
+
+    <a class="link-box" href="contact.html">
+      ☎️ Contact Block
+    </a>
+
+  </div>
+
+</section>
+
 <footer class="footer">
+
   <p><strong>Manbazar-I Development Block</strong></p>
+
   <p>Purulia, West Bengal</p>
-  <p>Official Information &amp; Citizen Services Portal</p>
-  <p>© <span id="year"></span> Manbazar-I Development Block</p>
+
+  <p>Official Information & Citizen Services Portal</p>
+
+  <p>© <span id="y"></span> Manbazar-I Development Block</p>
+
 </footer>
-
 <script>
-/* ===== SUPABASE ===== */
-const SUPABASE_URL =
-  "https://nqfcoofeqsesenmttcwr.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
+document.getElementById('y').textContent =
+new Date().getFullYear();
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
 
-/* ===== YEAR ===== */
-document.getElementById("year").textContent =
-  new Date().getFullYear();
+async function loadFloatingNotices() {
 
-/* ===== SLIDER ===== */
-const slides =
-  Array.from(document.querySelectorAll(".slide"));
+const box =
+document.getElementById("floatingNoticeList");
 
-const dots =
-  Array.from(document.querySelectorAll(".dot"));
 
-let current = 0;
-let timer;
+const { data, error } =
+await supabaseClient
 
-function showSlide(index){
-  current =
-    (index + slides.length) % slides.length;
+.from("notices")
 
-  slides.forEach((slide,i)=>{
-    slide.classList.toggle("active",i === current);
-  });
+.select(
+"id,title,description,notice_date,file_url"
+)
 
-  dots.forEach((dot,i)=>{
-    dot.classList.toggle("active",i === current);
-  });
+.order(
+"notice_date",
+{
+ascending:false
+}
+)
+
+.limit(5);
+
+
+if (error) {
+
+box.innerHTML =
+"Notice load করা যাচ্ছে না।";
+
+console.error(error);
+
+return;
+
 }
 
-function startSlider(){
-  clearInterval(timer);
-  timer = setInterval(()=>{
-    showSlide(current + 1);
-  },5000);
+
+if (!data || data.length === 0) {
+
+box.innerHTML =
+"এখনও কোনো Notice প্রকাশিত হয়নি।";
+
+return;
+
 }
 
-document.getElementById("next").onclick = ()=>{
-  showSlide(current + 1);
-  startSlider();
-};
 
-document.getElementById("prev").onclick = ()=>{
-  showSlide(current - 1);
-  startSlider();
-};
+box.innerHTML =
+data.map(notice => `
 
-dots.forEach((dot,index)=>{
-  dot.onclick = ()=>{
-    showSlide(index);
-    startSlider();
-  };
+<div class="float-notice">
+
+<a href="notices.html">
+
+🔔 ${escapeFloating(notice.title || "Notice")}
+
+</a>
+
+<div class="float-date">
+
+প্রকাশের তারিখ:
+${escapeFloating(notice.notice_date || "")}
+
+</div>
+
+${
+notice.file_url
+
+?
+
+`
+<a
+class="float-pdf"
+href="${escapeAttribute(notice.file_url)}"
+target="_blank"
+rel="noopener"
+>
+📄 View / Download PDF
+</a>
+`
+
+:
+
+""
+
+}
+
+</div>
+
+`).join("");
+
+}
+
+
+function escapeFloating(value) {
+
+return String(value)
+
+.replace(/&/g,"&amp;")
+
+.replace(/</g,"&lt;")
+
+.replace(/>/g,"&gt;")
+
+.replace(/"/g,"&quot;")
+
+.replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttribute(value) {
+
+return String(value)
+
+.replace(/&/g,"&amp;")
+
+.replace(/"/g,"&quot;")
+
+.replace(/</g,"&lt;")
+
+.replace(/>/g,"&gt;");
+
+}
+
+
+loadFloatingNotices().catch(function(error) {
+  document.getElementById("floatingNoticeList").innerHTML =
+    "Notice load error: " + error.message;
+  console.error(error);
 });
 
-showSlide(0);
-startSlider();
+const heroSlides = document.querySelectorAll(".hero-slide");
 
-/* ===== WEATHER ===== */
-const LAT = 23.0615;
-const LON = 86.6642;
+let currentSlide = 0;
 
-function weatherIcon(code){
-  if(code===0) return "☀️";
-  if(code===1 || code===2) return "🌤️";
-  if(code===3) return "☁️";
-  if([45,48].includes(code)) return "🌫️";
-  if([51,53,55,56,57].includes(code)) return "🌦️";
-  if([61,63,65,66,67,80,81,82].includes(code)) return "🌧️";
-  if([71,73,75,77,85,86].includes(code)) return "🌨️";
-  if([95,96,99].includes(code)) return "⛈️";
-  return "🌤️";
-}
+setInterval(function() {
 
-function weatherText(code){
-  if(code===0) return "Clear sky";
-  if(code===1) return "Mainly clear";
-  if(code===2) return "Partly cloudy";
-  if(code===3) return "Overcast";
-  if([45,48].includes(code)) return "Fog";
-  if([51,53,55].includes(code)) return "Drizzle";
-  if([61,63,65].includes(code)) return "Rain";
-  if([80,81,82].includes(code)) return "Rain showers";
-  if([95,96,99].includes(code)) return "Thunderstorm";
-  return "Weather update";
-}
+  heroSlides[currentSlide].classList.remove("active");
 
-function dayName(date){
-  return new Date(date+"T12:00:00")
-    .toLocaleDateString(
-      "en-IN",
-      {weekday:"short"}
-    );
-}
+  currentSlide++;
 
-async function loadWeather(){
-
-  const box =
-    document.getElementById("weatherBox");
-
-  try{
-
-    const url =
-      "https://api.open-meteo.com/v1/forecast" +
-      "?latitude="+LAT+
-      "&longitude="+LON+
-      "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m"+
-      "&daily=weather_code,temperature_2m_max,temperature_2m_min"+
-      "&timezone=Asia%2FKolkata"+
-      "&forecast_days=4";
-
-    const response = await fetch(url);
-
-    if(!response.ok)
-      throw new Error("Weather unavailable");
-
-    const data = await response.json();
-
-    const c = data.current;
-    const d = data.daily;
-
-    let forecast = "";
-
-    for(let i=1;i<=3;i++){
-
-      forecast += `
-        <div class="forecast-day">
-          <strong>${dayName(d.time[i])}</strong>
-          <div class="forecast-icon">
-            ${weatherIcon(d.weather_code[i])}
-          </div>
-          <div class="forecast-temp">
-            ${Math.round(d.temperature_2m_max[i])}° /
-            ${Math.round(d.temperature_2m_min[i])}°
-          </div>
-        </div>
-      `;
-    }
-
-    const updated =
-      new Date().toLocaleTimeString(
-        "en-IN",
-        {hour:"2-digit",minute:"2-digit"}
-      );
-
-    box.innerHTML = `
-
-      <div class="weather-location">
-        Manbazar-I,<br>Purulia
-      </div>
-
-      <div class="weather-updated">
-        Updated ${updated}
-      </div>
-
-      <div class="weather-icon">
-        ${weatherIcon(c.weather_code)}
-      </div>
-
-      <div class="weather-temp">
-        ${Math.round(c.temperature_2m)}°C
-      </div>
-
-      <div class="weather-condition">
-        ${weatherText(c.weather_code)}
-      </div>
-
-      <div class="weather-info">
-
-        <div class="weather-item">
-          <span>💧 Humidity</span>
-          <strong>${c.relative_humidity_2m}%</strong>
-        </div>
-
-        <div class="weather-item">
-          <span>💨 Wind</span>
-          <strong>${Math.round(c.wind_speed_10m)} km/h</strong>
-        </div>
-
-        <div class="weather-item">
-          <span>🌡️ Feels like</span>
-          <strong>${Math.round(c.apparent_temperature)}°C</strong>
-        </div>
-
-      </div>
-
-      <div class="forecast">
-        ${forecast}
-      </div>
-    `;
-
-  }catch(error){
-
-    console.error(error);
-
-    box.innerHTML = `
-      <div class="weather-location">
-        Manbazar-I,<br>Purulia
-      </div>
-      <div style="text-align:center;margin-top:35px">
-        🌤️ Weather data temporarily unavailable.
-      </div>
-    `;
+  if (currentSlide >= heroSlides.length) {
+    currentSlide = 0;
   }
-}
 
-loadWeather();
-setInterval(loadWeather,600000);
+  heroSlides[currentSlide].classList.add("active");
 
-/* ===== NOTICE ===== */
-function escapeHTML(value){
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-}
-
-function noticeHTML(n){
-
-  const title =
-    escapeHTML(n.title || "Latest Notice");
-
-  const date =
-    n.notice_date
-      ? escapeHTML(n.notice_date)
-      : "";
-
-  const pdf =
-    n.file_url
-      ? `
-        <a class="news-pdf"
-           href="${escapeHTML(n.file_url)}"
-           target="_blank"
-           rel="noopener noreferrer">
-           📄 View PDF
-        </a>
-      `
-      : "";
-
-  return `
-    <div class="news-item">
-
-      <span class="new-badge">NEW</span>
-
-      <span class="news-date">
-        ${date}
-      </span>
-
-      <span class="news-title">
-        🔔 ${title}
-      </span>
-
-      ${pdf}
-
-    </div>
-  `;
-}
-
-async function loadNotices(){
-
-  const box =
-    document.getElementById("heroNoticeList");
-
-  try{
-
-    const {data,error} =
-      await supabaseClient
-        .from("notices")
-        .select(
-          "id,title,description,notice_date,file_url"
-        )
-        .order(
-          "notice_date",
-          {ascending:false}
-        )
-        .limit(7);
-
-    if(error) throw error;
-
-    if(!data || data.length===0){
-
-      box.innerHTML = `
-        <div style="padding:25px;text-align:center">
-          এখনও কোনো Notice প্রকাশিত হয়নি।
-        </div>
-      `;
-
-      return;
-    }
-
-    const items =
-      data.map(noticeHTML).join("");
-
-    box.innerHTML = `
-      <div class="news-track">
-        ${items}
-        ${items}
-      </div>
-    `;
-
-  }catch(error){
-
-    console.error("Notice error:",error);
-
-    box.innerHTML = `
-      <div style="padding:25px;text-align:center">
-        Notice loading error.
-      </div>
-    `;
-  }
-}
-
-loadNotices();
-setInterval(loadNotices,60000);
+}, 5000);
 </script>
-
 </body>
 </html>
