@@ -49,13 +49,20 @@ async function submitApp(){
  const applicant_name=name.value.trim(),phoneVal=phone.value.trim(),gp_name=gp.value,village_name=village.value.trim(),grievance_details=details.value.trim();
  if(!applicant_name||!/^\d{10}$/.test(phoneVal)||!gp_name||!village_name||!grievance_details){err("Please fill all required fields and enter a valid 10 digit mobile number.");return}
  const btn=document.querySelector(".submit");btn.disabled=true;btn.textContent="Submitting...";
- const {data,error:dbErr}=await sb.from("public_grievances").insert({applicant_name,phone:phoneVal,gp_name,village_name,grievance_details}).select("application_id").single();
+ const now=new Date();
+ const y=now.getFullYear();
+ const m=String(now.getMonth()+1).padStart(2,"0");
+ const d=String(now.getDate()).padStart(2,"0");
+ const randomId=crypto.randomUUID().replace(/-/g,"").slice(0,8).toUpperCase();
+ const generatedApplicationId=`GRV-${y}${m}${d}-${randomId}`;
+ const {error:dbErr}=await sb.from("public_grievances").insert({application_id:generatedApplicationId,applicant_name,phone:phoneVal,gp_name,village_name,grievance_details});
  btn.disabled=false;btn.textContent="📤 Submit Application";
  if(dbErr){
   if(
     dbErr.message === "ACTIVE_GRIEVANCE_EXISTS" ||
     dbErr.message.includes("ACTIVE_GRIEVANCE_EXISTS") ||
-    (dbErr.details && dbErr.details.includes("previous grievance is Closed"))
+    (dbErr.details && dbErr.details.includes("previous grievance is Closed")) ||
+    (dbErr.hint && dbErr.hint.includes("previous grievance is Closed"))
   ){
     alert("একই Mobile Number দিয়ে নতুন Application করা যাবে না, যতক্ষণ আগের Grievance টি Closed না হয়।");
     err("এই Mobile Number দিয়ে একটি Grievance ইতিমধ্যে Active আছে। আগের Grievance টি Admin দ্বারা Closed হওয়ার পরেই এই Mobile Number দিয়ে নতুন Application করা যাবে।");
@@ -64,7 +71,7 @@ async function submitApp(){
   }
   return;
 }
- appId.textContent=data.application_id;success.style.display="block";
+ appId.textContent=generatedApplicationId;success.style.display="block";
  document.querySelector("form")?.reset?.();
 }
 </script>
