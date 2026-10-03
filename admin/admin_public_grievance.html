@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Public Grievance | Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://nqfcoofeqsesenmttcwr.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+</script>
+<style>
+body{margin:0;background:#f4f5f7;font-family:Arial,sans-serif;color:#202020}.top{background:#650014;color:#fff;padding:13px 4%;display:flex;justify-content:space-between}.wrap{width:94%;max-width:1450px;margin:20px auto}.head{background:linear-gradient(90deg,#8b001b,#b0002d);color:#fff;padding:18px 22px;border-radius:12px;display:flex;justify-content:space-between;align-items:center}.head h1{margin:0;font-size:25px}.logout{background:#f0b400;color:#111;border:0;padding:10px 15px;border-radius:8px;font-weight:800;cursor:pointer}.toolbar{margin:15px 0;display:flex;gap:10px;flex-wrap:wrap}.search{flex:1;min-width:240px;padding:12px;border:1px solid #ccc;border-radius:8px}.table-wrap{background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.1);overflow:auto}.count{padding:14px 16px;font-weight:800;color:#7d0c23}.status{padding:5px 9px;border-radius:6px;font-size:12px;font-weight:800;background:#eee}.new{background:#fff0d0;color:#875500}.pending{background:#e8f0ff;color:#1553a0}.resolved{background:#e5f7ed;color:#08713e}table{border-collapse:collapse;width:100%;min-width:1100px}th,td{padding:11px 10px;border-bottom:1px solid #eee;text-align:left;vertical-align:top;font-size:14px}th{background:#fff4d2;color:#651022;position:sticky;top:0}.details{max-width:350px;white-space:pre-wrap}.empty{text-align:center;padding:40px;color:#777}.error{color:#a40000;padding:20px}
+@media(max-width:600px){.top{flex-direction:column;gap:5px}.head{gap:10px;align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="top"><span>Manbazar-I Development Block</span><span>Admin Panel</span></div>
+<main class="wrap">
+  <section class="head"><h1>📜 Public Grievance</h1><button class="logout" id="logout">Sign Out</button></section>
+  <div class="toolbar"><input class="search" id="search" placeholder="Search Application ID, Name, Phone, GP or Village..."></div>
+  <div class="table-wrap">
+    <div class="count" id="count">Loading...</div>
+    <table><thead><tr><th>Application ID</th><th>Date</th><th>Applicant</th><th>Phone</th><th>GP</th><th>Village</th><th>Grievance Details</th><th>Status</th></tr></thead><tbody id="rows"></tbody></table>
+  </div>
+</main>
+<script>
+let allRows=[];
+async function guard(){
+  const {data}=await supabaseClient.auth.getUser();
+  if(!data.user){location.href="login.html";return false}
+  return true;
+}
+async function load(){
+  const ok=await guard(); if(!ok)return;
+  const {data,error}=await supabaseClient.from("public_grievances").select("*").order("created_at",{ascending:false});
+  if(error){document.getElementById("rows").innerHTML='<tr><td colspan="8" class="error">Could not load grievances.</td></tr>';console.error(error);return}
+  allRows=data||[];render(allRows);
+}
+function render(rows){
+  const q=document.getElementById("search").value.toLowerCase().trim();
+  const filtered=q?rows.filter(r=>[r.application_id,r.applicant_name,r.phone,r.gp_name,r.village_name,r.grievance_details].some(v=>String(v||"").toLowerCase().includes(q))):rows;
+  document.getElementById("count").textContent=`Total Applications: ${filtered.length}`;
+  const tbody=document.getElementById("rows");
+  if(!filtered.length){tbody.innerHTML='<tr><td colspan="8" class="empty">No grievance found.</td></tr>';return}
+  tbody.innerHTML=filtered.map(r=>`<tr>
+    <td><b>${esc(r.application_id)}</b></td><td>${esc(new Date(r.created_at).toLocaleString("en-IN"))}</td>
+    <td>${esc(r.applicant_name)}</td><td>${esc(r.phone)}</td><td>${esc(r.gp_name)}</td><td>${esc(r.village_name)}</td>
+    <td class="details">${esc(r.grievance_details)}</td><td><span class="status ${String(r.status||"New").toLowerCase()}">${esc(r.status||"New")}</span></td>
+  </tr>`).join("");
+}
+document.getElementById("search").addEventListener("input",()=>render(allRows));
+document.getElementById("logout").addEventListener("click",async()=>{await supabaseClient.auth.signOut();location.href="login.html"});
+function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
+load();
+</script>
+</body>
+</html>
