@@ -917,6 +917,66 @@ html,body{
   100%{transform:translateY(-50%)}
 }
 
+
+/* ===== GRIEVANCE & REDRESSAL HOME SECTION ONLY ===== */
+.grievance-home-section{
+  padding:35px 5%;
+  background:#fffaf2;
+}
+.grievance-home-cards{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:22px;
+  max-width:950px;
+  margin:0 auto;
+}
+.grievance-home-card{
+  display:block;
+  background:#fff;
+  padding:28px 22px;
+  border-radius:15px;
+  text-align:center;
+  text-decoration:none;
+  color:#2d2024;
+  box-shadow:0 8px 25px rgba(67,8,23,.15);
+  border-top:6px solid #8b001b;
+  transition:.2s;
+}
+.grievance-home-card:hover{
+  transform:translateY(-4px);
+}
+.grievance-home-card.status{
+  border-top-color:#1268d9;
+}
+.grievance-icon{
+  font-size:40px;
+  margin-bottom:8px;
+}
+.grievance-home-card h3{
+  margin:8px 0;
+  color:#8b001b;
+}
+.grievance-home-card.status h3{
+  color:#1268d9;
+}
+.grievance-home-card p{
+  color:#666;
+  margin:8px 0 15px;
+}
+.grievance-home-card span{
+  display:inline-block;
+  padding:9px 17px;
+  border-radius:7px;
+  background:#d4a017;
+  color:#430817;
+  font-weight:800;
+}
+@media(max-width:700px){
+  .grievance-home-cards{
+    grid-template-columns:1fr;
+  }
+}
+
 </style>
 </head>
 
@@ -1040,6 +1100,29 @@ html,body{
 
 
 
+
+
+<section class="section grievance-home-section">
+  <h2 class="section-title">📜 Grievance & Redressal</h2>
+
+  <div class="grievance-home-cards">
+
+    <a class="grievance-home-card citizen" href="public-grievance.html">
+      <div class="grievance-icon">📝</div>
+      <h3>Public Grievance & Redressal</h3>
+      <p>নাগরিক অভিযোগ / আবেদন করুন</p>
+      <span>Apply Now →</span>
+    </a>
+
+    <a class="grievance-home-card status" href="grievance-status.html">
+      <div class="grievance-icon">🔎</div>
+      <h3>Application Status Check</h3>
+      <p>Application ID ও Mobile Number দিয়ে আবেদনের Status দেখুন</p>
+      <span>Check Status →</span>
+    </a>
+
+  </div>
+</section>
 
 <footer class="footer">
 
