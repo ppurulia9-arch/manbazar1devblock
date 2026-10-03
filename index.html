@@ -685,7 +685,18 @@ body{
 .important-links-list strong{display:block;font-size:14px;line-height:1.12}
 .important-links-list small{display:block;font-size:10.5px;line-height:1.15;color:#555;margin-top:2px}
 .important-links-list b{font-size:22px;color:#b07800;text-align:center}
-.exact-center-slider{position:relative !important;inset:auto !important;width:100% !important;height:100% !important;display:block !important;background:linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.12)) !important;overflow:hidden !important}
+.exact-center-slider{
+  position:relative !important;
+  inset:auto !important;
+  width:100% !important;
+  height:100% !important;
+  display:block !important;
+  background-image:url("manbazar-block.jpg") !important;
+  background-size:cover !important;
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+  overflow:hidden !important;
+}
 .exact-center-slider:before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 55%,rgba(0,0,0,.65) 100%);z-index:1;pointer-events:none}
 .slider-ar{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,.62);color:#fff;font-size:48px;line-height:45px;text-align:center;z-index:8;cursor:pointer}
 .slider-ar.left{left:18px}.slider-ar.right{right:18px}
@@ -1114,8 +1125,17 @@ if (importantTrack) {
 }
 
 const heroSlides = document.querySelectorAll(".hero-slide");
+const centerSlider = document.querySelector(".exact-center-slider");
 
 let currentSlide = 0;
+
+function syncCenterPhoto(){
+  if (!centerSlider || !heroSlides.length) return;
+  const image = heroSlides[currentSlide].style.backgroundImage;
+  centerSlider.style.backgroundImage = image;
+}
+
+syncCenterPhoto();
 
 setInterval(function() {
 
@@ -1128,6 +1148,7 @@ setInterval(function() {
   }
 
   heroSlides[currentSlide].classList.add("active");
+  syncCenterPhoto();
 
 }, 5000);
 </script>
