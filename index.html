@@ -742,6 +742,19 @@ body{
   .exact-whatsnew-panel{order:3}
   .slider-caption strong{font-size:20px}
 }
+
+/* FINAL FIX: full-width three-column hero */
+.exact-home-hero{width:100% !important; max-width:none !important;}
+.exact-three-column{left:0 !important; right:0 !important; width:100% !important; grid-template-columns:25% 50% 25% !important;}
+.exact-three-column > .hero-panel{min-width:0 !important;}
+.exact-three-column > .exact-center-slider{min-width:0 !important; width:100% !important; height:100% !important;}
+.exact-center-slider .hero-slide{background-size:cover !important; background-position:center center !important;}
+@media(max-width:900px){
+  .exact-three-column{position:relative !important; grid-template-columns:1fr !important; width:100% !important; height:auto !important;}
+  .exact-home-hero{height:auto !important; min-height:0 !important;}
+  .exact-three-column > .hero-panel,.exact-three-column > .exact-center-slider{width:100% !important; height:420px !important;}
+}
+
 </style>
 </head>
 
@@ -814,7 +827,7 @@ body{
         <a href="https://banglarbhumi.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🌐</span><span><strong>BanglarBhumi</strong><small>Land &amp; Land Records, Govt. of WB</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
         <a href="https://edistrict.wb.gov.in/portal/home" target="_blank" rel="noopener"><span class="link-icon">📄</span><span><strong>e-District West Bengal</strong><small>Apply for various certificates &amp; services</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
         <a href="https://castcertificatewb.gov.in/" target="_blank" rel="noopener"><span class="link-icon">👥</span><span><strong>Caste Certificate (WB)</strong><small>Apply for Caste Certificate</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
-        <a href="https://wbpms.in/citizen/" target="_blank" rel="noopener"><span class="link-icon">🏛️</span><span><strong>WB Pension Management System</strong><small>Social Security Pension Schemes</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
+        <a href="https://wbpms.in/citizen/" target="_blank" rel="noopener"><span class="link-icon">🏛️</span><span><strong>WB Panchayat Management System</strong><small>Social Security Pension Schemes</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
         <a href="https://food.wb.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🌿</span><span><strong>Food &amp; Supplies Department</strong><small>Ration Card, Food Security</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
         <a href="https://voters.eci.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🗳️</span><span><strong>Voter Portal</strong><small>Electoral Services</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
         <a href="https://uidai.gov.in/hi" target="_blank" rel="noopener"><span class="link-icon">🪪</span><span><strong>UIDAI (Aadhaar)</strong><small>Aadhaar Card Services</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
