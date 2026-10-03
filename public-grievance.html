@@ -43,36 +43,84 @@
 const SUPABASE_URL="https://nqfcoofeqsesenmttcwr.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
-function err(t){error.textContent=t;error.style.display=t?"block":"none"}
-async function submitApp(){
- err("");success.style.display="none";
- const applicant_name=name.value.trim(),phoneVal=phone.value.trim(),gp_name=gp.value,village_name=village.value.trim(),grievance_details=details.value.trim();
- if(!applicant_name||!/^\d{10}$/.test(phoneVal)||!gp_name||!village_name||!grievance_details){err("Please fill all required fields and enter a valid 10 digit mobile number.");return}
- const btn=document.querySelector(".submit");btn.disabled=true;btn.textContent="Submitting...";
- const now=new Date();
- const y=now.getFullYear();
- const m=String(now.getMonth()+1).padStart(2,"0");
- const d=String(now.getDate()).padStart(2,"0");
- const randomId=crypto.randomUUID().replace(/-/g,"").slice(0,8).toUpperCase();
- const generatedApplicationId=`GRV-${y}${m}${d}-${randomId}`;
- const {error:dbErr}=await sb.from("public_grievances").insert({application_id:generatedApplicationId,applicant_name,phone:phoneVal,gp_name,village_name,grievance_details});
- btn.disabled=false;btn.textContent="📤 Submit Application";
- if(dbErr){
-  if(
-    dbErr.message === "ACTIVE_GRIEVANCE_EXISTS" ||
-    dbErr.message.includes("ACTIVE_GRIEVANCE_EXISTS") ||
-    (dbErr.details && dbErr.details.includes("previous grievance is Closed")) ||
-    (dbErr.hint && dbErr.hint.includes("previous grievance is Closed"))
-  ){
-    alert("একই Mobile Number দিয়ে নতুন Application করা যাবে না, যতক্ষণ আগের Grievance টি Closed না হয়।");
-    err("এই Mobile Number দিয়ে একটি Grievance ইতিমধ্যে Active আছে। আগের Grievance টি Admin দ্বারা Closed হওয়ার পরেই এই Mobile Number দিয়ে নতুন Application করা যাবে।");
-  }else{
-    err("Submission failed. Please try again.");
-  }
-  return;
+
+const nameEl=document.getElementById("name");
+const phoneEl=document.getElementById("phone");
+const gpEl=document.getElementById("gp");
+const villageEl=document.getElementById("village");
+const detailsEl=document.getElementById("details");
+const errorEl=document.getElementById("error");
+const successEl=document.getElementById("success");
+const appIdEl=document.getElementById("appId");
+
+function showError(message){
+  errorEl.textContent=message;
+  errorEl.style.display=message?"block":"none";
 }
- appId.textContent=generatedApplicationId;success.style.display="block";
- document.querySelector("form")?.reset?.();
+
+async function submitApp(){
+  showError("");
+  successEl.style.display="none";
+
+  const applicant_name=nameEl.value.trim();
+  const phoneVal=phoneEl.value.trim();
+  const gp_name=gpEl.value;
+  const village_name=villageEl.value.trim();
+  const grievance_details=detailsEl.value.trim();
+
+  if(!applicant_name || !/^\d{10}$/.test(phoneVal) || !gp_name || !village_name || !grievance_details){
+    showError("Please fill all required fields and enter a valid 10 digit mobile number.");
+    return;
+  }
+
+  const btn=document.querySelector(".submit");
+  btn.disabled=true;
+  btn.textContent="Submitting...";
+
+  try{
+    const now=new Date();
+    const datePart=now.getFullYear()+String(now.getMonth()+1).padStart(2,"0")+String(now.getDate()).padStart(2,"0");
+    const randomPart=Math.random().toString(36).substring(2,10).toUpperCase();
+    const generatedApplicationId=`GRV-${datePart}-${randomPart}`;
+
+    const {error:dbErr}=await sb.from("public_grievances").insert({
+      application_id:generatedApplicationId,
+      applicant_name:applicant_name,
+      phone:phoneVal,
+      gp_name:gp_name,
+      village_name:village_name,
+      grievance_details:grievance_details
+    });
+
+    if(dbErr){
+      console.error("Supabase submission error:",dbErr);
+      const duplicate=(dbErr.message||"").includes("ACTIVE_GRIEVANCE_EXISTS") ||
+        (dbErr.details||"").includes("previous grievance is Closed") ||
+        (dbErr.hint||"").includes("previous grievance is Closed");
+
+      if(duplicate){
+        alert("একই Mobile Number দিয়ে নতুন Application করা যাবে না, যতক্ষণ আগের Grievance টি Closed না হয়।");
+        showError("একই Mobile Number দিয়ে নতুন Application করা যাবে না, যতক্ষণ আগের Grievance টি Closed না হয়।");
+      }else{
+        showError("Application submit করা যাচ্ছে না। অনুগ্রহ করে আবার চেষ্টা করুন।");
+      }
+      return;
+    }
+
+    appIdEl.textContent=generatedApplicationId;
+    successEl.style.display="block";
+    nameEl.value="";
+    phoneEl.value="";
+    gpEl.value="";
+    villageEl.value="";
+    detailsEl.value="";
+  }catch(err){
+    console.error("Submission error:",err);
+    showError("Application submit করা যাচ্ছে না। অনুগ্রহ করে আবার চেষ্টা করুন।");
+  }finally{
+    btn.disabled=false;
+    btn.textContent="📤 Submit Application";
+  }
 }
 </script>
 </body></html>
