@@ -593,16 +593,93 @@ body{
 .exact-home-hero .hero-slides{position:absolute;inset:0;width:100%;height:100%;z-index:0}
 .exact-home-hero .hero-slide{position:absolute;inset:0;width:100%;height:100%;background-size:cover;background-position:center center;background-repeat:no-repeat;opacity:0;transition:opacity 1s ease-in-out}
 .exact-home-hero .hero-slide.active{opacity:1}
-.exact-three-column{position:absolute !important;inset:0 !important;width:100% !important;height:100% !important;display:grid !important;grid-template-columns:25% 50% 25% !important;gap:0 !important;z-index:4 !important;align-items:stretch !important}
-.exact-three-column .hero-panel{margin:0 !important;border-radius:0 !important;min-height:0 !important;max-height:none !important;height:100% !important;overflow:hidden !important;background:#f4a900 !important;border:3px solid #d4a017 !important;box-shadow:none !important;padding:14px 10px !important;color:#2d2024 !important}
+.exact-three-column{
+  position:absolute !important;
+  top:0 !important;
+  left:0 !important;
+  width:100vw !important;
+  max-width:none !important;
+  height:100% !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:grid !important;
+  grid-template-columns:minmax(250px,25vw) minmax(0,50vw) minmax(250px,25vw) !important;
+  gap:0 !important;
+  z-index:4 !important;
+  align-items:stretch !important;
+}
+.exact-three-column .hero-panel{
+  margin:0 !important;
+  border-radius:0 !important;
+  min-height:0 !important;
+  max-height:none !important;
+  width:100% !important;
+  height:100% !important;
+  box-sizing:border-box !important;
+  overflow:hidden !important;
+  background:#f4a900 !important;
+  border:3px solid #d4a017 !important;
+  box-shadow:none !important;
+  padding:14px 10px !important;
+  color:#2d2024 !important;
+}
 .important-links-panel{display:flex !important;flex-direction:column !important}
 .exact-three-column .panel-title{font-size:25px !important;font-weight:900 !important;color:#5a0b1d !important;text-align:center !important;padding:10px 5px 12px !important;margin:0 0 10px !important;border-bottom:3px solid #7b1e2b !important;flex-shrink:0 !important}
 .important-apply{display:flex;align-items:center;gap:8px;justify-content:space-between;background:#d40000;color:#fff;text-decoration:none;padding:11px 13px;border-radius:8px;font-size:18px;font-weight:900;margin-bottom:8px;box-shadow:0 3px 8px rgba(0,0,0,.2);flex-shrink:0}
 .important-apply span{flex:1;text-align:left}
-.important-links-list{display:flex;flex-direction:column;gap:6px;overflow-y:auto;padding-right:3px;flex:1}
+.important-links-list{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  overflow:hidden;
+  padding:0 3px 0 0;
+  flex:1;
+  position:relative;
+}
+.important-links-track{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  animation:importantFloat 24s linear infinite;
+  will-change:transform;
+}
+.important-links-panel:hover .important-links-track{animation-play-state:paused}
+@keyframes importantFloat{
+  from{transform:translateY(0)}
+  to{transform:translateY(-50%)}
+}
+.blink-apply{
+  display:inline-block;
+  margin-left:4px;
+  padding:2px 5px;
+  border-radius:4px;
+  background:#e00000;
+  color:#fff !important;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.3px;
+  animation:blinkApply .85s steps(2,end) infinite;
+  vertical-align:middle;
+}
+@keyframes blinkApply{
+  0%,49%{opacity:1}
+  50%,100%{opacity:.15}
+}
 .important-links-list::-webkit-scrollbar,.whatsnew-window::-webkit-scrollbar{width:7px}
 .important-links-list::-webkit-scrollbar-thumb,.whatsnew-window::-webkit-scrollbar-thumb{background:#7b1e2b;border-radius:10px}
-.important-links-list a{display:grid;grid-template-columns:32px 1fr 16px;align-items:center;gap:5px;text-decoration:none;color:#17233b;background:#fff7df;border-radius:7px;padding:7px 6px;border:1px solid rgba(123,30,43,.18);min-height:48px}
+.important-links-list a{
+  display:grid;
+  grid-template-columns:30px minmax(0,1fr) auto 14px;
+  align-items:center;
+  gap:4px;
+  text-decoration:none;
+  color:#17233b;
+  background:#fff7df;
+  border-radius:7px;
+  padding:7px 6px;
+  border:1px solid rgba(123,30,43,.18);
+  min-height:48px;
+}
 .important-links-list a:hover{background:#fff;color:#7b1e2b;transform:translateX(2px)}
 .important-links-list .link-icon{font-size:20px;text-align:center}
 .important-links-list strong{display:block;font-size:14px;line-height:1.12}
@@ -618,11 +695,53 @@ body{
 .exact-whatsnew-panel .panel-title{display:flex !important;align-items:center;justify-content:space-between;gap:5px}
 .view-all-top{font-size:12px;background:#7b1e2b;color:#fff !important;padding:7px 8px;border-radius:6px;text-decoration:none !important;white-space:nowrap}
 .exact-whatsnew-panel .whatsnew-window{flex:1 !important;min-height:0 !important;overflow-y:auto !important;overflow-x:hidden !important;background:transparent !important}
-.exact-whatsnew-panel #floatingNoticeList{max-height:none !important;overflow:visible !important}
+.exact-whatsnew-panel #floatingNoticeList{
+  max-height:none !important;
+  overflow:visible !important;
+  display:flex !important;
+  flex-direction:column !important;
+  gap:7px !important;
+  animation:noticeFloat 22s linear infinite;
+  will-change:transform;
+}
+.exact-whatsnew-panel .whatsnew-window:hover #floatingNoticeList{animation-play-state:paused}
+@keyframes noticeFloat{
+  from{transform:translateY(0)}
+  to{transform:translateY(-50%)}
+}
+.new-badge{
+  display:inline-block;
+  margin-right:6px;
+  padding:2px 5px;
+  border-radius:4px;
+  background:#e00000;
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+  animation:blinkNew .8s steps(2,end) infinite;
+  vertical-align:middle;
+}
+@keyframes blinkNew{
+  0%,49%{opacity:1}
+  50%,100%{opacity:.12}
+}
 .exact-whatsnew-panel .float-notice{background:#fff7df !important;border:1px solid rgba(123,30,43,.18) !important;border-radius:8px !important;padding:11px !important;margin:0 0 7px !important}
 .exact-whatsnew-panel .float-notice a{color:#17233b !important;font-size:14px}.exact-whatsnew-panel .float-date{font-size:11px}.exact-whatsnew-panel .float-pdf{background:#7b1e2b !important;color:#fff !important;padding:5px 8px !important;border-radius:5px !important}
 .exact-whatsnew-panel .all-notices-btn{background:#7b1e2b !important;color:#fff !important;flex-shrink:0 !important;margin-top:8px !important}
-@media(max-width:900px){.exact-home-hero{height:auto !important;min-height:0 !important}.exact-three-column{position:relative !important;grid-template-columns:1fr !important;height:auto !important}.exact-three-column .hero-panel{height:430px !important}.exact-center-slider{height:480px !important;order:2}.important-links-panel{order:1}.exact-whatsnew-panel{order:3}.slider-caption strong{font-size:20px}}
+@media(max-width:900px){
+  .exact-home-hero{height:auto !important;min-height:0 !important}
+  .exact-three-column{
+    position:relative !important;
+    width:100% !important;
+    grid-template-columns:1fr !important;
+    height:auto !important;
+  }
+  .exact-three-column .hero-panel{height:430px !important}
+  .exact-center-slider{height:480px !important;order:2}
+  .important-links-panel{order:1}
+  .exact-whatsnew-panel{order:3}
+  .slider-caption strong{font-size:20px}
+}
 </style>
 </head>
 
@@ -691,18 +810,18 @@ body{
         🖥️ <span>Apply Online</span> <b>›</b>
       </a>
 
-      <div class="important-links-list">
-        <a href="https://banglarbhumi.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🌐</span><span><strong>BanglarBhumi</strong><small>Land &amp; Land Records, Govt. of WB</small></span><b>›</b></a>
-        <a href="https://edistrict.wb.gov.in/portal/home" target="_blank" rel="noopener"><span class="link-icon">📄</span><span><strong>e-District West Bengal</strong><small>Apply for various certificates &amp; services</small></span><b>›</b></a>
-        <a href="https://castcertificatewb.gov.in/" target="_blank" rel="noopener"><span class="link-icon">👥</span><span><strong>Caste Certificate (WB)</strong><small>Apply for Caste Certificate</small></span><b>›</b></a>
-        <a href="https://wbpms.in/citizen/" target="_blank" rel="noopener"><span class="link-icon">🏛️</span><span><strong>WB Pension Management System</strong><small>Social Security Pension Schemes</small></span><b>›</b></a>
-        <a href="https://food.wb.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🌿</span><span><strong>Food &amp; Supplies Department</strong><small>Ration Card, Food Security</small></span><b>›</b></a>
-        <a href="https://voters.eci.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🗳️</span><span><strong>Voter Portal</strong><small>Electoral Services</small></span><b>›</b></a>
-        <a href="https://uidai.gov.in/hi" target="_blank" rel="noopener"><span class="link-icon">🪪</span><span><strong>UIDAI (Aadhaar)</strong><small>Aadhaar Card Services</small></span><b>›</b></a>
-        <a href="https://parivahan.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🚗</span><span><strong>Parivahan Sewa</strong><small>Vehicle Related Services</small></span><b>›</b></a>
-        <a href="https://pcc.wb.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🛡️</span><span><strong>Police Clearance Certificate</strong><small>PCC Services, Govt. of WB</small></span><b>›</b></a>
-        <a href="https://wbhealth.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🏛️</span><span><strong>WB Health Department</strong><small>Health Schemes &amp; Services</small></span><b>›</b></a>
-      </div>
+      <div class="important-links-list"><div class="important-links-track">
+        <a href="https://banglarbhumi.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🌐</span><span><strong>BanglarBhumi</strong><small>Land &amp; Land Records, Govt. of WB</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
+        <a href="https://edistrict.wb.gov.in/portal/home" target="_blank" rel="noopener"><span class="link-icon">📄</span><span><strong>e-District West Bengal</strong><small>Apply for various certificates &amp; services</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
+        <a href="https://castcertificatewb.gov.in/" target="_blank" rel="noopener"><span class="link-icon">👥</span><span><strong>Caste Certificate (WB)</strong><small>Apply for Caste Certificate</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
+        <a href="https://wbpms.in/citizen/" target="_blank" rel="noopener"><span class="link-icon">🏛️</span><span><strong>WB Pension Management System</strong><small>Social Security Pension Schemes</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
+        <a href="https://food.wb.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🌿</span><span><strong>Food &amp; Supplies Department</strong><small>Ration Card, Food Security</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
+        <a href="https://voters.eci.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🗳️</span><span><strong>Voter Portal</strong><small>Electoral Services</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
+        <a href="https://uidai.gov.in/hi" target="_blank" rel="noopener"><span class="link-icon">🪪</span><span><strong>UIDAI (Aadhaar)</strong><small>Aadhaar Card Services</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
+        <a href="https://parivahan.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🚗</span><span><strong>Parivahan Sewa</strong><small>Vehicle Related Services</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
+        <a href="https://pcc.wb.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🛡️</span><span><strong>Police Clearance Certificate</strong><small>PCC Services, Govt. of WB</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
+        <a href="https://wbhealth.gov.in/" target="_blank" rel="noopener"><span class="link-icon">🏛️</span><span><strong>WB Health Department</strong><small>Health Schemes &amp; Services</small></span><span class="blink-apply">APPLY</span><b>›</b></a>
+        </div></div>
     </aside>
 
     <div class="hero-content exact-center-slider">
@@ -887,7 +1006,7 @@ data.map(notice => `
 
 <a href="notices.html">
 
-🔔 ${escapeFloating(notice.title || "Notice")}
+<span class="new-badge">NEW</span> 🔔 ${escapeFloating(notice.title || "Notice")}
 
 </a>
 
@@ -923,6 +1042,14 @@ rel="noopener"
 </div>
 
 `).join("");
+
+  const noticeList = document.getElementById("floatingNoticeList");
+  if (noticeList.children.length > 0) {
+    const original = Array.from(noticeList.children);
+    original.forEach(function(item){
+      noticeList.appendChild(item.cloneNode(true));
+    });
+  }
 
 }
 
@@ -964,6 +1091,14 @@ loadFloatingNotices().catch(function(error) {
     "Notice load error: " + error.message;
   console.error(error);
 });
+
+const importantTrack = document.querySelector(".important-links-track");
+if (importantTrack) {
+  const originalLinks = Array.from(importantTrack.children);
+  originalLinks.forEach(function(item){
+    importantTrack.appendChild(item.cloneNode(true));
+  });
+}
 
 const heroSlides = document.querySelectorAll(".hero-slide");
 
