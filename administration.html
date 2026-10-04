@@ -390,7 +390,16 @@ body{
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-.gp-list{list-style:none;margin:0;padding:0}.gp-list li{border-bottom:1px solid #eee}.gp-button{width:100%;border:0;background:transparent;padding:12px 6px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;cursor:pointer;text-align:left}.gp-button:hover{background:#fff1d6;color:#8b001b}.gp-num{display:inline-flex;width:25px;height:25px;border-radius:50%;background:#f3a300;color:#fff;align-items:center;justify-content:center;font-style:normal;margin-right:8px}.loading,.gp-help{padding:18px;color:#6b7280}.officer-top{display:flex;gap:14px;align-items:center}.officer-avatar{font-size:54px}.officer-name{font-size:19px;font-weight:800;color:#8b001b}.officer-meta{margin-top:5px;line-height:1.5}.official{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #eee}.official .avatar{font-size:30px}.official b{display:block}.official span{display:block;font-size:12px;color:#667085;margin-top:3px}.staff-item{padding:12px;border:1px solid #e1e5ea;border-radius:8px;margin-bottom:9px}.staff-item b{color:#7a1024}.staff-meta{font-size:13px;color:#5b6470;margin-top:5px;line-height:1.5}
+.gp-list{list-style:none;margin:0;padding:0}.gp-list li{border-bottom:1px solid #eee}.gp-button{width:100%;border:0;background:transparent;padding:12px 6px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;cursor:pointer;text-align:left}.gp-button:hover{background:#fff1d6;color:#8b001b}.gp-num{display:inline-flex;width:25px;height:25px;border-radius:50%;background:#f3a300;color:#fff;align-items:center;justify-content:center;font-style:normal;margin-right:8px}.loading,.gp-help{padding:18px;color:#6b7280}.officer-top{display:flex;gap:14px;align-items:center}.officer-avatar{font-size:54px}.officer-name{font-size:19px;font-weight:800;color:#8b001b}.officer-meta{margin-top:5px;line-height:1.5}.official{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #eee}.official .avatar{font-size:30px}.official b{display:block}.official span{display:block;font-size:12px;color:#667085;margin-top:3px}.staff-item{padding:12px;border:1px solid #e1e5ea;border-radius:8px;margin-bottom:9px}
+.gp-staff-csc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.csc-body{text-align:center;padding:24px 18px}
+.csc-icon{font-size:48px;margin-bottom:8px}
+.csc-body h3{margin:6px 0 8px;color:#123f70}
+.csc-body p{color:#5b6470;line-height:1.5;font-size:14px}
+.csc-btn{display:inline-block;background:#1268d9;color:#fff!important;padding:11px 18px;border-radius:8px;font-weight:800;text-decoration:none;margin-top:8px}
+.csc-btn:hover{background:#0b4fa8}
+@media(max-width:800px){.gp-staff-csc-grid{grid-template-columns:1fr}}
+.staff-item b{color:#7a1024}.staff-meta{font-size:13px;color:#5b6470;margin-top:5px;line-height:1.5}
 </style>
 </head>
 
@@ -443,7 +452,26 @@ body{
 <article class="card green"><div class="card-title">👥 Key Officials</div><div class="card-body" id="officialsCard"><div class="loading">Loading...</div></div></article>
 <article class="card orange"><div class="card-title">👥 Gram Panchayats (10)</div><div class="card-body"><ul class="gp-list" id="gpList"><li><button class="gp-button" data-gp="বারামাস্যা-রামনগর"><span><i class="gp-num">1</i>বারামাস্যা-রামনগর</span><b>›</b></button></li><li><button class="gp-button" data-gp="বামনি-মাঝিহিরা"><span><i class="gp-num">2</i>বামনি-মাঝিহিরা</span><b>›</b></button></li><li><button class="gp-button" data-gp="ভালুবাসা"><span><i class="gp-num">3</i>ভালুবাসা</span><b>›</b></button></li><li><button class="gp-button" data-gp="বিসরি"><span><i class="gp-num">4</i>বিসরি</span><b>›</b></button></li><li><button class="gp-button" data-gp="চন্দ্রা-পাইরাচালি"><span><i class="gp-num">5</i>চন্দ্রা-পাইরাচালি</span><b>›</b></button></li><li><button class="gp-button" data-gp="ধানারা"><span><i class="gp-num">6</i>ধানারা</span><b>›</b></button></li><li><button class="gp-button" data-gp="গোপালনগর"><span><i class="gp-num">7</i>গোপালনগর</span><b>›</b></button></li><li><button class="gp-button" data-gp="জিতুজুরি"><span><i class="gp-num">8</i>জিতুজুরি</span><b>›</b></button></li><li><button class="gp-button" data-gp="কামতা জাঙ্গিদিরি"><span><i class="gp-num">9</i>কামতা জাঙ্গিদিরি</span><b>›</b></button></li><li><button class="gp-button" data-gp="মানবাজার"><span><i class="gp-num">10</i>মানবাজার</span><b>›</b></button></li></ul></div></article>
 </section>
-<section class="bottom-grid"><article class="card purple"><div class="card-title">👥 GP-wise Staff</div><div class="card-body" id="gpStaffPanel"><div class="gp-help">Click any Gram Panchayat above to view its staff.</div></div></article></section>
+<section class="gp-staff-csc-grid">
+  <article class="card purple">
+    <div class="card-title">👥 GP-wise Staff</div>
+    <div class="card-body" id="gpStaffPanel">
+      <div class="gp-help">Click any Gram Panchayat above to view its staff.</div>
+    </div>
+  </article>
+
+  <article class="card blue csc-card">
+    <div class="card-title">📍 My Near CSC Centre</div>
+    <div class="card-body csc-body">
+      <div class="csc-icon">🏪</div>
+      <h3>Find Your Nearest CSC Centre</h3>
+      <p>আপনার নিকটবর্তী Common Service Centre (CSC) খুঁজে দেখতে নিচের button-এ click করুন।</p>
+      <a class="csc-btn" href="https://locator.csccloud.in/" target="_blank" rel="noopener noreferrer">
+        🔎 Find Near CSC Centre →
+      </a>
+    </div>
+  </article>
+</section>
 </main>
 
 <footer style="background:#650014;color:#fff;text-align:center;padding:15px;margin-top:5px;">
