@@ -48,6 +48,54 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
 <div id="sMsg" class="msg"></div>
 <div id="schemeList"></div>
 </section>
+
+<section id="govtForms" class="panel">
+<h2>📄 Govt. Forms Download</h2>
+<p style="color:#667085;margin-top:-5px">
+  এখানে category-wise Government Form PDF upload, edit এবং delete করতে পারবেন।
+</p>
+
+<div class="ad-manager" style="margin:14px 0;padding:18px;border:1px solid #dbe3ec;border-radius:12px;background:#f8fafc">
+  <h3 style="margin:0 0 12px;color:#17447e">📁 Add / Update Government Form</h3>
+  <input type="hidden" id="gfId">
+
+  <div class="form">
+    <div>
+      <label>Form Name *</label>
+      <input id="gfName" placeholder="Enter form name">
+    </div>
+    <div>
+      <label>Category *</label>
+      <select id="gfCategory"><option value="">Select Category</option></select>
+    </div>
+    <div class="full">
+      <label>Upload PDF File *</label>
+      <input id="gfFile" type="file" accept="application/pdf,.pdf">
+      <small style="color:#b00020">Only PDF files are allowed — maximum 5 MB.</small>
+    </div>
+  </div>
+
+  <div class="actions" style="margin-top:12px">
+    <button type="button" class="primary" onclick="saveGovtForm()">💾 Save Form</button>
+    <button type="button" class="secondary" onclick="clearGovtForm()">Clear</button>
+  </div>
+  <div id="gfMsg" class="msg"></div>
+</div>
+
+<div class="ad-manager" style="margin:14px 0;padding:18px;border:1px solid #dbe3ec;border-radius:12px;background:#f8fafc">
+  <h3 style="margin:0 0 12px;color:#17447e">⚙ Manage Form Categories</h3>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <input id="gfCatName" placeholder="Enter category name" style="flex:1;min-width:240px">
+    <button type="button" class="primary" onclick="saveGovtCategory()">＋ Add Category</button>
+  </div>
+  <div id="gfCatMsg" class="msg"></div>
+  <div id="gfCategories"></div>
+</div>
+
+<h3>📋 Manage Forms</h3>
+<div id="gfForms"></div>
+</section>
+
 <section id="development" class="panel">
 <h2>📈 Development Works</h2>
 <input type="hidden" id="dId">
@@ -361,4 +409,166 @@ async function delGpStaff(id){if(!confirm("Delete this GP staff?"))return;let r=
 
 $("logout").onclick=async()=>{await sb.auth.signOut();location.href="login.html"};
 (async()=>{if(await guard())await Promise.all([loadNotices(),loadSchemes(),loadDev(),loadDls(),loadGals(),loadCons(),loadAdminOfficials(),loadGpStaff()])})();
+
+/* ================= GOVT FORMS DOWNLOAD MANAGER ================= */
+async function loadGovtCategories(){
+  const r=await sb.from("govt_form_categories").select("*").order("name",{ascending:true});
+  if(r.error){
+    if($("gfCatMsg")) say("gfCatMsg",r.error.message,false);
+    return;
+  }
+  const cats=r.data||[];
+  const sel=$("gfCategory");
+  if(sel){
+    sel.innerHTML='<option value="">Select Category</option>'+
+      cats.map(c=>'<option value="'+esc(c.id)+'">'+esc(c.name)+'</option>').join("");
+  }
+  const box=$("gfCategories");
+  if(box){
+    box.innerHTML='<table><tr><th>Category</th><th>Action</th></tr>'+
+      cats.map(c=>'<tr><td>'+esc(c.name)+'</td><td>'+
+      '<button type="button" class="del" onclick="deleteGovtCategory(\''+c.id+'\')">Delete</button>'+
+      '</td></tr>').join("")+'</table>';
+  }
+}
+
+async function loadGovtForms(){
+  const box=$("gfForms");
+  if(!box)return;
+
+  const r=await sb.from("govt_forms")
+    .select("*,govt_form_categories(name)")
+    .order("created_at",{ascending:false});
+
+  if(r.error){
+    box.innerHTML='<div class="msg bad">'+esc(r.error.message)+'</div>';
+    return;
+  }
+
+  const list=r.data||[];
+  if(!list.length){
+    box.innerHTML='<div style="padding:20px;color:#667085">এখনও কোনো Government Form upload করা হয়নি।</div>';
+    await loadGovtCategories();
+    return;
+  }
+
+  box.innerHTML='<table><tr><th>Form Name</th><th>Category</th><th>File Size</th><th>Action</th></tr>'+
+    list.map(f=>'<tr>'+
+      '<td>'+esc(f.name)+'</td>'+
+      '<td>'+esc(f.govt_form_categories?.name||"")+'</td>'+
+      '<td>'+esc(f.file_size_kb||"-")+' KB</td>'+
+      '<td>'+
+      '<button type="button" class="edit" onclick="editGovtForm(\''+f.id+'\')">Edit</button> '+
+      '<button type="button" class="del" onclick="deleteGovtForm(\''+f.id+'\')">Delete</button>'+
+      '</td></tr>').join("")+'</table>';
+
+  await loadGovtCategories();
+}
+
+async function saveGovtCategory(){
+  const name=$("gfCatName").value.trim();
+  if(!name)return say("gfCatMsg","Category name দিন।",false);
+
+  const r=await sb.from("govt_form_categories").insert({name});
+  if(r.error)return say("gfCatMsg",r.error.message,false);
+
+  $("gfCatName").value="";
+  say("gfCatMsg","Category added successfully.");
+  await loadGovtCategories();
+}
+
+async function deleteGovtCategory(id){
+  if(!confirm("এই category delete করবেন? এই category-র form থাকলে আগে form delete/move করুন।"))return;
+
+  const r=await sb.from("govt_form_categories").delete().eq("id",id);
+  if(r.error)return say("gfCatMsg",r.error.message,false);
+
+  await loadGovtForms();
+}
+
+async function saveGovtForm(){
+  const id=$("gfId").value.trim();
+  const name=$("gfName").value.trim();
+  const category_id=$("gfCategory").value;
+  const file=$("gfFile").files[0];
+
+  if(!name)return say("gfMsg","Form Name দিন।",false);
+  if(!category_id)return say("gfMsg","Category select করুন।",false);
+  if(!id && !file)return say("gfMsg","PDF file select করুন।",false);
+
+  if(file){
+    if(file.type!=="application/pdf")
+      return say("gfMsg","শুধু PDF file upload করা যাবে।",false);
+    if(file.size>5*1024*1024)
+      return say("gfMsg","PDF file সর্বোচ্চ 5 MB হতে পারবে।",false);
+  }
+
+  let file_url=null,file_size_kb=null;
+
+  if(file){
+    const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+    const path="forms/"+Date.now()+"-"+safe;
+
+    const u=await sb.storage.from("govt-forms").upload(path,file,{
+      upsert:false,
+      cacheControl:"3600",
+      contentType:"application/pdf"
+    });
+
+    if(u.error)
+      return say("gfMsg","PDF upload failed: "+u.error.message,false);
+
+    file_url=sb.storage.from("govt-forms").getPublicUrl(path).data.publicUrl;
+    file_size_kb=Math.ceil(file.size/1024);
+  }
+
+  let payload={name,category_id};
+
+  if(file_url){
+    payload.file_url=file_url;
+    payload.file_size_kb=file_size_kb;
+  }
+
+  const r=id
+    ? await sb.from("govt_forms").update(payload).eq("id",id)
+    : await sb.from("govt_forms").insert(payload);
+
+  if(r.error)return say("gfMsg",r.error.message,false);
+
+  say("gfMsg",id?"Form updated successfully.":"Form uploaded successfully.");
+  clearGovtForm();
+  await loadGovtForms();
+}
+
+function editGovtForm(id){
+  sb.from("govt_forms").select("*").eq("id",id).single().then(r=>{
+    if(r.error)return say("gfMsg",r.error.message,false);
+    const f=r.data;
+    $("gfId").value=f.id;
+    $("gfName").value=f.name||"";
+    $("gfCategory").value=f.category_id||"";
+    $("gfFile").value="";
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+}
+
+function clearGovtForm(){
+  $("gfId").value="";
+  $("gfName").value="";
+  $("gfCategory").value="";
+  $("gfFile").value="";
+}
+
+async function deleteGovtForm(id){
+  if(!confirm("এই Government Form delete করবেন?"))return;
+
+  const r=await sb.from("govt_forms").delete().eq("id",id);
+  if(r.error)return say("gfMsg",r.error.message,false);
+
+  await loadGovtForms();
+}
+
+loadGovtForms();
+/* ================= END GOVT FORMS MANAGER ================= */
+
 </script></body></html>
