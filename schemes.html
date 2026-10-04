@@ -164,6 +164,442 @@ a{text-decoration:none}
 }
 </style>
 
+
+<style>
+/* Modern leadership section */
+.leadership-wrap{
+  margin:14px 0 18px;
+  border-radius:20px;
+  overflow:hidden;
+  background:#fff;
+  border:1px solid #e4e7ec;
+  box-shadow:0 8px 28px rgba(28,39,58,.12);
+}
+.leadership-hero{
+  min-height:245px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  padding:28px;
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(70,0,15,.92) 0%,rgba(112,0,24,.76) 46%,rgba(0,0,0,.25) 100%),
+    url("https://media.openthemagazine.com/openthemagazine/2026-05-15/ows9d880/Manonmission1.jpg?ar=40%3A21&auto=format%2Ccompress&enlarge=true&mode=crop&ogImage=true&overlay=false&overlay_position=bottom&overlay_width=100&w=1200")
+    center/cover no-repeat;
+}
+.leadership-hero:after{
+  content:"";
+  position:absolute;
+  width:330px;height:330px;
+  border-radius:50%;
+  right:-120px;top:-150px;
+  background:rgba(255,177,0,.16);
+}
+.leadership-copy{position:relative;z-index:2;color:#fff;max-width:690px}
+.leadership-copy .eyebrow{
+  display:inline-block;
+  padding:6px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.28);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+}
+.leadership-copy h2{
+  margin:10px 0 5px;
+  font-size:34px;
+  line-height:1.12;
+}
+.leadership-copy p{
+  margin:0;
+  font-size:15px;
+  opacity:.94;
+}
+.leader-cards{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  padding:14px;
+  background:linear-gradient(180deg,#fff,#f8fafc);
+}
+.leader-card{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:13px;
+  border:1px solid #e2e7ee;
+  border-radius:15px;
+  background:#fff;
+  box-shadow:0 3px 12px rgba(28,39,58,.07);
+}
+.leader-photo{
+  width:92px;height:92px;
+  flex:0 0 92px;
+  object-fit:cover;
+  object-position:center;
+  border-radius:14px;
+  border:3px solid #f2b000;
+  background:#f3f5f7;
+}
+.leader-info h3{
+  margin:0 0 5px;
+  color:#650014;
+  font-size:18px;
+}
+.leader-info p{
+  margin:2px 0;
+  color:#5d6673;
+  font-size:13px;
+  line-height:1.35;
+}
+.leader-badge{
+  display:inline-block;
+  margin-top:5px;
+  padding:4px 8px;
+  border-radius:999px;
+  background:#fff4d4;
+  color:#9a5a00;
+  font-size:11px;
+  font-weight:800;
+}
+@media(max-width:700px){
+  .leadership-hero{min-height:225px;padding:20px}
+  .leadership-copy h2{font-size:27px}
+  .leader-cards{grid-template-columns:1fr}
+  .leader-photo{width:78px;height:78px;flex-basis:78px}
+}
+</style>
+
+
+<style>
+/* Modern Scheme Name display section — only this section is restyled */
+.scheme-panel-modern{
+  background:linear-gradient(145deg,#ffffff 0%,#f8fafc 100%);
+  border:1px solid #e1e7ef;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 8px 24px rgba(31,41,55,.10);
+}
+.scheme-panel-modern .scheme-header{
+  position:relative;
+  padding:15px 20px;
+  background:linear-gradient(90deg,#650014,#8b001b,#a50022);
+  border-radius:0;
+  font-size:19px;
+  letter-spacing:.2px;
+}
+.scheme-panel-modern .scheme-header:after{
+  content:"";
+  position:absolute;
+  left:20px;
+  bottom:0;
+  width:72px;
+  height:3px;
+  background:#f2b000;
+  border-radius:3px 3px 0 0;
+}
+.scheme-display-area{
+  padding:14px;
+  background:
+    radial-gradient(circle at 10% 20%,rgba(245,121,0,.06),transparent 28%),
+    linear-gradient(180deg,#ffffff,#f7f9fc);
+}
+.scheme-paragraph-list{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+.scheme-paragraph{
+  position:relative;
+  margin:0;
+  padding:11px 14px;
+  min-height:46px;
+  display:flex;
+  align-items:center;
+  border:1px solid #e4e8ee;
+  border-left:4px solid #f57900;
+  border-radius:12px;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 3px 10px rgba(31,41,55,.06);
+}
+.scheme-paragraph:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:12px;
+  pointer-events:none;
+  background:linear-gradient(90deg,rgba(245,121,0,.035),transparent 55%);
+}
+.scheme-number{
+  flex:0 0 auto;
+  margin-right:8px;
+  font-size:17px;
+  position:relative;
+  z-index:2;
+}
+.scheme-long-name{
+  position:relative;
+  z-index:2;
+  font-size:17px !important;
+}
+.scheme-empty{
+  border:1px dashed #cbd5e1;
+  border-radius:12px;
+  background:#fff;
+  margin:4px;
+}
+@media(max-width:700px){
+  .scheme-panel-modern .scheme-header{font-size:17px;padding:13px 15px}
+  .scheme-display-area{padding:10px}
+  .scheme-paragraph{padding:9px 11px}
+  .scheme-long-name{font-size:15px !important}
+}
+</style>
+
+
+<style>
+/* Premium modern scheme section */
+.scheme-panel-modern{
+  border:0 !important;
+  border-radius:22px !important;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 12px 35px rgba(30,41,59,.13) !important;
+}
+.scheme-panel-modern .scheme-header{
+  padding:20px 24px !important;
+  border-radius:0 !important;
+  background:
+    radial-gradient(circle at 85% 20%,rgba(255,193,7,.22),transparent 25%),
+    linear-gradient(110deg,#560010 0%,#790018 48%,#9b0022 100%) !important;
+  font-size:21px !important;
+  letter-spacing:.2px;
+}
+.scheme-panel-modern .scheme-header:before{
+  content:"Government Schemes";
+  display:block;
+  font-size:10px;
+  letter-spacing:1.7px;
+  text-transform:uppercase;
+  opacity:.72;
+  margin-bottom:3px;
+  font-weight:700;
+}
+.scheme-panel-modern .scheme-header:after{
+  left:24px !important;
+  width:95px !important;
+  height:3px !important;
+  background:#ff9d00 !important;
+}
+.scheme-display-area{
+  padding:18px !important;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.98),rgba(248,250,252,.98)),
+    radial-gradient(circle at 10% 10%,rgba(255,153,0,.08),transparent 30%);
+}
+.scheme-paragraph-list{
+  display:flex !important;
+  flex-direction:column;
+  gap:11px !important;
+  max-height:560px;
+  overflow:hidden;
+  padding:2px;
+}
+.scheme-paragraph{
+  position:relative;
+  display:flex !important;
+  align-items:center;
+  min-height:58px !important;
+  padding:9px 14px !important;
+  border:1px solid #e6eaf0 !important;
+  border-left:4px solid #e87900 !important;
+  border-radius:14px !important;
+  background:linear-gradient(90deg,#fffaf4,#fff) !important;
+  box-shadow:0 4px 13px rgba(15,23,42,.055) !important;
+  overflow:hidden !important;
+}
+.scheme-paragraph:hover{
+  transform:translateX(3px);
+  border-color:#f0b36a !important;
+  box-shadow:0 7px 18px rgba(15,23,42,.10) !important;
+}
+.scheme-paragraph:after{
+  content:"";
+  position:absolute;
+  right:-45px;
+  top:-45px;
+  width:115px;
+  height:115px;
+  border-radius:50%;
+  background:rgba(245,121,0,.045);
+  pointer-events:none;
+}
+.scheme-number{
+  position:relative;
+  z-index:3;
+  flex:0 0 auto;
+  width:30px;
+  height:30px;
+  margin-right:9px !important;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#fff1df;
+  color:#b95700;
+  font-size:15px;
+  box-shadow:inset 0 0 0 1px #ffd29f;
+}
+.scheme-long-name{
+  position:relative;
+  z-index:3;
+  font-size:17px !important;
+  font-weight:800 !important;
+  letter-spacing:.1px;
+  border-width:1.5px !important;
+  border-radius:8px !important;
+  padding:3px 10px !important;
+}
+.scheme-empty{
+  margin:2px !important;
+  padding:38px 18px !important;
+  border:1px dashed #cbd5e1 !important;
+  border-radius:14px !important;
+  background:#fff !important;
+}
+@media(max-width:700px){
+  .scheme-panel-modern .scheme-header{padding:17px 17px !important;font-size:18px !important}
+  .scheme-panel-modern .scheme-header:after{left:17px !important}
+  .scheme-display-area{padding:11px !important}
+  .scheme-paragraph-list{gap:9px !important}
+  .scheme-paragraph{min-height:52px !important;padding:8px 10px !important}
+  .scheme-number{width:27px;height:27px;margin-right:7px !important}
+  .scheme-long-name{font-size:15px !important}
+}
+@media(prefers-reduced-motion:reduce){
+  .scheme-long-name{animation:none !important}
+  .scheme-paragraph{transition:none !important}
+}
+</style>
+
+
+<style>
+/* Clean horizontal scheme-name list: no cards */
+.scheme-panel-modern{
+  border:0 !important;
+  border-radius:16px !important;
+  overflow:hidden;
+  background:#fff !important;
+  box-shadow:0 5px 18px rgba(30,41,59,.08) !important;
+}
+.scheme-panel-modern .scheme-header{
+  padding:15px 20px !important;
+  border-radius:0 !important;
+}
+.scheme-display-area{
+  padding:8px 0 !important;
+  background:#fff !important;
+}
+.scheme-paragraph-list{
+  display:block !important;
+  max-height:none !important;
+  overflow:visible !important;
+  padding:0 !important;
+}
+.scheme-paragraph{
+  position:relative;
+  display:block !important;
+  min-height:0 !important;
+  width:100% !important;
+  margin:0 !important;
+  padding:13px 18px !important;
+  border:0 !important;
+  border-bottom:1px solid #e5e7eb !important;
+  border-radius:0 !important;
+  background:#fff !important;
+  box-shadow:none !important;
+  overflow:hidden !important;
+  white-space:nowrap !important;
+}
+.scheme-paragraph:first-child{
+  border-top:1px solid #e5e7eb !important;
+}
+.scheme-paragraph:hover{
+  transform:none !important;
+  background:#fffaf3 !important;
+  border-color:#e5e7eb !important;
+  box-shadow:none !important;
+}
+.scheme-paragraph:after{
+  display:none !important;
+}
+.scheme-number{
+  display:inline-flex !important;
+  vertical-align:middle;
+  width:27px !important;
+  height:27px !important;
+  margin-right:8px !important;
+  border-radius:50%;
+  background:#fff1df !important;
+  color:#b95700 !important;
+  font-size:14px !important;
+}
+.scheme-long-name{
+  display:inline-block !important;
+  vertical-align:middle;
+  white-space:nowrap !important;
+  font-size:17px !important;
+  font-weight:800 !important;
+  border-width:1.5px !important;
+  border-radius:6px !important;
+  padding:3px 9px !important;
+}
+@media(max-width:700px){
+  .scheme-paragraph{padding:11px 12px !important}
+  .scheme-long-name{font-size:15px !important}
+}
+</style>
+
+
+<style>
+/* Admin-controlled scheme advertisement */
+.scheme-ad-wrap{
+  margin:14px 0 18px;
+  border:1px solid #e5e7eb;
+  border-radius:18px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 8px 24px rgba(30,41,59,.10);
+}
+.scheme-ad-head{
+  padding:11px 16px;
+  color:#fff;
+  font-weight:800;
+  font-size:16px;
+  background:linear-gradient(90deg,#650014,#8b001b);
+}
+.scheme-ad-media{
+  width:100%;
+  background:#f8fafc;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.scheme-ad-media img{
+  display:block;
+  width:100%;
+  max-height:360px;
+  object-fit:cover;
+}
+@media(max-width:700px){
+  .scheme-ad-wrap{border-radius:13px}
+  .scheme-ad-head{font-size:14px;padding:10px 13px}
+  .scheme-ad-media img{max-height:230px}
+}
+</style>
+
 </head>
 <body>
 
@@ -184,6 +620,51 @@ a{text-decoration:none}
 <div class="breadcrumb">🏠 Home &nbsp;›&nbsp; Schemes</div>
 
 <main class="container">
+
+<section class="leadership-wrap" aria-label="National and West Bengal leadership">
+  <div class="leadership-hero">
+    <div class="leadership-copy">
+      <span class="eyebrow">Government Schemes • Citizen Services</span>
+      <h2>Government Schemes & Citizen Benefits</h2>
+      <p>Official scheme information and portal links for citizens of Manbazar-I Development Block.</p>
+    </div>
+  </div>
+  <div class="leader-cards">
+    <div class="leader-card">
+      <img class="leader-photo"
+           src="https://banglarshiksha.wb.gov.in/assets/frontend/images/cm.jpg"
+           alt="Shri Suvendu Adhikari, Chief Minister of West Bengal"
+           loading="eager">
+      <div class="leader-info">
+        <h3>Shri Suvendu Adhikari</h3>
+        <p>Hon’ble Chief Minister</p>
+        <p>Government of West Bengal</p>
+        <span class="leader-badge">WEST BENGAL</span>
+      </div>
+    </div>
+    <div class="leader-card">
+      <img class="leader-photo"
+           src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/202408/pm-narendra-modi-244601800-16x9_1.jpg?VersionId=MS44sC_ZBmB8Dh9tgKOvLc6Ajjv5NLKO&size=690%3A388"
+           alt="Shri Narendra Modi, Prime Minister of India"
+           loading="eager">
+      <div class="leader-info">
+        <h3>Shri Narendra Modi</h3>
+        <p>Hon’ble Prime Minister</p>
+        <p>Government of India</p>
+        <span class="leader-badge">INDIA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="schemeAdvertisement" class="scheme-ad-wrap" style="display:none">
+  <div class="scheme-ad-head">📢 <span id="schemeAdPublicTitle">Latest Scheme Advertisement</span></div>
+  <div class="scheme-ad-media">
+    <img id="schemeAdPublicImage" src="" alt="Latest Scheme Advertisement">
+  </div>
+</section>
+
 <section class="hero">
  <div class="hero-icon">📋</div><div><h2>Schemes</h2><p>Central Government & West Bengal Government Schemes</p><div>Information and official portal links for citizens of Manbazar-I Development Block</div></div>
 </section>
@@ -202,8 +683,9 @@ a{text-decoration:none}
   </div>
  </aside>
 
- <section class="panel">
+ <section class="panel scheme-panel-modern">
   <div class="scheme-header">📋 All Schemes</div>
+  <div class="scheme-display-area">
   <div class="scheme-grid" id="schemeGrid">
    <div style="grid-column:1/-1;padding:35px;text-align:center;color:#667085;">
     Schemes loading হচ্ছে...
@@ -291,7 +773,7 @@ function schemeIcon(title){
 function renderSchemes(list){
   const grid = document.getElementById("schemeGrid");
   const count = document.getElementById("categoryCount");
-  count.textContent = list.length;
+  if(count) count.textContent = list.length;
 
   if(!list.length){
     grid.innerHTML = `
@@ -310,9 +792,7 @@ function renderSchemes(list){
           <p class="scheme-paragraph">
             <span class="scheme-number">📋</span>
             <span class="scheme-long-name">${title}</span>
-            ${link
-              ? ``
-              : `<span class="scheme-details-link disabled">DETAILS NOT AVAILABLE</span>`}
+            ${link ? `` : ``}
           </p>`;
       }).join("")}
     </div>`;
@@ -360,6 +840,7 @@ async function loadSchemes(){
   renderSchemes(allSchemes);
 }
 
+loadSchemeAdvertisement();
 loadSchemes();
 </script>
 </body>
