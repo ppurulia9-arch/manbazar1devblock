@@ -11,7 +11,7 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
   </div>
 </div>
 <div class="wrap"><div class="tabs">
-<button class="tab active" data-p="notices">🔔 Notices</button><button class="tab" data-p="schemes">📋 Schemes</button><button class="tab" data-p="development">📈 Development</button><button class="tab" data-p="downloads">⬇️ Downloads</button><button class="tab" data-p="gallery">🖼️ Gallery</button><button class="tab" data-p="contacts">☎️ Contact</button>
+<button class="tab active" data-p="notices">🔔 Notices</button><button class="tab" data-p="schemes">📋 Schemes</button><button class="tab" data-p="development">📈 Development</button><button class="tab" data-p="downloads">⬇️ Downloads</button><button class="tab" data-p="gallery">🖼️ Gallery</button><button class="tab" data-p="contacts">☎️ Contact</button><button class="tab" data-p="administration">🏛️ Administration</button>
 </div>
 <section id="notices" class="panel active"><h2>🔔 Notices</h2><div class="form"><div><label>Title</label><input id="nTitle"></div><div><label>Date</label><input id="nDate" type="date"></div><div class="full"><label>Description</label><textarea id="nDesc"></textarea></div><div><label>PDF</label><input id="nFile" type="file" accept=".pdf,application/pdf"></div></div><div class="actions"><button class="primary" onclick="saveNotice()">Save Notice</button><button class="secondary" onclick="clearNotice()">Clear</button></div><div id="nMsg" class="msg"></div><div id="noticeList"></div></section>
 <section id="schemes" class="panel"><h2>📋 Schemes</h2><input type="hidden" id="sId"><div class="form"><div><label>Title</label><input id="sTitle"></div><div><label>Apply/View Link</label><input id="sLink" type="url" placeholder="https://example.gov.in/..."></div><div class="full"><label>Description</label><textarea id="sDesc"></textarea></div></div><div class="actions"><button class="primary" onclick="saveScheme()">Save Scheme</button><button class="secondary" onclick="clearScheme()">Clear</button></div><div id="sMsg" class="msg"></div><div id="schemeList"></div></section>
@@ -84,6 +84,41 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
 <section id="gallery" class="panel"><h2>🖼️ Gallery</h2><input type="hidden" id="gId"><div class="form"><div><label>Photo Title</label><input id="gTitle"></div><div><label>Caption</label><input id="gCaption"></div><div><label>Photo</label><input id="gFile" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"></div></div><div class="actions"><button class="primary" onclick="saveGallery()">Upload / Save</button><button class="secondary" onclick="clearGallery()">Clear</button></div><div id="gMsg" class="msg"></div><div id="gList"></div></section>
 <section id="contacts" class="panel"><h2>☎️ Contact Information</h2><input type="hidden" id="cId"><div class="form"><div><label>Department / Office</label><input id="cDept"></div><div><label>Contact Person</label><input id="cName"></div><div><label>Designation</label><input id="cDes"></div><div><label>Phone</label><input id="cPhone"></div><div><label>Email</label><input id="cEmail"></div><div><label>Address</label><input id="cAddress"></div></div><div class="actions"><button class="primary" onclick="saveContact()">Save Contact</button><button class="secondary" onclick="clearContact()">Clear</button></div><div id="cMsg" class="msg"></div><div id="cList"></div></section>
 </div>
+<section id="administration" class="panel">
+<h2>🏛️ Administration Control</h2>
+<h3>Block Development Officer / Joint BDO / Officials</h3>
+<input type="hidden" id="aId">
+<div class="form">
+<div><label>Type</label><select id="aRole"><option value="BDO">Block Development Officer (BDO)</option><option value="Jt.BDO">Joint Block Development Officer (Jt.BDO)</option><option value="Official">Other Official</option></select></div>
+<div><label>Name</label><input id="aName"></div>
+<div><label>Designation</label><input id="aDesignation"></div>
+<div><label>Phone</label><input id="aPhone"></div>
+<div><label>Email</label><input id="aEmail" type="email"></div>
+</div>
+<div class="actions"><button class="primary" onclick="saveAdminOfficial()">Save Official</button><button class="secondary" onclick="clearAdminOfficial()">Clear</button></div>
+<div id="aMsg" class="msg"></div><div id="officialList"></div>
+<hr style="margin:28px 0;border:0;border-top:1px solid #e2e8f0">
+<h3>Gram Panchayat-wise Staff</h3>
+<input type="hidden" id="gId">
+<div class="form">
+<div><label>Gram Panchayat</label><select id="gGp"><option value="">Select Gram Panchayat</option><option value="বারামাস্যা-রামনগর">বারামাস্যা-রামনগর</option>
+<option value="বামনি-মাঝিহিরা">বামনি-মাঝিহিরা</option>
+<option value="ভালুবাসা">ভালুবাসা</option>
+<option value="বিসরি">বিসরি</option>
+<option value="চন্দ্রা-পাইরাচালি">চন্দ্রা-পাইরাচালি</option>
+<option value="ধানারা">ধানারা</option>
+<option value="গোপালনগর">গোপালনগর</option>
+<option value="জিতুজুরি">জিতুজুরি</option>
+<option value="কামতা জাঙ্গিদিরি">কামতা জাঙ্গিদিরি</option>
+<option value="মানবাজার">মানবাজার</option></select></div>
+<div><label>Staff Name</label><input id="gName"></div>
+<div><label>Designation</label><input id="gDesignation"></div>
+<div><label>Phone</label><input id="gPhone"></div>
+<div><label>Email</label><input id="gEmail" type="email"></div>
+</div>
+<div class="actions"><button class="primary" onclick="saveGpStaff()">Save GP Staff</button><button class="secondary" onclick="clearGpStaff()">Clear</button></div>
+<div id="gMsg" class="msg"></div><div id="gpStaffList"></div>
+</section>
 <script>
 const sb=supabase.createClient("https://nqfcoofeqsesenmttcwr.supabase.co","sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2");
 const $=id=>document.getElementById(id);
@@ -236,6 +271,19 @@ function editCon(id){let x=cons.find(y=>y.id==id);$("cId").value=id;$("cDept").v
 async function saveContact(){let p={department:$("cDept").value.trim(),officer_name:$("cName").value.trim()||null,designation:$("cDes").value.trim()||null,phone:$("cPhone").value.trim()||null,email:$("cEmail").value.trim()||null,address:$("cAddress").value.trim()||null};if(!p.department)return say("cMsg","Department required",false);let r=$("cId").value?await sb.from("contacts").update(p).eq("id",$("cId").value):await sb.from("contacts").insert(p);if(r.error)return say("cMsg",r.error.message,false);say("cMsg","Contact saved");clearContact();loadCons()}
 async function delCon(id){if(!confirm("Delete contact?"))return;let r=await sb.from("contacts").delete().eq("id",id);if(r.error)return say("cMsg",r.error.message,false);loadCons()}
 
+
+let adminOfficials=[],gpStaffs=[];
+async function loadAdminOfficials(){let r=await sb.from("admin_officials").select("*").order("created_at",{ascending:true});if(r.error)return say("aMsg",r.error.message,false);adminOfficials=r.data||[];$("officialList").innerHTML=adminOfficials.map(x=>`<div class=item><div><h3>${esc(x.name)}</h3><p><b>${esc(x.role_type)}</b>${x.designation?` • ${esc(x.designation)}`:""}</p><p>${x.phone?`☎ ${esc(x.phone)} `:""}${x.email?`✉ ${esc(x.email)}`:""}</p></div><div><button class=edit onclick="editAdminOfficial('${x.id}')">Edit</button> <button class=del onclick="delAdminOfficial('${x.id}')">Delete</button></div></div>`).join("")||"<p>No officials.</p>"}
+function clearAdminOfficial(){$("aId").value="";$("aRole").value="BDO";$("aName").value="";$("aDesignation").value="";$("aPhone").value="";$("aEmail").value=""}
+function editAdminOfficial(id){let x=adminOfficials.find(y=>y.id==id);if(!x)return;$("aId").value=id;$("aRole").value=x.role_type;$("aName").value=x.name||"";$("aDesignation").value=x.designation||"";$("aPhone").value=x.phone||"";$("aEmail").value=x.email||"";document.querySelector('[data-p="administration"]').click()}
+async function saveAdminOfficial(){let name=$("aName").value.trim();if(!name)return say("aMsg","Name required",false);let p={role_type:$("aRole").value,name,designation:$("aDesignation").value.trim()||null,phone:$("aPhone").value.trim()||null,email:$("aEmail").value.trim()||null};let r=$("aId").value?await sb.from("admin_officials").update(p).eq("id",$("aId").value):await sb.from("admin_officials").insert(p);if(r.error)return say("aMsg",r.error.message,false);say("aMsg","Official saved successfully");clearAdminOfficial();loadAdminOfficials()}
+async function delAdminOfficial(id){if(!confirm("Delete this official?"))return;let r=await sb.from("admin_officials").delete().eq("id",id);if(r.error)return say("aMsg",r.error.message,false);loadAdminOfficials()}
+async function loadGpStaff(){let r=await sb.from("gp_staff").select("*").order("gp_name",{ascending:true}).order("created_at",{ascending:true});if(r.error)return say("gMsg",r.error.message,false);gpStaffs=r.data||[];$("gpStaffList").innerHTML=gpStaffs.map(x=>`<div class=item><div><h3>${esc(x.staff_name)}</h3><p><b>GP:</b> ${esc(x.gp_name)}${x.designation?` • ${esc(x.designation)}`:""}</p><p>${x.phone?`☎ ${esc(x.phone)} `:""}${x.email?`✉ ${esc(x.email)}`:""}</p></div><div><button class=edit onclick="editGpStaff('${x.id}')">Edit</button> <button class=del onclick="delGpStaff('${x.id}')">Delete</button></div></div>`).join("")||"<p>No GP staff.</p>"}
+function clearGpStaff(){$("gId").value="";$("gGp").value="";$("gName").value="";$("gDesignation").value="";$("gPhone").value="";$("gEmail").value=""}
+function editGpStaff(id){let x=gpStaffs.find(y=>y.id==id);if(!x)return;$("gId").value=id;$("gGp").value=x.gp_name;$("gName").value=x.staff_name||"";$("gDesignation").value=x.designation||"";$("gPhone").value=x.phone||"";$("gEmail").value=x.email||"";document.querySelector('[data-p="administration"]').click()}
+async function saveGpStaff(){let gp=$("gGp").value,name=$("gName").value.trim();if(!gp)return say("gMsg","Select Gram Panchayat",false);if(!name)return say("gMsg","Staff Name required",false);let p={gp_name:gp,staff_name:name,designation:$("gDesignation").value.trim()||null,phone:$("gPhone").value.trim()||null,email:$("gEmail").value.trim()||null};let r=$("gId").value?await sb.from("gp_staff").update(p).eq("id",$("gId").value):await sb.from("gp_staff").insert(p);if(r.error)return say("gMsg",r.error.message,false);say("gMsg","GP staff saved successfully");clearGpStaff();loadGpStaff()}
+async function delGpStaff(id){if(!confirm("Delete this GP staff?"))return;let r=await sb.from("gp_staff").delete().eq("id",id);if(r.error)return say("gMsg",r.error.message,false);loadGpStaff()}
+
 $("logout").onclick=async()=>{await sb.auth.signOut();location.href="login.html"};
-(async()=>{if(await guard())await Promise.all([loadNotices(),loadSchemes(),loadDev(),loadDls(),loadGals(),loadCons()])})();
+(async()=>{if(await guard())await Promise.all([loadNotices(),loadSchemes(),loadDev(),loadDls(),loadGals(),loadCons(),loadAdminOfficials(),loadGpStaff()])})();
 </script></body></html>
