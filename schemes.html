@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Schemes | Manbazar-I Development Block</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--maroon:#8b001b;--dark:#650014;--gold:#f2b000;--blue:#1268d9;--green:#168a52;--orange:#f57900;--purple:#6923c7;--red:#e41d35;--text:#17202a}
 *{box-sizing:border-box}
@@ -281,7 +282,7 @@ async function loadSchemes(){
   if(error){
     grid.innerHTML = `
       <div style="grid-column:1/-1;padding:35px;text-align:center;color:#b00020;">
-        Scheme load করা যাচ্ছে না।
+        Scheme load করা যাচ্ছে না। অনুগ্রহ করে page refresh করুন।
       </div>`;
     console.error(error);
     return;
