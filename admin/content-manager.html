@@ -408,7 +408,7 @@ async function saveGpStaff(){let gp=$("gGp").value,name=$("gName").value.trim();
 async function delGpStaff(id){if(!confirm("Delete this GP staff?"))return;let r=await sb.from("gp_staff").delete().eq("id",id);if(r.error)return say("gMsg",r.error.message,false);loadGpStaff()}
 
 $("logout").onclick=async()=>{await sb.auth.signOut();location.href="login.html"};
-(async()=>{if(await guard())await Promise.all([loadNotices(),loadSchemes(),loadDev(),loadDls(),loadGals(),loadCons(),loadAdminOfficials(),loadGpStaff(),loadGovtForms()])})();
+(async()=>{if(await guard())await Promise.all([loadNotices(),loadSchemes(),loadDev(),loadDls(),loadGals(),loadCons(),loadAdminOfficials(),loadGpStaff()])})();
 
 /* ================= GOVT FORMS DOWNLOAD MANAGER ================= */
 async function loadGovtCategories(){
@@ -503,58 +503,52 @@ async function saveGovtForm(){
       return say("gfMsg","PDF file সর্বোচ্চ 5 MB হতে পারবে।",false);
   }
 
-  /* IMPORTANT: confirm/refresh the authenticated admin session
-     before uploading to Supabase Storage. */
-  const auth1=await sb.auth.getSession();
-  if(auth1.error || !auth1.data?.session){
-    return say("gfMsg","Admin login session পাওয়া যাচ্ছে না। Logout করে আবার Login করুন।",false);
-  }
+  const auth=await sb.auth.getUser();
+  if(auth.error || !auth.data?.user)
+    return say("gfMsg","Admin login session পাওয়া যাচ্ছে না। আবার login করুন।",false);
 
-  let session=auth1.data.session;
-
-  /* Refresh only when a refresh token is available. */
-  if(session.refresh_token){
-    const refreshed=await sb.auth.refreshSession();
-    if(!refreshed.error && refreshed.data?.session){
-      session=refreshed.data.session;
-    }
-  }
-
-  if(!session?.user?.id){
-    return say("gfMsg","Admin authentication পাওয়া যাচ্ছে না। আবার Login করুন।",false);
-  }
-
-  let file_url=null,file_size_kb=null;
+  let file_url=null,file_size_kb=null,file_path=null;
 
   if(file){
     const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
-    const path="forms/"+Date.now()+"-"+safe;
+    file_path="forms/"+Date.now()+"-"+safe;
 
-    const u=await sb.storage.from("govt-forms").upload(path,file,{
+    const u=await sb.storage.from("govt-forms").upload(file_path,file,{
       upsert:false,
       cacheControl:"3600",
       contentType:"application/pdf"
     });
 
     if(u.error)
-      return say("gfMsg","PDF upload failed: "+u.error.message,false);
+      return say("gfMsg","PDF Storage upload failed: "+u.error.message,false);
 
-    file_url=sb.storage.from("govt-forms").getPublicUrl(path).data.publicUrl;
+    file_url=sb.storage.from("govt-forms").getPublicUrl(file_path).data.publicUrl;
     file_size_kb=Math.ceil(file.size/1024);
   }
 
-  let payload={name,category_id};
+  let r;
 
-  if(file_url){
-    payload.file_url=file_url;
-    payload.file_size_kb=file_size_kb;
+  if(id){
+    r=await sb.rpc("admin_update_govt_form",{
+      p_id:id,
+      p_name:name,
+      p_category_id:category_id,
+      p_file_url:file_url,
+      p_file_size_kb:file_size_kb
+    });
+  }else{
+    r=await sb.rpc("admin_insert_govt_form",{
+      p_name:name,
+      p_category_id:category_id,
+      p_file_url:file_url,
+      p_file_size_kb:file_size_kb
+    });
   }
 
-  const r=id
-    ? await sb.from("govt_forms").update(payload).eq("id",id)
-    : await sb.from("govt_forms").insert(payload);
-
-  if(r.error)return say("gfMsg",r.error.message,false);
+  if(r.error){
+    if(file_path) await sb.storage.from("govt-forms").remove([file_path]);
+    return say("gfMsg","Database save failed: "+r.error.message,false);
+  }
 
   say("gfMsg",id?"Form updated successfully.":"Form uploaded successfully.");
   clearGovtForm();
@@ -589,7 +583,7 @@ async function deleteGovtForm(id){
   await loadGovtForms();
 }
 
-/* Govt Forms are loaded after the authenticated session is established. */
+loadGovtForms();
 /* ================= END GOVT FORMS MANAGER ================= */
 
 </script></body></html>
