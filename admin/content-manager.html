@@ -94,6 +94,7 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
 <div><label>Designation</label><input id="aDesignation"></div>
 <div><label>Phone</label><input id="aPhone"></div>
 <div><label>Email</label><input id="aEmail" type="email"></div>
+<div><label>Officer Photo</label><input id="aPhoto" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"></div>
 </div>
 <div class="actions"><button class="primary" onclick="saveAdminOfficial()">Save Official</button><button class="secondary" onclick="clearAdminOfficial()">Clear</button></div>
 <div id="aMsg" class="msg"></div><div id="officialList"></div>
@@ -273,10 +274,44 @@ async function delCon(id){if(!confirm("Delete contact?"))return;let r=await sb.f
 
 
 let adminOfficials=[],gpStaffs=[];
-async function loadAdminOfficials(){let r=await sb.from("admin_officials").select("*").order("created_at",{ascending:true});if(r.error)return say("aMsg",r.error.message,false);adminOfficials=r.data||[];$("officialList").innerHTML=adminOfficials.map(x=>`<div class=item><div><h3>${esc(x.name)}</h3><p><b>${esc(x.role_type)}</b>${x.designation?` • ${esc(x.designation)}`:""}</p><p>${x.phone?`☎ ${esc(x.phone)} `:""}${x.email?`✉ ${esc(x.email)}`:""}</p></div><div><button class=edit onclick="editAdminOfficial('${x.id}')">Edit</button> <button class=del onclick="delAdminOfficial('${x.id}')">Delete</button></div></div>`).join("")||"<p>No officials.</p>"}
-function clearAdminOfficial(){$("aId").value="";$("aRole").value="BDO";$("aName").value="";$("aDesignation").value="";$("aPhone").value="";$("aEmail").value=""}
-function editAdminOfficial(id){let x=adminOfficials.find(y=>y.id==id);if(!x)return;$("aId").value=id;$("aRole").value=x.role_type;$("aName").value=x.name||"";$("aDesignation").value=x.designation||"";$("aPhone").value=x.phone||"";$("aEmail").value=x.email||"";document.querySelector('[data-p="administration"]').click()}
-async function saveAdminOfficial(){let name=$("aName").value.trim();if(!name)return say("aMsg","Name required",false);let p={role_type:$("aRole").value,name,designation:$("aDesignation").value.trim()||null,phone:$("aPhone").value.trim()||null,email:$("aEmail").value.trim()||null};let r=$("aId").value?await sb.from("admin_officials").update(p).eq("id",$("aId").value):await sb.from("admin_officials").insert(p);if(r.error)return say("aMsg",r.error.message,false);say("aMsg","Official saved successfully");clearAdminOfficial();loadAdminOfficials()}
+async function loadAdminOfficials(){let r=await sb.from("admin_officials").select("*").order("created_at",{ascending:true});if(r.error)return say("aMsg",r.error.message,false);adminOfficials=r.data||[];$("officialList").innerHTML=adminOfficials.map(x=>`<div class=item><div style="display:flex;gap:12px;align-items:center">
+${x.photo_url?`<img src="${esc(x.photo_url)}" style="width:58px;height:58px;object-fit:cover;border-radius:50%;border:2px solid #e5e7eb">`:`<div style="width:58px;height:58px;border-radius:50%;background:#edf0f4;display:flex;align-items:center;justify-content:center;font-size:28px">👤</div>`}
+<div><h3>${esc(x.name)}</h3><p><b>${esc(x.role_type)}</b>${x.designation?` • ${esc(x.designation)}`:""}</p><p>${x.phone?`☎ ${esc(x.phone)} `:""}${x.email?`✉ ${esc(x.email)}`:""}</p></div></div><div><button class=edit onclick="editAdminOfficial('${x.id}')">Edit</button> <button class=del onclick="delAdminOfficial('${x.id}')">Delete</button></div></div>`).join("")||"<p>No officials.</p>"}
+function clearAdminOfficial(){$("aId").value="";$("aRole").value="BDO";$("aName").value="";$("aDesignation").value="";$("aPhone").value="";$("aEmail").value="";$("aPhoto").value=""}
+function editAdminOfficial(id){let x=adminOfficials.find(y=>y.id==id);if(!x)return;$("aId").value=id;$("aRole").value=x.role_type;$("aName").value=x.name||"";$("aDesignation").value=x.designation||"";$("aPhone").value=x.phone||"";$("aEmail").value=x.email||"";$("aPhoto").value="";document.querySelector('[data-p="administration"]').click()}
+async function saveAdminOfficial(){
+  let name=$("aName").value.trim();
+  if(!name)return say("aMsg","Name required",false);
+  let current=adminOfficials.find(x=>x.id==$("aId").value);
+  let photoUrl=current?.photo_url||null;
+  let f=$("aPhoto").files[0];
+
+  if(f){
+    if(f.size>5*1024*1024)return say("aMsg","Photo must be 5 MB or smaller",false);
+    let path="officials/"+Date.now()+"-"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+    let u=await sb.storage.from("admin-officials").upload(path,f,{upsert:true,contentType:f.type});
+    if(u.error)return say("aMsg",u.error.message,false);
+    photoUrl=sb.storage.from("admin-officials").getPublicUrl(path).data.publicUrl;
+  }
+
+  let p={
+    role_type:$("aRole").value,
+    name:name,
+    designation:$("aDesignation").value.trim()||null,
+    phone:$("aPhone").value.trim()||null,
+    email:$("aEmail").value.trim()||null,
+    photo_url:photoUrl
+  };
+
+  let r=$("aId").value
+    ?await sb.from("admin_officials").update(p).eq("id",$("aId").value)
+    :await sb.from("admin_officials").insert(p);
+
+  if(r.error)return say("aMsg",r.error.message,false);
+  say("aMsg","Official saved successfully");
+  clearAdminOfficial();
+  await loadAdminOfficials();
+}
 async function delAdminOfficial(id){if(!confirm("Delete this official?"))return;let r=await sb.from("admin_officials").delete().eq("id",id);if(r.error)return say("aMsg",r.error.message,false);loadAdminOfficials()}
 async function loadGpStaff(){let r=await sb.from("gp_staff").select("*").order("gp_name",{ascending:true}).order("created_at",{ascending:true});if(r.error)return say("gMsg",r.error.message,false);gpStaffs=r.data||[];$("gpStaffList").innerHTML=gpStaffs.map(x=>`<div class=item><div><h3>${esc(x.staff_name)}</h3><p><b>GP:</b> ${esc(x.gp_name)}${x.designation?` • ${esc(x.designation)}`:""}</p><p>${x.phone?`☎ ${esc(x.phone)} `:""}${x.email?`✉ ${esc(x.email)}`:""}</p></div><div><button class=edit onclick="editGpStaff('${x.id}')">Edit</button> <button class=del onclick="delGpStaff('${x.id}')">Delete</button></div></div>`).join("")||"<p>No GP staff.</p>"}
 function clearGpStaff(){$("gId").value="";$("gGp").value="";$("gName").value="";$("gDesignation").value="";$("gPhone").value="";$("gEmail").value=""}
