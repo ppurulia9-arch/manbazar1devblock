@@ -74,6 +74,95 @@ a{text-decoration:none}
 @media(max-width:1200px){.layout{grid-template-columns:210px 1fr}.right{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px}.scheme-grid{grid-template-columns:repeat(2,1fr)}.header-photo{width:350px}}
 @media(max-width:800px){.topbar,.header{flex-direction:column;text-align:center}.header-photo{width:100%}.brand{flex-direction:column}.brand h1{font-size:28px}.layout{grid-template-columns:1fr}.right{display:block}.scheme-grid,.bottom{grid-template-columns:1fr}.toolbar{flex-direction:column}.search{width:100%}}
 </style>
+
+<style>
+.scheme-logo{height:145px;border-radius:10px 10px 0 0;background:linear-gradient(135deg,#eef5ff,#f8fafc);display:flex;align-items:center;justify-content:center;overflow:hidden;margin:-1px -1px 10px}
+.scheme-logo img{width:100%;height:100%;object-fit:contain;padding:10px}
+.scheme-logo-placeholder{font-size:48px}
+</style>
+
+<style>
+.scheme-logo-image{
+  width:92px;
+  height:92px;
+  object-fit:contain;
+  background:#fff;
+  border-radius:14px;
+  padding:8px;
+  box-shadow:0 4px 12px rgba(0,0,0,.18);
+  display:block;
+  margin:8px auto 6px;
+}
+</style>
+
+<style>
+.scheme-text-list{
+  width:100%;
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid #e3e7ed;
+}
+.scheme-text-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-height:58px;
+  padding:10px 16px;
+  border-bottom:1px solid #e9edf2;
+  background:#fff;
+}
+.scheme-text-row:last-child{border-bottom:0}
+.scheme-text-row:hover{background:#f8fafc}
+.scheme-bullet{font-size:20px;flex:0 0 auto}
+.scheme-name{
+  color:#16283d;
+  font-size:16px;
+  font-weight:700;
+  line-height:1.35;
+  flex:1 1 auto;
+}
+.scheme-details-link{
+  flex:0 0 auto;
+  color:#ffd000!important;
+  background:#7a1024;
+  padding:7px 10px;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:900;
+  text-decoration:none!important;
+  animation:schemeBlink 1s infinite;
+  box-shadow:0 2px 7px rgba(0,0,0,.12);
+}
+.scheme-details-link:hover{
+  color:#fff!important;
+  background:#a40020;
+}
+.scheme-details-link.disabled{
+  opacity:.55;
+  animation:none;
+  cursor:default;
+}
+@keyframes schemeBlink{
+  0%,45%,100%{opacity:1}
+  50%,70%{opacity:.25}
+}
+@media(max-width:700px){
+  .scheme-text-row{
+    align-items:flex-start;
+    flex-wrap:wrap;
+    padding:12px;
+  }
+  .scheme-name{
+    flex:1 1 calc(100% - 42px);
+  }
+  .scheme-details-link{
+    margin-left:32px;
+    font-size:11px;
+  }
+}
+</style>
+
 </head>
 <body>
 
@@ -218,36 +307,27 @@ function renderSchemes(list){
 
   if(!list.length){
     grid.innerHTML = `
-      <div style="grid-column:1/-1;padding:45px;text-align:center;color:#667085;font-size:16px;">
+      <div style="padding:35px;text-align:center;color:#667085;font-size:16px;">
         এখনো কোনো Scheme Admin Content Manager থেকে প্রকাশ করা হয়নি।
       </div>`;
     return;
   }
 
-  grid.innerHTML = list.map(s => {
-    const title = escapeHTML(s.title || "Government Scheme");
-    const desc = escapeHTML(s.description || "Official scheme information.");
-    const link = s.link_url ? escapeHTML(s.link_url) : "";
-    const button = link
-      ? `<a class="apply" href="${link}" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>`
-      : `<span class="apply" style="cursor:default">Information</span>`;
-
-    return `
-      <article class="scheme-card">
-        <div class="scheme-art" style="background:linear-gradient(135deg,#7a1024,#168a52)">
-          <div class="scheme-icon">${schemeIcon(s.title)}</div>
-          <div class="art-title">${title}</div>
-        </div>
-        <div class="scheme-body">
-          <div class="tag">Government Scheme</div>
-          <p>${desc}</p>
-          <div class="scheme-actions">
-            ${link ? `<a class="know" href="${link}" target="_blank" rel="noopener noreferrer">Know More →</a>` : `<span class="know" style="text-align:center;padding:8px 5px;border-radius:6px;font-size:11px;font-weight:800;color:#fff">Scheme Info</span>`}
-            ${button}
-          </div>
-        </div>
-      </article>`;
-  }).join("");
+  grid.innerHTML = `
+    <div class="scheme-text-list">
+      ${list.map(s => {
+        const title = escapeHTML(s.title || "Government Scheme");
+        const link = s.link_url ? escapeHTML(s.link_url) : "";
+        return `
+          <div class="scheme-text-row">
+            <span class="scheme-bullet">📋</span>
+            <span class="scheme-name">${title}</span>
+            ${link
+              ? `<a class="scheme-details-link" href="${link}" target="_blank" rel="noopener noreferrer">CLICK HERE FOR DETAILS/APPLY</a>`
+              : `<span class="scheme-details-link disabled">DETAILS NOT AVAILABLE</span>`}
+          </div>`;
+      }).join("")}
+    </div>`;
 }
 
 function filterSchemes(type){
@@ -276,7 +356,7 @@ async function loadSchemes(){
 
   const { data, error } = await supabaseClient
     .from("schemes")
-    .select("id,title,description,link_url,created_at")
+    .select("id,title,description,link_url,created_at,logo_url")
     .order("created_at", { ascending:false });
 
   if(error){
