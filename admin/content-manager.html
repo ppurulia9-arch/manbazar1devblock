@@ -15,7 +15,42 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
 </div>
 <section id="notices" class="panel active"><h2>🔔 Notices</h2><div class="form"><div><label>Title</label><input id="nTitle"></div><div><label>Date</label><input id="nDate" type="date"></div><div class="full"><label>Description</label><textarea id="nDesc"></textarea></div><div><label>PDF</label><input id="nFile" type="file" accept=".pdf,application/pdf"></div></div><div class="actions"><button class="primary" onclick="saveNotice()">Save Notice</button><button class="secondary" onclick="clearNotice()">Clear</button></div><div id="nMsg" class="msg"></div><div id="noticeList"></div></section>
 <section id="schemes" class="panel"><h2>📋 Schemes</h2><input type="hidden" id="sId"><div class="form"><div><label>Title</label><input id="sTitle"></div><div><label>Apply/View Link</label><input id="sLink" type="url" placeholder="https://example.gov.in/..."></div><div class="full"><label>Description</label><textarea id="sDesc"></textarea></div></div><div class="actions"><button class="primary" onclick="saveScheme()">Save Scheme</button><button class="secondary" onclick="clearScheme()">Clear</button></div><div id="sMsg" class="msg"></div><div id="schemeList"></div></section>
-<section id="development" class="panel"><h2>📈 Development Information</h2><input type="hidden" id="dId"><div class="form"><div><label>Title</label><input id="dTitle"></div><div><label>Image URL</label><input id="dImage"></div><div class="full"><label>Information</label><textarea id="dDesc"></textarea></div></div><div class="actions"><button class="primary" onclick="saveDev()">Save Information</button><button class="secondary" onclick="clearDev()">Clear</button></div><div id="dMsg" class="msg"></div><div id="devList"></div></section>
+<section id="development" class="panel">
+<h2>📈 Development Works</h2>
+<input type="hidden" id="dId">
+<div class="form">
+  <div><label>Work Category</label>
+    <input id="dCategory" placeholder="Infrastructure / Water / Education / Health">
+  </div>
+  <div><label>Work Name</label>
+    <input id="dTitle" placeholder="Enter work name">
+  </div>
+  <div><label>Sector</label>
+    <input id="dSector" placeholder="Infrastructure / Water Supply / Education">
+  </div>
+  <div><label>Status</label>
+    <select id="dStatus" style="width:100%;padding:10px;border:1px solid #ccd5e1;border-radius:7px;box-sizing:border-box">
+      <option value="Ongoing">Ongoing</option>
+      <option value="Completed">Completed</option>
+    </select>
+  </div>
+  <div><label>Year</label>
+    <input id="dYear" placeholder="2025-26">
+  </div>
+  <div><label>Image URL (optional)</label>
+    <input id="dImage" placeholder="https://...">
+  </div>
+  <div class="full"><label>Work Details</label>
+    <textarea id="dDesc" placeholder="Work details / description"></textarea>
+  </div>
+</div>
+<div class="actions">
+  <button class="primary" onclick="saveDev()">Save Work</button>
+  <button class="secondary" onclick="clearDev()">Clear</button>
+</div>
+<div id="dMsg" class="msg"></div>
+<div id="devList"></div>
+</section>
 <section id="downloads" class="panel"><h2>⬇️ Downloads</h2><input type="hidden" id="dlId"><div class="form"><div><label>Title</label><input id="dlTitle"></div><div><label>Description</label><input id="dlDesc"></div><div><label>File</label><input id="dlFile" type="file"></div></div><div class="actions"><button class="primary" onclick="saveDownload()">Upload / Save</button><button class="secondary" onclick="clearDownload()">Clear</button></div><div id="dlMsg" class="msg"></div><div id="dlList"></div></section>
 <section id="gallery" class="panel"><h2>🖼️ Gallery</h2><input type="hidden" id="gId"><div class="form"><div><label>Photo Title</label><input id="gTitle"></div><div><label>Caption</label><input id="gCaption"></div><div><label>Photo</label><input id="gFile" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"></div></div><div class="actions"><button class="primary" onclick="saveGallery()">Upload / Save</button><button class="secondary" onclick="clearGallery()">Clear</button></div><div id="gMsg" class="msg"></div><div id="gList"></div></section>
 <section id="contacts" class="panel"><h2>☎️ Contact Information</h2><input type="hidden" id="cId"><div class="form"><div><label>Department / Office</label><input id="cDept"></div><div><label>Contact Person</label><input id="cName"></div><div><label>Designation</label><input id="cDes"></div><div><label>Phone</label><input id="cPhone"></div><div><label>Email</label><input id="cEmail"></div><div><label>Address</label><input id="cAddress"></div></div><div class="actions"><button class="primary" onclick="saveContact()">Save Contact</button><button class="secondary" onclick="clearContact()">Clear</button></div><div id="cMsg" class="msg"></div><div id="cList"></div></section>
@@ -81,11 +116,75 @@ async function saveScheme(){
 }
 async function delScheme(id){if(!confirm("Delete scheme?"))return;let r=await sb.from("schemes").delete().eq("id",id);if(r.error)return say("sMsg",r.error.message,false);loadSchemes()}
 
-async function loadDev(){let r=await sb.from("development_content").select("*").order("created_at",{ascending:false});if(r.error)return say("dMsg",r.error.message,false);devs=r.data||[];$("devList").innerHTML=devs.map(x=>`<div class=item><div><h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></div><div><button class=edit onclick="editDev('${x.id}')">Edit</button> <button class=del onclick="delDev('${x.id}')">Delete</button></div></div>`).join("")||"<p>No development information.</p>"}
-function clearDev(){$("dId").value="";$("dTitle").value="";$("dDesc").value="";$("dImage").value=""}
-function editDev(id){let x=devs.find(y=>y.id==id);$("dId").value=id;$("dTitle").value=x.title;$("dDesc").value=x.description||"";$("dImage").value=x.image_url||""}
-async function saveDev(){let p={title:$("dTitle").value.trim(),description:$("dDesc").value.trim(),image_url:$("dImage").value.trim()||null};if(!p.title)return say("dMsg","Title required",false);let r=$("dId").value?await sb.from("development_content").update(p).eq("id",$("dId").value):await sb.from("development_content").insert(p);if(r.error)return say("dMsg",r.error.message,false);say("dMsg","Development information saved");clearDev();loadDev()}
-async function delDev(id){if(!confirm("Delete development information?"))return;let r=await sb.from("development_content").delete().eq("id",id);if(r.error)return say("dMsg",r.error.message,false);loadDev()}
+async function loadDev(){
+  let r=await sb.from("development_content").select("*").order("created_at",{ascending:false});
+  if(r.error)return say("dMsg",r.error.message,false);
+  devs=r.data||[];
+  $("devList").innerHTML=devs.map(x=>`
+    <div class=item>
+      <div>
+        <h3>${esc(x.title||"")}</h3>
+        <p><b>Category:</b> ${esc(x.work_category||"General Development")}</p>
+        <p><b>Sector:</b> ${esc(x.sector||"General")} &nbsp; <b>Status:</b> ${esc(x.status||"Ongoing")} &nbsp; <b>Year:</b> ${esc(x.work_year||"")}</p>
+        <p>${esc(x.work_details||x.description||"")}</p>
+      </div>
+      <div>
+        <button class=edit onclick="editDev('${x.id}')">Edit</button>
+        <button class=del onclick="delDev('${x.id}')">Delete</button>
+      </div>
+    </div>`).join("")||"<p>No development works.</p>";
+}
+function clearDev(){
+  $("dId").value="";
+  $("dCategory").value="";
+  $("dTitle").value="";
+  $("dSector").value="";
+  $("dStatus").value="Ongoing";
+  $("dYear").value="";
+  $("dImage").value="";
+  $("dDesc").value="";
+}
+function editDev(id){
+  let x=devs.find(y=>y.id==id);
+  $("dId").value=id;
+  $("dCategory").value=x.work_category||"";
+  $("dTitle").value=x.title||"";
+  $("dSector").value=x.sector||"";
+  $("dStatus").value=x.status==="Completed"?"Completed":"Ongoing";
+  $("dYear").value=x.work_year||"";
+  $("dImage").value=x.image_url||"";
+  $("dDesc").value=x.work_details||x.description||"";
+}
+async function saveDev(){
+  let title=$("dTitle").value.trim();
+  if(!title)return say("dMsg","Work Name required",false);
+
+  let p={
+    title:title,
+    description:$("dDesc").value.trim(),
+    work_details:$("dDesc").value.trim(),
+    image_url:$("dImage").value.trim()||null,
+    work_category:$("dCategory").value.trim()||"General Development",
+    sector:$("dSector").value.trim()||"General",
+    status:$("dStatus").value==="Completed"?"Completed":"Ongoing",
+    work_year:$("dYear").value.trim()||null
+  };
+
+  let r=$("dId").value
+    ?await sb.from("development_content").update(p).eq("id",$("dId").value)
+    :await sb.from("development_content").insert(p);
+
+  if(r.error)return say("dMsg",r.error.message,false);
+  say("dMsg","Development work saved successfully");
+  clearDev();
+  await loadDev();
+}
+async function delDev(id){
+  if(!confirm("Delete this development work?"))return;
+  let r=await sb.from("development_content").delete().eq("id",id);
+  if(r.error)return say("dMsg",r.error.message,false);
+  await loadDev();
+}
 
 async function loadDls(){let r=await sb.from("downloads").select("*").order("created_at",{ascending:false});if(r.error)return say("dlMsg",r.error.message,false);dls=r.data||[];$("dlList").innerHTML=dls.map(x=>`<div class=item><div><h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></div><div><button class=edit onclick="editDl('${x.id}')">Edit</button> <button class=del onclick="delDl('${x.id}')">Delete</button></div></div>`).join("")||"<p>No downloads.</p>"}
 function clearDownload(){$("dlId").value="";$("dlTitle").value="";$("dlDesc").value="";$("dlFile").value=""}
