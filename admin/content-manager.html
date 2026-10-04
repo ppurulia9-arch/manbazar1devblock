@@ -19,36 +19,28 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
 
 <div class="ad-manager" style="margin:14px 0;padding:18px;border:1px solid #dbe3ec;border-radius:12px;background:#f8fafc">
   <h3 style="margin:0 0 6px;color:#17447e">📢 Scheme Advertisement Banner</h3>
-  <p style="margin:0 0 12px;color:#667085;font-size:13px">
-    JPG / JPEG / PNG / WebP poster or banner upload করুন। নতুন banner দিলে আগের banner replace হবে।
-  </p>
-
-  <input id="schemeAdFile" type="file"
-         accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
-
-  <div style="margin-top:10px">
-    <label>Advertisement Title</label>
-    <input id="schemeAdTitle" value="Latest Scheme Advertisement"
-           placeholder="Latest Scheme Advertisement">
-  </div>
-
+  <p style="margin:0 0 12px;color:#667085;font-size:13px">JPG / JPEG / PNG / WebP poster or banner upload করুন। নতুন banner দিলে আগের banner replace হবে।</p>
+  <input id="schemeAdFile" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+  <div style="margin-top:10px"><label>Advertisement Title</label><input id="schemeAdTitle" value="Latest Scheme Advertisement" placeholder="Latest Scheme Advertisement"></div>
   <div class="actions" style="margin-top:12px">
     <button type="button" class="primary" onclick="saveSchemeAd()">⬆ Upload / Replace Advertisement</button>
     <button type="button" class="secondary" onclick="deleteSchemeAd()">🗑 Remove Advertisement</button>
   </div>
-
   <div id="schemeAdMsg" class="msg"></div>
   <div id="schemeAdPreview" style="margin-top:12px"></div>
-</div>
-
-<!-- ONLY SCHEME NAME -->
-<div class="form">
-  <div class="full">
-    <label>Scheme Name</label>
-    <input id="sTitle" placeholder="Enter Scheme Name">
+  <div style="margin-top:14px;padding:12px;border-top:1px solid #dbe3ec">
+    <label style="display:flex;align-items:center;gap:9px;cursor:pointer">
+      <input id="schemeAdVisible" type="checkbox" checked style="width:18px;height:18px">
+      <span>Public Scheme Page-এ Advertisement দেখাবেন</span>
+    </label>
+    <button type="button" class="primary" style="margin-top:9px" onclick="saveSchemeAdVisibility()">👁 Save Public Visibility</button>
   </div>
 </div>
 
+<div class="form">
+  <div><label>Scheme Name</label><input id="sTitle" placeholder="Enter Scheme Name"></div>
+  <div><label>Scheme URL</label><input id="sLink" type="url" placeholder="https://example.gov.in/..."></div>
+</div>
 <div class="actions">
   <button type="button" class="primary" onclick="saveScheme()">Save Scheme</button>
   <button type="button" class="secondary" onclick="clearScheme()">Clear</button>
@@ -191,134 +183,74 @@ function normalizeSchemeUrl(value){
 }
 async function saveScheme(){
   const title=$("sTitle").value.trim();
+  const link=$("sLink").value.trim();
   if(!title) return say("sMsg","Please enter Scheme Name.",false);
-
-  let r=await sb.from("schemes").insert({
-    title:title,
-    description:"",
-    link_url:""
-  });
-
-  if(r.error){
-    console.error("Scheme save error:",r.error);
-    return say("sMsg",r.error.message||"Scheme save failed.",false);
-  }
-
+  if(!link) return say("sMsg","Please enter Scheme URL.",false);
+  try{new URL(link)}catch(e){return say("sMsg","Please enter a valid Scheme URL.",false);}
+  const r=await sb.from("schemes").insert({title:title,description:"",link_url:link});
+  if(r.error)return say("sMsg",r.error.message||"Scheme save failed.",false);
   say("sMsg","Scheme saved successfully.");
   clearScheme();
   await loadSchemes();
 }
-
-function clearScheme(){
-  $("sTitle").value="";
-}
-
+function clearScheme(){$("sTitle").value="";$("sLink").value="";}
 async function delScheme(id){
-  if(!confirm("Delete this scheme?")) return;
-  let r=await sb.from("schemes").delete().eq("id",id);
-  if(r.error) return say("sMsg",r.error.message,false);
+  if(!confirm("Delete this scheme?"))return;
+  const r=await sb.from("schemes").delete().eq("id",id);
+  if(r.error)return say("sMsg",r.error.message,false);
   await loadSchemes();
 }
 
-async function delScheme(id){if(!confirm("Delete scheme?"))return;let r=await sb.from("schemes").delete().eq("id",id);if(r.error)return say("sMsg",r.error.message,false);loadSchemes()}
-
-
 async function loadSchemeAd(){
-  const r=await sb.from("scheme_advertisement").select("id,image_url,title,updated_at").eq("id",1).maybeSingle();
-
-  if(r.error){
-    return say("schemeAdMsg","Advertisement DB error: "+r.error.message,false);
-  }
-
+  const r=await sb.from("scheme_advertisement").select("id,image_url,title,is_visible,updated_at").eq("id",1).maybeSingle();
+  if(r.error)return say("schemeAdMsg","Advertisement DB error: "+r.error.message,false);
   const x=r.data;
   $("schemeAdTitle").value=x?.title||"Latest Scheme Advertisement";
-
-  if(x?.image_url){
-    $("schemeAdPreview").innerHTML=
-      '<img src="'+esc(x.image_url)+'" alt="Advertisement" '+
-      'style="max-width:100%;max-height:220px;border-radius:9px;object-fit:contain;background:#fff;border:1px solid #e2e8f0;padding:4px">';
-  }else{
-    $("schemeAdPreview").innerHTML=
-      "<span style='color:#667085;font-size:13px'>No advertisement uploaded.</span>";
-  }
+  $("schemeAdVisible").checked=x?.is_visible !== false;
+  $("schemeAdPreview").innerHTML=x?.image_url
+    ? '<img src="'+esc(x.image_url)+'" alt="Advertisement" style="max-width:100%;max-height:220px;border-radius:9px;object-fit:contain;background:#fff;border:1px solid #e2e8f0;padding:4px">'
+    : "<span style='color:#667085;font-size:13px'>No advertisement uploaded.</span>";
 }
 
 async function saveSchemeAd(){
   const file=$("schemeAdFile").files[0];
-
-  if(!file){
-    return say("schemeAdMsg","প্রথমে JPG / PNG / WebP Banner নির্বাচন করুন।",false);
-  }
-
-  if(file.size > 5*1024*1024){
-    return say("schemeAdMsg","Banner size 5 MB-এর বেশি হতে পারবে না।",false);
-  }
-
-  const allowed=["image/jpeg","image/png","image/webp"];
-  if(!allowed.includes(file.type)){
-    return say("schemeAdMsg","শুধু JPG, JPEG, PNG অথবা WebP file upload করুন।",false);
-  }
-
+  if(!file)return say("schemeAdMsg","প্রথমে JPG / PNG / WebP Banner নির্বাচন করুন।",false);
+  if(file.size>5*1024*1024)return say("schemeAdMsg","Banner size 5 MB-এর বেশি হতে পারবে না।",false);
+  if(!["image/jpeg","image/png","image/webp"].includes(file.type))return say("schemeAdMsg","শুধু JPG, JPEG, PNG অথবা WebP file upload করুন।",false);
   const auth=await sb.auth.getUser();
-  if(auth.error || !auth.data?.user){
-    return say("schemeAdMsg","Admin login session পাওয়া যাচ্ছে না। আবার login করুন।",false);
-  }
+  if(auth.error||!auth.data?.user)return say("schemeAdMsg","Admin login session পাওয়া যাচ্ছে না। আবার login করুন।",false);
 
   const ext=(file.name.split(".").pop()||"jpg").toLowerCase();
   const path="current/scheme-ad-"+Date.now()+"."+ext;
-
-  $("schemeAdMsg").style.display="block";
-  $("schemeAdMsg").textContent="Uploading banner...";
-
-  const u=await sb.storage.from("site-scheme-ads").upload(path,file,{
-    cacheControl:"3600",
-    upsert:false,
-    contentType:file.type
-  });
-
-  if(u.error){
-    console.error("Advertisement upload error:",u.error);
-    return say(
-      "schemeAdMsg",
-      "Banner upload failed: "+(u.error.message||"Storage error")+
-      " — Supabase-এ site-scheme-ads bucket/policy SQL একবার Run করুন।",
-      false
-    );
-  }
+  const u=await sb.storage.from("site-scheme-ads").upload(path,file,{cacheControl:"3600",upsert:false,contentType:file.type});
+  if(u.error)return say("schemeAdMsg","Banner upload failed: "+u.error.message,false);
 
   const publicUrl=sb.storage.from("site-scheme-ads").getPublicUrl(path).data.publicUrl;
-  const title=$("schemeAdTitle").value.trim()||"Latest Scheme Advertisement";
-
   const r=await sb.from("scheme_advertisement").upsert({
-    id:1,
-    image_url:publicUrl,
-    title:title,
-    updated_at:new Date().toISOString()
+    id:1,image_url:publicUrl,title:$("schemeAdTitle").value.trim()||"Latest Scheme Advertisement",
+    is_visible:$("schemeAdVisible").checked,updated_at:new Date().toISOString()
   });
-
-  if(r.error){
-    console.error("Advertisement DB update error:",r.error);
-    return say("schemeAdMsg","Banner uploaded but database update failed: "+r.error.message,false);
-  }
-
+  if(r.error)return say("schemeAdMsg","Banner uploaded but database update failed: "+r.error.message,false);
   $("schemeAdFile").value="";
   await loadSchemeAd();
   say("schemeAdMsg","Advertisement banner successfully uploaded.");
 }
 
+async function saveSchemeAdVisibility(){
+  const visible=$("schemeAdVisible").checked;
+  const r=await sb.from("scheme_advertisement").upsert({
+    id:1,is_visible:visible,title:$("schemeAdTitle").value.trim()||"Latest Scheme Advertisement",
+    updated_at:new Date().toISOString()
+  });
+  if(r.error)return say("schemeAdMsg","Visibility update failed: "+r.error.message,false);
+  say("schemeAdMsg",visible?"Advertisement Public Page-এ দেখানো হবে.":"Advertisement Public Page থেকে Hide করা হয়েছে.");
+}
 async function deleteSchemeAd(){
-  if(!confirm("বর্তমান Scheme Advertisement remove করবেন?")) return;
-
-  const r=await sb.from("scheme_advertisement")
-    .update({
-      image_url:"",
-      title:"Latest Scheme Advertisement",
-      updated_at:new Date().toISOString()
-    })
-    .eq("id",1);
-
-  if(r.error) return say("schemeAdMsg","Remove failed: "+r.error.message,false);
-
+  if(!confirm("বর্তমান Scheme Advertisement remove করবেন?"))return;
+  const r=await sb.from("scheme_advertisement").update({
+    image_url:"",is_visible:false,title:"Latest Scheme Advertisement",updated_at:new Date().toISOString()
+  }).eq("id",1);
+  if(r.error)return say("schemeAdMsg","Remove failed: "+r.error.message,false);
   await loadSchemeAd();
   say("schemeAdMsg","Advertisement removed.");
 }
