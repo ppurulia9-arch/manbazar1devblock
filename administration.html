@@ -536,6 +536,56 @@ body{background:linear-gradient(135deg,#f4f7fb 0%,#eef2f7 100%)!important}
 }
 </style>
 
+
+<style>
+/* ===== Administration: all cards stacked vertically ===== */
+.grid-top{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:16px!important;
+  margin-bottom:16px!important;
+}
+.grid-top .card{
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+}
+.gp-list{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:0 14px!important;
+}
+.gp-staff-center{
+  width:100%!important;
+  max-width:none!important;
+  margin:16px 0!important;
+}
+.gp-staff-center .card{
+  width:100%!important;
+}
+.gp-staff-center .card-body{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:10px!important;
+}
+.gp-staff-center .card-body>h3,
+.gp-staff-center .card-body>.gp-help{
+  grid-column:1/-1!important;
+}
+.csc-center{
+  width:100%!important;
+  max-width:none!important;
+  margin:16px 0 24px!important;
+}
+@media(max-width:900px){
+  .gp-staff-center .card-body{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:600px){
+  .gp-list{grid-template-columns:1fr!important}
+  .gp-staff-center .card-body{grid-template-columns:1fr!important}
+}
+</style>
+
 </head>
 
 <body>
