@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Application Status | Manbazar-I Development Block</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Noto Sans Bengali",sans-serif;background:linear-gradient(135deg,#fff7ed,#f8fafc);color:#171717;min-height:100vh}
+.wrap{max-width:1050px;margin:30px auto;padding:0 20px}
+.box{background:#fff;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,.10);overflow:hidden}
+.title{background:linear-gradient(90deg,#8b001b,#c40020);color:#fff;padding:22px;font-size:25px;font-weight:800}
+.form{padding:25px}
+.subtitle{color:#666;margin:0 0 22px;line-height:1.6}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+label{display:block;color:#7c0018;font-weight:700;margin-bottom:7px}
+input{width:100%;padding:14px;border:1px solid #cbd5e1;border-radius:9px;font:inherit;outline:none}
+input:focus{border-color:#b0001b;box-shadow:0 0 0 3px rgba(176,0,27,.08)}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+button,.home{border:0;padding:13px 22px;border-radius:9px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}
+button{background:#b0001b;color:#fff}
+button:disabled{opacity:.65;cursor:not-allowed}
+.home{background:#fbbf24;color:#4a2c00}
+.error{display:none;margin-top:18px;padding:13px;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;border-radius:9px;font-weight:600}
+.result{display:none;margin-top:25px;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden}
+.result-head{padding:16px 18px;background:#fff7ed;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.result-head h2{margin:0;color:#7c0018;font-size:20px}
+.status-badge{padding:7px 13px;border-radius:20px;font-size:13px;font-weight:800;background:#e5e7eb;color:#374151}
+.status-New{background:#fef3c7;color:#92400e}.status-Pending{background:#dbeafe;color:#1d4ed8}.status-Resolved{background:#dcfce7;color:#166534}.status-Closed{background:#e5e7eb;color:#374151}
+.details{padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.item{padding:13px;background:#f8fafc;border-radius:9px}.item.full{grid-column:1/-1}.label{font-size:12px;color:#64748b;font-weight:700;margin-bottom:5px}.value{font-weight:600;line-height:1.5;white-space:pre-wrap}
+.remark{margin:0 18px 18px;padding:15px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px}.remark b{color:#7c0018}
+.footer{text-align:center;padding:20px;color:#64748b;font-size:13px}
+@media(max-width:700px){.grid,.details{grid-template-columns:1fr}.item.full{grid-column:auto}.result-head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="box">
+    <div class="title">🔎 Application Status Check</div>
+    <div class="form">
+      <p class="subtitle">আপনার Application-এর বর্তমান Status দেখতে Application ID এবং Application-এর সময় দেওয়া Mobile Number লিখুন।</p>
+
+      <div class="grid">
+        <div>
+          <label>Application ID *</label>
+          <input id="applicationId" placeholder="Example: GRV-20261004-XXXXXXXX" autocomplete="off">
+        </div>
+        <div>
+          <label>Mobile Number *</label>
+          <input id="phone" inputmode="numeric" maxlength="10" placeholder="10 digit mobile number" autocomplete="tel">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="checkBtn" type="button" onclick="checkStatus()">🔎 Check Status</button>
+        <a class="home" href="index.html">🏠 Go to Home Page</a>
+      </div>
+
+      <div id="error" class="error"></div>
+
+      <div id="result" class="result">
+        <div class="result-head">
+          <h2>Application Details</h2>
+          <span id="statusBadge" class="status-badge"></span>
+        </div>
+        <div class="details">
+          <div class="item"><div class="label">Application ID</div><div id="rId" class="value"></div></div>
+          <div class="item"><div class="label">Applicant Name</div><div id="rName" class="value"></div></div>
+          <div class="item"><div class="label">Gram Panchayat</div><div id="rGp" class="value"></div></div>
+          <div class="item"><div class="label">Village</div><div id="rVillage" class="value"></div></div>
+          <div class="item"><div class="label">Submitted On</div><div id="rCreated" class="value"></div></div>
+          <div class="item"><div class="label">Last Updated</div><div id="rUpdated" class="value"></div></div>
+          <div class="item full"><div class="label">Grievance Details</div><div id="rDetails" class="value"></div></div>
+        </div>
+        <div id="remarkBox" class="remark" style="display:none"><b>Admin Remark:</b><br><span id="rRemark"></span></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">Manbazar-I Development Block, Purulia, West Bengal</div>
+</div>
+
+<script>
+const SUPABASE_URL="https://nqfcoofeqsesenmttcwr.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+
+const errorEl=document.getElementById("error");
+const resultEl=document.getElementById("result");
+const btn=document.getElementById("checkBtn");
+
+function showError(message){
+  errorEl.textContent=message;
+  errorEl.style.display=message?"block":"none";
+}
+function safe(v){
+  return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
+function formatDate(v){
+  if(!v)return "—";
+  const d=new Date(v);
+  if(Number.isNaN(d.getTime()))return v;
+  return d.toLocaleString("en-IN",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
+}
+
+async function checkStatus(){
+  showError("");
+  resultEl.style.display="none";
+
+  const applicationId=document.getElementById("applicationId").value.trim();
+  const phone=document.getElementById("phone").value.trim();
+
+  if(!applicationId || !/^\d{10}$/.test(phone)){
+    showError("Please enter a valid Application ID and 10 digit Mobile Number.");
+    return;
+  }
+
+  btn.disabled=true;
+  btn.textContent="Checking...";
+
+  try{
+    const {data,error}=await sb.rpc("check_grievance_status",{
+      p_application_id:applicationId,
+      p_phone:phone
+    });
+
+    if(error){
+      console.error(error);
+      showError("Status check করা যাচ্ছে না। অনুগ্রহ করে আবার চেষ্টা করুন।");
+      return;
+    }
+
+    const row=data && data.length ? data[0] : null;
+    if(!row){
+      showError("Application ID অথবা Mobile Number সঠিক নয়। কোনো Application পাওয়া যায়নি।");
+      return;
+    }
+
+    document.getElementById("rId").innerHTML=safe(row.application_id);
+    document.getElementById("rName").innerHTML=safe(row.applicant_name);
+    document.getElementById("rGp").innerHTML=safe(row.gp_name);
+    document.getElementById("rVillage").innerHTML=safe(row.village_name);
+    document.getElementById("rCreated").innerHTML=safe(formatDate(row.created_at));
+    document.getElementById("rUpdated").innerHTML=safe(formatDate(row.updated_at));
+    document.getElementById("rDetails").innerHTML=safe(row.grievance_details);
+
+    const status=row.status || "New";
+    const badge=document.getElementById("statusBadge");
+    badge.textContent=status;
+    badge.className="status-badge status-"+status.replace(/[^A-Za-z]/g,"");
+
+    const remarkBox=document.getElementById("remarkBox");
+    if(row.admin_remark && row.admin_remark.trim()){
+      document.getElementById("rRemark").innerHTML=safe(row.admin_remark);
+      remarkBox.style.display="block";
+    }else{
+      remarkBox.style.display="none";
+    }
+
+    resultEl.style.display="block";
+    resultEl.scrollIntoView({behavior:"smooth",block:"center"});
+  }catch(err){
+    console.error(err);
+    showError("Status check করা যাচ্ছে না। অনুগ্রহ করে আবার চেষ্টা করুন।");
+  }finally{
+    btn.disabled=false;
+    btn.textContent="🔎 Check Status";
+  }
+}
+</script>
+</body>
+</html>
