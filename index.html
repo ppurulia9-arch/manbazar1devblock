@@ -1018,52 +1018,32 @@ html,body{
 }
 
 
-
-/* Latest Notice card above floating notices */
+/* Latest Notice card positioned where What's New heading was */
 .latest-notice-inline-card{
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:3px;
-  margin:0 0 9px;
+  gap:4px;
+  min-height:62px;
+  margin:0 0 10px;
   padding:10px 8px;
   border-radius:9px;
   background:#8b001b;
   color:#fff;
   text-decoration:none;
   text-align:center;
-  font-size:18px;
+  font-size:19px;
   font-weight:800;
   box-shadow:0 4px 10px rgba(67,8,23,.18);
 }
 .latest-notice-inline-card span{
-  font-size:11px;
+  font-size:12px;
   font-weight:600;
   color:#fff;
 }
 .latest-notice-inline-card:hover{
   background:#650014;
-}
-
-
-/* Floating notice View / Download PDF - text only */
-.whatsnew-panel .float-pdf{
-  display:inline-block !important;
-  margin-top:6px !important;
-  padding:0 !important;
-  background:transparent !important;
-  border:0 !important;
-  box-shadow:none !important;
-  color:#7b001b !important;
-  font-size:12px !important;
-  font-weight:800 !important;
-  text-decoration:none !important;
-}
-.whatsnew-panel .float-pdf:hover{
-  background:transparent !important;
-  color:#430817 !important;
-  text-decoration:underline !important;
 }
 
 </style>
@@ -1113,6 +1093,7 @@ html,body{
   <a href="downloads.html">⬇️ Downloads</a>
   <a href="gallery.html">🖼️ Gallery</a>
   <a href="contact.html">☎️ Contact</a>
+  <a href="admin/login.html">🔐 Admin Login</a>
 </nav>
 
 <section class="hero">
@@ -1169,19 +1150,17 @@ html,body{
   <div class="hero-content">
     <h2>Manbazar-I Development Block</h2>
     <p>Official Information &amp; Citizen Services Portal</p>
-    
+    <a class="hero-btn" href="notices.html">🔔 Latest Notices</a>
   </div>
 
   <!-- RIGHT: WHAT'S NEW -->
   <div class="hero-panel whatsnew-panel">
-    
-
     <a class="latest-notice-inline-card" href="notices.html">
   🔔 <strong>Latest Notice</strong>
   <span>সকল সাম্প্রতিক বিজ্ঞপ্তি →</span>
 </a>
 
-<div class="whatsnew-window">
+    <div class="whatsnew-window">
       <div id="floatingNoticeList">Notice loading হচ্ছে...</div>
     </div>
 
