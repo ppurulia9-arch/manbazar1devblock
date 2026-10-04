@@ -405,6 +405,137 @@ body{
 @media(max-width:800px){.gp-staff-center,.csc-center{width:100%}}
 </style>
 
+
+<style>
+/* ===== Modern Administration Layout ===== */
+body{background:linear-gradient(135deg,#f4f7fb 0%,#eef2f7 100%)!important}
+.container{max-width:1450px!important;width:94%!important;margin:0 auto!important}
+.page-banner{
+  min-height:118px!important;
+  margin:12px 0 16px!important;
+  border-radius:18px!important;
+  box-shadow:0 8px 24px rgba(20,32,55,.12)!important;
+  display:flex!important;
+  align-items:center!important;
+  padding:20px 28px!important;
+}
+.page-banner h2{font-size:32px!important;letter-spacing:.2px}
+.page-banner p{font-size:15px!important;opacity:.95}
+
+.grid-top{
+  display:grid!important;
+  grid-template-columns:1.05fr 1fr 1fr 1fr!important;
+  gap:16px!important;
+  align-items:stretch!important;
+  margin-bottom:16px!important;
+}
+.card{
+  border:1px solid rgba(30,55,85,.10)!important;
+  border-radius:15px!important;
+  overflow:hidden!important;
+  background:#fff!important;
+  box-shadow:0 5px 18px rgba(20,32,55,.09)!important;
+  height:100%!important;
+}
+.card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 9px 25px rgba(20,32,55,.13)!important;
+  transition:.2s ease;
+}
+.card-title{
+  min-height:52px!important;
+  display:flex!important;
+  align-items:center!important;
+  padding:12px 16px!important;
+  font-size:18px!important;
+}
+.card-body{padding:15px!important}
+.block-img{
+  width:100%!important;
+  height:145px!important;
+  object-fit:cover!important;
+  border-radius:10px!important;
+  margin-bottom:9px!important;
+}
+.card-body h3{margin:5px 0 8px!important}
+.card-body p{line-height:1.45!important;margin:6px 0!important}
+
+.officer-top{align-items:center!important;gap:12px!important}
+.officer-top img{width:82px!important;height:82px!important}
+.officer-avatar{font-size:45px!important}
+.officer-name{font-size:17px!important}
+.officer-meta{font-size:13px!important}
+.official{padding:9px 0!important}
+.official .avatar img{width:45px!important;height:45px!important}
+
+.gp-staff-center{
+  width:100%!important;
+  max-width:none!important;
+  margin:16px 0!important;
+}
+.gp-staff-center .card{min-height:150px!important}
+.gp-staff-center .card-body{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:10px!important;
+}
+.gp-staff-center .card-body>h3{
+  grid-column:1/-1!important;
+  margin:0 0 2px!important;
+}
+.gp-staff-center .staff-item{
+  margin:0!important;
+  min-height:82px!important;
+  background:#f8fafc!important;
+  border:1px solid #e4e9ef!important;
+  transition:.2s ease;
+}
+.gp-staff-center .staff-item:hover{background:#fff!important;box-shadow:0 3px 10px rgba(20,32,55,.08)}
+.gp-staff-center .gp-help{grid-column:1/-1!important;text-align:center!important}
+
+.csc-center{
+  width:100%!important;
+  max-width:none!important;
+  margin:16px 0 22px!important;
+}
+.csc-card .card-body{
+  min-height:130px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:18px!important;
+  flex-wrap:wrap!important;
+  text-align:left!important;
+}
+.csc-icon{font-size:45px!important}
+.csc-body h3{margin:0!important}
+.csc-body p{margin:4px 0!important}
+.csc-btn{white-space:nowrap!important}
+
+.gp-list{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:0 12px!important;
+}
+.gp-list li{border-bottom:1px solid #edf0f4!important}
+.gp-button{padding:10px 5px!important}
+.gp-button:hover{border-radius:7px!important}
+
+@media(max-width:1100px){
+  .grid-top{grid-template-columns:1fr 1fr!important}
+  .gp-staff-center .card-body{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:700px){
+  .container{width:94%!important}
+  .grid-top{grid-template-columns:1fr!important}
+  .gp-list{grid-template-columns:1fr!important}
+  .gp-staff-center .card-body{grid-template-columns:1fr!important}
+  .csc-card .card-body{flex-direction:column!important;text-align:center!important}
+  .page-banner{min-height:95px!important;padding:16px!important}
+  .page-banner h2{font-size:26px!important}
+}
+</style>
+
 </head>
 
 <body>
