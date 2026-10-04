@@ -1,1 +1,126 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Downloads | Manbazar-I DevBlock</title><link rel="stylesheet" href="css/style.css"></head><body><div class="top">Manbazar-I Development Block, Purulia, West Bengal</div><header><h1>Downloads</h1><a class="admin" href="admin/login.html">Admin Login</a></header><nav><a href="index.html">Home</a><a href="about.html">About Block</a><a href="administration.html">Administration</a><a href="schemes.html">Schemes</a><a href="development.html">Development</a><a href="notices.html">Notices</a><a href="downloads.html">Downloads</a><a href="gallery.html">Gallery</a><a href="contact.html">Contact</a></nav><main style="padding:50px 7%;min-height:450px;background:#fff"><h2>Downloads</h2><p>This section will be connected to the Supabase database and Admin Panel in the next steps.</p></main><footer>© Manbazar-I Development Block</footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Govt. Forms Download | Manbazar-I Development Block</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--maroon:#a90000;--dark:#8b0000;--gold:#ffbf00;--blue:#07549a;--green:#079447;--bg:#f4f7fa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,"Noto Sans Bengali",sans-serif;color:#172033}
+.top{background:#a90000;color:#fff;padding:9px 4%;display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.top span{margin-right:18px}.header{background:#fff;padding:8px 4%;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--gold)}
+.brand{display:flex;align-items:center;gap:16px}.brand img{width:84px;height:92px;object-fit:contain}
+.brand h1{margin:0;color:#92111b;font-size:34px}.brand p{margin:5px 0;color:#8a1822;font-size:18px}
+.header-photo{width:475px;height:108px;object-fit:cover;border-radius:0 0 28px 28px}
+.nav{display:flex;justify-content:center;background:#a90000;border-bottom:3px solid var(--gold);flex-wrap:wrap}
+.nav a{padding:15px 23px;color:#fff;font-weight:700;border-right:1px solid #c74343;text-decoration:none}
+.nav a.active,.nav a:hover{background:var(--gold);color:#111}
+.breadcrumb{background:#fff;padding:10px 4%;color:#263b55}
+.container{width:94%;max-width:1500px;margin:12px auto 30px}
+.hero{height:160px;border-radius:14px;overflow:hidden;background:linear-gradient(90deg,#073d6d 0%,#07549a 52%,rgba(7,84,154,.35)),url("../manbazar-block.jpg") right center/cover no-repeat;color:#fff;display:flex;align-items:center;padding:25px 4%;box-shadow:0 4px 14px #0002}
+.hero-icon{width:95px;height:95px;border-radius:50%;background:#eaf5ff;color:#07549a;display:flex;align-items:center;justify-content:center;font-size:50px;margin-right:28px}
+.hero h2{font-size:39px;margin:0 0 8px}.hero h2:after{content:"";display:block;width:60px;height:5px;background:#ffd000;margin-top:10px}.hero p{font-size:18px;max-width:650px;line-height:1.45}
+.filters{display:grid;grid-template-columns:1.7fr 1.3fr auto;gap:14px;margin:25px 0 20px}
+.filters input,.filters select{height:46px;border:1px solid #cbd7e4;border-radius:8px;padding:0 15px;font-size:15px;background:#fff}
+.search-btn{border:0;background:#a90000;color:#fff;font-weight:700;border-radius:8px;padding:0 25px;font-size:16px;cursor:pointer}
+.categories{display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin-bottom:20px}
+.cat{min-height:150px;border-radius:12px;padding:15px 8px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:0 2px 8px #0001;border:1px solid #e4e8ee;cursor:pointer;background:#fff}
+.cat:nth-child(1){background:#fff0f2}.cat:nth-child(2){background:#edf5ff}.cat:nth-child(3){background:#effbf1}.cat:nth-child(4){background:#fff7e7}.cat:nth-child(5){background:#f2efff}.cat:nth-child(6){background:#eafaff}.cat:nth-child(7){background:#fff0f5}.cat:nth-child(8){background:#fff9e8}
+.cat-icon{font-size:35px;margin-bottom:8px}.cat-name{font-weight:800;line-height:1.2}.cat-count{margin-top:10px;background:#fff;padding:7px 16px;border-radius:18px;font-size:13px}
+.main-grid{display:grid;grid-template-columns:2.4fr 1fr;gap:20px}
+.panel{background:#fff;border-radius:10px;overflow:hidden;border:1px solid #dce4ec;box-shadow:0 2px 8px #0001}
+.panel-title{background:#a90000;color:#fff;padding:13px 18px;font-size:21px;font-weight:800}
+.form-table{width:100%;border-collapse:collapse}.form-table th,.form-table td{padding:11px 12px;border-bottom:1px solid #dde4eb;text-align:left;font-size:14px}.form-table th{background:#f2f6fa}.badge{padding:6px 10px;border-radius:13px;background:#e9f2ff;color:#07549a;display:inline-block;font-size:12px}
+.download-btn{background:#079447;color:#fff;border:0;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none;display:inline-block}.download-btn:hover{background:#057b3b}
+.info-title{background:#1263a3;color:#fff;padding:12px 16px;font-size:19px;font-weight:800}.info-body{padding:15px;line-height:1.8}.support{margin-top:16px}.support .info-title{background:#fff0f2;color:#a90000}.support .info-body{background:#fff0f2}
+.empty{padding:35px;text-align:center;color:#777}
+.footer{background:#8b0000;color:#fff;text-align:center;padding:16px;margin-top:30px}
+@media(max-width:1100px){.categories{grid-template-columns:repeat(4,1fr)}.main-grid{grid-template-columns:1fr}.header-photo{width:40%}}
+@media(max-width:700px){.top,.header{flex-direction:column;text-align:center;gap:8px}.brand{flex-direction:column}.header-photo{width:100%;height:85px}.hero{height:auto;min-height:190px}.hero-icon{display:none}.hero h2{font-size:28px}.filters{grid-template-columns:1fr}.categories{grid-template-columns:repeat(2,1fr)}.form-table{font-size:12px}.form-table th:nth-child(4),.form-table td:nth-child(4){display:none}}
+</style>
+</head>
+<body>
+<div class="top">
+  <div>☎ +91 00000 00000 &nbsp;&nbsp; ✉ manbazar1block@gmail.com &nbsp;&nbsp; 📍 Manbazar-I, Purulia, West Bengal - 723131</div>
+  <div>A- &nbsp; A &nbsp; A+ &nbsp; 🌐 English⌄</div>
+</div>
+<header class="header">
+  <div class="brand"><img src="ashoka.jpg" alt="Government Emblem"><div><h1>Manbazar-I Development Block</h1><p>Purulia, West Bengal</p></div></div>
+  <img class="header-photo" src="manbazar-block.jpg" alt="Manbazar-I Development Block">
+</header>
+<nav class="nav">
+  <a href="index.html">🏠 Home</a><a href="about.html">ℹ️ About Block</a><a href="administration.html">🏛️ Administration</a><a href="development.html">📊 Development</a><a href="schemes.html">📋 Schemes</a><a href="notices.html">🔔 Notices</a><a class="active" href="downloads.html">⬇ Downloads</a><a href="gallery.html">🖼 Gallery</a><a href="contact.html">☎ Contact</a>
+</nav>
+<div class="breadcrumb">🏠 &nbsp; Home &nbsp;›&nbsp; Govt. Forms Download</div>
+
+<main class="container">
+<section class="hero">
+  <div class="hero-icon">📁</div>
+  <div><h2>Govt. Forms Download</h2><p>Download important government forms related to different services of Manbazar-I Development Block.</p></div>
+</section>
+
+<section class="filters">
+  <input id="search" placeholder="🔍  Search form by name..." oninput="renderForms()">
+  <select id="category" onchange="renderForms()"><option value="">All Categories</option></select>
+  <button class="search-btn" onclick="renderForms()">🔍 Search</button>
+</section>
+
+<section id="categories" class="categories"></section>
+
+<section class="main-grid">
+  <div class="panel">
+    <div class="panel-title">📄 Latest Forms</div>
+    <div id="formsWrap"><div class="empty">Loading forms...</div></div>
+  </div>
+  <aside>
+    <div class="panel">
+      <div class="info-title">ℹ️ Important Information</div>
+      <div class="info-body">✔ All forms are in PDF format.<br>✔ Please read the instructions carefully before filling.<br>✔ Download and print the form for submission.<br>✔ For any assistance, contact the Block Office.</div>
+    </div>
+    <div class="panel support">
+      <div class="info-title">☎ Help &amp; Support</div>
+      <div class="info-body">For any query related to forms, please contact:<br><b>☎ +91 00000 00000</b><br><b>✉ manbazar1block@gmail.com</b></div>
+    </div>
+  </aside>
+</section>
+</main>
+<footer class="footer">Manbazar-I Development Block, Purulia, West Bengal</footer>
+
+<script>
+const SUPABASE_URL="https://nqfcoofeqsesenmttcwr.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+let forms=[],categories=[];
+const icons=["👥","📄","👨‍👩‍👧","💰","🌾","🏠","🏥","🎓","📋","🛠️"];
+
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+async function loadData(){
+  const [f,c]=await Promise.all([
+    db.from("govt_forms").select("*").order("created_at",{ascending:false}),
+    db.from("govt_form_categories").select("*").order("name",{ascending:true})
+  ]);
+  if(f.error){document.getElementById("formsWrap").innerHTML='<div class="empty">Forms load করা যাচ্ছে না।</div>';console.error(f.error);return}
+  forms=f.data||[];categories=c.data||[];
+  const select=document.getElementById("category");
+  select.innerHTML='<option value="">All Categories</option>'+categories.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join("");
+  renderCategories();renderForms();
+}
+function renderCategories(){
+  const box=document.getElementById("categories");
+  box.innerHTML=categories.map((x,i)=>`<div class="cat" onclick="document.getElementById('category').value='${esc(x.id)}';renderForms()"><div class="cat-icon">${icons[i%icons.length]}</div><div class="cat-name">${esc(x.name)}</div><div class="cat-count">${forms.filter(f=>f.category_id===x.id).length} Forms</div></div>`).join("");
+}
+function renderForms(){
+  const q=document.getElementById("search").value.toLowerCase().trim(),cid=document.getElementById("category").value;
+  const list=forms.filter(f=>(!q||String(f.name).toLowerCase().includes(q))&&(!cid||f.category_id===cid));
+  const wrap=document.getElementById("formsWrap");
+  if(!list.length){wrap.innerHTML='<div class="empty">কোনো Form পাওয়া যায়নি।</div>';return}
+  wrap.innerHTML=`<table class="form-table"><thead><tr><th>#</th><th>Form Name</th><th>Category</th><th>File Type</th><th>File Size</th><th>Download</th></tr></thead><tbody>`+
+    list.map((f,i)=>`<tr><td>${i+1}</td><td><b>${esc(f.name)}</b></td><td><span class="badge">${esc(f.category_name||"General")}</span></td><td>📄 PDF</td><td>${f.file_size_kb||"-"} KB</td><td><a class="download-btn" href="${esc(f.file_url)}" target="_blank" rel="noopener">⬇ Download</a></td></tr>`).join("")+
+    `</tbody></table>`;
+}
+loadData();
+</script>
+</body>
+</html>
