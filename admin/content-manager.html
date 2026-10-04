@@ -408,7 +408,7 @@ async function saveGpStaff(){let gp=$("gGp").value,name=$("gName").value.trim();
 async function delGpStaff(id){if(!confirm("Delete this GP staff?"))return;let r=await sb.from("gp_staff").delete().eq("id",id);if(r.error)return say("gMsg",r.error.message,false);loadGpStaff()}
 
 $("logout").onclick=async()=>{await sb.auth.signOut();location.href="login.html"};
-(async()=>{if(await guard())await Promise.all([loadNotices(),loadSchemes(),loadDev(),loadDls(),loadGals(),loadCons(),loadAdminOfficials(),loadGpStaff()])})();
+(async()=>{if(await guard())await Promise.all([loadNotices(),loadSchemes(),loadDev(),loadDls(),loadGals(),loadCons(),loadAdminOfficials(),loadGpStaff(),loadGovtForms()])})();
 
 /* ================= GOVT FORMS DOWNLOAD MANAGER ================= */
 async function loadGovtCategories(){
@@ -503,6 +503,27 @@ async function saveGovtForm(){
       return say("gfMsg","PDF file সর্বোচ্চ 5 MB হতে পারবে।",false);
   }
 
+  /* IMPORTANT: confirm/refresh the authenticated admin session
+     before uploading to Supabase Storage. */
+  const auth1=await sb.auth.getSession();
+  if(auth1.error || !auth1.data?.session){
+    return say("gfMsg","Admin login session পাওয়া যাচ্ছে না। Logout করে আবার Login করুন।",false);
+  }
+
+  let session=auth1.data.session;
+
+  /* Refresh only when a refresh token is available. */
+  if(session.refresh_token){
+    const refreshed=await sb.auth.refreshSession();
+    if(!refreshed.error && refreshed.data?.session){
+      session=refreshed.data.session;
+    }
+  }
+
+  if(!session?.user?.id){
+    return say("gfMsg","Admin authentication পাওয়া যাচ্ছে না। আবার Login করুন।",false);
+  }
+
   let file_url=null,file_size_kb=null;
 
   if(file){
@@ -568,7 +589,7 @@ async function deleteGovtForm(id){
   await loadGovtForms();
 }
 
-loadGovtForms();
+/* Govt Forms are loaded after the authenticated session is established. */
 /* ================= END GOVT FORMS MANAGER ================= */
 
 </script></body></html>
