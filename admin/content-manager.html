@@ -20,13 +20,39 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
 <input type="hidden" id="dId">
 <div class="form">
   <div><label>Work Category</label>
-    <input id="dCategory" placeholder="Infrastructure / Water / Education / Health">
+    <select id="dCategory" style="width:100%;padding:10px;border:1px solid #ccd5e1;border-radius:7px;box-sizing:border-box">
+      <option value="">Select Work Category</option>
+      <option value="Infrastructure Development">Infrastructure Development</option>
+<option value="Rural Development & Panchayat Works">Rural Development & Panchayat Works</option>
+<option value="Agriculture & Allied Activities">Agriculture & Allied Activities</option>
+<option value="Water Supply & Sanitation">Water Supply & Sanitation</option>
+<option value="Education Development">Education Development</option>
+<option value="Health & Family Welfare">Health & Family Welfare</option>
+<option value="Environment & Sustainability">Environment & Sustainability</option>
+<option value="Livelihood & Self Help Groups">Livelihood & Self Help Groups</option>
+<option value="Social Welfare">Social Welfare</option>
+<option value="Other Development">Other Development</option>
+    </select>
   </div>
   <div><label>Work Name</label>
     <input id="dTitle" placeholder="Enter work name">
   </div>
   <div><label>Sector</label>
-    <input id="dSector" placeholder="Infrastructure / Water Supply / Education">
+    <select id="dSector" style="width:100%;padding:10px;border:1px solid #ccd5e1;border-radius:7px;box-sizing:border-box">
+      <option value="">Select Sector</option>
+      <option value="Infrastructure">Infrastructure</option>
+<option value="Rural Development">Rural Development</option>
+<option value="Panchayat">Panchayat</option>
+<option value="Agriculture">Agriculture</option>
+<option value="Water Supply">Water Supply</option>
+<option value="Sanitation">Sanitation</option>
+<option value="Education">Education</option>
+<option value="Health">Health</option>
+<option value="Environment">Environment</option>
+<option value="Livelihood">Livelihood</option>
+<option value="Social Welfare">Social Welfare</option>
+<option value="Other">Other</option>
+    </select>
   </div>
   <div><label>Status</label>
     <select id="dStatus" style="width:100%;padding:10px;border:1px solid #ccd5e1;border-radius:7px;box-sizing:border-box">
@@ -36,6 +62,9 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
   </div>
   <div><label>Year</label>
     <input id="dYear" placeholder="2025-26">
+  </div>
+  <div><label>Fund</label>
+    <input id="dFund" placeholder="₹ Amount / Fund Source">
   </div>
   <div><label>Image URL (optional)</label>
     <input id="dImage" placeholder="https://...">
@@ -141,6 +170,7 @@ function clearDev(){
   $("dSector").value="";
   $("dStatus").value="Ongoing";
   $("dYear").value="";
+  $("dFund").value="";
   $("dImage").value="";
   $("dDesc").value="";
 }
@@ -152,6 +182,7 @@ function editDev(id){
   $("dSector").value=x.sector||"";
   $("dStatus").value=x.status==="Completed"?"Completed":"Ongoing";
   $("dYear").value=x.work_year||"";
+  $("dFund").value=x.fund||"";
   $("dImage").value=x.image_url||"";
   $("dDesc").value=x.work_details||x.description||"";
 }
@@ -167,7 +198,8 @@ async function saveDev(){
     work_category:$("dCategory").value.trim()||"General Development",
     sector:$("dSector").value.trim()||"General",
     status:$("dStatus").value==="Completed"?"Completed":"Ongoing",
-    work_year:$("dYear").value.trim()||null
+    work_year:$("dYear").value.trim()||null,
+    fund:$("dFund").value.trim()||null
   };
 
   let r=$("dId").value
