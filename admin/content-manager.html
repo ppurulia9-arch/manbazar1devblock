@@ -379,7 +379,42 @@ async function delDev(id){
 async function loadDls(){let r=await sb.from("downloads").select("*").order("created_at",{ascending:false});if(r.error)return say("dlMsg",r.error.message,false);dls=r.data||[];$("dlList").innerHTML=dls.map(x=>`<div class=item><div><h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></div><div><button class=edit onclick="editDl('${x.id}')">Edit</button> <button class=del onclick="delDl('${x.id}')">Delete</button></div></div>`).join("")||"<p>No downloads.</p>"}
 function clearDownload(){$("dlId").value="";$("dlTitle").value="";$("dlDesc").value="";$("dlFile").value=""}
 function editDl(id){let x=dls.find(y=>y.id==id);$("dlId").value=id;$("dlTitle").value=x.title;$("dlDesc").value=x.description||""}
-async function saveDownload(){let title=$("dlTitle").value.trim(),f=$("dlFile").files[0],old=dls.find(x=>x.id==$("dlId").value)?.file_path;if(!title)return say("dlMsg","Title required",false);let path=old;if(f){let p=""+Date.now()+"-"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");let u=await sb.storage.from("site-downloads").upload(p,f,{upsert:true,contentType:f.type||"application/octet-stream"});if(u.error)return say("dlMsg",u.error.message,false);path=p}if(!path)return say("dlMsg","Select a file",false);let data={title,description:$("dlDesc").value.trim(),file_path:path};let r=$("dlId").value?await sb.from("downloads").update(data).eq("id",$("dlId").value):await sb.from("downloads").insert(data);if(r.error)return say("dlMsg",r.error.message,false);say("dlMsg","Download saved");clearDownload();loadDls()}
+async function saveDownload(){
+  const id=$("dlId").value;
+  const title=$("dlTitle").value.trim();
+  const f=$("dlFile").files[0];
+  const old=dls.find(x=>x.id==id);
+  if(!title)return say("dlMsg","Title required",false);
+
+  let path=old?.file_path||null;
+  let fileUrl=old?.file_url||null;
+
+  if(f){
+    const p=""+Date.now()+"-"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+    const u=await sb.storage.from("site-downloads").upload(p,f,{upsert:true,contentType:f.type||"application/octet-stream"});
+    if(u.error)return say("dlMsg",u.error.message,false);
+    path=p;
+    fileUrl=sb.storage.from("site-downloads").getPublicUrl(p).data.publicUrl;
+  }
+
+  if(!fileUrl)return say("dlMsg","Select a file",false);
+
+  const data={
+    title,
+    description:$("dlDesc").value.trim()||null,
+    file_url:fileUrl,
+    file_path:path
+  };
+
+  const r=id
+    ?await sb.from("downloads").update(data).eq("id",id)
+    :await sb.from("downloads").insert(data);
+
+  if(r.error)return say("dlMsg",r.error.message,false);
+  say("dlMsg","Download saved");
+  clearDownload();
+  loadDls();
+}
 async function delDl(id){if(!confirm("Delete download?"))return;let x=dls.find(y=>y.id==id);if(x?.file_path)await sb.storage.from("site-downloads").remove([x.file_path]);let r=await sb.from("downloads").delete().eq("id",id);if(r.error)return say("dlMsg",r.error.message,false);loadDls()}
 
 async function loadGals(){let r=await sb.from("gallery_photos").select("*").order("created_at",{ascending:false});if(r.error)return say("gMsg",r.error.message,false);gals=r.data||[];$("gList").innerHTML=gals.map(x=>`<div class=item><div><img class=preview src="${sb.storage.from("site-gallery").getPublicUrl(x.image_path).data.publicUrl}"><h3>${esc(x.title||"Photo")}</h3><p>${esc(x.caption||"")}</p></div><div><button class=edit onclick="editGal('${x.id}')">Edit</button> <button class=del onclick="delGal('${x.id}')">Delete</button></div></div>`).join("")||"<p>No photos.</p>"}
@@ -505,11 +540,10 @@ async function saveGovtForm(){
 
   const auth=await sb.auth.getUser();
   if(auth.error || !auth.data?.user)
-    return say("gfMsg","Admin login session পাওয়া যাচ্ছে না। আবার Login করুন।",false);
+    return say("gfMsg","Admin login session পাওয়া যাচ্ছে না। আবার login করুন।",false);
 
   let file_url=null,file_size_kb=null,file_path=null;
 
-  /* PDF -> Supabase Storage */
   if(file){
     const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
     file_path="forms/"+Date.now()+"-"+safe;
@@ -521,27 +555,34 @@ async function saveGovtForm(){
     });
 
     if(u.error)
-      return say("gfMsg","UPLOAD ERROR: "+u.error.message,false);
+      return say("gfMsg","PDF Storage upload failed: "+u.error.message,false);
 
     file_url=sb.storage.from("govt-forms").getPublicUrl(file_path).data.publicUrl;
     file_size_kb=Math.ceil(file.size/1024);
   }
 
-  /* Database row */
-  const payload={
-    name:name,
-    category_id:category_id,
-    file_url:file_url,
-    file_size_kb:file_size_kb
-  };
+  let r;
 
-  const r=id
-    ? await sb.from("govt_forms").update(payload).eq("id",id)
-    : await sb.from("govt_forms").insert(payload);
+  if(id){
+    r=await sb.rpc("admin_update_govt_form",{
+      p_id:id,
+      p_name:name,
+      p_category_id:category_id,
+      p_file_url:file_url,
+      p_file_size_kb:file_size_kb
+    });
+  }else{
+    r=await sb.rpc("admin_insert_govt_form",{
+      p_name:name,
+      p_category_id:category_id,
+      p_file_url:file_url,
+      p_file_size_kb:file_size_kb
+    });
+  }
 
   if(r.error){
     if(file_path) await sb.storage.from("govt-forms").remove([file_path]);
-    return say("gfMsg","DATABASE ERROR: "+r.error.message,false);
+    return say("gfMsg","Database save failed: "+r.error.message,false);
   }
 
   say("gfMsg",id?"Form updated successfully.":"Form uploaded successfully.");
