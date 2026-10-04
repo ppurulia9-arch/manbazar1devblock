@@ -505,10 +505,11 @@ async function saveGovtForm(){
 
   const auth=await sb.auth.getUser();
   if(auth.error || !auth.data?.user)
-    return say("gfMsg","Admin login session পাওয়া যাচ্ছে না। আবার login করুন।",false);
+    return say("gfMsg","Admin login session পাওয়া যাচ্ছে না। আবার Login করুন।",false);
 
   let file_url=null,file_size_kb=null,file_path=null;
 
+  /* PDF -> Supabase Storage */
   if(file){
     const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
     file_path="forms/"+Date.now()+"-"+safe;
@@ -520,34 +521,27 @@ async function saveGovtForm(){
     });
 
     if(u.error)
-      return say("gfMsg","PDF Storage upload failed: "+u.error.message,false);
+      return say("gfMsg","UPLOAD ERROR: "+u.error.message,false);
 
     file_url=sb.storage.from("govt-forms").getPublicUrl(file_path).data.publicUrl;
     file_size_kb=Math.ceil(file.size/1024);
   }
 
-  let r;
+  /* Database row */
+  const payload={
+    name:name,
+    category_id:category_id,
+    file_url:file_url,
+    file_size_kb:file_size_kb
+  };
 
-  if(id){
-    r=await sb.rpc("admin_update_govt_form",{
-      p_id:id,
-      p_name:name,
-      p_category_id:category_id,
-      p_file_url:file_url,
-      p_file_size_kb:file_size_kb
-    });
-  }else{
-    r=await sb.rpc("admin_insert_govt_form",{
-      p_name:name,
-      p_category_id:category_id,
-      p_file_url:file_url,
-      p_file_size_kb:file_size_kb
-    });
-  }
+  const r=id
+    ? await sb.from("govt_forms").update(payload).eq("id",id)
+    : await sb.from("govt_forms").insert(payload);
 
   if(r.error){
     if(file_path) await sb.storage.from("govt-forms").remove([file_path]);
-    return say("gfMsg","Database save failed: "+r.error.message,false);
+    return say("gfMsg","DATABASE ERROR: "+r.error.message,false);
   }
 
   say("gfMsg",id?"Form updated successfully.":"Form uploaded successfully.");
