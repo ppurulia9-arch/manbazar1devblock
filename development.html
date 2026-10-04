@@ -66,11 +66,11 @@ function render(){
  document.getElementById("workList").innerHTML=list.map((x,i)=>{
    const st=x.status==="Completed"?"Completed":"Ongoing";
    const img=x.image_url?`<img class="work-img" src="${esc(x.image_url)}" alt="${esc(x.title)}">`:`<div class="work-img"></div>`;
-   return `<article class="work"><div class="work-head"><div><h3>${esc(x.title||"Development Work")}</h3><div class="meta"><span class="category">${esc(x.work_category||"General Development")}</span><span class="sector">${esc(x.sector||"General")}</span>${x.work_year?` <span>📅 ${esc(x.work_year)}</span>`:""}</div></div><span class="badge ${st.toLowerCase()} blink">${st}</span></div><div class="work-body">${img}<div class="work-desc">${esc(x.work_details||x.description||"Development work details will be updated here.")}</div></div></article>`;
+   return `<article class="work"><div class="work-head"><div><h3>${esc(x.title||"Development Work")}</h3><div class="meta"><span class="category">${esc(x.work_category||"General Development")}</span><span class="sector">${esc(x.sector||"General")}</span>${x.work_year?` <span>📅 ${esc(x.work_year)}</span>`:""}${x.fund?` <span>💰 Fund: ${esc(x.fund)}</span>`:""}</div></div><span class="badge ${st.toLowerCase()} blink">${st}</span></div><div class="work-body">${img}<div class="work-desc">${esc(x.work_details||x.description||"Development work details will be updated here.")}</div></div></article>`;
  }).join("")||'<div class="empty">এই filter/search অনুযায়ী কোনো work পাওয়া যায়নি।</div>';
 }
 async function load(){
- const r=await sb.from("development_content").select("id,title,description,work_details,image_url,work_category,sector,status,work_year,created_at").order("created_at",{ascending:false});
+ const r=await sb.from("development_content").select("id,title,description,work_details,image_url,work_category,sector,status,work_year,fund,created_at").order("created_at",{ascending:false});
  if(r.error){document.getElementById("workList").innerHTML=`<div class="empty">Development data load করা যাচ্ছে না।</div>`;console.error(r.error);return;}
  works=r.data||[];render();
 }
