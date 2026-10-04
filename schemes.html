@@ -126,26 +126,9 @@ a{text-decoration:none}
 .scheme-number{
   margin-right:8px;
 }
-.scheme-long-name{
+.scheme-long-name::before{content:'★ ';} .scheme-long-name{
   display:inline;
   white-space:nowrap;
-}
-.scheme-details-link{
-  display:inline-block;
-  margin-left:14px;
-  color:#ffd000!important;
-  background:#7a1024;
-  padding:5px 9px;
-  border-radius:4px;
-  font-size:12px;
-  font-weight:900;
-  text-decoration:none!important;
-  white-space:nowrap;
-  animation:schemeBlink 1s infinite;
-}
-.scheme-details-link:hover{
-  color:#fff!important;
-  background:#a40020;
 }
 .scheme-details-link.disabled{
   opacity:.5;
@@ -166,10 +149,6 @@ a{text-decoration:none}
   .scheme-paragraph{
     font-size:15px;
     line-height:1.55;
-  }
-  .scheme-details-link{
-    margin-left:10px;
-    font-size:11px;
   }
 }
 </style>
@@ -334,7 +313,7 @@ function renderSchemes(list){
             <span class="scheme-number">📋</span>
             <span class="scheme-long-name">${title}</span>
             ${link
-              ? `<a class="scheme-details-link" href="${link}" target="_blank" rel="noopener noreferrer">CLICK HERE FOR DETAILS/APPLY</a>`
+              ? ``
               : `<span class="scheme-details-link disabled">DETAILS NOT AVAILABLE</span>`}
           </p>`;
       }).join("")}
