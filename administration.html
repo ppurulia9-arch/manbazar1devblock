@@ -390,17 +390,21 @@ body{
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-.gp-list{list-style:none;margin:0;padding:0}.gp-list li{border-bottom:1px solid #eee}.gp-button{width:100%;border:0;background:transparent;padding:12px 6px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;cursor:pointer;text-align:left}.gp-button:hover{background:#fff1d6;color:#8b001b}.gp-num{display:inline-flex;width:25px;height:25px;border-radius:50%;background:#f3a300;color:#fff;align-items:center;justify-content:center;font-style:normal;margin-right:8px}.loading,.gp-help{padding:18px;color:#6b7280}.officer-top{display:flex;gap:14px;align-items:center}.officer-avatar{font-size:54px}.officer-name{font-size:19px;font-weight:800;color:#8b001b}.officer-meta{margin-top:5px;line-height:1.5}.official{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #eee}.official .avatar{font-size:30px}.official b{display:block}.official span{display:block;font-size:12px;color:#667085;margin-top:3px}.staff-item{padding:12px;border:1px solid #e1e5ea;border-radius:8px;margin-bottom:9px}
-.gp-staff-csc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
-.csc-body{text-align:center;padding:24px 18px}
-.csc-icon{font-size:48px;margin-bottom:8px}
-.csc-body h3{margin:6px 0 8px;color:#123f70}
-.csc-body p{color:#5b6470;line-height:1.5;font-size:14px}
-.csc-btn{display:inline-block;background:#1268d9;color:#fff!important;padding:11px 18px;border-radius:8px;font-weight:800;text-decoration:none;margin-top:8px}
-.csc-btn:hover{background:#0b4fa8}
-@media(max-width:800px){.gp-staff-csc-grid{grid-template-columns:1fr}}
-.staff-item b{color:#7a1024}.staff-meta{font-size:13px;color:#5b6470;margin-top:5px;line-height:1.5}
+.gp-list{list-style:none;margin:0;padding:0}.gp-list li{border-bottom:1px solid #eee}.gp-button{width:100%;border:0;background:transparent;padding:12px 6px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;cursor:pointer;text-align:left}.gp-button:hover{background:#fff1d6;color:#8b001b}.gp-num{display:inline-flex;width:25px;height:25px;border-radius:50%;background:#f3a300;color:#fff;align-items:center;justify-content:center;font-style:normal;margin-right:8px}.loading,.gp-help{padding:18px;color:#6b7280}.officer-top{display:flex;gap:14px;align-items:center}.officer-avatar{font-size:54px}.officer-name{font-size:19px;font-weight:800;color:#8b001b}.officer-meta{margin-top:5px;line-height:1.5}.official{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #eee}.official .avatar{font-size:30px}.official b{display:block}.official span{display:block;font-size:12px;color:#667085;margin-top:3px}.staff-item{padding:12px;border:1px solid #e1e5ea;border-radius:8px;margin-bottom:9px}.staff-item b{color:#7a1024}.staff-meta{font-size:13px;color:#5b6470;margin-top:5px;line-height:1.5}
 </style>
+
+<style>
+.gp-staff-center{width:72%;max-width:1000px;margin:18px auto 0}
+.gp-staff-center .card-body{min-height:120px}
+.csc-center{width:72%;max-width:1000px;margin:16px auto 25px}
+.csc-body{text-align:center;padding:22px}
+.csc-icon{font-size:44px}
+.csc-body h3{margin:7px 0;color:#123f70}
+.csc-body p{color:#5b6470;line-height:1.5}
+.csc-btn{display:inline-block;background:#1268d9;color:#fff!important;padding:11px 18px;border-radius:8px;font-weight:800;text-decoration:none}
+@media(max-width:800px){.gp-staff-center,.csc-center{width:100%}}
+</style>
+
 </head>
 
 <body>
@@ -452,26 +456,23 @@ body{
 <article class="card green"><div class="card-title">👥 Key Officials</div><div class="card-body" id="officialsCard"><div class="loading">Loading...</div></div></article>
 <article class="card orange"><div class="card-title">👥 Gram Panchayats (10)</div><div class="card-body"><ul class="gp-list" id="gpList"><li><button class="gp-button" data-gp="বারামাস্যা-রামনগর"><span><i class="gp-num">1</i>বারামাস্যা-রামনগর</span><b>›</b></button></li><li><button class="gp-button" data-gp="বামনি-মাঝিহিরা"><span><i class="gp-num">2</i>বামনি-মাঝিহিরা</span><b>›</b></button></li><li><button class="gp-button" data-gp="ভালুবাসা"><span><i class="gp-num">3</i>ভালুবাসা</span><b>›</b></button></li><li><button class="gp-button" data-gp="বিসরি"><span><i class="gp-num">4</i>বিসরি</span><b>›</b></button></li><li><button class="gp-button" data-gp="চন্দ্রা-পাইরাচালি"><span><i class="gp-num">5</i>চন্দ্রা-পাইরাচালি</span><b>›</b></button></li><li><button class="gp-button" data-gp="ধানারা"><span><i class="gp-num">6</i>ধানারা</span><b>›</b></button></li><li><button class="gp-button" data-gp="গোপালনগর"><span><i class="gp-num">7</i>গোপালনগর</span><b>›</b></button></li><li><button class="gp-button" data-gp="জিতুজুরি"><span><i class="gp-num">8</i>জিতুজুরি</span><b>›</b></button></li><li><button class="gp-button" data-gp="কামতা জাঙ্গিদিরি"><span><i class="gp-num">9</i>কামতা জাঙ্গিদিরি</span><b>›</b></button></li><li><button class="gp-button" data-gp="মানবাজার"><span><i class="gp-num">10</i>মানবাজার</span><b>›</b></button></li></ul></div></article>
 </section>
-<section class="gp-staff-csc-grid">
+<section class="gp-staff-center">
   <article class="card purple">
-    <div class="card-title">👥 GP-wise Staff</div>
+    <div class="card-title">👥 GP-wise Staff Details</div>
     <div class="card-body" id="gpStaffPanel">
       <div class="gp-help">Click any Gram Panchayat above to view its staff.</div>
     </div>
   </article>
-
-  <article class="card blue csc-card">
-    <div class="card-title">📍 My Near CSC Centre</div>
-    <div class="card-body csc-body">
-      <div class="csc-icon">🏪</div>
-      <h3>Find Your Nearest CSC Centre</h3>
-      <p>আপনার নিকটবর্তী Common Service Centre (CSC) খুঁজে দেখতে নিচের button-এ click করুন।</p>
-      <a class="csc-btn" href="https://locator.csccloud.in/" target="_blank" rel="noopener noreferrer">
-        🔎 Find Near CSC Centre →
-      </a>
-    </div>
-  </article>
 </section>
+<section class="csc-center"><article class="card blue csc-card">
+  <div class="card-title">📍 My Near CSC Centre</div>
+  <div class="card-body csc-body">
+    <div class="csc-icon">🏪</div>
+    <h3>Find Your Nearest CSC Centre</h3>
+    <p>আপনার নিকটবর্তী Common Service Centre (CSC) খুঁজে দেখতে নিচের button-এ click করুন।</p>
+    <a class="csc-btn" href="https://locator.csccloud.in/" target="_blank" rel="noopener noreferrer">🔎 Find Near CSC Centre →</a>
+  </div>
+</article></section>
 </main>
 
 <footer style="background:#650014;color:#fff;text-align:center;padding:15px;margin-top:5px;">
@@ -479,12 +480,79 @@ body{
 </footer>
 
 <script>
-const SUPABASE_URL="https://nqfcofeqsesenmttcwr.supabase.co",SUPABASE_PUBLISHABLE_KEY="sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2",sb=supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
-function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]);}
-function block(x){return `<div class="officer-top"><div class="officer-avatar">👨‍💼</div><div><div class="officer-name">${esc(x.name)}</div><div class="officer-meta">${esc(x.designation||x.role_type)}<br>Manbazar-I Development Block<br>Purulia, West Bengal</div></div></div>${x.phone?`<p>☎ ${esc(x.phone)}</p>`:""}${x.email?`<p>✉ ${esc(x.email)}</p>`:""}`;}
-async function loadOfficials(){let r=await sb.from("admin_officials").select("*").order("created_at",{ascending:true});if(r.error)return;let a=r.data||[],b=a.find(x=>x.role_type==="BDO"),j=a.find(x=>x.role_type==="Jt.BDO"),o=a.filter(x=>x.role_type==="Official");document.getElementById("bdoCard").innerHTML=b?block(b):'<div class="loading">BDO information will be updated by Admin.</div>';document.getElementById("jtBdoCard").innerHTML=j?block(j):'<div class="loading">Jt.BDO information will be updated by Admin.</div>';document.getElementById("officialsCard").innerHTML=o.length?o.map(x=>`<div class="official"><div class="avatar">👨‍💼</div><div><b>${esc(x.name)}</b><span>${esc(x.designation||"Official")}${x.phone?`<br>☎ ${esc(x.phone)}`:""}${x.email?`<br>✉ ${esc(x.email)}`:""}</span></div></div>`).join(""):'<div class="loading">No other officials added.</div>';}
-async function loadGp(gp){let r=await sb.from("gp_staff").select("*").eq("gp_name",gp).order("created_at",{ascending:true}),p=document.getElementById("gpStaffPanel");if(r.error){p.innerHTML='<div class="loading">Staff information could not be loaded.</div>';return}let a=r.data||[];p.innerHTML=`<h3 style="margin-top:0;color:#8b001b">🏘️ ${esc(gp)}</h3>`+(a.length?a.map(x=>`<div class="staff-item"><b>${esc(x.staff_name)}</b><div class="staff-meta">${esc(x.designation||"Staff")}${x.phone?`<br>☎ ${esc(x.phone)}`:""}${x.email?`<br>✉ ${esc(x.email)}`:""}</div></div>`).join(""):'<div class="gp-help">এই GP-এর জন্য এখনও কোনো staff information Admin যোগ করেননি।</div>');}
-document.querySelectorAll(".gp-button").forEach(x=>x.addEventListener("click",()=>loadGp(x.dataset.gp)));loadOfficials();
+const SUPABASE_URL="https://nqfcoofeqsesenmttcwr.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
+
+function officerBlock(x){
+  const photo=x.photo_url
+    ? `<img src="${esc(x.photo_url)}" alt="${esc(x.name)}" style="width:105px;height:105px;object-fit:cover;border-radius:50%;border:4px solid #e9edf2">`
+    : `<div class="officer-avatar">👨‍💼</div>`;
+  return `<div class="officer-top">
+    <div>${photo}</div>
+    <div>
+      <div class="officer-name">${esc(x.name)}</div>
+      <div class="officer-meta">${esc(x.designation||x.role_type)}<br>Manbazar-I Development Block<br>Purulia, West Bengal</div>
+    </div>
+  </div>
+  ${x.phone?`<p>☎ ${esc(x.phone)}</p>`:""}
+  ${x.email?`<p>✉ ${esc(x.email)}</p>`:""}`;
+}
+
+async function loadOfficials(){
+  const r=await sb.rpc("get_public_admin_officials");
+  const bdoCard=document.getElementById("bdoCard");
+  const jtCard=document.getElementById("jtBdoCard");
+  const officialsCard=document.getElementById("officialsCard");
+
+  if(r.error){
+    console.error("Administration read error:",r.error);
+    const msg=`<div class="loading">Administration data load করা যাচ্ছে না।<br><small>${esc(r.error.message||"Please check Supabase public access.")}</small></div>`;
+    bdoCard.innerHTML=msg;
+    jtCard.innerHTML=msg;
+    officialsCard.innerHTML=msg;
+    return;
+  }
+
+  const a=r.data||[];
+  const b=a.find(x=>x.role_type==="BDO");
+  const j=a.find(x=>x.role_type==="Jt.BDO");
+  const o=a.filter(x=>x.role_type==="Official");
+
+  bdoCard.innerHTML=b?officerBlock(b):'<div class="loading">BDO information will be updated by Admin.</div>';
+  jtCard.innerHTML=j?officerBlock(j):'<div class="loading">Jt.BDO information will be updated by Admin.</div>';
+
+  officialsCard.innerHTML=o.length
+    ?o.map(x=>`<div class="official">
+      <div class="avatar">${x.photo_url?`<img src="${esc(x.photo_url)}" alt="${esc(x.name)}" style="width:48px;height:48px;object-fit:cover;border-radius:9px">`:"👨‍💼"}</div>
+      <div><b>${esc(x.name)}</b><span>${esc(x.designation||"Official")}${x.phone?`<br>☎ ${esc(x.phone)}`:""}${x.email?`<br>✉ ${esc(x.email)}`:""}</span></div>
+    </div>`).join("")
+    :'<div class="loading">No other officials added.</div>';
+}
+
+async function loadGp(gp){
+  const r=await sb.rpc("get_public_gp_staff",{p_gp_name:gp});
+  const p=document.getElementById("gpStaffPanel");
+
+  if(r.error){
+    p.innerHTML=`<div class="loading">GP Staff data load করা যাচ্ছে না।<br><small>${esc(r.error.message||"Please check Supabase public access.")}</small></div>`;
+    return;
+  }
+
+  const a=r.data||[];
+  p.innerHTML=`<h3 style="margin-top:0;color:#8b001b">🏘️ ${esc(gp)}</h3>`+
+    (a.length
+      ?a.map(x=>`<div class="staff-item">
+          <b>${esc(x.staff_name)}</b>
+          <div class="staff-meta">${esc(x.designation||"Staff")}${x.phone?`<br>☎ ${esc(x.phone)}`:""}${x.email?`<br>✉ ${esc(x.email)}`:""}</div>
+        </div>`).join("")
+      :'<div class="gp-help">এই GP-এর জন্য এখনও কোনো staff information Admin যোগ করেননি।</div>');
+}
+
+document.querySelectorAll(".gp-button").forEach(x=>x.addEventListener("click",()=>loadGp(x.dataset.gp)));
+loadOfficials();
 </script>
 </body>
 </html>
