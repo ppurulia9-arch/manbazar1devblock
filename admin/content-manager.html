@@ -14,6 +14,20 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
 <button class="tab active" data-p="notices">🔔 Notices</button><button class="tab" data-p="schemes">📋 Schemes</button><button class="tab" data-p="development">📈 Development</button><button class="tab" data-p="downloads">⬇️ Downloads</button><button class="tab" data-p="gallery">🖼️ Gallery</button><button class="tab" data-p="contacts">☎️ Contact</button><button class="tab" data-p="administration">🏛️ Administration</button>
 </div>
 <section id="notices" class="panel active"><h2>🔔 Notices</h2><div class="form"><div><label>Title</label><input id="nTitle"></div><div><label>Date</label><input id="nDate" type="date"></div><div class="full"><label>Description</label><textarea id="nDesc"></textarea></div><div><label>PDF</label><input id="nFile" type="file" accept=".pdf,application/pdf"></div></div><div class="actions"><button class="primary" onclick="saveNotice()">Save Notice</button><button class="secondary" onclick="clearNotice()">Clear</button></div><div id="nMsg" class="msg"></div><div id="noticeList"></div></section>
+
+<section id="schemeAdvertisement" class="panel">
+<h2>📢 Scheme Advertisement Banner</h2>
+<p style="color:#666">এই banner/poster-টি শুধু Public Scheme page-এর Advertisement Corner-এ দেখাবে। Admin এখান থেকে সময় অনুযায়ী Replace/Remove করতে পারবেন।</p>
+<div class="form">
+<div><label>Advertisement Title</label><input id="schemeAdTitle" value="Latest Scheme Advertisement"></div>
+<div><label>Poster / Banner (JPG, JPEG, PNG, WebP — max 5MB)</label><input id="schemeAdFile" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"></div>
+</div>
+<div id="schemeAdPreview" style="margin:12px 0"></div>
+<button class="primary" onclick="saveSchemeAd()">Upload / Replace Advertisement</button>
+<button class="del" onclick="deleteSchemeAd()">Remove Advertisement</button>
+<div id="schemeAdMsg" class="msg"></div>
+</section>
+
 <section id="schemes" class="panel"><h2>📋 Schemes</h2>
 <div class="ad-manager" style="margin:14px 0;padding:16px;border:1px solid #dbe3ec;border-radius:12px;background:#f8fafc">
   <h3 style="margin:0 0 6px;color:#17447e">📢 Scheme Advertisement Banner</h3>
