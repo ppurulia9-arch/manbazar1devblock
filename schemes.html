@@ -25,6 +25,8 @@ a{text-decoration:none}
 .container{width:94%;max-width:1500px;margin:18px auto 30px}
 
 .scheme-ad{background:#fff;border:1px solid #ddd;border-radius:14px;box-shadow:0 5px 20px #00000012;margin-bottom:22px;overflow:hidden}
+.scheme-ad{position:relative}
+.scheme-ad-close{position:absolute;right:12px;top:9px;width:32px;height:32px;border:0;border-radius:50%;background:rgba(255,255,255,.95);color:#8b001b;font-size:24px;font-weight:800;line-height:30px;cursor:pointer;z-index:5;box-shadow:0 2px 8px #0002}.scheme-ad-close:hover{background:#fff;color:#b00020;transform:scale(1.05)}
 .scheme-ad-title{background:linear-gradient(90deg,var(--maroon),#b31232);color:#fff;padding:13px 18px;font-size:20px;font-weight:800}
 .scheme-ad-inner{padding:14px;text-align:center}
 .scheme-ad img{display:block;width:100%;max-height:430px;object-fit:contain;border-radius:10px;background:#fafafa}
@@ -74,6 +76,7 @@ a{text-decoration:none}
 <main class="container">
 
 <section id="schemeAdvertisement" class="scheme-ad hidden">
+  <button id="schemeAdClose" class="scheme-ad-close" type="button" aria-label="Close advertisement" title="Hide advertisement">×</button>
   <div class="scheme-ad-title">📢 Latest Scheme Advertisement</div>
   <div class="scheme-ad-inner"><img id="schemeAdImage" alt="Latest Scheme Advertisement"></div>
 </section>
@@ -106,30 +109,36 @@ function escapeHTML(value){
   }[ch]));
 }
 
+function closeSchemeAdvertisement(){
+  localStorage.setItem("scheme_ad_hidden","1");
+  const box=document.getElementById("schemeAdvertisement");
+  if(box) box.classList.add("hidden");
+}
+
 async function loadSchemeAdvertisement(){
-  const box = document.getElementById("schemeAdvertisement");
-  const img = document.getElementById("schemeAdImage");
+  const box=document.getElementById("schemeAdvertisement");
+  const img=document.getElementById("schemeAdImage");
   if(!box || !img) return;
 
-  try{
-    const {data,error} = await supabaseClient
-      .from("scheme_advertisement")
-      .select("image_url,title,is_visible")
-      .eq("id",1)
-      .maybeSingle();
-
-    if(error || !data || !data.image_url || data.is_visible === false){
-      box.classList.add("hidden");
-      return;
-    }
-
-    img.src = data.image_url;
-    img.alt = data.title || "Latest Scheme Advertisement";
-    box.classList.remove("hidden");
-  }catch(e){
-    console.error("Advertisement error:",e);
+  if(localStorage.getItem("scheme_ad_hidden")==="1"){
     box.classList.add("hidden");
+    return;
   }
+
+  const {data,error}=await supabaseClient
+    .from("scheme_advertisement")
+    .select("image_url,title,is_visible")
+    .eq("id",1)
+    .maybeSingle();
+
+  if(error || !data || !data.image_url || data.is_visible===false){
+    box.classList.add("hidden");
+    return;
+  }
+
+  img.src=data.image_url;
+  img.alt=data.title || "Latest Scheme Advertisement";
+  box.classList.remove("hidden");
 }
 
 async function loadSchemes(){
@@ -173,6 +182,8 @@ async function loadSchemes(){
 }
 
 document.addEventListener("DOMContentLoaded", function(){
+  const closeBtn=document.getElementById("schemeAdClose");
+  if(closeBtn) closeBtn.addEventListener("click",closeSchemeAdvertisement);
   loadSchemeAdvertisement();
   loadSchemes();
 });
