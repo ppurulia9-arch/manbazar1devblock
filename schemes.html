@@ -96,155 +96,83 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_PUBLISHABLE_KEY
 );
 
-let allSchemes = [];
-
 function escapeHTML(value){
   return String(value ?? "").replace(/[&<>"']/g, ch => ({
     "&":"&amp;",
     "<":"&lt;",
     ">":"&gt;",
     '"':"&quot;",
-    "'":"&#39;"
+    "'":"&#039;"
   }[ch]));
 }
 
-function schemeIcon(title){
-  const t = String(title || "").toLowerCase();
-  if(t.includes("health") || t.includes("ayushman") || t.includes("swasthya")) return "🏥";
-  if(t.includes("housing") || t.includes("awas") || t.includes("pmay")) return "🏠";
-  if(t.includes("farmer") || t.includes("kisan") || t.includes("agri")) return "🌾";
-  if(t.includes("solar") || t.includes("surya")) return "☀️";
-  if(t.includes("insurance") || t.includes("bima")) return "🛡️";
-  if(t.includes("skill") || t.includes("vishwakarma")) return "🛠️";
-  if(t.includes("food") || t.includes("anna") || t.includes("ration")) return "🍚";
-  if(t.includes("sanitation") || t.includes("swachh")) return "🧹";
-  if(t.includes("employment") || t.includes("gram")) return "👷";
-  return "📋";
-}
-
-function renderSchemes(list){
-  const grid=document.getElementById("schemeGrid");
-  if(!grid)return;
-  if(!list.length){
-    grid.innerHTML='<div class="scheme-empty">এখনো কোনো Scheme Admin Content Manager থেকে প্রকাশ করা হয়নি।</div>';
-    return;
-  }
-  grid.innerHTML='<div class="scheme-paragraph-list">'+list.map(s=>{
-    const title=escapeHTML(s.title||"Government Scheme");
-    return '<p class="scheme-paragraph"><span class="scheme-number">📋</span><span class="scheme-long-name">'+title+'</span></p>';
-  }).join("")+'</div>';
-}
-
-function filterSchemes(type){
-  if(type === "all"){
-    renderSchemes(allSchemes);
-    return;
-  }
-  // Content Manager currently stores no Central/WB category field.
-  // Keep the existing buttons without inventing categories.
-  renderSchemes(allSchemes);
-}
-
-function filterCategory(type){
-  renderSchemes(allSchemes);
-}
-
-function searchSchemes(){
-  const q = document.getElementById("schemeSearch").value.toLowerCase().trim();
-  renderSchemes(allSchemes.filter(s =>
-    `${s.title || ""} ${s.description || ""}`.toLowerCase().includes(q)
-  ));
-}
-
-
 async function loadSchemeAdvertisement(){
-  const box=document.getElementById("schemeAdvertisement");
-  const img=document.getElementById("schemeAdPublicImage");
-  const title=document.getElementById("schemeAdPublicTitle");
-  if(!box||!img)return;
+  const box = document.getElementById("schemeAdvertisement");
+  const img = document.getElementById("schemeAdImage");
+  if(!box || !img) return;
+
   try{
-    const r=await supabaseClient.from("scheme_advertisement")
+    const {data,error} = await supabaseClient
+      .from("scheme_advertisement")
       .select("image_url,title")
       .eq("id",1)
       .maybeSingle();
-    if(r.error || !r.data || !r.data.image_url){
-      box.style.display="none";
+
+    if(error || !data || !data.image_url){
+      box.classList.add("hidden");
       return;
     }
-    img.src=r.data.image_url;
-    if(title) title.textContent=r.data.title||"Latest Scheme Advertisement";
-    box.style.display="block";
+
+    img.src = data.image_url;
+    img.alt = data.title || "Latest Scheme Advertisement";
+    box.classList.remove("hidden");
   }catch(e){
     console.error("Advertisement error:",e);
-    box.style.display="none";
+    box.classList.add("hidden");
   }
 }
 
 async function loadSchemes(){
-  const grid = document.getElementById("schemeGrid");
+  const list = document.getElementById("schemeList");
+  if(!list) return;
 
-  const { data, error } = await supabaseClient
-    .from("schemes")
-    .select("id,title,description,link_url,created_at")
-    .order("created_at", { ascending:false });
+  try{
+    const {data,error} = await supabaseClient
+      .from("schemes")
+      .select("id,title,created_at")
+      .order("created_at",{ascending:false});
 
-  if(error){
-    console.error("Schemes load error:", error);
-    grid.innerHTML = `
-      <div style="padding:25px;text-align:center;color:#b00020;font-weight:700;">
-        Scheme load করা যাচ্ছে না।
-      </div>`;
-    return;
+    if(error){
+      console.error("Schemes load error:",error);
+      list.innerHTML =
+        '<div class="scheme-error">Scheme load করা যাচ্ছে না।</div>';
+      return;
+    }
+
+    if(!data || !data.length){
+      list.innerHTML =
+        '<div class="scheme-empty">এখনও কোনো Scheme প্রকাশ করা হয়নি।</div>';
+      return;
+    }
+
+    list.innerHTML = data.map(s =>
+      '<div class="scheme-row"><span class="scheme-name">' +
+      escapeHTML(s.title || "Government Scheme") +
+      '</span></div>'
+    ).join("");
+
+  }catch(e){
+    console.error("Scheme error:",e);
+    list.innerHTML =
+      '<div class="scheme-error">Scheme load করা যাচ্ছে না।</div>';
   }
-
-  allSchemes = data || [];
-  renderSchemes(allSchemes);
 }
 
-loadSchemeAdvertisement();
-loadSchemes();
-</script>
-
-<script>
-const SUPABASE_URL = 'https://nqfcoofeqsesenmttcwr.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-
-function escapeHTML(v){
- return String(v ?? "").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[ch]));
-}
-
-async function loadSchemeAdvertisement(){
- const box=document.getElementById("schemeAdvertisement");
- const img=document.getElementById("schemeAdImage");
- const {data,error}=await supabaseClient.from("scheme_advertisement")
-   .select("image_url,title").eq("id",1).maybeSingle();
- if(error || !data || !data.image_url){ box.classList.add("hidden"); return; }
- img.src=data.image_url;
- img.alt=data.title || "Latest Scheme Advertisement";
- box.classList.remove("hidden");
-}
-
-async function loadSchemes(){
- const list=document.getElementById("schemeList");
- const {data,error}=await supabaseClient.from("schemes")
-   .select("id,title,created_at").order("created_at",{ascending:false});
- if(error){
-   list.innerHTML='<div class="scheme-error">Scheme load করা যাচ্ছে না।</div>';
-   console.error(error); return;
- }
- if(!data || !data.length){
-   list.innerHTML='<div class="scheme-empty">এখনও কোনো Scheme প্রকাশ করা হয়নি।</div>';
-   return;
- }
- list.innerHTML=data.map(s=>'<div class="scheme-row"><span class="scheme-name">'+
-   escapeHTML(s.title || "Government Scheme")+'</span></div>').join("");
-}
-
-document.addEventListener("DOMContentLoaded",()=>{
- loadSchemeAdvertisement();
- loadSchemes();
+document.addEventListener("DOMContentLoaded", function(){
+  loadSchemeAdvertisement();
+  loadSchemes();
 });
 </script>
+
 </body>
 </html>
