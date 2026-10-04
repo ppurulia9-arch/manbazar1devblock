@@ -96,68 +96,79 @@ a{text-decoration:none}
 </style>
 
 <style>
-.scheme-text-list{
+.scheme-paragraph-list{
   width:100%;
-  background:#fff;
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid #e3e7ed;
+  margin:0;
+  padding:0;
+  background:transparent;
 }
-.scheme-text-row{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  min-height:58px;
-  padding:10px 16px;
-  border-bottom:1px solid #e9edf2;
-  background:#fff;
-}
-.scheme-text-row:last-child{border-bottom:0}
-.scheme-text-row:hover{background:#f8fafc}
-.scheme-bullet{font-size:20px;flex:0 0 auto}
-.scheme-name{
-  color:#16283d;
-  font-size:16px;
+@keyframes schemeFloatLeft{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}} 
+.scheme-paragraph{
+
+  margin:0;
+  padding:10px 4px;
+  width:100%;
+  box-sizing:border-box;
+  color:#172b43;
+  font-size:17px;
   font-weight:700;
-  line-height:1.35;
-  flex:1 1 auto;
+  line-height:1.5;
+  background:transparent;
+  white-space:nowrap;
+  overflow-x:auto;
+  overflow-y:hidden;
+  word-break:normal;
+  overflow-wrap:normal;
+}
+.scheme-paragraph + .scheme-paragraph{
+  padding-top:10px;
+}
+.scheme-number{
+  margin-right:8px;
+}
+.scheme-long-name{
+  display:inline;
+  white-space:nowrap;
 }
 .scheme-details-link{
-  flex:0 0 auto;
+  display:inline-block;
+  margin-left:14px;
   color:#ffd000!important;
   background:#7a1024;
-  padding:7px 10px;
-  border-radius:6px;
+  padding:5px 9px;
+  border-radius:4px;
   font-size:12px;
   font-weight:900;
   text-decoration:none!important;
+  white-space:nowrap;
   animation:schemeBlink 1s infinite;
-  box-shadow:0 2px 7px rgba(0,0,0,.12);
 }
 .scheme-details-link:hover{
   color:#fff!important;
   background:#a40020;
 }
 .scheme-details-link.disabled{
-  opacity:.55;
+  opacity:.5;
   animation:none;
-  cursor:default;
+}
+.scheme-empty{
+  width:100%;
+  padding:30px 10px;
+  text-align:center;
+  color:#667085;
+  background:transparent;
 }
 @keyframes schemeBlink{
   0%,45%,100%{opacity:1}
   50%,70%{opacity:.25}
 }
 @media(max-width:700px){
-  .scheme-text-row{
-    align-items:flex-start;
-    flex-wrap:wrap;
-    padding:12px;
-  }
-  .scheme-name{
-    flex:1 1 calc(100% - 42px);
+  .scheme-paragraph{
+    font-size:15px;
+    line-height:1.55;
   }
   .scheme-details-link{
-    margin-left:32px;
+    margin-left:10px;
     font-size:11px;
   }
 }
@@ -307,25 +318,25 @@ function renderSchemes(list){
 
   if(!list.length){
     grid.innerHTML = `
-      <div style="padding:35px;text-align:center;color:#667085;font-size:16px;">
+      <div class="scheme-empty">
         এখনো কোনো Scheme Admin Content Manager থেকে প্রকাশ করা হয়নি।
       </div>`;
     return;
   }
 
   grid.innerHTML = `
-    <div class="scheme-text-list">
+    <div class="scheme-paragraph-list">
       ${list.map(s => {
         const title = escapeHTML(s.title || "Government Scheme");
         const link = s.link_url ? escapeHTML(s.link_url) : "";
         return `
-          <div class="scheme-text-row">
-            <span class="scheme-bullet">📋</span>
-            <span class="scheme-name">${title}</span>
+          <p class="scheme-paragraph">
+            <span class="scheme-number">📋</span>
+            <span class="scheme-long-name">${title}</span>
             ${link
               ? `<a class="scheme-details-link" href="${link}" target="_blank" rel="noopener noreferrer">CLICK HERE FOR DETAILS/APPLY</a>`
               : `<span class="scheme-details-link disabled">DETAILS NOT AVAILABLE</span>`}
-          </div>`;
+          </p>`;
       }).join("")}
     </div>`;
 }
@@ -356,15 +367,15 @@ async function loadSchemes(){
 
   const { data, error } = await supabaseClient
     .from("schemes")
-    .select("id,title,description,link_url,created_at,logo_url")
+    .select("id,title,description,link_url,created_at")
     .order("created_at", { ascending:false });
 
   if(error){
+    console.error("Schemes load error:", error);
     grid.innerHTML = `
-      <div style="grid-column:1/-1;padding:35px;text-align:center;color:#b00020;">
-        Scheme load করা যাচ্ছে না। অনুগ্রহ করে page refresh করুন।
+      <div style="padding:25px;text-align:center;color:#b00020;font-weight:700;">
+        Scheme load করা যাচ্ছে না।
       </div>`;
-    console.error(error);
     return;
   }
 
