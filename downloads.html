@@ -91,33 +91,32 @@
 const SUPABASE_URL="https://nqfcoofeqsesenmttcwr.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
-let forms=[],categories=[];
-const icons=["👥","📄","👨‍👩‍👧","💰","🌾","🏠","🏥","🎓","📋","🛠️"];
-
+let forms=[];
+const categories=[
+  {id:"",name:"All Downloads",icon:"📄"},
+  {id:"general",name:"Government Forms",icon:"📋"}
+];
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-
 async function loadData(){
-  const [f,c]=await Promise.all([
-    db.from("govt_forms").select("*").order("created_at",{ascending:false}),
-    db.from("govt_form_categories").select("*").order("name",{ascending:true})
-  ]);
-  if(f.error){document.getElementById("formsWrap").innerHTML='<div class="empty">Forms load করা যাচ্ছে না।</div>';console.error(f.error);return}
-  forms=f.data||[];categories=c.data||[];
-  const select=document.getElementById("category");
-  select.innerHTML='<option value="">All Categories</option>'+categories.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join("");
-  renderCategories();renderForms();
+  const r=await db.from("downloads").select("id,title,description,file_url,published,created_at").order("created_at",{ascending:false});
+  if(r.error){
+    document.getElementById("formsWrap").innerHTML='<div class="empty">Forms load করা যাচ্ছে না।</div>';
+    console.error(r.error); return;
+  }
+  forms=(r.data||[]).filter(x=>x.published!==false);
+  document.getElementById("category").innerHTML='<option value="">All Downloads</option><option value="general">Government Forms</option>';
+  renderCategories(); renderForms();
 }
 function renderCategories(){
-  const box=document.getElementById("categories");
-  box.innerHTML=categories.map((x,i)=>`<div class="cat" onclick="document.getElementById('category').value='${esc(x.id)}';renderForms()"><div class="cat-icon">${icons[i%icons.length]}</div><div class="cat-name">${esc(x.name)}</div><div class="cat-count">${forms.filter(f=>f.category_id===x.id).length} Forms</div></div>`).join("");
+  document.getElementById("categories").innerHTML=categories.map(x=>`<div class="cat" onclick="document.getElementById('category').value='${x.id}';renderForms()"><div class="cat-icon">${x.icon}</div><div class="cat-name">${x.name}</div><div class="cat-count">${forms.length} Forms</div></div>`).join("");
 }
 function renderForms(){
-  const q=document.getElementById("search").value.toLowerCase().trim(),cid=document.getElementById("category").value;
-  const list=forms.filter(f=>(!q||String(f.name).toLowerCase().includes(q))&&(!cid||f.category_id===cid));
+  const q=document.getElementById("search").value.toLowerCase().trim();
+  const list=forms.filter(f=>!q||String(f.title||"").toLowerCase().includes(q)||String(f.description||"").toLowerCase().includes(q));
   const wrap=document.getElementById("formsWrap");
-  if(!list.length){wrap.innerHTML='<div class="empty">কোনো Form পাওয়া যায়নি।</div>';return}
+  if(!list.length){wrap.innerHTML='<div class="empty">কোনো Form পাওয়া যায়নি।</div>';return;}
   wrap.innerHTML=`<table class="form-table"><thead><tr><th>#</th><th>Form Name</th><th>Category</th><th>File Type</th><th>File Size</th><th>Download</th></tr></thead><tbody>`+
-    list.map((f,i)=>`<tr><td>${i+1}</td><td><b>${esc(f.name)}</b></td><td><span class="badge">${esc(f.category_name||"General")}</span></td><td>📄 PDF</td><td>${f.file_size_kb||"-"} KB</td><td><a class="download-btn" href="${esc(f.file_url)}" target="_blank" rel="noopener">⬇ Download</a></td></tr>`).join("")+
+    list.map((f,i)=>`<tr><td>${i+1}</td><td><b>${esc(f.title||"Government Form")}</b>${f.description?`<br><small>${esc(f.description)}</small>`:""}</td><td><span class="badge">Government Forms</span></td><td>📄 PDF</td><td>-</td><td>${f.file_url?`<a class="download-btn" href="${esc(f.file_url)}" target="_blank" rel="noopener">⬇ Download</a>`:"-"}</td></tr>`).join("")+
     `</tbody></table>`;
 }
 loadData();
