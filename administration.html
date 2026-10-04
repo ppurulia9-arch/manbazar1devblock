@@ -388,6 +388,10 @@ body{
   .page-banner{height:auto;padding:15px}
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+.gp-list{list-style:none;margin:0;padding:0}.gp-list li{border-bottom:1px solid #eee}.gp-button{width:100%;border:0;background:transparent;padding:12px 6px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;cursor:pointer;text-align:left}.gp-button:hover{background:#fff1d6;color:#8b001b}.gp-num{display:inline-flex;width:25px;height:25px;border-radius:50%;background:#f3a300;color:#fff;align-items:center;justify-content:center;font-style:normal;margin-right:8px}.loading,.gp-help{padding:18px;color:#6b7280}.officer-top{display:flex;gap:14px;align-items:center}.officer-avatar{font-size:54px}.officer-name{font-size:19px;font-weight:800;color:#8b001b}.officer-meta{margin-top:5px;line-height:1.5}.official{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #eee}.official .avatar{font-size:30px}.official b{display:block}.official span{display:block;font-size:12px;color:#667085;margin-top:3px}.staff-item{padding:12px;border:1px solid #e1e5ea;border-radius:8px;margin-bottom:9px}.staff-item b{color:#7a1024}.staff-meta{font-size:13px;color:#5b6470;margin-top:5px;line-height:1.5}
+</style>
 </head>
 
 <body>
@@ -431,138 +435,28 @@ body{
 </div>
 
 <main class="container">
-
-<section class="page-banner">
-  <div class="icon">🏛️</div>
-  <div>
-    <h2>Administration</h2>
-    <p>Block Administration, Officials, Gram Panchayats and Citizen Services</p>
-  </div>
-</section>
-
+<section class="page-banner"><div class="icon">🏛️</div><div><h2>Administration</h2><p>Block Administration, Officials, Gram Panchayats and Citizen Services</p></div></section>
 <section class="grid-top">
-
-  <article class="card blue">
-    <div class="card-title">🏠 Block Administration</div>
-    <div class="card-body">
-      <img class="block-img" src="manbazar-block.jpg" alt="Block Office">
-      <h3>Manbazar-I Development Block</h3>
-      <p>Manbazar-I Development Block is an important administrative unit under Purulia district, West Bengal.</p>
-      <p>The block works for overall development, implementation of government schemes and delivery of citizen-centric services.</p>
-      <a class="btn" href="about.html">Know More →</a>
-    </div>
-  </article>
-
-  <article class="card maroon">
-    <div class="card-title">🏛️ Block Development Officer (BDO)</div>
-    <div class="card-body">
-      <div class="bdo">
-        <div class="person">👨‍💼</div>
-        <div>
-          <h3>Block Development Officer (BDO)</h3>
-          <p>Manbazar-I Development Block</p>
-          <p>Purulia, West Bengal</p>
-        </div>
-      </div>
-      <article class="card maroon">
-    <div class="card-title">🏛️ Joint Block Development Officer (Jt.BDO)</div>
-    <div class="card-body">
-      <div class="jt.bdo">
-        <div class="person">👨‍💼</div>
-        <div>
-          <h3>Joint Block Development Officer (Jt.BDO))</h3>
-          <p>Manbazar-I Development Block</p>
-          <p>Purulia, West Bengal</p>
-        </div>
-      </div>
-
-      <div class="info-list">
-        <div class="info-row"><span class="ico">☎️</span><span>00000 00000</span></div>
-        <div class="info-row"><span class="ico">✉️</span><span>bdo.manbazar1@gmail.com</span></div>
-        <div class="info-row"><span class="ico">📍</span><span>Manbazar-I Development Block<br>Manbazar, Purulia - 723131</span></div>
-      </div>
-    </div>
-  </article>
-
-  <article class="card green">
-    <div class="card-title">👥 Key Officials</div>
-    <div class="card-body">
-      <div class="official"><div class="avatar">👨‍💼</div><div><b>Joint Block Development Officer (Jt.BDO)</b><span>☎ 00000 00000<br>✉ abdo.manbazar1@gmail.com</span></div></div>
-      <div class="official"><div class="avatar">👨‍💼</div><div><b>Block Agricultural Officer (ADO)</b><span>☎ 00000 00000<br>✉ bao.manbazar1@gmail.com</span></div></div>
-      <div class="official"><div class="avatar">👨‍💼</div><div><b>Block Welfare Officer (BWO)</b><span>☎ 00000 00000<br>✉ bwo.manbazar1@gmail.com</span></div></div>
-      <div class="official"><div class="avatar">👩‍💼</div><div><b>Samity Education Officer (SEO)</b><span>☎ 00000 00000<br>✉ beo.manbazar1@gmail.com</span></div></div>
-    </div>
-  </article>
-
-  <article class="card orange">
-    <div class="card-title">👥 Gram Panchayats (10)</div>
-    <div class="card-body">
-      <ul class="gp-list">
-        <li><span><i class="gp-num">1</i>বারামাস্যা-রামনগর</span>›</li>
-        <li><span><i class="gp-num">2</i>বামনি-মাঝিহিরা</span>›</li>
-        <li><span><i class="gp-num">3</i>ভালুবাসা</span>›</li>
-        <li><span><i class="gp-num">4</i>বিসরি</span>›</li>
-        <li><span><i class="gp-num">5</i>চন্দ্রা-পাইরাচালি</span>›</li>
-        <li><span><i class="gp-num">6</i>ধানারা</span>›</li>
-        <li><span><i class="gp-num">7</i>গোপালনগর</span>›</li>
-        <li><span><i class="gp-num">8</i>জিতুজুরি</span>›</li>
-        <li><span><i class="gp-num">9</i>কামতা জাঙ্গিদিরি</span>›</li>
-        <li><span><i class="gp-num">10</i>মানবাজার</span>›</li>
-      </ul>
-    </div>
-  </article>
-
+<article class="card blue"><div class="card-title">🏠 Block Administration</div><div class="card-body"><img class="block-img" src="manbazar-block.jpg" alt="Block Office"><h3>Manbazar-I Development Block</h3><p>Manbazar-I Development Block is an important administrative unit under Purulia district, West Bengal.</p><p>The block works for overall development, implementation of government schemes and delivery of citizen-centric services.</p><a class="btn" href="about.html">Know More →</a></div></article>
+<article class="card maroon"><div class="card-title">🏛️ Block Development Officer (BDO)</div><div class="card-body" id="bdoCard"><div class="loading">Loading...</div></div></article>
+<article class="card maroon"><div class="card-title">🏛️ Joint Block Development Officer (Jt.BDO)</div><div class="card-body" id="jtBdoCard"><div class="loading">Loading...</div></div></article>
+<article class="card green"><div class="card-title">👥 Key Officials</div><div class="card-body" id="officialsCard"><div class="loading">Loading...</div></div></article>
+<article class="card orange"><div class="card-title">👥 Gram Panchayats (10)</div><div class="card-body"><ul class="gp-list" id="gpList"><li><button class="gp-button" data-gp="বারামাস্যা-রামনগর"><span><i class="gp-num">1</i>বারামাস্যা-রামনগর</span><b>›</b></button></li><li><button class="gp-button" data-gp="বামনি-মাঝিহিরা"><span><i class="gp-num">2</i>বামনি-মাঝিহিরা</span><b>›</b></button></li><li><button class="gp-button" data-gp="ভালুবাসা"><span><i class="gp-num">3</i>ভালুবাসা</span><b>›</b></button></li><li><button class="gp-button" data-gp="বিসরি"><span><i class="gp-num">4</i>বিসরি</span><b>›</b></button></li><li><button class="gp-button" data-gp="চন্দ্রা-পাইরাচালি"><span><i class="gp-num">5</i>চন্দ্রা-পাইরাচালি</span><b>›</b></button></li><li><button class="gp-button" data-gp="ধানারা"><span><i class="gp-num">6</i>ধানারা</span><b>›</b></button></li><li><button class="gp-button" data-gp="গোপালনগর"><span><i class="gp-num">7</i>গোপালনগর</span><b>›</b></button></li><li><button class="gp-button" data-gp="জিতুজুরি"><span><i class="gp-num">8</i>জিতুজুরি</span><b>›</b></button></li><li><button class="gp-button" data-gp="কামতা জাঙ্গিদিরি"><span><i class="gp-num">9</i>কামতা জাঙ্গিদিরি</span><b>›</b></button></li><li><button class="gp-button" data-gp="মানবাজার"><span><i class="gp-num">10</i>মানবাজার</span><b>›</b></button></li></ul></div></article>
 </section>
-
-<section class="bottom-grid">
-
-  <article class="card purple">
-    <div class="card-title">☎️ Important Contacts</div>
-    <div class="card-body">
-      <div class="contact-row"><span>☎</span><span>Block Office (General Enquiry)</span><b>00000 00000</b></div>
-      <div class="contact-row"><span>☎</span><span>BDO Office</span><b>00000 00000</b></div>
-      <div class="contact-row"><span>☎</span><span>Panchayat Section</span><b>00000 00000</b></div>
-      <div class="contact-row"><span>☎</span><span>Rural Development Section</span><b>00000 00000</b></div>
-      <div class="contact-row"><span>☎</span><span>Agriculture Section</span><b>00000 00000</b></div>
-      <div class="contact-row"><span>☎</span><span>Social Welfare Section</span><b>00000 00000</b></div>
-    </div>
-  </article>
-
-  <article class="card red">
-    <div class="card-title">⚙️ Administrative Services</div>
-    <div class="card-body">
-      <div class="services">
-        <div class="service"><span>👥</span>Panchayat & Rural Development</div>
-        <div class="service"><span>📋</span>Land & Land Reforms</div>
-        <div class="service"><span>🌱</span>Agriculture & Allied Activities</div>
-        <div class="service"><span>👨‍👩‍👧</span>Social Welfare Schemes</div>
-        <div class="service"><span>📖</span>Education</div>
-        <div class="service"><span>🏥</span>Health Services</div>
-        <div class="service"><span>🛣️</span>Infrastructure Development</div>
-      </div>
-    </div>
-  </article>
-
-  <article class="card sky">
-    <div class="card-title">ⓘ Office Information</div>
-    <div class="card-body">
-      <div class="office-row"><span>🏛️</span><span>District</span><b>Purulia</b></div>
-      <div class="office-row"><span>📍</span><span>Sub-Division</span><b>Manbazar</b></div>
-      <div class="office-row"><span>🏢</span><span>Headquarters</span><b>Manbazar-I</b></div>
-      <div class="office-row"><span>🏘️</span><span>Total Gram Panchayat</span><b>10</b></div>
-      <div class="office-row"><span>🏠</span><span>Total Villages</span><b>184</b></div>
-      <div class="office-row"><span>🗺️</span><span>Area</span><b>421.38 sq km</b></div>
-      <div class="office-row"><span>👥</span><span>Population (2011)</span><b>1.72 Lakhs</b></div>
-    </div>
-  </article>
-
-</section>
-
+<section class="bottom-grid"><article class="card purple"><div class="card-title">👥 GP-wise Staff</div><div class="card-body" id="gpStaffPanel"><div class="gp-help">Click any Gram Panchayat above to view its staff.</div></div></article></section>
 </main>
 
 <footer style="background:#650014;color:#fff;text-align:center;padding:15px;margin-top:5px;">
   Manbazar-I Development Block, Purulia, West Bengal
 </footer>
 
+<script>
+const SUPABASE_URL="https://nqfcofeqsesenmttcwr.supabase.co",SUPABASE_PUBLISHABLE_KEY="sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2",sb=supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]);}
+function block(x){return `<div class="officer-top"><div class="officer-avatar">👨‍💼</div><div><div class="officer-name">${esc(x.name)}</div><div class="officer-meta">${esc(x.designation||x.role_type)}<br>Manbazar-I Development Block<br>Purulia, West Bengal</div></div></div>${x.phone?`<p>☎ ${esc(x.phone)}</p>`:""}${x.email?`<p>✉ ${esc(x.email)}</p>`:""}`;}
+async function loadOfficials(){let r=await sb.from("admin_officials").select("*").order("created_at",{ascending:true});if(r.error)return;let a=r.data||[],b=a.find(x=>x.role_type==="BDO"),j=a.find(x=>x.role_type==="Jt.BDO"),o=a.filter(x=>x.role_type==="Official");document.getElementById("bdoCard").innerHTML=b?block(b):'<div class="loading">BDO information will be updated by Admin.</div>';document.getElementById("jtBdoCard").innerHTML=j?block(j):'<div class="loading">Jt.BDO information will be updated by Admin.</div>';document.getElementById("officialsCard").innerHTML=o.length?o.map(x=>`<div class="official"><div class="avatar">👨‍💼</div><div><b>${esc(x.name)}</b><span>${esc(x.designation||"Official")}${x.phone?`<br>☎ ${esc(x.phone)}`:""}${x.email?`<br>✉ ${esc(x.email)}`:""}</span></div></div>`).join(""):'<div class="loading">No other officials added.</div>';}
+async function loadGp(gp){let r=await sb.from("gp_staff").select("*").eq("gp_name",gp).order("created_at",{ascending:true}),p=document.getElementById("gpStaffPanel");if(r.error){p.innerHTML='<div class="loading">Staff information could not be loaded.</div>';return}let a=r.data||[];p.innerHTML=`<h3 style="margin-top:0;color:#8b001b">🏘️ ${esc(gp)}</h3>`+(a.length?a.map(x=>`<div class="staff-item"><b>${esc(x.staff_name)}</b><div class="staff-meta">${esc(x.designation||"Staff")}${x.phone?`<br>☎ ${esc(x.phone)}`:""}${x.email?`<br>✉ ${esc(x.email)}`:""}</div></div>`).join(""):'<div class="gp-help">এই GP-এর জন্য এখনও কোনো staff information Admin যোগ করেননি।</div>');}
+document.querySelectorAll(".gp-button").forEach(x=>x.addEventListener("click",()=>loadGp(x.dataset.gp)));loadOfficials();
+</script>
 </body>
 </html>
