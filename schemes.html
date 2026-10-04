@@ -98,7 +98,7 @@ a{text-decoration:none}
 </section>
 
 <div class="tabs">
- <button class="tab all" onclick="filterSchemes('all')">All Schemes (10)</button>
+ <button class="tab all" onclick="filterSchemes('all')">All Schemes</button>
  <button class="tab central" onclick="filterSchemes('central')">Central Government Schemes</button>
  <button class="tab wb" onclick="filterSchemes('wb')">West Bengal Government Schemes</button>
 </div>
@@ -111,7 +111,7 @@ a{text-decoration:none}
  <aside class="panel">
   <div class="panel-title">🔎 Filter by Category</div>
   <div class="filter">
-   <button onclick="filterCategory('all')">▦ All Categories <span>10</span></button>
+   <button onclick="filterCategory('all')">▦ All Categories <span id="categoryCount">0</span></button>
    <button onclick="filterCategory('agriculture')">🌱 Agriculture</button>
    <button onclick="filterCategory('health')">❤ Health</button>
    <button onclick="filterCategory('food')">🍚 Food & Nutrition</button>
@@ -125,149 +125,11 @@ a{text-decoration:none}
  </aside>
 
  <section class="panel">
-  <div class="scheme-header">📋 All Schemes (10)</div>
+  <div class="scheme-header">📋 All Schemes</div>
   <div class="scheme-grid" id="schemeGrid">
-   
-      <article class="scheme-card agri">
-        <div class="scheme-art">
-          <div class="scheme-icon">🌾</div>
-          <div class="art-title">PM-KISAN Samman Nidhi</div>
-        </div>
-        <div class="scheme-body">
-          <div class="tag">Central Govt • Agriculture</div>
-          <p>Landholding farmer families-এর জন্য income support ও beneficiary services.</p>
-          <div class="scheme-actions">
-            <a class="know" href="https://pmkisan.gov.in/" target="_blank" rel="noopener noreferrer">Know More →</a>
-            <a class="apply" href="https://www.pmkisan.gov.in/RegistrationFormupdated.aspx" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
-          </div>
-        </div>
-      </article>
-      <article class="scheme-card health">
-        <div class="scheme-art">
-          <div class="scheme-icon">🏥</div>
-          <div class="art-title">Ayushman Bharat PM-JAY</div>
-        </div>
-        <div class="scheme-body">
-          <div class="tag">Central Govt • Health</div>
-          <p>Eligible families-এর জন্য cashless health-care coverage ও beneficiary services.</p>
-          <div class="scheme-actions">
-            <a class="know" href="https://pmjay.gov.in/" target="_blank" rel="noopener noreferrer">Know More →</a>
-            <a class="apply" href="https://beneficiary.nha.gov.in/" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
-          </div>
-        </div>
-      </article>
-      <article class="scheme-card employment">
-        <div class="scheme-art">
-          <div class="scheme-icon">🧑‍🌾</div>
-          <div class="art-title">VB-G RAM G</div>
-        </div>
-        <div class="scheme-body">
-          <div class="tag">West Bengal • Employment</div>
-          <p>West Bengal-এ rural employment ও livelihood mission-এর official information.</p>
-          <div class="scheme-actions">
-            <a class="know" href="https://prd.wb.gov.in/schemes/detail/dccde0b0-17b8-448a-bf8c-66d888eda023" target="_blank" rel="noopener noreferrer">Know More →</a>
-            <a class="apply" href="https://prd.wb.gov.in/schemes/detail/dccde0b0-17b8-448a-bf8c-66d888eda023" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
-          </div>
-        </div>
-      </article>
-      <article class="scheme-card food">
-        <div class="scheme-art">
-          <div class="scheme-icon">🌾</div>
-          <div class="art-title">Garib Anna Kalyan Yojana</div>
-        </div>
-        <div class="scheme-body">
-          <div class="tag">Central Govt • Food Security</div>
-          <p>PMGKAY-এর official information, foodgrain allocation ও related updates.</p>
-          <div class="scheme-actions">
-            <a class="know" href="https://dfpd.gov.in/pradhan-mantri-garib-kalyan-anna-yojana/hi" target="_blank" rel="noopener noreferrer">Know More →</a>
-            <a class="apply" href="https://dfpd.gov.in/en" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
-          </div>
-        </div>
-      </article>
-      <article class="scheme-card solar">
-        <div class="scheme-art">
-          <div class="scheme-icon">☀️</div>
-          <div class="art-title">PM Surya Ghar Yojana</div>
-        </div>
-        <div class="scheme-body">
-          <div class="tag">Central Govt • Solar Energy</div>
-          <p>Rooftop solar-এর জন্য National Portal, guidelines ও application access.</p>
-          <div class="scheme-actions">
-            <a class="know" href="https://pmsuryaghar.gov.in/" target="_blank" rel="noopener noreferrer">Know More →</a>
-            <a class="apply" href="https://pmsuryaghar.gov.in/" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
-          </div>
-        </div>
-      </article>
-      <article class="scheme-card insurance">
-        <div class="scheme-art">
-          <div class="scheme-icon">🛡️</div>
-          <div class="art-title">PMSBY</div>
-        </div>
-        <div class="scheme-body">
-          <div class="tag">Central Govt • Insurance</div>
-          <p>Pradhan Mantri Suraksha Bima Yojana-এর official information ও enrolment form.</p>
-          <div class="scheme-actions">
-            <a class="know" href="https://jansuraksha.gov.in/Forms-PMSBY.aspx" target="_blank" rel="noopener noreferrer">Know More →</a>
-            <a class="apply" href="https://jansuraksha.gov.in/Forms-PMSBY.aspx" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
-          </div>
-        </div>
-      </article>
-      <article class="scheme-card anna">
-        <div class="scheme-art">
-          <div class="scheme-icon">🍚</div>
-          <div class="art-title">Annapurna Yojana</div>
-        </div>
-        <div class="scheme-body">
-          <div class="tag">Central Govt • Food Security</div>
-          <p>Annapurna Scheme-এর official food-security information for eligible senior citizens.</p>
-          <div class="scheme-actions">
-            <a class="know" href="https://dfpd.gov.in/allocation-of-food-grains/en" target="_blank" rel="noopener noreferrer">Know More →</a>
-            <a class="apply" href="https://dfpd.gov.in/en" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
-          </div>
-        </div>
-      </article>
-      <article class="scheme-card skill">
-        <div class="scheme-art">
-          <div class="scheme-icon">🛠️</div>
-          <div class="art-title">PM Vishwakarma</div>
-        </div>
-        <div class="scheme-body">
-          <div class="tag">Central Govt • Skill Development</div>
-          <p>Traditional artisans ও craftspeople-এর জন্য scheme information ও portal access.</p>
-          <div class="scheme-actions">
-            <a class="know" href="https://pmvishwakarma.gov.in/" target="_blank" rel="noopener noreferrer">Know More →</a>
-            <a class="apply" href="https://pmvishwakarma.gov.in/" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
-          </div>
-        </div>
-      </article>
-      <article class="scheme-card sanitation">
-        <div class="scheme-art">
-          <div class="scheme-icon">🧹</div>
-          <div class="art-title">Swachh Bharat Mission</div>
-        </div>
-        <div class="scheme-body">
-          <div class="tag">Central Govt • Sanitation</div>
-          <p>Swachh Bharat Mission-Grameen-এর sanitation ও ODF Plus information.</p>
-          <div class="scheme-actions">
-            <a class="know" href="https://www.swachhbharatmission.ddws.gov.in/" target="_blank" rel="noopener noreferrer">Know More →</a>
-            <a class="apply" href="https://www.swachhbharatmission.ddws.gov.in/" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
-          </div>
-        </div>
-      </article>
-      <article class="scheme-card housing">
-        <div class="scheme-art">
-          <div class="scheme-icon">🏠</div>
-          <div class="art-title">PMAY-G (Housing)</div>
-        </div>
-        <div class="scheme-body">
-          <div class="tag">Central Govt • Housing</div>
-          <p>Pradhan Mantri Awaas Yojana-Gramin-এর official rural housing portal.</p>
-          <div class="scheme-actions">
-            <a class="know" href="https://pmayg.nic.in/" target="_blank" rel="noopener noreferrer">Know More →</a>
-            <a class="apply" href="https://pmayg.nic.in/" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>
-          </div>
-        </div>
-      </article>
+   <div style="grid-column:1/-1;padding:35px;text-align:center;color:#667085;">
+    Schemes loading হচ্ছে...
+   </div>
   </div>
  </section>
 
@@ -315,23 +177,121 @@ a{text-decoration:none}
 <footer class="footer">Manbazar-I Development Block, Purulia, West Bengal</footer>
 
 <script>
+const SUPABASE_URL = "https://nqfcoofeqsesenmttcwr.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+let allSchemes = [];
+
+function escapeHTML(value){
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[ch]));
+}
+
+function schemeIcon(title){
+  const t = String(title || "").toLowerCase();
+  if(t.includes("health") || t.includes("ayushman") || t.includes("swasthya")) return "🏥";
+  if(t.includes("housing") || t.includes("awas") || t.includes("pmay")) return "🏠";
+  if(t.includes("farmer") || t.includes("kisan") || t.includes("agri")) return "🌾";
+  if(t.includes("solar") || t.includes("surya")) return "☀️";
+  if(t.includes("insurance") || t.includes("bima")) return "🛡️";
+  if(t.includes("skill") || t.includes("vishwakarma")) return "🛠️";
+  if(t.includes("food") || t.includes("anna") || t.includes("ration")) return "🍚";
+  if(t.includes("sanitation") || t.includes("swachh")) return "🧹";
+  if(t.includes("employment") || t.includes("gram")) return "👷";
+  return "📋";
+}
+
+function renderSchemes(list){
+  const grid = document.getElementById("schemeGrid");
+  const count = document.getElementById("categoryCount");
+  count.textContent = list.length;
+
+  if(!list.length){
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;padding:45px;text-align:center;color:#667085;font-size:16px;">
+        এখনো কোনো Scheme Admin Content Manager থেকে প্রকাশ করা হয়নি।
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map(s => {
+    const title = escapeHTML(s.title || "Government Scheme");
+    const desc = escapeHTML(s.description || "Official scheme information.");
+    const link = s.link_url ? escapeHTML(s.link_url) : "";
+    const button = link
+      ? `<a class="apply" href="${link}" target="_blank" rel="noopener noreferrer">Apply / Portal ↗</a>`
+      : `<span class="apply" style="cursor:default">Information</span>`;
+
+    return `
+      <article class="scheme-card">
+        <div class="scheme-art" style="background:linear-gradient(135deg,#7a1024,#168a52)">
+          <div class="scheme-icon">${schemeIcon(s.title)}</div>
+          <div class="art-title">${title}</div>
+        </div>
+        <div class="scheme-body">
+          <div class="tag">Government Scheme</div>
+          <p>${desc}</p>
+          <div class="scheme-actions">
+            ${link ? `<a class="know" href="${link}" target="_blank" rel="noopener noreferrer">Know More →</a>` : `<span class="know" style="text-align:center;padding:8px 5px;border-radius:6px;font-size:11px;font-weight:800;color:#fff">Scheme Info</span>`}
+            ${button}
+          </div>
+        </div>
+      </article>`;
+  }).join("");
+}
+
 function filterSchemes(type){
- document.querySelectorAll('.scheme-card').forEach(card=>{
-  const tag=card.querySelector('.tag').textContent.toLowerCase();
-  card.style.display=(type==='all'||(type==='central'&&tag.includes('central'))||(type==='wb'&&tag.includes('west bengal'))) ? '' : 'none';
- });
+  if(type === "all"){
+    renderSchemes(allSchemes);
+    return;
+  }
+  // Content Manager currently stores no Central/WB category field.
+  // Keep the existing buttons without inventing categories.
+  renderSchemes(allSchemes);
 }
+
 function filterCategory(type){
- document.querySelectorAll('.scheme-card').forEach(card=>{
-  card.style.display=(type==='all'||card.classList.contains(type))?'':'none';
- });
+  renderSchemes(allSchemes);
 }
+
 function searchSchemes(){
- const q=document.getElementById('schemeSearch').value.toLowerCase().trim();
- document.querySelectorAll('.scheme-card').forEach(card=>{
-  card.style.display=card.textContent.toLowerCase().includes(q)?'':'none';
- });
+  const q = document.getElementById("schemeSearch").value.toLowerCase().trim();
+  renderSchemes(allSchemes.filter(s =>
+    `${s.title || ""} ${s.description || ""}`.toLowerCase().includes(q)
+  ));
 }
+
+async function loadSchemes(){
+  const grid = document.getElementById("schemeGrid");
+
+  const { data, error } = await supabaseClient
+    .from("schemes")
+    .select("id,title,description,link_url,created_at")
+    .order("created_at", { ascending:false });
+
+  if(error){
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;padding:35px;text-align:center;color:#b00020;">
+        Scheme load করা যাচ্ছে না।
+      </div>`;
+    console.error(error);
+    return;
+  }
+
+  allSchemes = data || [];
+  renderSchemes(allSchemes);
+}
+
+loadSchemes();
 </script>
 </body>
 </html>
