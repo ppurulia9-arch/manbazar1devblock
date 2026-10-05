@@ -183,6 +183,30 @@ function categoryKey(v){
 function displayCategory(v){
   const raw=String(v||"").trim();
   if(!raw)return "OTHERS";
+
+  const slugMap={
+    "land":"Land & Land Reforms",
+    "social_welfare":"Social Welfare",
+    "vbg_ram_g":"VB-G RAM G",
+    "vb-g-ram-g":"VB-G RAM G",
+    "nsap":"NSAP",
+    "birth_death":"BIRTH AND DEAD",
+    "birth-and-dead":"BIRTH AND DEAD",
+    "scholarship":"SCHOLARSHIP",
+    "caste_certificate":"CASTE CERTIFICATE",
+    "caste-certificate":"CASTE CERTIFICATE",
+    "govt_scheme":"GOVT SCHEME",
+    "govt-scheme":"GOVT SCHEME",
+    "food_supplies":"FOOD AND SUPPLIES",
+    "food-and-supplies":"FOOD AND SUPPLIES",
+    "agriculture":"AGRICULTURE",
+    "social_audit":"SOCIAL AUDIT",
+    "social-audit":"SOCIAL AUDIT",
+    "others":"OTHERS"
+  };
+
+  if(slugMap[raw.toLowerCase()]) return slugMap[raw.toLowerCase()];
+
   const k=categoryKey(raw);
   const fixed=categoryOrder.find(c=>categoryKey(c)===k);
   return fixed || "OTHERS";
