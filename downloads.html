@@ -39,6 +39,64 @@
 @media(max-width:1100px){.categories{grid-template-columns:repeat(4,1fr)}.main-grid{grid-template-columns:1fr}.header-photo{width:40%}}
 @media(max-width:700px){.top,.header{flex-direction:column;text-align:center;gap:8px}.brand{flex-direction:column}.header-photo{width:100%;height:85px}.hero{height:auto;min-height:190px}.hero-icon{display:none}.hero h2{font-size:28px}.filters{grid-template-columns:1fr}.categories{grid-template-columns:repeat(2,1fr)}.form-table{font-size:12px}.form-table th:nth-child(4),.form-table td:nth-child(4){display:none}}
 </style>
+
+<style id="public-download-category-style">
+.download-category-group{
+  margin-bottom:18px;
+  border:1px solid #e4e7ec;
+  border-radius:12px;
+  overflow:hidden;
+  background:#fff;
+}
+.download-category-title{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:12px 15px;
+  background:linear-gradient(90deg,#8b0024,#b3002f);
+  color:#fff;
+}
+.download-category-title span{font-size:20px}
+.download-category-title strong{font-size:16px}
+.download-category-title em{
+  margin-left:auto;
+  font-style:normal;
+  font-size:11px;
+  background:#fff;
+  color:#7b0020;
+  padding:4px 9px;
+  border-radius:999px;
+  font-weight:800;
+}
+.form-desc{font-size:11px;color:#667085;margin-top:3px}
+.category-badge{
+  display:inline-block;
+  background:#eef4ff;
+  color:#2457a6;
+  padding:4px 7px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+}
+.file-type{font-weight:700;font-size:12px}
+.download-btn{
+  display:inline-block;
+  padding:7px 11px;
+  border-radius:7px;
+  background:#07883f;
+  color:#fff !important;
+  text-decoration:none;
+  font-weight:800;
+  font-size:12px;
+}
+.download-unavailable{font-size:11px;color:#999}
+@media(max-width:700px){
+  .download-category-title strong{font-size:14px}
+  .form-table{font-size:11px}
+  .download-btn{padding:6px 8px;font-size:11px}
+}
+</style>
+
 </head>
 <body>
 <div class="top">
@@ -92,46 +150,193 @@ const SUPABASE_URL="https://nqfcoofeqsesenmttcwr.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
 let forms=[];
-const categories=[
-  {id:"",name:"All Downloads",icon:"📄"},
-  {id:"general",name:"Government Forms",icon:"📋"}
+
+/* Admin-uploaded public Download categories */
+const categoryOrder=[
+  "Land & Land Reforms",
+  "Social Welfare",
+  "VB-G RAM G",
+  "NSAP",
+  "BIRTH AND DEAD",
+  "SCHOLARSHIP",
+  "CASTE CERTIFICATE",
+  "GOVT SCHEME",
+  "FOOD AND SUPPLIES",
+  "AGRICULTURE",
+  "SOCIAL AUDIT",
+  "OTHERS"
 ];
-function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+function esc(v){
+  return String(v??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function categoryKey(v){
+  return String(v||"").trim().toLowerCase()
+    .replace(/&/g,"and")
+    .replace(/[^a-z0-9]+/g,"-")
+    .replace(/^-|-$/g,"");
+}
+
+function displayCategory(v){
+  const raw=String(v||"").trim();
+  if(!raw)return "OTHERS";
+  const k=categoryKey(raw);
+  const fixed=categoryOrder.find(c=>categoryKey(c)===k);
+  return fixed || "OTHERS";
+}
+
 async function loadData(){
-  const r=await db.from("downloads").select("id,title,description,file_url,file_path,published,created_at").order("created_at",{ascending:false});
+  const r=await db.from("downloads")
+    .select("id,title,description,file_url,file_path,published,created_at,category")
+    .order("created_at",{ascending:false});
+
   if(r.error){
-    document.getElementById("formsWrap").innerHTML='<div class="empty">Forms load করা যাচ্ছে না।</div>';
-    console.error(r.error); return;
+    document.getElementById("formsWrap").innerHTML=
+      '<div class="empty">Forms load করা যাচ্ছে না।</div>';
+    console.error(r.error);
+    return;
   }
+
   forms=(r.data||[]).filter(x=>x.published!==false);
-  document.getElementById("category").innerHTML='<option value="">All Downloads</option><option value="general">Government Forms</option>';
-  renderCategories(); renderForms();
+
+  const categories=[...new Set([
+    ...categoryOrder,
+    ...forms.map(x=>displayCategory(x.category))
+  ])];
+
+  document.getElementById("category").innerHTML=
+    '<option value="">All Categories</option>'+
+    categories.map(c=>
+      `<option value="${esc(c)}">${esc(c)}</option>`
+    ).join("");
+
+  renderCategories(categories);
+  renderForms();
+
+  const urlCategory=new URLSearchParams(location.search).get("category");
+  if(urlCategory){
+    const match=categories.find(c=>categoryKey(c)===categoryKey(urlCategory));
+    if(match){
+      document.getElementById("category").value=match;
+      renderForms();
+    }
+  }
 }
-function renderCategories(){
-  document.getElementById("categories").innerHTML=categories.map(x=>`<div class="cat" onclick="document.getElementById('category').value='${x.id}';renderForms()"><div class="cat-icon">${x.icon}</div><div class="cat-name">${x.name}</div><div class="cat-count">${forms.length} Forms</div></div>`).join("");
+
+function renderCategories(categories){
+  const box=document.getElementById("categories");
+
+  box.innerHTML=categories.map(name=>{
+    const count=forms.filter(x=>displayCategory(x.category)===name).length;
+    return `<div class="cat" onclick="selectDownloadCategory('${esc(name).replace(/'/g,"&#39;")}')">
+      <div class="cat-icon">${categoryIcon(name)}</div>
+      <div class="cat-name">${esc(name)}</div>
+      <span class="cat-count">${count} Form${count===1?"":"s"}</span>
+    </div>`;
+  }).join("");
 }
-function getFileUrl(f){
-  if(f.file_url) return f.file_url;
-  if(f.file_path) return db.storage.from("site-downloads").getPublicUrl(f.file_path).data.publicUrl;
-  return "";
+
+function selectDownloadCategory(name){
+  document.getElementById("category").value=name;
+  renderForms();
+  document.getElementById("formsWrap").scrollIntoView({behavior:"smooth",block:"start"});
 }
-function getFileType(f){
-  const name=String(f.file_path||f.file_url||"").split("?")[0].toLowerCase();
-  if(name.endsWith(".pdf")) return "PDF";
-  if(name.endsWith(".doc")||name.endsWith(".docx")) return "DOC";
-  if(name.endsWith(".xls")||name.endsWith(".xlsx")) return "Excel";
-  if(name.endsWith(".jpg")||name.endsWith(".jpeg")||name.endsWith(".png")) return "Image";
-  return "File";
+
+function categoryIcon(name){
+  const k=categoryKey(name);
+  if(k.includes("land")) return "🏠";
+  if(k.includes("social-welfare")) return "🤝";
+  if(k.includes("vb-g-ram")) return "🏗️";
+  if(k==="nsap") return "👥";
+  if(k.includes("birth")||k.includes("dead")) return "📜";
+  if(k.includes("scholarship")) return "🎓";
+  if(k.includes("caste")) return "📄";
+  if(k.includes("govt-scheme")) return "📋";
+  if(k.includes("food")) return "🍚";
+  if(k.includes("agriculture")) return "🌾";
+  if(k.includes("social-audit")) return "🔎";
+  return "📁";
 }
+
 function renderForms(){
-  const q=document.getElementById("search").value.toLowerCase().trim();
-  const list=forms.filter(f=>!q||String(f.title||"").toLowerCase().includes(q)||String(f.description||"").toLowerCase().includes(q));
-  const wrap=document.getElementById("formsWrap");
-  if(!list.length){wrap.innerHTML='<div class="empty">কোনো Form পাওয়া যায়নি।</div>';return;}
-  wrap.innerHTML=`<table class="form-table"><thead><tr><th>#</th><th>Form Name</th><th>Category</th><th>File Type</th><th>File Size</th><th>Download</th></tr></thead><tbody>`+
-    list.map((f,i)=>{const url=getFileUrl(f);const type=getFileType(f);return `<tr><td>${i+1}</td><td><b>${esc(f.title||"Government Form")}</b>${f.description?`<br><small>${esc(f.description)}</small>`:""}</td><td><span class="badge">Government Forms</span></td><td>📄 ${esc(type)}</td><td>-</td><td>${url?`<a class="download-btn" href="${esc(url)}" download target="_blank" rel="noopener">⬇ Download</a>`:"-"}</td></tr>`}).join("")+
-    `</tbody></table>`;
+  const q=document.getElementById("search").value.trim().toLowerCase();
+  const selected=document.getElementById("category").value;
+
+  const filtered=forms.filter(x=>{
+    const category=displayCategory(x.category);
+    const text=[x.title,x.description,category].join(" ").toLowerCase();
+    return (!q || text.includes(q)) &&
+           (!selected || category===selected);
+  });
+
+  const grouped={};
+  filtered.forEach(x=>{
+    const c=displayCategory(x.category);
+    (grouped[c] ||= []).push(x);
+  });
+
+  if(!filtered.length){
+    document.getElementById("formsWrap").innerHTML=
+      '<div class="empty">এই category-তে কোনো form পাওয়া যায়নি।</div>';
+    return;
+  }
+
+  const orderedGroups=[
+    ...categoryOrder.filter(c=>grouped[c]),
+    ...Object.keys(grouped).filter(c=>!categoryOrder.includes(c))
+  ];
+
+  let n=0;
+
+  document.getElementById("formsWrap").innerHTML=orderedGroups.map(category=>{
+    const rows=grouped[category];
+
+    return `<div class="download-category-group">
+      <div class="download-category-title">
+        <span>${categoryIcon(category)}</span>
+        <strong>${esc(category)}</strong>
+        <em>${rows.length} Form${rows.length===1?"":"s"}</em>
+      </div>
+
+      <div class="form-table-wrap">
+        <table class="form-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Form Name</th>
+              <th>Category</th>
+              <th>File Type</th>
+              <th>File Size</th>
+              <th>Download</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows.map(x=>{
+              n++;
+              const url=x.file_url||x.file_path||"#";
+              const ext=(url.split("?")[0].split(".").pop()||"PDF").toUpperCase();
+              return `<tr>
+                <td>${n}</td>
+                <td><strong>${esc(x.title)}</strong>${x.description?`<div class="form-desc">${esc(x.description)}</div>`:""}</td>
+                <td><span class="category-badge">${esc(category)}</span></td>
+                <td><span class="file-type">📄 ${esc(ext)}</span></td>
+                <td>—</td>
+                <td>${url!=="#"?
+                  `<a class="download-btn" href="${esc(url)}" target="_blank" rel="noopener">⬇ Download</a>`:
+                  `<span class="download-unavailable">Unavailable</span>`
+                }</td>
+              </tr>`;
+            }).join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  }).join("");
 }
+
 loadData();
 </script>
 </body>
