@@ -205,8 +205,10 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
   <div><label>Fund</label>
     <input id="dFund" placeholder="₹ Amount / Fund Source">
   </div>
-  <div><label>Image URL (optional)</label>
-    <input id="dImage" placeholder="https://...">
+  <div><label>Work Photo (optional)</label>
+    <input id="dImageFile" type="file" accept=".jpg,.jpeg,image/jpeg">
+    <small style="display:block;color:#667085;margin-top:5px">JPG / JPEG — maximum 5 MB</small>
+    <div id="dImageCurrent" style="margin-top:7px;font-size:12px;color:#1769aa"></div>
   </div>
   <div class="full"><label>Work Details</label>
     <textarea id="dDesc" placeholder="Work details / description"></textarea>
@@ -570,7 +572,8 @@ function clearDev(){
   $("dStatus").value="Ongoing";
   $("dYear").value="";
   $("dFund").value="";
-  $("dImage").value="";
+  $("dImageFile").value="";
+  $("dImageCurrent").textContent="";
   $("dDesc").value="";
 }
 function editDev(id){
@@ -582,40 +585,91 @@ function editDev(id){
   $("dStatus").value=x.status==="Completed"?"Completed":"Ongoing";
   $("dYear").value=x.work_year||"";
   $("dFund").value=x.fund||"";
-  $("dImage").value=x.image_url||"";
+  $("dImageFile").value="";
+  $("dImageCurrent").textContent=x.image_url ? "Current photo saved." : "";
   $("dDesc").value=x.work_details||x.description||"";
 }
 async function saveDev(){
   let title=$("dTitle").value.trim();
   if(!title)return say("dMsg","Work Name required",false);
 
-  let p={
-    title:title,
-    description:$("dDesc").value.trim(),
-    work_details:$("dDesc").value.trim(),
-    image_url:$("dImage").value.trim()||null,
-    work_category:$("dCategory").value.trim()||"General Development",
-    sector:$("dSector").value.trim()||"General",
-    status:$("dStatus").value==="Completed"?"Completed":"Ongoing",
-    work_year:$("dYear").value.trim()||null,
-    fund:$("dFund").value.trim()||null
-  };
+  const imageFile=$("dImageFile").files[0];
+  const currentId=$("dId").value;
+  const current=devs.find(x=>String(x.id)===String(currentId));
 
-  let r;
-  if($("dId").value){
-    r=await sb.from("development_content").update(p).eq("id",$("dId").value);
-  }else{
-    const p2={...p,entry_source:"manual"};
-    r=await sb.from("development_content").insert(p2);
-    if(r.error && /entry_source|column/i.test(r.error.message)){
-      r=await sb.from("development_content").insert(p);
+  if(imageFile){
+    if(!["image/jpeg","image/jpg"].includes(imageFile.type) &&
+       !/\.jpe?g$/i.test(imageFile.name)){
+      return say("dMsg","শুধু JPG / JPEG photo upload করুন।",false);
+    }
+    if(imageFile.size>5*1024*1024){
+      return say("dMsg","Photo সর্বোচ্চ 5 MB হতে পারবে।",false);
     }
   }
 
-  if(r.error)return say("dMsg",r.error.message,false);
-  say("dMsg",$("dId").value?"Manual work updated successfully.":"Manual work saved successfully.");
-  clearDev();
-  await loadDev();
+  let imageUrl=current?.image_url||null;
+  let uploadedPath=null;
+
+  try{
+    if(imageFile){
+      const safe=imageFile.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+      uploadedPath="development/"+Date.now()+"-"+safe;
+
+      const u=await sb.storage.from("development-photos").upload(
+        uploadedPath,
+        imageFile,
+        {
+          upsert:false,
+          cacheControl:"3600",
+          contentType:"image/jpeg"
+        }
+      );
+
+      if(u.error){
+        return say("dMsg","PHOTO UPLOAD ERROR: "+u.error.message,false);
+      }
+
+      imageUrl=sb.storage.from("development-photos")
+        .getPublicUrl(uploadedPath).data.publicUrl;
+    }
+
+    let p={
+      title:title,
+      description:$("dDesc").value.trim(),
+      work_details:$("dDesc").value.trim(),
+      image_url:imageUrl,
+      work_category:$("dCategory").value.trim()||"General Development",
+      sector:$("dSector").value.trim()||"General",
+      status:$("dStatus").value==="Completed"?"Completed":"Ongoing",
+      work_year:$("dYear").value.trim()||null,
+      fund:$("dFund").value.trim()||null
+    };
+
+    let r;
+    if(currentId){
+      r=await sb.from("development_content").update(p).eq("id",currentId);
+    }else{
+      const p2={...p,entry_source:"manual"};
+      r=await sb.from("development_content").insert(p2);
+
+      if(r.error && /entry_source|column/i.test(r.error.message)){
+        r=await sb.from("development_content").insert(p);
+      }
+    }
+
+    if(r.error){
+      if(uploadedPath)await sb.storage.from("development-photos").remove([uploadedPath]);
+      return say("dMsg",r.error.message,false);
+    }
+
+    say("dMsg",currentId?"Manual work updated successfully.":"Manual work saved successfully.");
+    clearDev();
+    await loadDev();
+
+  }catch(err){
+    if(uploadedPath)await sb.storage.from("development-photos").remove([uploadedPath]);
+    return say("dMsg","PHOTO UPLOAD ERROR: "+(err?.message||String(err)),false);
+  }
 }
 async function delDev(id){
   if(!confirm("Delete this development work?"))return;
