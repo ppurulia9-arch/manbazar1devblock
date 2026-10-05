@@ -1,4 +1,811 @@
-<!doctype html>
+<!doc<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gallery | Manbazar-I Development Block</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root{
+  --navy:#073b78;
+  --navy2:#0b4f91;
+  --blue:#0d6efd;
+  --deep:#052b59;
+  --light:#f4f8fc;
+  --text:#152238;
+  --muted:#667085;
+  --white:#fff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--text);
+  background:var(--light);
+}
+
+/* TOP BAR */
+.topbar{
+  background:#052b59;
+  color:#fff;
+  min-height:38px;
+  padding:0 8%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  font-size:13px;
+  font-weight:600;
+}
+.top-right{display:flex;gap:22px;align-items:center}
+
+/* HEADER */
+.header{
+  background:#fff;
+  min-height:105px;
+  padding:15px 8%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+.emblem{
+  width:65px;
+  height:75px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.emblem img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+}
+.brand h1{
+  margin:0;
+  color:#123c6d;
+  font-size:29px;
+  line-height:1.15;
+}
+.brand p{
+  margin:5px 0 0;
+  color:#4b5b70;
+  font-size:16px;
+}
+.brand small{
+  display:block;
+  margin-top:4px;
+  color:#697789;
+  font-size:13px;
+}
+.admin-login{
+  background:#083f78;
+  color:#fff;
+  text-decoration:none;
+  padding:14px 22px;
+  border-radius:9px;
+  font-weight:700;
+  box-shadow:0 5px 14px #073b7830;
+}
+
+/* NAV */
+.nav{
+  background:#064783;
+  min-height:55px;
+  padding:0 7%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:3px;
+  box-shadow:0 3px 12px #0002;
+}
+.nav a{
+  color:#fff;
+  text-decoration:none;
+  padding:15px 17px;
+  font-weight:700;
+  font-size:14px;
+  border-radius:25px;
+  white-space:nowrap;
+}
+.nav a:hover{
+  background:#ffffff18;
+}
+.nav a.active{
+  background:#1472c9;
+  box-shadow:inset 0 0 0 1px #ffffff20;
+}
+
+/* HERO */
+.hero{
+  min-height:265px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  background:
+    linear-gradient(90deg,rgba(3,38,77,.95) 0%,rgba(3,49,96,.78) 43%,rgba(3,49,96,.15) 100%),
+    url("gallery-featured.jpg") center/cover no-repeat;
+}
+.hero-content{
+  width:min(1200px,100%);
+  margin:auto;
+  padding:42px 8%;
+  color:#fff;
+}
+.hero-icon{
+  width:60px;
+  height:60px;
+  border:4px solid #fff;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:31px;
+  margin-bottom:12px;
+}
+.hero h2{
+  margin:0;
+  font-size:50px;
+  line-height:1;
+  letter-spacing:-1px;
+}
+.hero p{
+  max-width:650px;
+  margin:15px 0 0;
+  font-size:18px;
+  line-height:1.5;
+  color:#f1f6fc;
+}
+
+/* PAGE */
+.page{
+  max-width:1250px;
+  margin:auto;
+  padding:22px 22px 55px;
+}
+.breadcrumb{
+  color:#6b7280;
+  font-size:13px;
+  margin-bottom:17px;
+}
+
+/* FILTER BAR */
+.toolbar{
+  background:#fff;
+  border-radius:16px;
+  padding:15px;
+  box-shadow:0 4px 18px #0b315b12;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-bottom:24px;
+  overflow-x:auto;
+}
+.filter{
+  border:1px solid #dce5ef;
+  background:#fff;
+  color:#193452;
+  padding:11px 17px;
+  border-radius:25px;
+  font-weight:700;
+  font-size:13px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.filter.active{
+  background:#0869c7;
+  border-color:#0869c7;
+  color:#fff;
+}
+.search{
+  margin-left:auto;
+  min-width:245px;
+  position:relative;
+}
+.search input{
+  width:100%;
+  padding:12px 15px 12px 40px;
+  border:1px solid #d5dfeb;
+  border-radius:25px;
+  outline:none;
+  font-size:14px;
+}
+.search-icon{
+  position:absolute;
+  left:15px;
+  top:11px;
+  color:#65758a;
+}
+
+/* SECTION TITLE */
+.section-title{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  margin:10px 0 17px;
+}
+.section-title h3{
+  margin:0;
+  color:#123f73;
+  font-size:24px;
+}
+.section-title p{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* GALLERY */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+.photo-card{
+  background:#fff;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid #e3e9f0;
+  box-shadow:0 5px 18px #0b315b14;
+  transition:transform .22s ease,box-shadow .22s ease;
+}
+.photo-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 12px 28px #0b315b25;
+}
+.photo-wrap{
+  height:205px;
+  position:relative;
+  background:#e8eef5;
+  overflow:hidden;
+}
+.photo-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .3s ease;
+}
+.photo-card:hover .photo-wrap img{
+  transform:scale(1.04);
+}
+.view-btn{
+  position:absolute;
+  right:11px;
+  top:11px;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  border:0;
+  background:#fff;
+  color:#26384e;
+  box-shadow:0 3px 10px #0003;
+  cursor:pointer;
+  font-size:17px;
+}
+.photo-info{
+  padding:14px 15px 15px;
+}
+.photo-info h4{
+  margin:0;
+  color:#173d6c;
+  font-size:16px;
+  line-height:1.3;
+}
+.photo-info p{
+  margin:7px 0 0;
+  color:#6b7280;
+  font-size:13px;
+  line-height:1.45;
+}
+.photo-meta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-top:12px;
+}
+.category{
+  background:#e6f1ff;
+  color:#0a62b4;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:700;
+}
+.photo-number{
+  color:#8a96a6;
+  font-size:11px;
+}
+.empty,.loading{
+  grid-column:1/-1;
+  background:#fff;
+  border:1px dashed #cbd5e1;
+  border-radius:15px;
+  padding:45px 20px;
+  text-align:center;
+  color:#68768a;
+}
+
+/* LIGHTBOX */
+.lightbox{
+  display:none;
+  position:fixed;
+  z-index:9999;
+  inset:0;
+  background:rgba(3,17,35,.88);
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+}
+.lightbox.show{display:flex}
+.lightbox img{
+  max-width:min(1100px,94vw);
+  max-height:86vh;
+  object-fit:contain;
+  border-radius:10px;
+  box-shadow:0 10px 45px #0008;
+}
+.close{
+  position:fixed;
+  right:25px;
+  top:20px;
+  width:43px;
+  height:43px;
+  border:0;
+  border-radius:50%;
+  background:#fff;
+  color:#172033;
+  font-size:25px;
+  cursor:pointer;
+}
+
+/* FOOTER */
+.footer{
+  background:#052b59;
+  color:#fff;
+  text-align:center;
+  padding:27px 15px;
+}
+.footer p{margin:5px;font-size:13px}
+
+/* RESPONSIVE */
+@media(max-width:1050px){
+  .gallery-grid{grid-template-columns:repeat(3,1fr)}
+  .nav{overflow-x:auto;justify-content:flex-start}
+}
+@media(max-width:800px){
+  .topbar{padding:8px 4%;justify-content:center}
+  .top-right{display:none}
+  .header{padding:15px 4%;flex-direction:column;text-align:center}
+  .brand{flex-direction:column;gap:8px}
+  .brand h1{font-size:25px}
+  .hero h2{font-size:42px}
+  .hero-content{padding:38px 6%}
+  .gallery-grid{grid-template-columns:repeat(2,1fr)}
+  .search{margin-left:0;min-width:230px}
+}
+@media(max-width:560px){
+  .nav a{padding:13px 12px;font-size:12px}
+  .hero{min-height:230px}
+  .hero h2{font-size:35px}
+  .hero p{font-size:15px}
+  .page{padding:17px 10px 40px}
+  .toolbar{align-items:flex-start;flex-wrap:wrap}
+  .search{width:100%;min-width:100%}
+  .gallery-grid{grid-template-columns:1fr}
+  .photo-wrap{height:225px}
+}
+</style>
+
+<style id="gallery-exact-modern-visual">
+.hero-modern{
+  position:relative!important;
+  height:330px!important;
+  min-height:330px!important;
+  overflow:hidden;
+  display:grid!important;
+  grid-template-columns:29% 27% 24% 20%;
+  background:#103a61!important;
+}
+.hero-modern .hero-photo{
+  position:relative!important;
+  inset:auto!important;
+  min-width:0;
+  height:330px;
+  background-position:center;
+  background-size:cover;
+  opacity:1!important;
+}
+.hero-modern .hero-chhau{
+  background-image:url("https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1000&q=85");
+  background-position:center;
+}
+.hero-modern .hero-ayodhya{
+  background-image:url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1000&q=85");
+}
+.hero-modern .hero-doladanga{
+  background-image:url("https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=1000&q=85");
+}
+.hero-modern .hero-photo-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,rgba(3,25,46,.12),rgba(3,25,46,.02) 55%,rgba(3,25,46,.2));
+}
+.hero-modern .hero-center{
+  position:relative!important;
+  inset:auto!important;
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:25px 25px 20px;
+  color:#fff;
+  background:linear-gradient(90deg,rgba(4,34,59,.88),rgba(10,53,82,.68));
+  clip-path:polygon(8% 0,100% 0,92% 100%,0 100%);
+  text-shadow:0 2px 5px rgba(0,0,0,.35);
+}
+.hero-modern .hero-icon{
+  width:58px;height:58px;border:4px solid #fff;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:31px;margin-bottom:9px;
+}
+.hero-modern .hero-center h2{
+  margin:0;
+  font-size:56px;
+  line-height:1;
+  color:#fff;
+  font-weight:900;
+}
+.hero-modern .hero-line{
+  width:78px;height:6px;background:#ffd21c;border-radius:8px;margin:12px 0 13px;
+}
+.hero-modern .hero-center p{
+  margin:0;
+  color:#fff;
+  font-size:17px;
+  line-height:1.45;
+  font-weight:600;
+}
+.hero-modern .place-tag{
+  position:absolute;
+  bottom:18px;
+  z-index:5;
+  color:#fff;
+  background:rgba(5,25,40,.78);
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:22px;
+  padding:8px 13px;
+  font-size:13px;
+  font-weight:800;
+  backdrop-filter:blur(4px);
+}
+.hero-modern .left-tag{left:18px}
+.hero-modern .ayodhya-tag{left:18px}
+.hero-modern .right-tag{right:18px}
+
+@media(max-width:900px){
+  .hero-modern{height:300px!important;min-height:300px!important;grid-template-columns:28% 44% 28%}
+  .hero-modern .hero-doladanga{display:none}
+  .hero-modern .hero-center h2{font-size:44px}
+  .hero-modern .hero-center p{font-size:14px}
+}
+@media(max-width:560px){
+  .hero-modern{height:340px!important;min-height:340px!important;grid-template-columns:1fr}
+  .hero-modern .hero-chhau,.hero-modern .hero-ayodhya{display:none}
+  .hero-modern .hero-doladanga{display:block;height:340px}
+  .hero-modern .hero-center{
+    position:absolute!important;inset:0!important;
+    clip-path:none;
+    background:linear-gradient(90deg,rgba(3,29,51,.82),rgba(3,29,51,.35));
+    padding:25px;
+  }
+  .hero-modern .hero-center h2{font-size:42px}
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="topbar">
+  <span>📍 Manbazar-I, Purulia, West Bengal</span>
+  <div class="top-right">
+    <span>☎ 03253-XXXXXX</span>
+    <span>✉ bdo.manbazar1@gmail.com</span>
+    <span>A− &nbsp; A &nbsp; A+</span>
+  </div>
+</div>
+
+<header class="header">
+  <div class="brand">
+    <div class="emblem">
+      <img src="ashoka.jpg" alt="Government Emblem">
+    </div>
+    <div>
+      <h1>Manbazar-I Development Block</h1>
+      <p>Purulia, West Bengal</p>
+      <small>Office of the Block Development Officer</small>
+    </div>
+  </div>
+  <a class="admin-login" href="admin/login.html">🔒 Admin Login</a>
+</header>
+
+<nav class="nav">
+  <a href="index.html">⌂ Home</a>
+  <a href="about.html">♙ About Block</a>
+  <a href="administration.html">♙ Administration</a>
+  <a href="schemes.html">♧ Schemes</a>
+  <a href="development.html">⟳ Development</a>
+  <a href="notices.html">▣ Notices</a>
+  <a href="downloads.html">⬇ Downloads</a>
+  <a class="active" href="gallery.html">▣ Gallery</a>
+  <a href="contact.html">◌ Contact</a>
+</nav>
+
+
+<section class="hero hero-modern">
+  <div class="hero-photo hero-chhau" id="heroChhau">
+    <div class="hero-photo-overlay"></div>
+    <span class="place-tag left-tag">📍 Purulia Chhau</span>
+  </div>
+
+  <div class="hero-center">
+    <div class="hero-icon">▧</div>
+    <h2>Gallery</h2>
+    <div class="hero-line"></div>
+    <p>
+      Photos showcasing the activities, development<br>
+      works, events and people of<br>
+      Manbazar-I Development Block.
+    </p>
+  </div>
+
+  <div class="hero-photo hero-ayodhya" id="heroAyodhya">
+    <div class="hero-photo-overlay"></div>
+    <span class="place-tag ayodhya-tag">📍 Ayodhya Pahar</span>
+  </div>
+
+  <div class="hero-photo hero-doladanga" id="heroDoladanga">
+    <div class="hero-photo-overlay"></div>
+    <span class="place-tag right-tag">📍 Doladanga</span>
+  </div>
+</section>
+
+
+<main class="page">
+
+  <div class="breadcrumb">🏠 Home &nbsp;›&nbsp; 🖼️ Gallery</div>
+
+  <div class="toolbar">
+    <button class="filter active" data-filter="all">All Photos</button>
+    <button class="filter" data-filter="development">Development Works</button>
+    <button class="filter" data-filter="events">Events & Programs</button>
+    <button class="filter" data-filter="meeting">Meetings</button>
+    <button class="filter" data-filter="infrastructure">Infrastructure</button>
+    <button class="filter" data-filter="awareness">Awareness Programs</button>
+    <button class="filter" data-filter="nature">Natural View</button>
+    <button class="filter" data-filter="other">Other</button>
+
+    <div class="search">
+      <span class="search-icon">⌕</span>
+      <input id="photoSearch" type="search" placeholder="Search photos...">
+    </div>
+  </div>
+
+  <div class="section-title">
+    <div>
+      <h3>Latest Gallery Photos</h3>
+      <p>Photos uploaded from the Admin Content Manager</p>
+    </div>
+  </div>
+
+  <div id="galleryList" class="gallery-grid">
+    <div class="loading">Gallery photos loading...</div>
+  </div>
+
+</main>
+
+<div id="lightbox" class="lightbox">
+  <button class="close" onclick="closeLightbox()">×</button>
+  <img id="lightboxImg" src="" alt="Gallery Photo">
+</div>
+
+<footer class="footer">
+  <p><strong>Manbazar-I Development Block</strong></p>
+  <p>Purulia, West Bengal</p>
+  <p>Official Information & Citizen Services Portal</p>
+  <p>© <span id="year"></span> Manbazar-I Development Block</p>
+</footer>
+
+<script>
+document.getElementById("year").textContent=new Date().getFullYear();
+
+const sb=supabase.createClient(
+  "https://nqfcoofeqsesenmttcwr.supabase.co",
+  "sb_publishable_14PngswpauPUWSKHQIcTgg_uvCFfaE2"
+);
+
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[m]));
+
+let galleryData=[];
+let currentFilter="all";
+
+function getCategory(title,caption,storedCategory){
+  if(storedCategory)return storedCategory;
+  const text=(String(title||"")+" "+String(caption||"")).toLowerCase();
+
+  if(/road|building|bridge|infrastructure|construction/.test(text)) return "infrastructure";
+  if(/development|work|project|scheme/.test(text)) return "development";
+  if(/meeting|review|conference/.test(text)) return "meeting";
+  if(/event|program|programme|camp|celebration/.test(text)) return "events";
+  if(/awareness|sensitization|campaign/.test(text)) return "awareness";
+  if(/doladanga|tourism|tourist|nature|lake|forest|hill|landscape/.test(text)) return "nature";
+  return "other";
+}
+
+function categoryLabel(cat){
+  const labels={
+    infrastructure:"Infrastructure",
+    development:"Development Works",
+    events:"Events & Programs",
+    meeting:"Meetings",
+    awareness:"Awareness Programs",
+    nature:"Natural View",
+    other:"Other"
+  };
+  return labels[cat]||"Gallery";
+}
+
+async function loadGallery(){
+  const box=document.getElementById("galleryList");
+
+  const r=await sb.from("gallery_photos")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+  if(r.error){
+    console.error(r.error);
+    box.innerHTML='<div class="empty">Gallery photos load করা যাচ্ছে না।</div>';
+    return;
+  }
+
+  galleryData=r.data||[];
+  renderGallery();
+}
+
+function renderGallery(){
+  const box=document.getElementById("galleryList");
+  const query=document.getElementById("photoSearch").value.trim().toLowerCase();
+
+  const list=galleryData.filter(x=>{
+    const cat=getCategory(x.title,x.caption,x.category);
+    const text=(String(x.title||"")+" "+String(x.caption||"")).toLowerCase();
+
+    const filterOK=currentFilter==="all" || cat===currentFilter;
+    const searchOK=!query || text.includes(query);
+
+    return filterOK && searchOK;
+  });
+
+  if(!list.length){
+    box.innerHTML='<div class="empty">No gallery photo found.</div>';
+    return;
+  }
+
+  box.innerHTML=list.map((x,i)=>{
+    const url=sb.storage.from("site-gallery")
+      .getPublicUrl(x.image_path).data.publicUrl;
+
+    const cat=getCategory(x.title,x.caption,x.category);
+
+    return `
+      <article class="photo-card">
+        <div class="photo-wrap">
+          <img src="${url}"
+               alt="${esc(x.title||"Gallery Photo")}"
+               loading="lazy"
+               onclick="openLightbox('${url}')">
+          <button class="view-btn"
+                  title="View Photo"
+                  onclick="openLightbox('${url}')">◉</button>
+        </div>
+
+        <div class="photo-info">
+          <h4>${esc(x.title||"Gallery Photo")}</h4>
+          <p>${esc(x.caption||"Manbazar-I Development Block")}</p>
+
+          <div class="photo-meta">
+            <span class="category">${categoryLabel(cat)}</span>
+            <span class="photo-number">Photo ${i+1}</span>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+document.querySelectorAll(".filter").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
+    btn.classList.add("active");
+    currentFilter=btn.dataset.filter;
+    renderGallery();
+  });
+});
+
+document.getElementById("photoSearch")
+  .addEventListener("input",renderGallery);
+
+function openLightbox(url){
+  document.getElementById("lightboxImg").src=url;
+  document.getElementById("lightbox").classList.add("show");
+}
+function closeLightbox(){
+  document.getElementById("lightbox").classList.remove("show");
+  document.getElementById("lightboxImg").src="";
+}
+document.getElementById("lightbox").addEventListener("click",e=>{
+  if(e.target.id==="lightbox")closeLightbox();
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closeLightbox();
+});
+
+loadGallery();
+</script>
+
+
+<script id="gallery-hero-dynamic">
+(async function(){
+  try{
+    const client=window.sb;
+    if(!client)return;
+
+    const r=await client.from("gallery_photos")
+      .select("title,caption,category,image_path,created_at")
+      .order("created_at",{ascending:false});
+
+    if(r.error)return;
+
+    const photos=r.data||[];
+    const text=x=>(String(x.title||"")+" "+String(x.caption||"")+" "+String(x.category||"")).toLowerCase();
+
+    const find=(patterns)=>{
+      const x=photos.find(p=>patterns.some(k=>text(p).includes(k)));
+      if(!x)return null;
+      return client.storage.from("site-gallery").getPublicUrl(x.image_path).data.publicUrl;
+    };
+
+    const set=(id,url)=>{
+      if(url){
+        const el=document.getElementById(id);
+        if(el)el.style.backgroundImage=`url("${url}")`;
+      }
+    };
+
+    set("heroChhau",find(["chhau","ছৌ","dance"]));
+    set("heroAyodhya",find(["ayodhya","pahar","hill","পাহাড়","পাহাড়"]));
+    set("heroDoladanga",find(["doladanga","দোলাডাঙ্গা","tourism","tourist","nature"]));
+  }catch(e){
+    console.warn("Gallery hero photo loader:",e);
+  }
+})();
+</script>
+
+</body>
+</html>
+type html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
