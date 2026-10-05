@@ -835,10 +835,78 @@ async function importDevelopmentExcel(event){
 
 /* ================= END DEVELOPMENT EXCEL ================= */
 
-async function loadDls(){let r=await sb.from("downloads").select("*").order("created_at",{ascending:false});if(r.error)return say("dlMsg",r.error.message,false);dls=r.data||[];$("dlList").innerHTML=dls.map(x=>`<div class=item><div><h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></div><div><button class=edit onclick="editDl('${x.id}')">Edit</button> <button class=del onclick="delDl('${x.id}')">Delete</button></div></div>`).join("")||"<p>No downloads.</p>"}
-function clearDownload(){$("dlId").value="";$("dlTitle").value="";$("dlDesc").value="";$("dlFile").value=""}
-function editDl(id){let x=dls.find(y=>y.id==id);$("dlId").value=id;$("dlTitle").value=x.title;$("dlDesc").value=x.description||""}
-async function saveDownload(){let title=$("dlTitle").value.trim(),f=$("dlFile").files[0],old=dls.find(x=>x.id==$("dlId").value)?.file_path;if(!title)return say("dlMsg","Title required",false);let path=old;if(f){let p=""+Date.now()+"-"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");let u=await sb.storage.from("site-downloads").upload(p,f,{upsert:true,contentType:f.type||"application/octet-stream"});if(u.error)return say("dlMsg",u.error.message,false);path=p}if(!path)return say("dlMsg","Select a file",false);let data={title,description:$("dlDesc").value.trim(),file_path:path};let r=$("dlId").value?await sb.from("downloads").update(data).eq("id",$("dlId").value):await sb.from("downloads").insert(data);if(r.error)return say("dlMsg",r.error.message,false);say("dlMsg","Download saved");clearDownload();loadDls()}
+async function loadDls(){
+  let r=await sb.from("downloads").select("*").order("created_at",{ascending:false});
+  if(r.error)return say("dlMsg",r.error.message,false);
+  dls=r.data||[];
+  $("dlList").innerHTML=dls.map(x=>`<div class=item>
+    <div>
+      <h3>${esc(x.title)}</h3>
+      <p>${esc(x.description)}</p>
+      <p><b>Category:</b> ${esc(x.category||"OTHERS")}</p>
+    </div>
+    <div>
+      <button class=edit onclick="editDl('${x.id}')">Edit</button>
+      <button class=del onclick="delDl('${x.id}')">Delete</button>
+    </div>
+  </div>`).join("")||"<p>No downloads.</p>";
+}
+function clearDownload(){
+  $("dlId").value="";
+  $("dlTitle").value="";
+  $("dlDesc").value="";
+  $("dlCategory").value="";
+  $("dlFile").value="";
+}
+function editDl(id){
+  let x=dls.find(y=>y.id==id);
+  if(!x)return;
+  $("dlId").value=id;
+  $("dlTitle").value=x.title||"";
+  $("dlDesc").value=x.description||"";
+  $("dlCategory").value=x.category||"";
+}
+async function saveDownload(){
+  const id=$("dlId").value;
+  const title=$("dlTitle").value.trim();
+  const description=$("dlDesc").value.trim();
+  const category=$("dlCategory").value;
+  const f=$("dlFile").files[0];
+  const old=dls.find(x=>x.id==id)?.file_path;
+
+  if(!title)return say("dlMsg","Title required",false);
+  if(!category)return say("dlMsg","Form Category select করুন।",false);
+
+  let path=old;
+
+  if(f){
+    const p=Date.now()+"-"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+    const u=await sb.storage.from("site-downloads").upload(
+      p,f,{upsert:true,contentType:f.type||"application/octet-stream"}
+    );
+    if(u.error)return say("dlMsg","File upload failed: "+u.error.message,false);
+    path=p;
+  }
+
+  if(!path)return say("dlMsg","Select a file",false);
+
+  const data={
+    title,
+    description,
+    category,
+    file_path:path
+  };
+
+  const r=id
+    ? await sb.from("downloads").update(data).eq("id",id)
+    : await sb.from("downloads").insert(data);
+
+  if(r.error)return say("dlMsg","Category-wise upload failed: "+r.error.message,false);
+
+  say("dlMsg","Download saved successfully with category.");
+  clearDownload();
+  loadDls();
+}
 async function delDl(id){if(!confirm("Delete download?"))return;let x=dls.find(y=>y.id==id);if(x?.file_path)await sb.storage.from("site-downloads").remove([x.file_path]);let r=await sb.from("downloads").delete().eq("id",id);if(r.error)return say("dlMsg",r.error.message,false);loadDls()}
 
 async function loadGals(){
