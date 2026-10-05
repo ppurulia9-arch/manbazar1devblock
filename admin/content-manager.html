@@ -866,11 +866,28 @@ function editDl(id){
   $("dlDesc").value=x.description||"";
   $("dlCategory").value=x.category||"";
 }
+
+const DOWNLOAD_CATEGORY_NAMES={
+  "land":"Land & Land Reforms",
+  "social_welfare":"Social Welfare",
+  "vbg_ram_g":"VB-G RAM G",
+  "nsap":"NSAP",
+  "birth_death":"BIRTH AND DEAD",
+  "scholarship":"SCHOLARSHIP",
+  "caste_certificate":"CASTE CERTIFICATE",
+  "govt_scheme":"GOVT SCHEME",
+  "food_supplies":"FOOD AND SUPPLIES",
+  "agriculture":"AGRICULTURE",
+  "social_audit":"SOCIAL AUDIT",
+  "others":"OTHERS"
+};
+
 async function saveDownload(){
   const id=$("dlId").value;
   const title=$("dlTitle").value.trim();
   const description=$("dlDesc").value.trim();
-  const category=$("dlCategory").value;
+  const categoryValue=$("dlCategory").value;
+  const category=DOWNLOAD_CATEGORY_NAMES[categoryValue]||categoryValue;
   const f=$("dlFile").files[0];
   const old=dls.find(x=>x.id==id)?.file_path;
 
