@@ -570,6 +570,87 @@ body{
 }
 </style>
 
+
+<style id="purulia-gallery-header-banner-only">
+/* Only the Gallery header banner is changed */
+.hero-modern{
+  background-image:url("purulia-gallery-header-banner.png") !important;
+  background-size:cover !important;
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+}
+.hero-modern .hero-photo,
+.hero-modern .hero-center{
+  display:none !important;
+}
+</style>
+
+
+<style id="gallery-floating-left-style">
+.gallery-floating-strip-wrap{
+  position:absolute;
+  z-index:9;
+  left:0;
+  right:0;
+  bottom:0;
+  height:96px;
+  overflow:hidden;
+  pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.62));
+}
+.gallery-floating-strip{
+  position:absolute;
+  left:0;
+  bottom:8px;
+  display:flex;
+  gap:10px;
+  width:max-content;
+  animation:galleryFloatLeft 38s linear infinite;
+}
+.gallery-floating-strip:hover{animation-play-state:paused}
+.gallery-floating-photo{
+  width:132px;
+  height:78px;
+  flex:0 0 132px;
+  object-fit:cover;
+  border-radius:9px;
+  border:2px solid rgba(255,255,255,.9);
+  box-shadow:0 4px 14px rgba(0,0,0,.38);
+}
+.gallery-floating-name{
+  position:absolute;
+  left:6px;
+  right:6px;
+  bottom:4px;
+  padding:3px 5px;
+  border-radius:5px;
+  background:rgba(0,0,0,.65);
+  color:#fff;
+  font-size:9px;
+  font-weight:800;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.gallery-floating-item{
+  position:relative;
+  width:132px;
+  height:78px;
+  flex:0 0 132px;
+}
+@keyframes galleryFloatLeft{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+@media(max-width:600px){
+  .gallery-floating-strip-wrap{height:78px}
+  .gallery-floating-item,.gallery-floating-photo{
+    width:105px;height:62px;flex-basis:105px
+  }
+  .gallery-floating-strip{gap:7px;bottom:7px}
+}
+</style>
+
 </head>
 
 <body>
@@ -612,6 +693,10 @@ body{
 
 
 <section class="hero hero-modern">
+  <div class="gallery-floating-strip-wrap" aria-label="Gallery photos">
+    <div id="galleryFloatingStrip" class="gallery-floating-strip"></div>
+  </div>
+
   <div class="hero-place" id="heroChhau">
     <div class="hero-shade"></div>
     <span>📍 Purulia Chhau</span>
@@ -881,6 +966,48 @@ loadGallery();
     ]));
   }catch(e){
     console.warn("Gallery hero loader:",e);
+  }
+})();
+</script>
+
+
+<script id="gallery-floating-left-script">
+(async function loadFloatingGalleryPhotos(){
+  const box=document.getElementById("galleryFloatingStrip");
+  if(!box)return;
+
+  try{
+    const client=window.sb;
+    if(!client)return;
+
+    const r=await client.from("gallery_photos")
+      .select("title,caption,image_path,created_at")
+      .order("created_at",{ascending:false});
+
+    if(r.error || !r.data || !r.data.length)return;
+
+    const photos=r.data.filter(x=>x.image_path);
+    if(!photos.length)return;
+
+    const makeItems=list=>list.map(x=>{
+      const url=client.storage.from("site-gallery")
+        .getPublicUrl(x.image_path).data.publicUrl;
+      return `<div class="gallery-floating-item">
+        <img class="gallery-floating-photo"
+             src="${url}"
+             alt="${String(x.title||"Gallery Photo").replace(/"/g,"&quot;")}"
+             loading="lazy">
+        <div class="gallery-floating-name">${String(x.title||"Gallery Photo")
+          .replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}</div>
+      </div>`;
+    }).join("");
+
+    // Duplicate the set so the leftward animation remains continuous.
+    const items=makeItems(photos);
+    box.innerHTML=items+items;
+
+  }catch(e){
+    console.warn("Floating gallery photos:",e);
   }
 })();
 </script>
