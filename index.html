@@ -32,6 +32,81 @@ const supabaseClient = window.supabase.createClient(
 .latest-head{display:flex;justify-content:space-between}.latest-head a{color:#fff;text-decoration:none;font-size:11px}.notice-window{height:405px;overflow:hidden;padding:7px 11px;background:#fff}.notice-track{animation:noticeScroll 22s linear infinite}.notice-window:hover .notice-track{animation-play-state:paused}.notice-item{padding:10px 3px;border-bottom:1px solid #eadfe0}.notice-title{display:block;color:var(--maroon);text-decoration:none;font-size:13px;font-weight:800;line-height:1.3}.notice-date{font-size:11px;color:#777;margin-top:4px}.notice-pdf{display:inline-block;color:#075ca8;text-decoration:none;font-size:11px;font-weight:700;margin-top:5px}@keyframes noticeScroll{0%{transform:translateY(8px)}100%{transform:translateY(-55%)}}
 .service-row{max-width:1600px;margin:14px auto 0;display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.service-card{background:#fff;border-radius:10px;padding:10px 11px;display:flex;align-items:center;gap:9px;text-decoration:none;color:#2d2024;box-shadow:var(--shadow);min-height:76px}.service-icon{width:47px;height:47px;border-radius:10px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;flex:none}.c1{background:#8e1028}.c2{background:#159447}.c3{background:#f18b08}.c4{background:#7b18b5}.c5{background:#1456be}.c6{background:#c71919}.service-card strong{display:block;font-size:13px}.service-card small{display:block;color:#777;margin-top:3px;font-size:11px}.service-arrow{margin-left:auto;color:var(--maroon)}
 .section{padding:28px 4.5%;background:var(--bg)}.section-title{text-align:center;color:var(--maroon);font-size:25px;margin:0 0 20px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:1300px;margin:auto}.card{background:#fff;border-radius:12px;padding:22px 15px;text-align:center;text-decoration:none;color:var(--text);border-top:5px solid var(--maroon);box-shadow:var(--shadow)}.card .icon{font-size:31px}.card h3{margin:8px 0;color:var(--maroon);font-size:17px}.card p{margin:0;color:#777;font-size:13px}.footer{background:var(--dark);color:#fff;text-align:center;padding:28px 10px}.footer p{margin:5px;font-size:13px}
+
+/* ===== EXACT VISUAL HOME HEADER / 4-MENU DESIGN ===== */
+.header{min-height:142px;padding:13px 4.8%;background:linear-gradient(115deg,#fff9e9 0%,#fffdf5 62%,#fff2c6 100%);border-bottom:5px solid #e3ad16;position:relative;overflow:hidden}
+.header:after{content:"";position:absolute;right:-80px;top:-100px;width:360px;height:280px;background:linear-gradient(135deg,transparent 30%,#ffd45a55 31%,#ffb30022 62%,transparent 63%);transform:rotate(-8deg);pointer-events:none}
+.brand{position:relative;z-index:2;gap:18px}
+.logo{width:100px;height:112px}
+.logo img{width:92px;height:106px}
+.brand h1{font-family:Georgia,"Times New Roman",serif;font-size:40px;line-height:1.05;color:#720d24;letter-spacing:-.4px}
+.brand h2{margin:5px 0 2px;font-size:24px;color:#14234a;font-weight:800}
+.brand p{margin:0;color:#26354f;font-size:18px}
+.leaders{position:relative;z-index:2;gap:18px}
+.leader-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;color:#162047;font-size:12px;line-height:1.1}
+.leader-wrap .leader{width:88px;height:100px;border:3px solid #d7a316;border-radius:14px;box-shadow:0 5px 14px #6b3a001f}
+.leader-wrap strong{margin-top:5px;font-size:12px}
+.leader-wrap small{font-size:10px;margin-top:2px}
+
+.main-nav{position:relative;z-index:100;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;align-items:center;padding:10px 4.8%;background:linear-gradient(90deg,#610016,#860020 50%,#610016);border-bottom:4px solid #d8a116;box-shadow:0 5px 18px #3c061566}
+.main-nav-btn{min-height:58px;border:1px solid #a7223f;border-radius:14px;background:linear-gradient(135deg,#9d0026,#700018);color:#fff;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:13px;padding:10px 20px;font-size:21px;font-weight:900;cursor:pointer;box-shadow:inset 0 1px #ffffff22,0 5px 12px #0003;transition:.25s}
+.main-nav-btn:hover,.main-nav-btn.active{background:linear-gradient(135deg,#b3002e,#780019);transform:translateY(-1px);border-color:#f0c443;box-shadow:0 7px 16px #0004}
+.main-nav .nav-dropdown:nth-child(2)>.main-nav-btn{background:linear-gradient(135deg,#ffd44a,#f3b91e);color:#2c1b00;border-color:#e7ad19;box-shadow:0 5px 16px #6a3b002b}
+.nav-icon{font-size:30px;line-height:1}
+.chevron{font-size:26px;margin-left:auto}
+.nav-dropdown{position:relative}
+.mega-menu{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(-8px);width:min(850px,calc(100vw - 30px));padding:16px;border-radius:18px;background:#fff;box-shadow:0 18px 45px #26050b3b;border:1px solid #e9e9e9;opacity:0;visibility:hidden;pointer-events:none;transition:.2s;z-index:200}
+.nav-dropdown:hover .mega-menu,.nav-dropdown:focus-within .mega-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.mega-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mega-grid a{display:grid;grid-template-columns:54px 1fr 20px;align-items:center;gap:11px;padding:10px 12px;text-decoration:none;color:#142047;border:1px solid #ececec;border-radius:14px;background:#fff;box-shadow:0 3px 10px #0000000b;transition:.2s}
+.mega-grid a:hover{transform:translateY(-2px);box-shadow:0 8px 18px #0002;border-color:#d7a316}
+.mega-grid b{display:block;font-size:18px}
+.mega-grid small{display:block;color:#596176;font-size:12px;margin-top:2px}
+.mega-grid i{font-style:normal;font-size:27px;color:#555}
+.mega-icon{width:48px;height:48px;border-radius:12px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:27px;font-weight:900}
+.mega-icon.blue{background:#2295ed}.mega-icon.purple{background:#7a45d4}.mega-icon.red{background:#b32116}.mega-icon.pink{background:#e32e58}.mega-icon.green{background:#16a650}.mega-icon.teal{background:#10a7aa}.mega-icon.orange{background:#f5a00b}.mega-icon.magenta{background:#e52a89}
+.small-menu{position:absolute;right:0;top:calc(100% + 8px);width:280px;padding:10px;background:#fff;border-radius:14px;box-shadow:0 18px 40px #26050b3b;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px);transition:.2s;z-index:200}
+.nav-dropdown:hover .small-menu,.nav-dropdown:focus-within .small-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0)}
+.small-menu a{display:block;padding:12px 13px;color:#4b1320;text-decoration:none;font-weight:700;border-radius:9px}
+.small-menu a:hover{background:#fff4cc}
+
+.visual-hero{position:relative;height:595px;overflow:hidden;background:#222}
+.visual-hero #heroSlides,.visual-hero .hero-slide{position:absolute;inset:0}
+.visual-hero .hero-slide{background-position:center;background-size:cover;opacity:0;transition:opacity .8s}
+.visual-hero .hero-slide.active{opacity:1}
+.visual-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#00000005 30%,#00000085 100%);pointer-events:none}
+.hero-caption{position:absolute;z-index:5;left:3.2%;bottom:45px;color:#fff;text-shadow:0 3px 8px #000;max-width:700px}
+.hero-caption h2{font-family:Georgia,"Times New Roman",serif;font-size:49px;margin:0 0 7px}
+.hero-caption p{font-size:22px;font-weight:700;margin:0 0 20px}
+.hero-caption a{display:inline-flex;align-items:center;gap:25px;padding:13px 25px;border-radius:30px;background:linear-gradient(135deg,#d30035,#940020);border:2px solid #fff;color:#fff;text-decoration:none;font-size:18px;font-weight:900;box-shadow:0 6px 15px #0005}
+.hero-caption a:hover{background:#b3002d;transform:translateY(-2px)}
+.hero-caption a span{font-size:25px}
+.hero-control{position:absolute;z-index:8;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;border:2px solid #fff;background:#700018cc;color:#fff;font-size:42px;line-height:1;cursor:pointer}
+.hero-control.left{left:18px}.hero-control.right{right:18px}
+.hero-dots{z-index:8}
+.visual-hero .hero-dots{bottom:18px}
+.visual-hero .dot{box-shadow:0 1px 4px #0008}
+
+.portal-content{max-width:1600px;margin:16px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.portal-content .links-panel,.portal-content .latest-panel{min-height:0}
+
+@media(max-width:900px){
+  .brand h1{font-size:30px}.brand h2{font-size:19px}.brand p{font-size:15px}
+  .main-nav{gap:8px;grid-template-columns:repeat(2,1fr)}
+  .visual-hero{height:470px}
+  .hero-caption h2{font-size:38px}
+}
+@media(max-width:600px){
+  .header{padding:12px}.brand{text-align:center}.logo{width:80px;height:90px}.logo img{width:75px;height:85px}
+  .brand h1{font-size:24px}.brand h2{font-size:16px}.brand p{font-size:13px}
+  .leaders{gap:8px}.leader-wrap .leader{width:68px;height:76px}.leader-wrap strong{font-size:9px}.leader-wrap small{font-size:8px}
+  .main-nav{grid-template-columns:1fr 1fr;padding:8px;gap:7px}
+  .main-nav-btn{min-height:48px;font-size:14px;padding:8px 9px;gap:6px}.nav-icon{font-size:21px}.chevron{font-size:19px}
+  .mega-menu{width:calc(100vw - 16px)}.mega-grid{grid-template-columns:1fr}.mega-grid b{font-size:15px}
+  .visual-hero{height:390px}.hero-caption{left:16px;bottom:30px}.hero-caption h2{font-size:29px}.hero-caption p{font-size:14px}.hero-caption a{font-size:14px;padding:10px 17px}
+  .hero-control{width:40px;height:40px;font-size:30px}.portal-content{grid-template-columns:1fr}
+}
+
 @media(max-width:1050px){.hero-layout{grid-template-columns:1fr 1.8fr}.latest-panel{grid-column:1/-1}.notice-window{height:180px}.service-row{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:750px){.topbar{height:auto;padding:8px;justify-content:center}.topbar span:last-child{display:none}.header{flex-direction:column;text-align:center;padding:15px}.brand{flex-direction:column;gap:5px}.brand h1{font-size:23px}.nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}.nav a{font-size:12px;padding:11px 12px}.hero-layout{grid-template-columns:1fr}.hero{height:360px}.service-row{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){.hero-text h2{font-size:30px}.service-row{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.leader{width:70px;height:80px}}
@@ -66,39 +141,101 @@ const supabaseClient = window.supabase.createClient(
 </style></head>
 
 <body>
-<div class="topbar"><span>Government of West Bengal</span><span>📍 Manbazar-I Development Block, Purulia</span></div>
-<header class="header"><div class="brand"><div class="logo"><img src="ashoka.jpg" alt="Ashoka Stambha"></div><div><h1>Manbazar-I Development Block</h1><p>Purulia, West Bengal</p></div></div><div class="leaders"><img class="leader" src="https://www.pmindia.gov.in/wp-content/uploads/2025/12/02.jpg" alt="Prime Minister"><img class="leader" src="https://wb.gov.in/images/cm_new2.jpg" alt="Chief Minister"></div></header>
+<div class="topbar"><span>Government of West Bengal</span><span>📍 Manbazar-I Development Block, Purulia, West Bengal</span></div>
 
-<!-- HOME PAGE ADMIN LOGIN -->
-<div class="home-admin-login-top">
-  <a href="admin/login.html" class="home-admin-login-btn">
-    <span class="home-admin-lock">🔐</span>
-    <span class="home-admin-login-text"><strong>Admin Login</strong><small>Authorized Officials Only</small></span>
-    <span class="home-admin-arrow">→</span>
-  </a>
-</div>
+<header class="header">
+  <div class="brand">
+    <div class="logo"><img src="ashoka.jpg" alt="Ashoka Stambha"></div>
+    <div>
+      <h1>Manbazar-I Development Block</h1>
+      <h2>Office of the Block Development Officer</h2>
+      <p>Manbazar-I, Purulia, West Bengal</p>
+    </div>
+  </div>
+  <div class="leaders">
+    <div class="leader-wrap">
+      <img class="leader" src="https://www.pmindia.gov.in/wp-content/uploads/2025/12/02.jpg" alt="Prime Minister">
+      <strong>Shri Narendra Modi</strong><small>Hon'ble Prime Minister<br>of India</small>
+    </div>
+    <div class="leader-wrap">
+      <img class="leader" src="https://wb.gov.in/images/cm_new2.jpg" alt="West Bengal Leader">
+      <strong>Shri Suvendu Adhikari</strong><small>Hon'ble Leader of Opposition<br>West Bengal</small>
+    </div>
+  </div>
+</header>
 
-<nav class="nav"><a class="active" href="index.html">🏠 Home</a><a href="about.html">ℹ️ About</a><a href="administration.html">🏛️ Administration</a><a href="development.html">📈 Development</a><a href="schemes.html">📋 Schemes</a><a href="notices.html">🔔 Notices</a><a href="downloads.html">⬇️ Downloads</a><a href="gallery.html">🖼️ Gallery</a><a href="contact.html">☎️ Contact</a><a href="public-grievance.html">📝 Grievance</a></nav>
-<div class="main-wrap"><div class="hero-layout">
-<aside class="links-panel panel"><div class="panel-title">🔗 Important Links</div><div class="link-list">
-<a class="gov-link" href="https://banglarbhumi.gov.in/" target="_blank"><span>🏠 BanglarBhumi</span><b class="apply">APPLY</b></a>
-<a class="gov-link" href="https://edistrict.wb.gov.in/portal/home" target="_blank"><span>📄 e-District</span><b class="apply">APPLY</b></a>
-<a class="gov-link" href="https://castcertificatewb.gov.in/" target="_blank"><span>📜 Caste Certificate</span><b class="apply">APPLY</b></a>
-<a class="gov-link" href="https://wbpms.in/citizen/" target="_blank"><span>👨‍👩‍👧 WB Panchayat Management System</span><b class="apply">APPLY</b></a>
-<a class="gov-link" href="https://food.wb.gov.in/" target="_blank"><span>💳 Ration Card</span><b class="apply">APPLY</b></a>
-<a class="gov-link" href="https://voters.eci.gov.in/" target="_blank"><span>🗳️ Voter Services</span><b class="apply">APPLY</b></a>
-<a class="gov-link" href="https://uidai.gov.in/hi" target="_blank"><span>🪪 Aadhaar</span><b class="apply">APPLY</b></a>
-<a class="gov-link" href="https://parivahan.gov.in/" target="_blank"><span>🚗 Parivahan</span><b class="apply">APPLY</b></a>
-<a class="gov-link" href="https://pcc.wb.gov.in/" target="_blank"><span>📑 PCC</span><b class="apply">APPLY</b></a>
-<a class="gov-link" href="https://wbhealth.gov.in/" target="_blank"><span>🏥 WB Health</span><b class="apply">APPLY</b></a>
-</div></aside>
-<section class="hero" id="homeHero">
-<div id="heroSlides"></div>
-<div class="hero-overlay"><div class="hero-text"><h2>Manbazar-I Development Block</h2><p>People • Development • Transparency • Good Governance</p></div></div>
-<div class="hero-dots" id="heroDots"></div>
+<nav class="main-nav">
+  <a class="main-nav-btn active" href="index.html"><span class="nav-icon">⌂</span><span>Home</span></a>
+
+  <div class="nav-dropdown">
+    <button class="main-nav-btn citizen-btn" type="button">
+      <span class="nav-icon">👥</span><span>Citizen Services</span><span class="chevron">⌄</span>
+    </button>
+    <div class="mega-menu">
+      <div class="mega-grid">
+        <a href="about.html"><span class="mega-icon blue">ℹ</span><span><b>About</b><small>Know about our block</small></span><i>›</i></a>
+        <a href="notices.html"><span class="mega-icon purple">♟</span><span><b>Notices</b><small>Latest Updates</small></span><i>›</i></a>
+        <a href="administration.html"><span class="mega-icon red">▣</span><span><b>Administration</b><small>Block Administration</small></span><i>›</i></a>
+        <a href="public-grievance.html"><span class="mega-icon pink">☷</span><span><b>Grievance &amp; Redressal</b><small>Lodge &amp; Track Grievance</small></span><i>›</i></a>
+        <a href="development.html"><span class="mega-icon green">▮</span><span><b>Development</b><small>Development Activities</small></span><i>›</i></a>
+        <a href="contact.html"><span class="mega-icon teal">☎</span><span><b>Contact</b><small>Contact Details</small></span><i>›</i></a>
+        <a href="schemes.html"><span class="mega-icon orange">⚙</span><span><b>Schemes</b><small>Government Schemes</small></span><i>›</i></a>
+        <a href="gallery.html"><span class="mega-icon magenta">▧</span><span><b>Gallery</b><small>Photos &amp; Events</small></span><i>›</i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-dropdown">
+    <button class="main-nav-btn" type="button">
+      <span class="nav-icon">⬇</span><span>Downloads</span><span class="chevron">⌄</span>
+    </button>
+    <div class="small-menu">
+      <a href="downloads.html">📄 Government Forms &amp; Downloads</a>
+      <a href="downloads.html">⬇ Download Documents</a>
+    </div>
+  </div>
+
+  <a class="main-nav-btn" href="admin/login.html"><span class="nav-icon">🔐</span><span>Admin Login</span></a>
+</nav>
+
+<div class="main-wrap">
+<section class="visual-hero" id="homeHero">
+  <div id="heroSlides"></div>
+  <button class="hero-control left" type="button" aria-label="Previous">‹</button>
+  <button class="hero-control right" type="button" aria-label="Next">›</button>
+
+  <div class="hero-caption">
+    <h2>Manbazar-I Development Block</h2>
+    <p>People • Development • Transparency • Good Governance</p>
+    <a href="notices.html">View Latest Notices <span>→</span></a>
+  </div>
+
+  <div class="hero-dots" id="heroDots"></div>
 </section>
-<aside class="latest-panel panel"><div class="latest-head"><span>🔔 Latest Notice</span><a href="notices.html">View All →</a></div><div class="notice-window"><div id="noticeTrack" class="notice-track">Notice loading হচ্ছে...</div></div></aside>
+
+<div class="portal-content">
+  <aside class="links-panel panel">
+    <div class="panel-title">🔗 Important Links</div>
+    <div class="link-list">
+      <a class="gov-link" href="https://banglarbhumi.gov.in/" target="_blank"><span>🏠 BanglarBhumi</span><b class="apply">APPLY</b></a>
+      <a class="gov-link" href="https://edistrict.wb.gov.in/portal/home" target="_blank"><span>📄 e-District</span><b class="apply">APPLY</b></a>
+      <a class="gov-link" href="https://castcertificatewb.gov.in/" target="_blank"><span>📜 Caste Certificate</span><b class="apply">APPLY</b></a>
+      <a class="gov-link" href="https://wbpms.in/citizen/" target="_blank"><span>👨‍👩‍👧 WB Panchayat Management System</span><b class="apply">APPLY</b></a>
+      <a class="gov-link" href="https://food.wb.gov.in/" target="_blank"><span>💳 Ration Card</span><b class="apply">APPLY</b></a>
+      <a class="gov-link" href="https://voters.eci.gov.in/" target="_blank"><span>🗳️ Voter Services</span><b class="apply">APPLY</b></a>
+      <a class="gov-link" href="https://uidai.gov.in/hi" target="_blank"><span>🪪 Aadhaar</span><b class="apply">APPLY</b></a>
+      <a class="gov-link" href="https://parivahan.gov.in/" target="_blank"><span>🚗 Parivahan</span><b class="apply">APPLY</b></a>
+      <a class="gov-link" href="https://pcc.wb.gov.in/" target="_blank"><span>📑 PCC</span><b class="apply">APPLY</b></a>
+      <a class="gov-link" href="https://wbhealth.gov.in/" target="_blank"><span>🏥 WB Health</span><b class="apply">APPLY</b></a>
+    </div>
+  </aside>
+
+  <aside class="latest-panel panel">
+    <div class="latest-head"><span>🔔 Latest Notice</span><a href="notices.html">View All →</a></div>
+    <div class="notice-window"><div id="noticeTrack" class="notice-track">Notice loading হচ্ছে...</div></div>
+  </aside>
 </div>
+
 <div class="service-row"><a class="service-card" href="about.html"><span class="service-icon c1">🏛️</span><span><strong>Block Profile</strong><small>Know more</small></span><b class="service-arrow">➜</b></a><a class="service-card" href="development.html"><span class="service-icon c2">📈</span><span><strong>Development Works</strong><small>View details</small></span><b class="service-arrow">➜</b></a><a class="service-card" href="schemes.html"><span class="service-icon c3">📄</span><span><strong>Schemes & Programs</strong><small>Explore</small></span><b class="service-arrow">➜</b></a><a class="service-card" href="public-grievance.html"><span class="service-icon c4">👥</span><span><strong>Citizen Services</strong><small>Access now</small></span><b class="service-arrow">➜</b></a><a class="service-card" href="downloads.html"><span class="service-icon c5">⬇</span><span><strong>Downloads</strong><small>Important forms</small></span><b class="service-arrow">➜</b></a><a class="service-card" href="contact.html"><span class="service-icon c6">☎</span><span><strong>Contact Us</strong><small>Get in touch</small></span><b class="service-arrow">➜</b></a></div></div>
 <section class="section"><h2 class="section-title">Important Services</h2><div class="cards"><a class="card" href="about.html"><div class="icon">ℹ️</div><h3>About Block</h3><p>Block সম্পর্কিত তথ্য</p></a><a class="card" href="administration.html"><div class="icon">🏛️</div><h3>Administration</h3><p>প্রশাসনিক তথ্য</p></a><a class="card" href="development.html"><div class="icon">📈</div><h3>Development</h3><p>উন্নয়নমূলক কার্যক্রম</p></a><a class="card" href="schemes.html"><div class="icon">📋</div><h3>Government Schemes</h3><p>সরকারি প্রকল্প</p></a><a class="card" href="notices.html"><div class="icon">🔔</div><h3>Notices</h3><p>সাম্প্রতিক বিজ্ঞপ্তি</p></a><a class="card" href="downloads.html"><div class="icon">⬇️</div><h3>Downloads</h3><p>প্রয়োজনীয় ফাইল</p></a><a class="card" href="gallery.html"><div class="icon">🖼️</div><h3>Gallery</h3><p>ছবি ও কার্যক্রম</p></a><a class="card" href="contact.html"><div class="icon">☎️</div><h3>Contact</h3><p>যোগাযোগ করুন</p></a></div></section>
 <footer class="footer"><p><strong>Manbazar-I Development Block</strong></p><p>Purulia, West Bengal</p><p>Official Information & Citizen Services Portal</p><p>© <span id="year"></span> Manbazar-I Development Block</p></footer>
@@ -166,4 +303,28 @@ const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&
 async function loadNotices(){const box=document.getElementById('noticeTrack');const {data,error}=await supabaseClient.from('notices').select('id,title,description,notice_date,file_url').order('notice_date',{ascending:false}).limit(8);if(error){box.textContent='Notice load করা যাচ্ছে না।';return}if(!data?.length){box.textContent='এখনও কোনো Notice প্রকাশিত হয়নি।';return}box.innerHTML=data.map(n=>`<div class="notice-item"><a class="notice-title" href="notices.html">📄 ${esc(n.title||'Notice')}</a><div class="notice-date">প্রকাশের তারিখ: ${esc(n.notice_date||'')}</div>${n.file_url?`<a class="notice-pdf" href="${attr(n.file_url)}" target="_blank" rel="noopener">View / Download PDF</a>`:''}</div>`).join('')}
 loadHomeHero().catch(console.error);loadNotices();
 </script>
+
+<script>
+(function(){
+  const bind=()=>{
+    const left=document.querySelector(".hero-control.left");
+    const right=document.querySelector(".hero-control.right");
+    if(!left||!right)return;
+    const move=(dir)=>{
+      const slides=[...document.querySelectorAll(".visual-hero .hero-slide")];
+      const dots=[...document.querySelectorAll(".visual-hero .dot")];
+      if(!slides.length)return;
+      let current=slides.findIndex(s=>s.classList.contains("active"));
+      if(current<0)current=0;
+      current=(current+dir+slides.length)%slides.length;
+      slides.forEach((s,i)=>s.classList.toggle("active",i===current));
+      dots.forEach((d,i)=>d.classList.toggle("active",i===current));
+    };
+    left.onclick=()=>move(-1);
+    right.onclick=()=>move(1);
+  };
+  window.addEventListener("load",bind);
+})();
+</script>
+
 </body>
