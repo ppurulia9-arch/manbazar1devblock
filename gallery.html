@@ -417,6 +417,7 @@ body{
   background:#103a61!important;
 }
 .hero-modern .hero-photo{
+  transition:opacity .55s ease,background-image .55s ease;
   position:relative!important;
   inset:auto!important;
   min-width:0;
@@ -512,224 +513,6 @@ body{
 }
 </style>
 
-
-<style id="gallery-reference-visual">
-.hero-modern{
-  height:330px!important;
-  min-height:330px!important;
-  width:100%;
-  display:grid!important;
-  grid-template-columns:24% 25% 27% 24%;
-  overflow:hidden;
-  background:#0b355a;
-}
-.hero-modern .hero-place{
-  position:relative;
-  height:330px;
-  background-image:url("gallery-featured.jpg");
-  background-size:cover;
-  background-position:center;
-  overflow:hidden;
-  transition:transform .35s ease;
-}
-.hero-modern .hero-place:hover{transform:scale(1.015);z-index:2}
-.hero-modern .hero-place:nth-child(1){background-position:center}
-.hero-modern .hero-place:nth-child(2){background-position:center}
-.hero-modern .hero-place:nth-child(3){background-position:center}
-.hero-modern .hero-place:nth-child(4){background-position:center}
-.hero-modern .hero-shade{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg,rgba(2,24,43,.02) 42%,rgba(2,20,38,.60) 100%);
-}
-.hero-modern .hero-place span{
-  position:absolute;
-  left:18px;
-  bottom:18px;
-  z-index:3;
-  display:inline-block;
-  padding:9px 14px;
-  border-radius:22px;
-  background:rgba(3,22,39,.84);
-  border:1px solid rgba(255,255,255,.35);
-  color:#fff;
-  font-size:14px;
-  font-weight:800;
-  box-shadow:0 3px 10px rgba(0,0,0,.28);
-  white-space:nowrap;
-}
-@media(max-width:800px){
-  .hero-modern{height:280px!important;min-height:280px!important;grid-template-columns:1fr 1fr}
-  .hero-modern .hero-place{height:280px}
-  .hero-modern .hero-place span{font-size:11px;left:10px;bottom:10px;padding:7px 10px}
-}
-@media(max-width:560px){
-  .hero-modern{height:300px!important;min-height:300px!important;grid-template-columns:1fr 1fr}
-  .hero-modern .hero-place{height:150px}
-  .hero-modern .hero-place span{font-size:10px}
-}
-</style>
-
-
-<style id="purulia-gallery-header-banner-only">
-/* Only the Gallery header banner is changed */
-.hero-modern{
-  background-image:url("purulia-gallery-header-banner.png") !important;
-  background-size:cover !important;
-  background-position:center center !important;
-  background-repeat:no-repeat !important;
-}
-.hero-modern .hero-photo,
-.hero-modern .hero-center{
-  display:none !important;
-}
-</style>
-
-
-<style id="gallery-floating-left-style">
-.gallery-floating-strip-wrap{
-  position:absolute;
-  z-index:9;
-  left:0;
-  right:0;
-  bottom:0;
-  height:96px;
-  overflow:hidden;
-  pointer-events:none;
-  background:linear-gradient(180deg,transparent,rgba(0,0,0,.62));
-}
-.gallery-floating-strip{
-  position:absolute;
-  left:0;
-  bottom:8px;
-  display:flex;
-  gap:10px;
-  width:max-content;
-  animation:galleryFloatLeft 38s linear infinite;
-}
-.gallery-floating-strip:hover{animation-play-state:paused}
-.gallery-floating-photo{
-  width:132px;
-  height:78px;
-  flex:0 0 132px;
-  object-fit:cover;
-  border-radius:9px;
-  border:2px solid rgba(255,255,255,.9);
-  box-shadow:0 4px 14px rgba(0,0,0,.38);
-}
-.gallery-floating-name{
-  position:absolute;
-  left:6px;
-  right:6px;
-  bottom:4px;
-  padding:3px 5px;
-  border-radius:5px;
-  background:rgba(0,0,0,.65);
-  color:#fff;
-  font-size:9px;
-  font-weight:800;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.gallery-floating-item{
-  position:relative;
-  width:132px;
-  height:78px;
-  flex:0 0 132px;
-}
-@keyframes galleryFloatLeft{
-  from{transform:translateX(0)}
-  to{transform:translateX(-50%)}
-}
-@media(max-width:600px){
-  .gallery-floating-strip-wrap{height:78px}
-  .gallery-floating-item,.gallery-floating-photo{
-    width:105px;height:62px;flex-basis:105px
-  }
-  .gallery-floating-strip{gap:7px;bottom:7px}
-}
-</style>
-
-
-<style id="gallery-header-slider-fix">
-.gallery-hero-slider{
-  position:relative!important;
-  display:block!important;
-  height:330px!important;
-  min-height:330px!important;
-  overflow:hidden!important;
-  background:#123d63!important;
-}
-.gallery-hero-slide{
-  position:absolute!important;
-  inset:0!important;
-  width:100%!important;
-  height:100%!important;
-  opacity:0!important;
-  visibility:hidden!important;
-  transition:opacity .8s ease!important;
-  z-index:1!important;
-}
-.gallery-hero-slide.active{
-  opacity:1!important;
-  visibility:visible!important;
-  z-index:2!important;
-}
-.gallery-hero-slide .hero-bg{
-  position:absolute;
-  inset:0;
-  background-position:center;
-  background-size:cover;
-  background-repeat:no-repeat;
-}
-.gallery-hero-slide .hero-bg:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(90deg,rgba(3,29,51,.18),rgba(3,29,51,.02) 50%,rgba(3,29,51,.22));
-}
-.gallery-hero-arrow{
-  position:absolute!important;
-  top:50%!important;
-  transform:translateY(-50%)!important;
-  z-index:10!important;
-  width:46px!important;
-  height:46px!important;
-  border-radius:50%!important;
-  border:2px solid #fff!important;
-  background:rgba(0,48,82,.72)!important;
-  color:#fff!important;
-  font-size:38px!important;
-  line-height:36px!important;
-  cursor:pointer!important;
-}
-.gallery-hero-arrow:hover{background:#087ac7!important}
-.gallery-hero-arrow.prev{left:18px!important}
-.gallery-hero-arrow.next{right:18px!important}
-.gallery-hero-dots{
-  position:absolute!important;
-  z-index:12!important;
-  bottom:15px!important;
-  left:50%!important;
-  transform:translateX(-50%)!important;
-  display:flex!important;
-  gap:7px!important;
-}
-.gallery-hero-dots button{
-  width:10px!important;height:10px!important;
-  border-radius:50%!important;
-  border:1px solid #fff!important;
-  background:rgba(255,255,255,.55)!important;
-  padding:0!important;cursor:pointer!important;
-}
-.gallery-hero-dots button.active{background:#fff!important;transform:scale(1.25)}
-@media(max-width:600px){
-  .gallery-hero-slider{height:280px!important;min-height:280px!important}
-  .gallery-hero-arrow{width:38px!important;height:38px!important;font-size:30px!important}
-}
-</style>
-
 </head>
 
 <body>
@@ -770,28 +553,33 @@ body{
 </nav>
 
 
-
-
-<section class="hero hero-modern gallery-hero-slider" id="galleryHeroSlider">
-  <div class="gallery-hero-slide active" id="galleryHeroSlide1">
-    <div class="hero-bg" id="heroPhoto1"></div>
-  </div>
-  <div class="gallery-hero-slide" id="galleryHeroSlide2">
-    <div class="hero-bg" id="heroPhoto2"></div>
-  </div>
-  <div class="gallery-hero-slide" id="galleryHeroSlide3">
-    <div class="hero-bg" id="heroPhoto3"></div>
-  </div>
-  <div class="gallery-hero-slide" id="galleryHeroSlide4">
-    <div class="hero-bg" id="heroPhoto4"></div>
+<section class="hero hero-modern">
+  <div class="hero-photo hero-chhau" id="heroChhau">
+    <div class="hero-photo-overlay"></div>
+    <span class="place-tag left-tag">📍 Purulia Chhau</span>
   </div>
 
-  <button class="gallery-hero-arrow prev" id="galleryHeroPrev" type="button">‹</button>
-  <button class="gallery-hero-arrow next" id="galleryHeroNext" type="button">›</button>
-  <div class="gallery-hero-dots" id="galleryHeroDots"></div>
+  <div class="hero-center">
+    <div class="hero-icon">▧</div>
+    <h2>Gallery</h2>
+    <div class="hero-line"></div>
+    <p>
+      Photos showcasing the activities, development<br>
+      works, events and people of<br>
+      Manbazar-I Development Block.
+    </p>
+  </div>
+
+  <div class="hero-photo hero-ayodhya" id="heroAyodhya">
+    <div class="hero-photo-overlay"></div>
+    <span class="place-tag ayodhya-tag">📍 Ayodhya Pahar</span>
+  </div>
+
+  <div class="hero-photo hero-doladanga" id="heroDoladanga">
+    <div class="hero-photo-overlay"></div>
+    <span class="place-tag right-tag">📍 Doladanga</span>
+  </div>
 </section>
-
-
 
 
 <main class="page">
@@ -979,135 +767,54 @@ loadGallery();
 </script>
 
 
-
-
-
-
-
-
-<script id="gallery-floating-left-script">
-(async function loadFloatingGalleryPhotos(){
-  const box=document.getElementById("galleryFloatingStrip");
-  if(!box)return;
-
-  try{
-    const client=window.sb;
-    if(!client)return;
-
-    const r=await client.from("gallery_photos")
-      .select("title,caption,image_path,created_at")
-      .order("created_at",{ascending:false});
-
-    if(r.error || !r.data || !r.data.length)return;
-
-    const photos=r.data.filter(x=>x.image_path);
-    if(!photos.length)return;
-
-    const makeItems=list=>list.map(x=>{
-      const url=client.storage.from("site-gallery")
-        .getPublicUrl(x.image_path).data.publicUrl;
-      return `<div class="gallery-floating-item">
-        <img class="gallery-floating-photo"
-             src="${url}"
-             alt="${String(x.title||"Gallery Photo").replace(/"/g,"&quot;")}"
-             loading="lazy">
-        <div class="gallery-floating-name">${String(x.title||"Gallery Photo")
-          .replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}</div>
-      </div>`;
-    }).join("");
-
-    // Duplicate the set so the leftward animation remains continuous.
-    const items=makeItems(photos);
-    box.innerHTML=items+items;
-
-  }catch(e){
-    console.warn("Floating gallery photos:",e);
-  }
-})();
-</script>
-
-
 <script id="gallery-hero-dynamic">
 (async function(){
-  const slideEls=[
-    document.getElementById("galleryHeroSlide1"),
-    document.getElementById("galleryHeroSlide2"),
-    document.getElementById("galleryHeroSlide3"),
-    document.getElementById("galleryHeroSlide4")
-  ];
-  const bgEls=[
-    document.getElementById("heroPhoto1"),
-    document.getElementById("heroPhoto2"),
-    document.getElementById("heroPhoto3"),
-    document.getElementById("heroPhoto4")
-  ];
-  const dotsBox=document.getElementById("galleryHeroDots");
-  let current=0, timer=null, urls=[];
-
-  function show(i){
-    if(!urls.length)return;
-    current=(i+urls.length)%urls.length;
-    slideEls.forEach((el,n)=>el.classList.toggle("active",n===current));
-    [...dotsBox.children].forEach((d,n)=>d.classList.toggle("active",n===current));
-  }
-
-  function start(){
-    clearInterval(timer);
-    timer=setInterval(()=>show(current+1),5000);
-  }
-
-  function addFallback(){
-    const fallback="gallery-featured.jpg";
-    urls=[fallback];
-    bgEls[0].style.backgroundImage=`url("${fallback}")`;
-    show(0);
-  }
-
   try{
-    const client=window.sb;
-    if(!client){addFallback();return;}
+    // Use the already-created Supabase client from this page.
+    if(typeof sb === "undefined") return;
 
-    const r=await client.from("gallery_photos")
+    const r=await sb.from("gallery_photos")
       .select("title,caption,category,image_path,created_at")
       .order("created_at",{ascending:false});
 
-    if(r.error){addFallback();return;}
+    if(r.error || !r.data || !r.data.length) return;
 
-    const rows=r.data||[];
-    const getUrl=x=>{
-      if(!x)return null;
-      if(x.image_url)return x.image_url;
-      if(x.image_path)
-        return client.storage.from("site-gallery").getPublicUrl(x.image_path).data.publicUrl;
-      return null;
-    };
+    const photos=r.data
+      .filter(p=>p.image_path)
+      .map(p=>({
+        title:p.title||"Gallery Photo",
+        url:sb.storage.from("site-gallery").getPublicUrl(p.image_path).data.publicUrl
+      }))
+      .filter(p=>p.url);
 
-    urls=rows.map(getUrl).filter(Boolean).slice(0,4);
+    if(!photos.length) return;
 
-    if(!urls.length){addFallback();return;}
+    const panels=[
+      document.getElementById("heroChhau"),
+      document.getElementById("heroAyodhya"),
+      document.getElementById("heroDoladanga")
+    ].filter(Boolean);
 
-    urls.forEach((url,i)=>{
-      if(bgEls[i])bgEls[i].style.backgroundImage=`url("${url}")`;
+    // Show Gallery-uploaded photos in the hero immediately.
+    panels.forEach((panel,i)=>{
+      panel.style.backgroundImage=`url("${photos[i % photos.length].url}")`;
     });
 
-    // If fewer than four photos exist, hide unused slides.
-    slideEls.forEach((el,i)=>{
-      if(i>=urls.length)el.style.display="none";
-    });
-
-    dotsBox.innerHTML=urls.map((_,i)=>
-      `<button type="button" class="${i===0?"active":""}" aria-label="Photo ${i+1}"></button>`
-    ).join("");
-
-    [...dotsBox.children].forEach((d,i)=>d.onclick=()=>{show(i);start()});
-    document.getElementById("galleryHeroPrev").onclick=()=>{show(current-1);start()};
-    document.getElementById("galleryHeroNext").onclick=()=>{show(current+1);start()};
-
-    show(0);
-    start();
+    // Rotate the uploaded Gallery photos every 5 seconds.
+    let offset=0;
+    setInterval(()=>{
+      offset=(offset+1)%photos.length;
+      panels.forEach((panel,i)=>{
+        const photo=photos[(offset+i)%photos.length];
+        panel.style.opacity="0.35";
+        setTimeout(()=>{
+          panel.style.backgroundImage=`url("${photo.url}")`;
+          panel.style.opacity="1";
+        },260);
+      });
+    },5000);
   }catch(e){
-    console.warn("Gallery header slider:",e);
-    addFallback();
+    console.warn("Gallery header photo slider:",e);
   }
 })();
 </script>
