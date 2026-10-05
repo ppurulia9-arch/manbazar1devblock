@@ -238,7 +238,15 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
 <div id="dMsg" class="msg"></div>
 <div id="devList"></div>
 </section>
-<section id="downloads" class="panel"><h2>⬇️ Downloads</h2><input type="hidden" id="dlId"><div class="form"><div><label>Title</label><input id="dlTitle"></div><div><label>Description</label><input id="dlDesc"></div><div><label>File</label><input id="dlFile" type="file"></div></div><div class="actions"><button class="primary" onclick="saveDownload()">Upload / Save</button><button class="secondary" onclick="clearDownload()">Clear</button></div><div id="dlMsg" class="msg"></div><div id="dlList"></div></section>
+<section id="downloads" class="panel"><h2>⬇️ Downloads</h2>
+<input type="hidden" id="dlId">
+<div class="form">
+<div><label>Title</label><input id="dlTitle"></div>
+<div><label>Description</label><input id="dlDesc"></div>
+<div><label>Form Category *</label><select id="dlCategory"><option value="">Select Category</option><option value="land">Land &amp; Land Reforms</option><option value="social_welfare">Social Welfare</option><option value="vbg_ram_g">VB-G RAM G</option><option value="nsap">NSAP</option><option value="birth_death">BIRTH AND DEAD</option><option value="scholarship">SCHOLARSHIP</option><option value="caste_certificate">CASTE CERTIFICATE</option><option value="govt_scheme">GOVT SCHEME</option><option value="food_supplies">FOOD AND SUPPLIES</option><option value="agriculture">AGRICULTURE</option><option value="social_audit">SOCIAL AUDIT</option><option value="others">OTHERS</option></select></div>
+<div><label>File</label><input id="dlFile" type="file"></div>
+</div>
+<div class="actions"><button class="primary" onclick="saveDownload()">Upload / Save</button><button class="secondary" onclick="clearDownload()">Clear</button></div><div id="dlMsg" class="msg"></div><div id="dlList"></div></section>
 <section id="gallery" class="panel"><h2>🖼️ Gallery</h2>
 <input type="hidden" id="gId">
 <div class="form">
