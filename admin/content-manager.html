@@ -179,6 +179,10 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
 <option value="other">Other</option>
 </select>
 </div>
+<div style="display:flex;align-items:center;gap:10px;padding:10px 0">
+  <input id="gHero" type="checkbox" style="width:18px;height:18px">
+  <label for="gHero" style="margin:0;font-weight:700">Show this photo on Home Page Hero Slider</label>
+</div>
 <div><label>Photo *</label><input id="gFile" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
 <small style="display:block;color:#667085;margin-top:5px">JPG / PNG / WebP — maximum 5 MB</small></div>
 </div>
@@ -414,6 +418,7 @@ async function loadGals(){
       <h3>${esc(x.title||"Photo")}</h3>
       <p>${esc(x.caption||"")}</p>
       <p><b>Category:</b> ${esc(labels[x.category]||"Other")}</p>
+      <p><b>Home Hero:</b> ${x.show_on_home ? "✅ Yes" : "❌ No"}</p>
     </div>
     <div>
       <button type="button" class=edit onclick="editGal('${x.id}')">Edit</button>
@@ -426,6 +431,7 @@ function clearGallery(){
   $("gTitle").value="";
   $("gCaption").value="";
   $("gCategory").value="";
+  $("gHero").checked=false;
   $("gFile").value="";
 }
 function editGal(id){
@@ -435,6 +441,7 @@ function editGal(id){
   $("gTitle").value=x.title||"";
   $("gCaption").value=x.caption||"";
   $("gCategory").value=x.category||"";
+  $("gHero").checked=!!x.show_on_home;
   document.querySelector('[data-p="gallery"]').click();
 }
 async function saveGallery(){
@@ -483,7 +490,8 @@ async function saveGallery(){
       title:title||null,
       caption:caption||null,
       category:category,
-      image_path:path
+      image_path:path,
+      show_on_home:$("gHero").checked
     };
 
     const r=id
