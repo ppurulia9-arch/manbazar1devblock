@@ -108,19 +108,59 @@ let heroTimer=null;
 async function loadHomeHero(){
  const fallback=["manbazar-block.jpg","manbazar-block1.jpeg","manbazar-block2.jpeg","manbazar-block3.jpeg","manbazar-block4.jpeg"];
  let urls=[];
- const {data,error}=await supabaseClient.from("gallery_photos").select("id,title,caption,image_path,show_on_home").eq("show_on_home",true).order("created_at",{ascending:false});
- if(!error && data?.length){
-  urls=data.map(x=>({url:supabaseClient.storage.from("site-gallery").getPublicUrl(x.image_path).data.publicUrl,title:x.title||"Manbazar-I Development Block"}));
- }else{
-  urls=fallback.map(url=>({url,title:"Manbazar-I Development Block"}));
+
+ try{
+   const {data,error}=await supabaseClient
+     .from("gallery_photos")
+     .select("id,title,caption,image_path,show_on_home,created_at")
+     .eq("show_on_home",true)
+     .order("created_at",{ascending:false});
+
+   if(error){
+     console.error("HOME HERO GALLERY ERROR:",error);
+   }else if(data && data.length){
+     urls=data
+       .filter(x=>x.image_path)
+       .map(x=>({
+         url:supabaseClient.storage.from("site-gallery").getPublicUrl(x.image_path).data.publicUrl,
+         title:x.title||"Manbazar-I Development Block"
+       }));
+   }
+ }catch(err){
+   console.error("HOME HERO LOAD ERROR:",err);
  }
- document.getElementById("heroSlides").innerHTML=urls.map((x,i)=>`<div class="hero-slide ${i===0?"active":""}" style="background-image:url('${attr(x.url)}')"></div>`).join("");
- document.getElementById("heroDots").innerHTML=urls.map((x,i)=>`<span class="dot ${i===0?"active":""}"></span>`).join("");
- const slides=[...document.querySelectorAll(".hero-slide")],dots=[...document.querySelectorAll(".dot")];
- if(urls[0])document.documentElement.style.setProperty("--home-bg",`url("${urls[0].url}")`);
+
+ /* If no Admin-selected photo exists, keep the existing default photos. */
+ if(!urls.length){
+   urls=fallback.map(url=>({url,title:"Manbazar-I Development Block"}));
+ }
+
+ document.getElementById("heroSlides").innerHTML=urls.map((x,i)=>
+   `<div class="hero-slide ${i===0?"active":""}" style="background-image:url('${attr(x.url)}')"></div>`
+ ).join("");
+
+ document.getElementById("heroDots").innerHTML=urls.map((x,i)=>
+   `<span class="dot ${i===0?"active":""}"></span>`
+ ).join("");
+
+ const slides=[...document.querySelectorAll(".hero-slide")];
+ const dots=[...document.querySelectorAll(".dot")];
+
+ if(urls[0]) document.documentElement.style.setProperty("--home-bg",`url("${urls[0].url}")`);
+
  let current=0;
- if(heroTimer)clearInterval(heroTimer);
- if(slides.length>1)heroTimer=setInterval(()=>{current=(current+1)%slides.length;slides.forEach((x,i)=>x.classList.toggle("active",i===current));dots.forEach((x,i)=>x.classList.toggle("active",i===current));if(urls[current])document.documentElement.style.setProperty("--home-bg",`url("${urls[current].url}")`);},5000);
+ if(heroTimer) clearInterval(heroTimer);
+
+ if(slides.length>1){
+   heroTimer=setInterval(()=>{
+     current=(current+1)%slides.length;
+     slides.forEach((x,i)=>x.classList.toggle("active",i===current));
+     dots.forEach((x,i)=>x.classList.toggle("active",i===current));
+     if(urls[current]){
+       document.documentElement.style.setProperty("--home-bg",`url("${urls[current].url}")`);
+     }
+   },5000);
+ }
 }
 const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));const attr=v=>String(v??'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 async function loadNotices(){const box=document.getElementById('noticeTrack');const {data,error}=await supabaseClient.from('notices').select('id,title,description,notice_date,file_url').order('notice_date',{ascending:false}).limit(8);if(error){box.textContent='Notice load করা যাচ্ছে না।';return}if(!data?.length){box.textContent='এখনও কোনো Notice প্রকাশিত হয়নি।';return}box.innerHTML=data.map(n=>`<div class="notice-item"><a class="notice-title" href="notices.html">📄 ${esc(n.title||'Notice')}</a><div class="notice-date">প্রকাশের তারিখ: ${esc(n.notice_date||'')}</div>${n.file_url?`<a class="notice-pdf" href="${attr(n.file_url)}" target="_blank" rel="noopener">View / Download PDF</a>`:''}</div>`).join('')}
