@@ -155,7 +155,7 @@ body{
   padding:80px 7%;
   text-align:center;
 
-  background:#430817;
+  background:none;
 
   color:#fff;
   min-height:360px;
@@ -167,8 +167,6 @@ body{
   justify-content:center;
   align-items:center;
 }
-
-
 
 .hero h2{
   color:#fff !important;
@@ -247,33 +245,43 @@ body{
 }
 
 .float-notice{
-  padding:14px;
-  margin-bottom:12px;
+  padding:9px 10px;
+  margin-bottom:7px;
   background:#fff8e7;
-  border-radius:10px;
+  border-radius:7px;
   border-bottom:1px solid #ead8aa;
+  overflow:hidden;
 }
 
-.float-notice a{
+.float-notice > a{
+  display:block;
   color:var(--maroon);
-  font-weight:bold;
+  font-weight:700;
+  font-size:12px;
+  line-height:1.25;
   text-decoration:none;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .float-date{
-  font-size:13px;
+  font-size:10px;
   color:#777;
-  margin-top:5px;
+  margin-top:3px;
+  white-space:nowrap;
 }
 
 .float-pdf{
-  display:inline-block;
-  margin-top:8px;
-  background:var(--maroon);
-  color:#fff !important;
-  padding:7px 12px;
-  border-radius:6px;
-  font-size:13px;
+  display:inline;
+  margin-top:4px;
+  background:transparent;
+  color:var(--maroon) !important;
+  padding:0;
+  border-radius:0;
+  font-size:11px;
+  font-weight:700;
+  text-decoration:none;
 }
 
 .links{
@@ -366,688 +374,33 @@ body{
     height:80px;
   }
 }
-  .hero{
-  position:relative;
-  width:100%;
-  height:500px;
-  padding:0;
-  overflow:hidden;
-  background:#430817;
-}
+</style>
 
-.hero-slides{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-}
-
-.hero-slide{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  background-size:cover;
-  background-position:center top;
-  background-repeat:no-repeat;
-  opacity:0;
-  transition:opacity 1s ease-in-out;
-}
-
-.hero-slide.active{
-  opacity:1;
-}
-
-.hero-content{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  z-index:5;
-  background:rgba(0,0,0,.20);
-}
-
-.hero-content h2{
-  color:#fff !important;
-  font-size:42px;
-  font-weight:800;
-  margin:0 0 15px;
-  text-shadow:2px 2px 6px #000;
-}
-
-.hero-content p{
-  color:#fff;
-  font-size:18px;
-  margin:0 0 25px;
-  text-shadow:1px 1px 4px #000;
-}
-
-/* ===== HERO 3 COLUMN LAYOUT ===== */
-
-.hero-side-layout{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  display:grid;
-  grid-template-columns:22% 56% 22%;
-  align-items:stretch;
-  z-index:4;
-}
-
-/* SIDE PANELS */
-
-.hero-panel{
-  margin:25px 12px;
-  padding:18px;
-  border-radius:16px;
-  background:rgba(255,255,255,.94);
-  box-shadow:0 8px 25px rgba(0,0,0,.25);
-  color:#222;
-  align-self:center;
-  min-height:300px;
-  max-height:390px;
-  overflow:hidden;
-}
-
-.panel-title{
-  font-size:20px;
-  font-weight:800;
-  text-align:center;
-  padding-bottom:12px;
-  margin-bottom:15px;
-  border-bottom:2px solid var(--gold);
-}
-
-/* WEATHER */
-
-.weather-panel{
-  text-align:center;
-}
-
-#weatherBox{
-  font-size:16px;
-  line-height:1.8;
-}
-
-.weather-temp{
-  font-size:38px;
-  font-weight:800;
-  margin:10px 0;
-}
-
-.weather-location{
-  font-weight:700;
-  font-size:18px;
-}
-
-.weather-info{
-  margin-top:10px;
-}
-
-/* CENTER */
-
-.hero-side-layout .hero-content{
-  position:relative;
-  inset:auto;
-  width:100%;
-  height:100%;
-  z-index:5;
-  background:rgba(0,0,0,.15);
-}
-
-/* WHAT'S NEW */
-
-.whatsnew-panel{
-  display:flex;
-  flex-direction:column;
-}
-
-.whatsnew-window{
-  flex:1;
-  overflow:hidden;
-  position:relative;
-}
-
-#floatingNoticeList{
-  max-height:260px;
-  overflow-y:auto;
-}
-
+<style id="floating-notice-final-fix">
 .float-notice{
-  padding:10px 5px;
-  border-bottom:1px solid #ddd;
+  animation:noticeFloat 18s linear infinite;
 }
-
-.float-notice a{
-  color:#7b001b;
-  font-weight:700;
-  text-decoration:none;
-  line-height:1.4;
-}
-
-.float-date{
-  font-size:12px;
-  color:#666;
-  margin-top:5px;
-}
-
-.float-pdf{
-  display:inline-block;
-  margin-top:5px;
-  font-size:12px;
-  color:#9a6b00 !important;
-}
-
-.all-notices-btn{
-  display:block;
-  margin-top:12px;
-  padding:9px;
-  text-align:center;
-  background:var(--gold);
-  color:var(--dark);
-  border-radius:8px;
-  text-decoration:none;
-  font-weight:700;
-}
-
-/* MOBILE */
-
-@media(max-width:900px){
-
-  .hero-side-layout{
-    grid-template-columns:1fr;
-    position:relative;
-    height:auto;
-  }
-
-  .hero{
-    height:auto;
-    min-height:900px;
-  }
-
-  .hero-panel{
-    margin:15px 20px;
-  }
-
-   .hero-side-layout .hero-content{
-    min-height:350px;
-  }
-
-}
-
-/* ===== FULL COVER 3-COLUMN HERO ===== */
-.hero{
-  position:relative !important;
-  width:100% !important;
-  height:620px !important;
-  min-height:620px !important;
-  margin:0 !important;
-  padding:0 !important;
-  overflow:hidden !important;
-  background:#430817 !important;
-}
-.hero-slides{
-  position:absolute !important;
-  inset:0 !important;
-  width:100% !important;
-  height:100% !important;
-  z-index:0 !important;
-}
-.hero-slide{
-  position:absolute !important;
-  inset:0 !important;
-  width:100% !important;
-  height:100% !important;
-  background-size:cover !important;
-  background-position:center center !important;
-  background-repeat:no-repeat !important;
-  opacity:0 !important;
-  transition:opacity 1s ease-in-out !important;
-}
-.hero-slide.active{
-  opacity:1 !important;
-}
-.hero-side-layout{
-  position:absolute !important;
-  inset:0 !important;
-  width:100% !important;
-  height:100% !important;
-  display:grid !important;
-  grid-template-columns:23% 54% 23% !important;
-  gap:0 !important;
-  z-index:4 !important;
-}
-.hero-panel{
-  margin:0 !important;
-  padding:16px 14px !important;
-  width:100% !important;
-  height:100% !important;
-  min-height:0 !important;
-  max-height:none !important;
-  border-radius:0 !important;
-  align-self:stretch !important;
-  overflow:hidden !important;
-  background:rgba(255,183,0,.97) !important;
-  box-shadow:none !important;
-  color:#430817 !important;
-  border:0 !important;
-}
-.important-links-panel{
-  border-right:4px solid #d4a017 !important;
-}
-.whatsnew-panel{
-  border-left:4px solid #d4a017 !important;
-}
-.panel-title{
-  color:#430817 !important;
-  font-size:22px !important;
-  font-weight:900 !important;
-  text-align:center !important;
-  padding:10px 4px 12px !important;
-  margin:0 0 10px !important;
-  border-bottom:3px solid #8b001b !important;
-}
-.important-link-list{
-  height:calc(100% - 62px) !important;
-  max-height:none !important;
-  overflow-y:auto !important;
-  padding:0 3px 8px 0 !important;
-}
-.important-link-list a{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:space-between !important;
-  gap:5px !important;
-  background:#fff8e7 !important;
-  color:#650014 !important;
-  text-decoration:none !important;
-  font-weight:800 !important;
-  font-size:13px !important;
-  margin-bottom:8px !important;
-  padding:10px 9px !important;
-  border-radius:7px !important;
-  border-left:4px solid #8b001b !important;
-}
-.apply-badge,.new-badge{
-  flex:none !important;
-  background:#d00000 !important;
-  color:#fff !important;
-  border-radius:5px !important;
-  padding:3px 5px !important;
-  font-size:9px !important;
-  font-weight:900 !important;
-  animation:blinkBadge .8s infinite !important;
-}
-@keyframes blinkBadge{
-  0%,45%{opacity:1}
-  46%,100%{opacity:.2}
-}
-
-/* CENTER: absolutely no opaque box, so the photograph fills the entire center */
-.hero-side-layout .hero-content{
-  position:relative !important;
-  inset:auto !important;
-  width:100% !important;
-  height:100% !important;
-  display:flex !important;
-  flex-direction:column !important;
-  justify-content:center !important;
-  align-items:center !important;
-  text-align:center !important;
-  padding:30px !important;
-  background:rgba(0,0,0,.16) !important;
-  z-index:5 !important;
-}
-.hero-side-layout .hero-content h2{
-  color:#fff !important;
-  font-size:48px !important;
-  font-weight:900 !important;
-  line-height:1.1 !important;
-  margin:0 0 18px !important;
-  text-shadow:2px 3px 7px #000 !important;
-}
-.hero-side-layout .hero-content p{
-  color:#fff !important;
-  font-size:19px !important;
-  margin:0 0 25px !important;
-  text-shadow:1px 2px 5px #000 !important;
-}
-.hero-btn{
-  background:#d4a017 !important;
-  color:#430817 !important;
-  padding:14px 26px !important;
-  border-radius:8px !important;
-  font-weight:900 !important;
-  text-decoration:none !important;
-}
-
-/* RIGHT NOTICE PANEL */
-.whatsnew-panel{
-  display:flex !important;
-  flex-direction:column !important;
-  background:rgba(255,183,0,.97) !important;
-}
-.whatsnew-window{
-  flex:1 !important;
-  min-height:0 !important;
-  overflow:hidden !important;
-  position:relative !important;
-}
-.whatsnew-window #floatingNoticeList{
-  height:100% !important;
-  max-height:none !important;
-  overflow-y:auto !important;
-}
-.float-notice{
-  padding:11px 8px !important;
-  margin:0 0 9px !important;
-  background:#fff8e7 !important;
-  border-radius:8px !important;
-  border-bottom:1px solid #ead8aa !important;
-}
-.float-notice a{
-  color:#7b001b !important;
-  font-weight:800 !important;
-  text-decoration:none !important;
-  line-height:1.35 !important;
+.float-notice > a{
+  font-size:14px !important;
+  line-height:1.45 !important;
+  white-space:normal !important;
+  overflow:visible !important;
+  text-overflow:clip !important;
 }
 .float-date{
   font-size:12px !important;
-  color:#666 !important;
-  margin-top:5px !important;
+  white-space:normal !important;
 }
 .float-pdf{
-  display:inline-block !important;
-  margin-top:6px !important;
-  font-size:11px !important;
-  color:#9a6b00 !important;
+  font-size:13px !important;
 }
-.all-notices-btn{
-  display:block !important;
-  margin-top:10px !important;
-  padding:11px !important;
-  text-align:center !important;
-  background:#8b001b !important;
-  color:#fff !important;
-  border-radius:7px !important;
-  text-decoration:none !important;
-  font-weight:900 !important;
+@keyframes noticeFloat{
+  0%{transform:translateY(35px);opacity:0}
+  8%{transform:translateY(0);opacity:1}
+  88%{transform:translateY(0);opacity:1}
+  100%{transform:translateY(-35px);opacity:0}
 }
-
-/* Citizen services stays below the 3-column hero */
-.citizen-services{
-  padding:30px 5% !important;
-}
-.citizen-cards{
-  display:grid !important;
-  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
-  gap:20px !important;
-  max-width:950px !important;
-  margin:0 auto !important;
-}
-.citizen-card{
-  background:#fff !important;
-  border-radius:15px !important;
-  padding:25px !important;
-  text-align:center !important;
-  text-decoration:none !important;
-  color:#2d2024 !important;
-  box-shadow:var(--shadow) !important;
-  border-top:6px solid #8b001b !important;
-}
-.citizen-card.status{border-top-color:#1268d9 !important}
-.citizen-icon{font-size:40px !important}
-.citizen-card h3{color:#8b001b !important}
-.citizen-card.status h3{color:#1268d9 !important}
-.citizen-card span{
-  display:inline-block !important;
-  padding:9px 16px !important;
-  border-radius:7px !important;
-  background:#d4a017 !important;
-  color:#430817 !important;
-  font-weight:800 !important;
-}
-
-@media(max-width:900px){
-  .hero{
-    height:auto !important;
-    min-height:0 !important;
-  }
-  .hero-side-layout{
-    position:relative !important;
-    height:auto !important;
-    grid-template-columns:1fr !important;
-  }
-  .hero-slides{
-    position:absolute !important;
-    min-height:1100px !important;
-  }
-  .hero-slide{
-    min-height:1100px !important;
-  }
-  .hero-panel{
-    min-height:330px !important;
-    height:330px !important;
-  }
-  .hero-side-layout .hero-content{
-    min-height:360px !important;
-  }
-  .citizen-cards{
-    grid-template-columns:1fr !important;
-  }
-}
-
-
-/* ===== FINAL VIEWPORT EDGE-TO-EDGE FIX ===== */
-html,body{
-  width:100%;
-  max-width:none !important;
-  overflow-x:hidden;
-}
-.hero{
-  width:100vw !important;
-  max-width:none !important;
-  margin-left:calc(50% - 50vw) !important;
-  margin-right:0 !important;
-  height:620px !important;
-  min-height:620px !important;
-}
-.hero-slides{
-  width:100vw !important;
-  max-width:none !important;
-}
-.hero-slide{
-  width:100vw !important;
-  max-width:none !important;
-  background-size:cover !important;
-  background-position:center center !important;
-}
-.hero-side-layout{
-  left:0 !important;
-  right:auto !important;
-  width:100vw !important;
-  max-width:none !important;
-  grid-template-columns:20% 60% 20% !important;
-  margin:0 !important;
-}
-.hero-panel{
-  width:100% !important;
-  min-width:0 !important;
-}
-.hero-side-layout .hero-content{
-  width:100% !important;
-  min-width:0 !important;
-}
-
-
-/* ===== WHAT'S NEW: CONTINUOUS FLOATING NOTICES ONLY ===== */
-.whatsnew-window{
-  flex:1 !important;
-  min-height:0 !important;
-  overflow:hidden !important;
-  position:relative !important;
-}
-.whatsnew-window #floatingNoticeList{
-  height:100% !important;
-  max-height:none !important;
-  overflow:hidden !important;
-  position:relative !important;
-}
-.whatsnew-window .floating-notice-track{
-  display:flex !important;
-  flex-direction:column !important;
-  gap:9px !important;
-  animation:whatsNewFloat 18s linear infinite !important;
-  will-change:transform !important;
-}
-.whatsnew-window:hover .floating-notice-track{
-  animation-play-state:paused !important;
-}
-.whatsnew-window .float-notice{
-  flex:none !important;
-  width:100% !important;
-  margin:0 !important;
-}
-@keyframes whatsNewFloat{
-  0%{transform:translateY(0)}
-  100%{transform:translateY(-50%)}
-}
-
-
-/* ===== GRIEVANCE & REDRESSAL HOME SECTION ONLY ===== */
-.grievance-home-section{
-  padding:35px 5%;
-  background:#fffaf2;
-}
-.grievance-home-cards{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:22px;
-  max-width:950px;
-  margin:0 auto;
-}
-.grievance-home-card{
-  display:block;
-  background:#fff;
-  padding:28px 22px;
-  border-radius:15px;
-  text-align:center;
-  text-decoration:none;
-  color:#2d2024;
-  box-shadow:0 8px 25px rgba(67,8,23,.15);
-  border-top:6px solid #8b001b;
-  transition:.2s;
-}
-.grievance-home-card:hover{
-  transform:translateY(-4px);
-}
-.grievance-home-card.status{
-  border-top-color:#1268d9;
-}
-.grievance-icon{
-  font-size:40px;
-  margin-bottom:8px;
-}
-.grievance-home-card h3{
-  margin:8px 0;
-  color:#8b001b;
-}
-.grievance-home-card.status h3{
-  color:#1268d9;
-}
-.grievance-home-card p{
-  color:#666;
-  margin:8px 0 15px;
-}
-.grievance-home-card span{
-  display:inline-block;
-  padding:9px 17px;
-  border-radius:7px;
-  background:#d4a017;
-  color:#430817;
-  font-weight:800;
-}
-@media(max-width:700px){
-  .grievance-home-cards{
-    grid-template-columns:1fr;
-  }
-}
-
-
-/* ===== LATEST NOTICE TEXT CARD ===== */
-.latest-notice-card-section{
-  padding:14px 5%;
-  background:#fffaf2;
-}
-.latest-notice-text-card{
-  max-width:1100px;
-  margin:0 auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  padding:15px 20px;
-  border-radius:10px;
-  background:#fff;
-  border-left:6px solid #d4a017;
-  box-shadow:0 5px 18px rgba(67,8,23,.12);
-  color:#7b001b;
-  text-decoration:none;
-  font-size:18px;
-  font-weight:800;
-}
-.latest-notice-text-card span{
-  color:#555;
-  font-size:14px;
-  font-weight:600;
-}
-.latest-notice-text-card:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 22px rgba(67,8,23,.16);
-}
-@media(max-width:700px){
-  .latest-notice-text-card{
-    flex-direction:column;
-    gap:6px;
-    text-align:center;
-  }
-}
-
-
-/* Latest Notice card positioned where What's New heading was */
-.latest-notice-inline-card{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-  min-height:62px;
-  margin:0 0 10px;
-  padding:10px 8px;
-  border-radius:9px;
-  background:#8b001b;
-  color:#fff;
-  text-decoration:none;
-  text-align:center;
-  font-size:19px;
-  font-weight:800;
-  box-shadow:0 4px 10px rgba(67,8,23,.18);
-}
-.latest-notice-inline-card span{
-  font-size:12px;
-  font-weight:600;
-  color:#fff;
-}
-.latest-notice-inline-card:hover{
-  background:#650014;
-}
-
-</style>
-</head>
+</style></head>
 
 <body>
 
@@ -1093,110 +446,108 @@ html,body{
   <a href="downloads.html">⬇️ Downloads</a>
   <a href="gallery.html">🖼️ Gallery</a>
   <a href="contact.html">☎️ Contact</a>
-  <a href="admin/login.html">🔐 Admin Login</a>
 </nav>
 
 <section class="hero">
+  <h2>Manbazar-I Development Block</h2>
+  <p>
+    Official Information & Citizen Services Portal
+  </p>
+  <a class="hero-btn" href="notices.html">
+    🔔 Latest Notices
+  </a>
+</section>
 
-  <div class="hero-slides">
-    <div class="hero-slide active" style="background-image:url('manbazar-block.jpg');"></div>
-    <div class="hero-slide" style="background-image:url('manbazar-block1.jpeg');"></div>
-    <div class="hero-slide" style="background-image:url('manbazar-block2.jpeg');"></div>
-    <div class="hero-slide" style="background-image:url('manbazar-block3.jpeg');"></div>
-    <div class="hero-slide" style="background-image:url('manbazar-block4.jpeg');"></div>
+<section class="section">
+
+  <h2 class="section-title">Important Services</h2>
+
+  <div class="cards">
+
+    <a class="card" href="about.html">
+      <div class="icon">ℹ️</div>
+      <h3>About Block</h3>
+      <p>Block সম্পর্কিত তথ্য</p>
+    </a>
+
+    <a class="card" href="administration.html">
+      <div class="icon">🏛️</div>
+      <h3>Administration</h3>
+      <p>প্রশাসনিক তথ্য</p>
+    </a>
+
+    <a class="card" href="development.html">
+      <div class="icon">📈</div>
+      <h3>Development</h3>
+      <p>উন্নয়নমূলক কার্যক্রম</p>
+    </a>
+
+    <a class="card" href="schemes.html">
+      <div class="icon">📋</div>
+      <h3>Government Schemes</h3>
+      <p>সরকারি প্রকল্প</p>
+    </a>
+
+    <a class="card" href="notices.html">
+      <div class="icon">🔔</div>
+      <h3>Notices</h3>
+      <p>সাম্প্রতিক বিজ্ঞপ্তি</p>
+    </a>
+
+    <a class="card" href="downloads.html">
+      <div class="icon">⬇️</div>
+      <h3>Downloads</h3>
+      <p>প্রয়োজনীয় ফাইল</p>
+    </a>
+
+    <a class="card" href="gallery.html">
+      <div class="icon">🖼️</div>
+      <h3>Gallery</h3>
+      <p>ছবি ও কার্যক্রম</p>
+    </a>
+
+    <a class="card" href="contact.html">
+      <div class="icon">☎️</div>
+      <h3>Contact</h3>
+      <p>যোগাযোগ করুন</p>
+    </a>
+
   </div>
-
-  <div class="hero-side-layout">
-
-  <!-- LEFT: IMPORTANT LINKS -->
-  <div class="hero-panel important-links-panel">
-    <div class="panel-title">🔗 Important Links</div>
-
-    <div class="important-link-list">
-      <a href="https://banglarbhumi.gov.in/" target="_blank" rel="noopener">
-        🏠 BanglarBhumi <span class="apply-badge">APPLY</span>
-      </a>
-      <a href="https://edistrict.wb.gov.in/portal/home" target="_blank" rel="noopener">
-        📄 e-District <span class="apply-badge">APPLY</span>
-      </a>
-      <a href="https://castcertificatewb.gov.in/" target="_blank" rel="noopener">
-        📜 Caste Certificate <span class="apply-badge">APPLY</span>
-      </a>
-      <a href="https://wbpms.in/citizen/" target="_blank" rel="noopener">
-        🏘️ WB Panchayat Management System <span class="apply-badge">APPLY</span>
-      </a>
-      <a href="https://food.wb.gov.in/" target="_blank" rel="noopener">
-        🍚 Food & Supplies <span class="apply-badge">APPLY</span>
-      </a>
-      <a href="https://voters.eci.gov.in/" target="_blank" rel="noopener">
-        🗳️ Voter Services <span class="apply-badge">APPLY</span>
-      </a>
-      <a href="https://uidai.gov.in/hi" target="_blank" rel="noopener">
-        🪪 Aadhaar <span class="apply-badge">APPLY</span>
-      </a>
-      <a href="https://parivahan.gov.in/" target="_blank" rel="noopener">
-        🚗 Parivahan <span class="apply-badge">APPLY</span>
-      </a>
-      <a href="https://pcc.wb.gov.in/" target="_blank" rel="noopener">
-        👮 Police Clearance <span class="apply-badge">APPLY</span>
-      </a>
-      <a href="https://wbhealth.gov.in/" target="_blank" rel="noopener">
-        🏥 WB Health <span class="apply-badge">APPLY</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- CENTER: FULL PHOTO SLIDER WITH CONTENT OVERLAY -->
-  <div class="hero-content">
-    <h2>Manbazar-I Development Block</h2>
-    <p>Official Information &amp; Citizen Services Portal</p>
-    <a class="hero-btn" href="notices.html">🔔 Latest Notices</a>
-  </div>
-
-  <!-- RIGHT: WHAT'S NEW -->
-  <div class="hero-panel whatsnew-panel">
-    <a class="latest-notice-inline-card" href="notices.html">
-  🔔 <strong>Latest Notice</strong>
-  <span>সকল সাম্প্রতিক বিজ্ঞপ্তি →</span>
-</a>
-
-    <div class="whatsnew-window">
-      <div id="floatingNoticeList">Notice loading হচ্ছে...</div>
-    </div>
-
-    <a class="all-notices-btn" href="notices.html">View All Notices →</a>
-  </div>
-
-</div>
 
 </section>
 
+<section class="section">
 
+  <h2 class="section-title">🔔 Latest Notices</h2>
 
+  <div class="notice-box">
+    <div id="floatingNoticeList">
+      Notice loading হচ্ছে...
+    </div>
+  </div>
 
+</section>
 
+<section class="section">
 
+  <h2 class="section-title">Important Links</h2>
 
-<section class="section grievance-home-section">
-  <h2 class="section-title">📜 Grievance & Redressal</h2>
+  <div class="links">
 
-  <div class="grievance-home-cards">
-
-    <a class="grievance-home-card citizen" href="public-grievance.html">
-      <div class="grievance-icon">📝</div>
-      <h3>Public Grievance & Redressal</h3>
-      <p>নাগরিক অভিযোগ / আবেদন করুন</p>
-      <span>Apply Now →</span>
+    <a class="link-box" href="notices.html">
+      🔔 All Notices
     </a>
 
-    <a class="grievance-home-card status" href="grievance-status.html">
-      <div class="grievance-icon">🔎</div>
-      <h3>Application Status Check</h3>
-      <p>Application ID ও Mobile Number দিয়ে আবেদনের Status দেখুন</p>
-      <span>Check Status →</span>
+    <a class="link-box" href="downloads.html">
+      📥 Downloads
+    </a>
+
+    <a class="link-box" href="contact.html">
+      ☎️ Contact Block
     </a>
 
   </div>
+
 </section>
 
 <footer class="footer">
@@ -1263,13 +614,14 @@ return;
 }
 
 
-const noticeMarkup = data.map(notice => `
+box.innerHTML =
+data.map(notice => `
 
 <div class="float-notice">
 
 <a href="notices.html">
 
-🔔 ${escapeFloating(notice.title || "Notice")} <span class="new-badge">NEW</span>
+🔔 ${escapeFloating(notice.title || "Notice")}
 
 </a>
 
@@ -1305,9 +657,6 @@ rel="noopener"
 </div>
 
 `).join("");
-
-box.innerHTML =
-`<div class="floating-notice-track">${noticeMarkup}${noticeMarkup}</div>`;
 
 }
 
@@ -1350,21 +699,34 @@ loadFloatingNotices().catch(function(error) {
   console.error(error);
 });
 
-const heroSlides = document.querySelectorAll(".hero-slide");
+const heroPhotos = [
+  "manbazar-block.jpg",
+  "manbazar-block1.jpeg",
+  "manbazar-block2.jpeg",
+  "manbazar-block3.jpeg",
+  "manbazar-block4.jpeg"
+];
+
+const hero = document.querySelector(".hero");
+
+hero.style.backgroundImage = "url('" + heroPhotos[0] + "')";
+hero.style.backgroundSize = "cover";
+hero.style.backgroundPosition = "center";
+hero.style.backgroundRepeat = "no-repeat";
+hero.style.transition = "background-image 1s ease-in-out";
 
 let currentSlide = 0;
 
 setInterval(function() {
 
-  heroSlides[currentSlide].classList.remove("active");
-
   currentSlide++;
 
-  if (currentSlide >= heroSlides.length) {
+  if (currentSlide >= heroPhotos.length) {
     currentSlide = 0;
   }
 
-  heroSlides[currentSlide].classList.add("active");
+  hero.style.backgroundImage =
+    "url('" + heroPhotos[currentSlide] + "')";
 
 }, 5000);
 </script>
