@@ -515,7 +515,8 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({
 let galleryData=[];
 let currentFilter="all";
 
-function getCategory(title,caption){
+function getCategory(title,caption,storedCategory){
+  if(storedCategory)return storedCategory;
   const text=(String(title||"")+" "+String(caption||"")).toLowerCase();
 
   if(/road|building|bridge|infrastructure|construction/.test(text)) return "infrastructure";
@@ -562,7 +563,7 @@ function renderGallery(){
   const query=document.getElementById("photoSearch").value.trim().toLowerCase();
 
   const list=galleryData.filter(x=>{
-    const cat=getCategory(x.title,x.caption);
+    const cat=getCategory(x.title,x.caption,x.category);
     const text=(String(x.title||"")+" "+String(x.caption||"")).toLowerCase();
 
     const filterOK=currentFilter==="all" || cat===currentFilter;
@@ -580,7 +581,7 @@ function renderGallery(){
     const url=sb.storage.from("site-gallery")
       .getPublicUrl(x.image_path).data.publicUrl;
 
-    const cat=getCategory(x.title,x.caption);
+    const cat=getCategory(x.title,x.caption,x.category);
 
     return `
       <article class="photo-card">
