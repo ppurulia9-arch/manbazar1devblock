@@ -651,6 +651,85 @@ body{
 }
 </style>
 
+
+<style id="gallery-header-slider-fix">
+.gallery-hero-slider{
+  position:relative!important;
+  display:block!important;
+  height:330px!important;
+  min-height:330px!important;
+  overflow:hidden!important;
+  background:#123d63!important;
+}
+.gallery-hero-slide{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  transition:opacity .8s ease!important;
+  z-index:1!important;
+}
+.gallery-hero-slide.active{
+  opacity:1!important;
+  visibility:visible!important;
+  z-index:2!important;
+}
+.gallery-hero-slide .hero-bg{
+  position:absolute;
+  inset:0;
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+}
+.gallery-hero-slide .hero-bg:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,rgba(3,29,51,.18),rgba(3,29,51,.02) 50%,rgba(3,29,51,.22));
+}
+.gallery-hero-arrow{
+  position:absolute!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  z-index:10!important;
+  width:46px!important;
+  height:46px!important;
+  border-radius:50%!important;
+  border:2px solid #fff!important;
+  background:rgba(0,48,82,.72)!important;
+  color:#fff!important;
+  font-size:38px!important;
+  line-height:36px!important;
+  cursor:pointer!important;
+}
+.gallery-hero-arrow:hover{background:#087ac7!important}
+.gallery-hero-arrow.prev{left:18px!important}
+.gallery-hero-arrow.next{right:18px!important}
+.gallery-hero-dots{
+  position:absolute!important;
+  z-index:12!important;
+  bottom:15px!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  display:flex!important;
+  gap:7px!important;
+}
+.gallery-hero-dots button{
+  width:10px!important;height:10px!important;
+  border-radius:50%!important;
+  border:1px solid #fff!important;
+  background:rgba(255,255,255,.55)!important;
+  padding:0!important;cursor:pointer!important;
+}
+.gallery-hero-dots button.active{background:#fff!important;transform:scale(1.25)}
+@media(max-width:600px){
+  .gallery-hero-slider{height:280px!important;min-height:280px!important}
+  .gallery-hero-arrow{width:38px!important;height:38px!important;font-size:30px!important}
+}
+</style>
+
 </head>
 
 <body>
@@ -692,31 +771,26 @@ body{
 
 
 
-<section class="hero hero-modern">
-  <div class="gallery-floating-strip-wrap" aria-label="Gallery photos">
-    <div id="galleryFloatingStrip" class="gallery-floating-strip"></div>
+
+<section class="hero hero-modern gallery-hero-slider" id="galleryHeroSlider">
+  <div class="gallery-hero-slide active" id="galleryHeroSlide1">
+    <div class="hero-bg" id="heroPhoto1"></div>
+  </div>
+  <div class="gallery-hero-slide" id="galleryHeroSlide2">
+    <div class="hero-bg" id="heroPhoto2"></div>
+  </div>
+  <div class="gallery-hero-slide" id="galleryHeroSlide3">
+    <div class="hero-bg" id="heroPhoto3"></div>
+  </div>
+  <div class="gallery-hero-slide" id="galleryHeroSlide4">
+    <div class="hero-bg" id="heroPhoto4"></div>
   </div>
 
-  <div class="hero-place" id="heroChhau">
-    <div class="hero-shade"></div>
-    <span>📍 Purulia Chhau</span>
-  </div>
-
-  <div class="hero-place" id="heroJoychandi">
-    <div class="hero-shade"></div>
-    <span>📍 Joychandi Pahar</span>
-  </div>
-
-  <div class="hero-place" id="heroAyodhya">
-    <div class="hero-shade"></div>
-    <span>📍 Ayodhya Pahar, Purulia</span>
-  </div>
-
-  <div class="hero-place" id="heroDoladanga">
-    <div class="hero-shade"></div>
-    <span>📍 Doladanga</span>
-  </div>
+  <button class="gallery-hero-arrow prev" id="galleryHeroPrev" type="button">‹</button>
+  <button class="gallery-hero-arrow next" id="galleryHeroNext" type="button">›</button>
+  <div class="gallery-hero-dots" id="galleryHeroDots"></div>
 </section>
+
 
 
 
@@ -908,67 +982,7 @@ loadGallery();
 
 
 
-<script id="gallery-hero-dynamic">
-(async function(){
-  const setBg=(id,url)=>{
-    const el=document.getElementById(id);
-    if(el && url) el.style.backgroundImage=`url("${url}")`;
-  };
 
-  const fallback="gallery-featured.jpg";
-  ["heroChhau","heroJoychandi","heroAyodhya","heroDoladanga"].forEach(id=>setBg(id,fallback));
-
-  try{
-    const client=window.sb;
-    if(!client)return;
-
-    const r=await client.from("gallery_photos")
-      .select("title,caption,category,image_path,created_at")
-      .order("created_at",{ascending:false});
-
-    if(r.error)return;
-
-    const rows=r.data||[];
-    const text=x=>(
-      String(x.title||"")+" "+
-      String(x.caption||"")+" "+
-      String(x.category||"")
-    ).toLowerCase();
-
-    const publicUrl=x=>{
-      if(!x)return null;
-      if(x.image_url)return x.image_url;
-      if(x.image_path){
-        return client.storage.from("site-gallery")
-          .getPublicUrl(x.image_path).data.publicUrl;
-      }
-      return null;
-    };
-
-    const find=patterns=>publicUrl(
-      rows.find(x=>patterns.some(p=>text(x).includes(p)))
-    );
-
-    setBg("heroChhau",find([
-      "chhau","chau dance","purulia chhau","ছৌ","নাচ"
-    ]));
-
-    setBg("heroJoychandi",find([
-      "joychandi","joychandi pahar","joychandi hill","joychandi পাহাড়","জয়চণ্ডী","জয়চণ্ডী"
-    ]));
-
-    setBg("heroAyodhya",find([
-      "ayodhya pahar","ayodhya hill","ayodhya","অযোধ্যা পাহাড়","অযোধ্যা পাহাড়"
-    ]));
-
-    setBg("heroDoladanga",find([
-      "doladanga","dola danga","doladanga tourism","দোলাডাঙ্গা","দোলাডাঙ্গা পর্যটন"
-    ]));
-  }catch(e){
-    console.warn("Gallery hero loader:",e);
-  }
-})();
-</script>
 
 
 <script id="gallery-floating-left-script">
@@ -1008,6 +1022,92 @@ loadGallery();
 
   }catch(e){
     console.warn("Floating gallery photos:",e);
+  }
+})();
+</script>
+
+
+<script id="gallery-hero-dynamic">
+(async function(){
+  const slideEls=[
+    document.getElementById("galleryHeroSlide1"),
+    document.getElementById("galleryHeroSlide2"),
+    document.getElementById("galleryHeroSlide3"),
+    document.getElementById("galleryHeroSlide4")
+  ];
+  const bgEls=[
+    document.getElementById("heroPhoto1"),
+    document.getElementById("heroPhoto2"),
+    document.getElementById("heroPhoto3"),
+    document.getElementById("heroPhoto4")
+  ];
+  const dotsBox=document.getElementById("galleryHeroDots");
+  let current=0, timer=null, urls=[];
+
+  function show(i){
+    if(!urls.length)return;
+    current=(i+urls.length)%urls.length;
+    slideEls.forEach((el,n)=>el.classList.toggle("active",n===current));
+    [...dotsBox.children].forEach((d,n)=>d.classList.toggle("active",n===current));
+  }
+
+  function start(){
+    clearInterval(timer);
+    timer=setInterval(()=>show(current+1),5000);
+  }
+
+  function addFallback(){
+    const fallback="gallery-featured.jpg";
+    urls=[fallback];
+    bgEls[0].style.backgroundImage=`url("${fallback}")`;
+    show(0);
+  }
+
+  try{
+    const client=window.sb;
+    if(!client){addFallback();return;}
+
+    const r=await client.from("gallery_photos")
+      .select("title,caption,category,image_path,created_at")
+      .order("created_at",{ascending:false});
+
+    if(r.error){addFallback();return;}
+
+    const rows=r.data||[];
+    const getUrl=x=>{
+      if(!x)return null;
+      if(x.image_url)return x.image_url;
+      if(x.image_path)
+        return client.storage.from("site-gallery").getPublicUrl(x.image_path).data.publicUrl;
+      return null;
+    };
+
+    urls=rows.map(getUrl).filter(Boolean).slice(0,4);
+
+    if(!urls.length){addFallback();return;}
+
+    urls.forEach((url,i)=>{
+      if(bgEls[i])bgEls[i].style.backgroundImage=`url("${url}")`;
+    });
+
+    // If fewer than four photos exist, hide unused slides.
+    slideEls.forEach((el,i)=>{
+      if(i>=urls.length)el.style.display="none";
+    });
+
+    dotsBox.innerHTML=urls.map((_,i)=>
+      `<button type="button" class="${i===0?"active":""}" aria-label="Photo ${i+1}"></button>`
+    ).join("");
+
+    [...dotsBox.children].forEach((d,i)=>d.onclick=()=>{show(i);start()});
+    document.getElementById("galleryHeroPrev").onclick=()=>{show(current-1);start()};
+    document.getElementById("galleryHeroNext").onclick=()=>{show(current+1);start()};
+
+    show(0);
+    start();
+  }catch(e){
+    console.warn("Gallery header slider:",e);
+    addFallback();
   }
 })();
 </script>
