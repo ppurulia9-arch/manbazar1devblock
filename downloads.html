@@ -98,7 +98,7 @@ const categories=[
 ];
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 async function loadData(){
-  const r=await db.from("downloads").select("id,title,description,file_url,published,created_at").order("created_at",{ascending:false});
+  const r=await db.from("downloads").select("id,title,description,file_url,file_path,published,created_at").order("created_at",{ascending:false});
   if(r.error){
     document.getElementById("formsWrap").innerHTML='<div class="empty">Forms load করা যাচ্ছে না।</div>';
     console.error(r.error); return;
@@ -110,13 +110,26 @@ async function loadData(){
 function renderCategories(){
   document.getElementById("categories").innerHTML=categories.map(x=>`<div class="cat" onclick="document.getElementById('category').value='${x.id}';renderForms()"><div class="cat-icon">${x.icon}</div><div class="cat-name">${x.name}</div><div class="cat-count">${forms.length} Forms</div></div>`).join("");
 }
+function getFileUrl(f){
+  if(f.file_url) return f.file_url;
+  if(f.file_path) return db.storage.from("site-downloads").getPublicUrl(f.file_path).data.publicUrl;
+  return "";
+}
+function getFileType(f){
+  const name=String(f.file_path||f.file_url||"").split("?")[0].toLowerCase();
+  if(name.endsWith(".pdf")) return "PDF";
+  if(name.endsWith(".doc")||name.endsWith(".docx")) return "DOC";
+  if(name.endsWith(".xls")||name.endsWith(".xlsx")) return "Excel";
+  if(name.endsWith(".jpg")||name.endsWith(".jpeg")||name.endsWith(".png")) return "Image";
+  return "File";
+}
 function renderForms(){
   const q=document.getElementById("search").value.toLowerCase().trim();
   const list=forms.filter(f=>!q||String(f.title||"").toLowerCase().includes(q)||String(f.description||"").toLowerCase().includes(q));
   const wrap=document.getElementById("formsWrap");
   if(!list.length){wrap.innerHTML='<div class="empty">কোনো Form পাওয়া যায়নি।</div>';return;}
   wrap.innerHTML=`<table class="form-table"><thead><tr><th>#</th><th>Form Name</th><th>Category</th><th>File Type</th><th>File Size</th><th>Download</th></tr></thead><tbody>`+
-    list.map((f,i)=>`<tr><td>${i+1}</td><td><b>${esc(f.title||"Government Form")}</b>${f.description?`<br><small>${esc(f.description)}</small>`:""}</td><td><span class="badge">Government Forms</span></td><td>📄 PDF</td><td>-</td><td>${f.file_url?`<a class="download-btn" href="${esc(f.file_url)}" target="_blank" rel="noopener">⬇ Download</a>`:"-"}</td></tr>`).join("")+
+    list.map((f,i)=>{const url=getFileUrl(f);const type=getFileType(f);return `<tr><td>${i+1}</td><td><b>${esc(f.title||"Government Form")}</b>${f.description?`<br><small>${esc(f.description)}</small>`:""}</td><td><span class="badge">Government Forms</span></td><td>📄 ${esc(type)}</td><td>-</td><td>${url?`<a class="download-btn" href="${esc(url)}" download target="_blank" rel="noopener">⬇ Download</a>`:"-"}</td></tr>`}).join("")+
     `</tbody></table>`;
 }
 loadData();
