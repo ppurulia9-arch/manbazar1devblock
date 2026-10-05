@@ -162,9 +162,11 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
 <div id="devList"></div>
 </section>
 <section id="downloads" class="panel"><h2>⬇️ Downloads</h2><input type="hidden" id="dlId"><div class="form"><div><label>Title</label><input id="dlTitle"></div><div><label>Description</label><input id="dlDesc"></div><div><label>File</label><input id="dlFile" type="file"></div></div><div class="actions"><button class="primary" onclick="saveDownload()">Upload / Save</button><button class="secondary" onclick="clearDownload()">Clear</button></div><div id="dlMsg" class="msg"></div><div id="dlList"></div></section>
-<section id="gallery" class="panel"><h2>🖼️ Gallery</h2><input type="hidden" id="gId"><div class="form">
-<div><label>Photo Title</label><input id="gTitle"></div>
-<div><label>Caption</label><input id="gCaption"></div>
+<section id="gallery" class="panel"><h2>🖼️ Gallery</h2>
+<input type="hidden" id="gId">
+<div class="form">
+<div><label>Photo Title</label><input id="gTitle" placeholder="Enter photo title"></div>
+<div><label>Caption</label><input id="gCaption" placeholder="Short caption"></div>
 <div><label>Photo Category *</label>
 <select id="gCategory" style="width:100%;padding:10px;border:1px solid #ccd5e1;border-radius:7px;box-sizing:border-box">
 <option value="">Select Category</option>
@@ -177,8 +179,11 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
 <option value="other">Other</option>
 </select>
 </div>
-<div><label>Photo</label><input id="gFile" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"></div>
-</div><div class="actions"><button class="primary" onclick="saveGallery()">Upload / Save</button><button class="secondary" onclick="clearGallery()">Clear</button></div><div id="gMsg" class="msg"></div><div id="gList"></div></section>
+<div><label>Photo *</label><input id="gFile" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+<small style="display:block;color:#667085;margin-top:5px">JPG / PNG / WebP — maximum 5 MB</small></div>
+</div>
+<div class="actions"><button type="button" class="primary" onclick="saveGallery()">⬆ Upload / Save</button><button type="button" class="secondary" onclick="clearGallery()">Clear</button></div>
+<div id="gMsg" class="msg"></div><div id="gList"></div></section>
 <section id="contacts" class="panel"><h2>☎️ Contact Information</h2><input type="hidden" id="cId"><div class="form"><div><label>Department / Office</label><input id="cDept"></div><div><label>Contact Person</label><input id="cName"></div><div><label>Designation</label><input id="cDes"></div><div><label>Phone</label><input id="cPhone"></div><div><label>Email</label><input id="cEmail"></div><div><label>Address</label><input id="cAddress"></div></div><div class="actions"><button class="primary" onclick="saveContact()">Save Contact</button><button class="secondary" onclick="clearContact()">Clear</button></div><div id="cMsg" class="msg"></div><div id="cList"></div></section>
 </div>
 <section id="administration" class="panel">
@@ -399,33 +404,22 @@ async function saveDownload(){let title=$("dlTitle").value.trim(),f=$("dlFile").
 async function delDl(id){if(!confirm("Delete download?"))return;let x=dls.find(y=>y.id==id);if(x?.file_path)await sb.storage.from("site-downloads").remove([x.file_path]);let r=await sb.from("downloads").delete().eq("id",id);if(r.error)return say("dlMsg",r.error.message,false);loadDls()}
 
 async function loadGals(){
-  let r=await sb.from("gallery_photos").select("*").order("created_at",{ascending:false});
-  if(r.error)return say("gMsg",r.error.message,false);
+  const r=await sb.from("gallery_photos").select("*").order("created_at",{ascending:false});
+  if(r.error)return say("gMsg","Gallery load failed: "+r.error.message,false);
   gals=r.data||[];
-  $("gList").innerHTML=gals.map(x=>{
-    const catLabels={
-      development:"Development Works",
-      events:"Events & Programs",
-      meeting:"Meetings",
-      infrastructure:"Infrastructure",
-      awareness:"Awareness Programs",
-      nature:"Natural View",
-      other:"Other"
-    };
-    const cat=catLabels[x.category]||"Other";
-    return `<div class=item>
-      <div>
-        <img class=preview src="${sb.storage.from("site-gallery").getPublicUrl(x.image_path).data.publicUrl}">
-        <h3>${esc(x.title||"Photo")}</h3>
-        <p>${esc(x.caption||"")}</p>
-        <p><b>Category:</b> ${esc(cat)}</p>
-      </div>
-      <div>
-        <button class=edit onclick="editGal('${x.id}')">Edit</button>
-        <button class=del onclick="delGal('${x.id}')">Delete</button>
-      </div>
-    </div>`;
-  }).join("")||"<p>No photos.</p>";
+  const labels={development:"Development Works",events:"Events & Programs",meeting:"Meetings",infrastructure:"Infrastructure",awareness:"Awareness Programs",nature:"Natural View",other:"Other"};
+  $("gList").innerHTML=gals.map(x=>`<div class=item>
+    <div>
+      <img class=preview src="${sb.storage.from("site-gallery").getPublicUrl(x.image_path).data.publicUrl}">
+      <h3>${esc(x.title||"Photo")}</h3>
+      <p>${esc(x.caption||"")}</p>
+      <p><b>Category:</b> ${esc(labels[x.category]||"Other")}</p>
+    </div>
+    <div>
+      <button type="button" class=edit onclick="editGal('${x.id}')">Edit</button>
+      <button type="button" class=del onclick="delGal('${x.id}')">Delete</button>
+    </div>
+  </div>`).join("")||"<p>No photos.</p>";
 }
 function clearGallery(){
   $("gId").value="";
@@ -435,56 +429,91 @@ function clearGallery(){
   $("gFile").value="";
 }
 function editGal(id){
-  let x=gals.find(y=>y.id==id);
+  const x=gals.find(y=>y.id==id);
   if(!x)return;
   $("gId").value=id;
   $("gTitle").value=x.title||"";
   $("gCaption").value=x.caption||"";
   $("gCategory").value=x.category||"";
+  document.querySelector('[data-p="gallery"]').click();
 }
 async function saveGallery(){
-  let f=$("gFile").files[0];
-  let old=gals.find(x=>x.id==$("gId").value)?.image_path;
-  let category=$("gCategory").value;
-  if(!category)return say("gMsg","Photo Category select করুন",false);
-  if(!f&&!old)return say("gMsg","Select a photo",false);
+  const id=$("gId").value.trim();
+  const title=$("gTitle").value.trim();
+  const caption=$("gCaption").value.trim();
+  const category=$("gCategory").value;
+  const f=$("gFile").files[0];
+  const old=gals.find(x=>x.id==id)?.image_path;
+
+  if(!category)return say("gMsg","Photo Category select করুন।",false);
+  if(!id && !f)return say("gMsg","Photo file select করুন।",false);
 
   if(f){
-    const allowed=["image/jpeg","image/png","image/webp"];
-    if(!allowed.includes(f.type))return say("gMsg","JPG, PNG অথবা WebP photo upload করুন",false);
-    if(f.size>5*1024*1024)return say("gMsg","Photo সর্বোচ্চ 5 MB হতে পারবে",false);
+    if(!["image/jpeg","image/png","image/webp"].includes(f.type))
+      return say("gMsg","শুধু JPG, PNG অথবা WebP photo upload করুন।",false);
+    if(f.size>5*1024*1024)
+      return say("gMsg","Photo সর্বোচ্চ 5 MB হতে পারবে।",false);
   }
+
+  const auth=await sb.auth.getUser();
+  if(auth.error || !auth.data?.user)
+    return say("gMsg","Admin login session পাওয়া যাচ্ছে না। আবার login করুন।",false);
 
   let path=old;
-  if(f){
-    let p=Date.now()+"-"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");
-    let u=await sb.storage.from("site-gallery").upload(p,f,{upsert:true,contentType:f.type});
-    if(u.error)return say("gMsg",u.error.message,false);
-    path=p;
+  let newUploadedPath=null;
+
+  try{
+    if(f){
+      const safe=f.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+      newUploadedPath="gallery/"+Date.now()+"-"+safe;
+
+      const u=await sb.storage.from("site-gallery").upload(newUploadedPath,f,{
+        upsert:false,
+        cacheControl:"3600",
+        contentType:f.type
+      });
+
+      if(u.error){
+        return say("gMsg","PHOTO UPLOAD ERROR: "+u.error.message,false);
+      }
+      path=newUploadedPath;
+    }
+
+    const data={
+      title:title||null,
+      caption:caption||null,
+      category:category,
+      image_path:path
+    };
+
+    const r=id
+      ?await sb.from("gallery_photos").update(data).eq("id",id)
+      :await sb.from("gallery_photos").insert(data);
+
+    if(r.error){
+      if(newUploadedPath)await sb.storage.from("site-gallery").remove([newUploadedPath]);
+      return say("gMsg","DATABASE SAVE ERROR: "+r.error.message,false);
+    }
+
+    say("gMsg",id?"Photo updated successfully.":"Photo uploaded successfully.");
+    clearGallery();
+    await loadGals();
+
+  }catch(err){
+    if(newUploadedPath)await sb.storage.from("site-gallery").remove([newUploadedPath]);
+    return say("gMsg","UPLOAD ERROR: "+(err?.message||String(err)),false);
   }
-
-  let data={
-    title:$("gTitle").value.trim()||null,
-    caption:$("gCaption").value.trim()||null,
-    category:category,
-    image_path:path
-  };
-
-  let r=$("gId").value
-    ?await sb.from("gallery_photos").update(data).eq("id",$("gId").value)
-    :await sb.from("gallery_photos").insert(data);
-
-  if(r.error)return say("gMsg",r.error.message,false);
-  say("gMsg","Photo saved successfully");
-  clearGallery();
-  loadGals();
 }
 async function delGal(id){
   if(!confirm("Delete photo?"))return;
-  let x=gals.find(y=>y.id==id);
-  if(x?.image_path)await sb.storage.from("site-gallery").remove([x.image_path]);
-  let r=await sb.from("gallery_photos").delete().eq("id",id);
-  if(r.error)return say("gMsg",r.error.message,false);
+  const x=gals.find(y=>y.id==id);
+  if(x?.image_path){
+    const u=await sb.storage.from("site-gallery").remove([x.image_path]);
+    if(u.error)return say("gMsg","Storage delete failed: "+u.error.message,false);
+  }
+  const r=await sb.from("gallery_photos").delete().eq("id",id);
+  if(r.error)return say("gMsg","Database delete failed: "+r.error.message,false);
+  say("gMsg","Photo deleted successfully.");
   loadGals();
 }
 
