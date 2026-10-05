@@ -23,7 +23,7 @@ const supabaseClient = window.supabase.createClient(
 </script>
 
 <style>
-:root{--maroon:#760b22;--dark:#4d0615;--gold:#d7a316;--cream:#fff8e8;--bg:#fff9ef;--text:#3b2528;--shadow:0 5px 18px rgba(82,18,30,.16)}
+:root{--home-bg:url("manbazar-block.jpg");--maroon:#760b22;--dark:#4d0615;--gold:#d7a316;--cream:#fff8e8;--bg:#fff9ef;--text:#3b2528;--shadow:0 5px 18px rgba(82,18,30,.16)}
 *{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans Bengali",sans-serif;background:var(--bg);color:var(--text)}
 .topbar{height:38px;background:var(--dark);color:#fff;padding:0 4.5%;display:flex;align-items:center;justify-content:space-between;font-size:13px}.header{background:var(--cream);padding:14px 4.5%;display:flex;align-items:center;justify-content:space-between;border-bottom:5px solid var(--gold);min-height:125px}.brand{display:flex;align-items:center;gap:18px}.logo{width:78px;height:88px;display:flex;align-items:center;justify-content:center}.logo img{width:76px;height:86px;object-fit:contain}.brand h1{margin:0;color:var(--maroon);font-size:30px}.brand p{margin:5px 0 0;color:#70444b}.leaders{display:flex;gap:12px}.leader{width:82px;height:92px;object-fit:cover;object-position:top;border:3px solid var(--gold);border-radius:11px;box-shadow:var(--shadow)}
 .nav{background:var(--maroon);border-bottom:3px solid var(--gold);display:flex;justify-content:center;align-items:center;flex-wrap:wrap;padding:5px 3%;box-shadow:0 3px 12px #0002}.nav a{color:#fff;text-decoration:none;padding:12px 17px;border-right:1px solid #ffffff33;font-weight:700;font-size:14px;white-space:nowrap}.nav a:first-child{border-left:1px solid #ffffff33}.nav a:hover,.nav a.active{background:#970f2c;color:#fff}
@@ -66,7 +66,7 @@ const supabaseClient = window.supabase.createClient(
 <body>
 <div class="topbar"><span>Government of West Bengal</span><span>📍 Manbazar-I Development Block, Purulia</span></div>
 <header class="header"><div class="brand"><div class="logo"><img src="ashoka.jpg" alt="Ashoka Stambha"></div><div><h1>Manbazar-I Development Block</h1><p>Purulia, West Bengal</p></div></div><div class="leaders"><img class="leader" src="https://www.pmindia.gov.in/wp-content/uploads/2025/12/02.jpg" alt="Prime Minister"><img class="leader" src="https://wb.gov.in/images/cm_new2.jpg" alt="Chief Minister"></div></header>
-<nav class="nav"><a class="active" href="index.html">🏠 Home</a><a href="about.html">ℹ️ About</a><a href="administration.html">🏛️ Administration</a><a href="development.html">📈 Development</a><a href="schemes.html">📋 Schemes</a><a href="notices.html">🔔 Notices</a><a href="downloads.html">⬇️ Downloads</a><a href="gallery.html">🖼️ Gallery</a><a href="contact.html">☎️ Contact</a></nav>
+<nav class="nav"><a class="active" href="index.html">🏠 Home</a><a href="about.html">ℹ️ About</a><a href="administration.html">🏛️ Administration</a><a href="development.html">📈 Development</a><a href="schemes.html">📋 Schemes</a><a href="notices.html">🔔 Notices</a><a href="downloads.html">⬇️ Downloads</a><a href="gallery.html">🖼️ Gallery</a><a href="contact.html">☎️ Contact</a><a href="public-grievance.html">📝 Grievance</a></nav>
 <div class="main-wrap"><div class="hero-layout">
 <aside class="links-panel panel"><div class="panel-title">🔗 Important Links</div><div class="link-list">
 <a class="gov-link" href="https://banglarbhumi.gov.in/" target="_blank"><span>🏠 BanglarBhumi</span><b class="apply">APPLY</b></a>
@@ -80,7 +80,11 @@ const supabaseClient = window.supabase.createClient(
 <a class="gov-link" href="https://pcc.wb.gov.in/" target="_blank"><span>📑 PCC</span><b class="apply">APPLY</b></a>
 <a class="gov-link" href="https://wbhealth.gov.in/" target="_blank"><span>🏥 WB Health</span><b class="apply">APPLY</b></a>
 </div></aside>
-<section class="hero"><div class="hero-slide active" style="background-image:url('manbazar-block.jpg')"></div><div class="hero-slide" style="background-image:url('manbazar-block1.jpeg')"></div><div class="hero-slide" style="background-image:url('manbazar-block2.jpeg')"></div><div class="hero-slide" style="background-image:url('manbazar-block3.jpeg')"></div><div class="hero-slide" style="background-image:url('manbazar-block4.jpeg')"></div><div class="hero-overlay"><div class="hero-text"><h2>Manbazar-I Development Block</h2><p>People • Development • Transparency • Good Governance</p></div></div><div class="hero-dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></section>
+<section class="hero" id="homeHero">
+<div id="heroSlides"></div>
+<div class="hero-overlay"><div class="hero-text"><h2>Manbazar-I Development Block</h2><p>People • Development • Transparency • Good Governance</p></div></div>
+<div class="hero-dots" id="heroDots"></div>
+</section>
 <aside class="latest-panel panel"><div class="latest-head"><span>🔔 Latest Notice</span><a href="notices.html">View All →</a></div><div class="notice-window"><div id="noticeTrack" class="notice-track">Notice loading হচ্ছে...</div></div></aside>
 </div>
 <div class="service-row"><a class="service-card" href="about.html"><span class="service-icon c1">🏛️</span><span><strong>Block Profile</strong><small>Know more</small></span><b class="service-arrow">➜</b></a><a class="service-card" href="development.html"><span class="service-icon c2">📈</span><span><strong>Development Works</strong><small>View details</small></span><b class="service-arrow">➜</b></a><a class="service-card" href="schemes.html"><span class="service-icon c3">📄</span><span><strong>Schemes & Programs</strong><small>Explore</small></span><b class="service-arrow">➜</b></a><a class="service-card" href="public-grievance.html"><span class="service-icon c4">👥</span><span><strong>Citizen Services</strong><small>Access now</small></span><b class="service-arrow">➜</b></a><a class="service-card" href="downloads.html"><span class="service-icon c5">⬇</span><span><strong>Downloads</strong><small>Important forms</small></span><b class="service-arrow">➜</b></a><a class="service-card" href="contact.html"><span class="service-icon c6">☎</span><span><strong>Contact Us</strong><small>Get in touch</small></span><b class="service-arrow">➜</b></a></div></div>
@@ -88,9 +92,26 @@ const supabaseClient = window.supabase.createClient(
 <footer class="footer"><p><strong>Manbazar-I Development Block</strong></p><p>Purulia, West Bengal</p><p>Official Information & Citizen Services Portal</p><p>© <span id="year"></span> Manbazar-I Development Block</p></footer>
 <script>
 document.getElementById('year').textContent=new Date().getFullYear();
-const slides=[...document.querySelectorAll('.hero-slide')],dots=[...document.querySelectorAll('.dot')];let current=0;setInterval(()=>{current=(current+1)%slides.length;slides.forEach((x,i)=>x.classList.toggle('active',i===current));dots.forEach((x,i)=>x.classList.toggle('active',i===current));},5000);
+let heroTimer=null;
+async function loadHomeHero(){
+ const fallback=["manbazar-block.jpg","manbazar-block1.jpeg","manbazar-block2.jpeg","manbazar-block3.jpeg","manbazar-block4.jpeg"];
+ let urls=[];
+ const {data,error}=await supabaseClient.from("gallery_photos").select("id,title,caption,image_path,show_on_home").eq("show_on_home",true).order("created_at",{ascending:false});
+ if(!error && data?.length){
+  urls=data.map(x=>({url:supabaseClient.storage.from("site-gallery").getPublicUrl(x.image_path).data.publicUrl,title:x.title||"Manbazar-I Development Block"}));
+ }else{
+  urls=fallback.map(url=>({url,title:"Manbazar-I Development Block"}));
+ }
+ document.getElementById("heroSlides").innerHTML=urls.map((x,i)=>`<div class="hero-slide ${i===0?"active":""}" style="background-image:url('${attr(x.url)}')"></div>`).join("");
+ document.getElementById("heroDots").innerHTML=urls.map((x,i)=>`<span class="dot ${i===0?"active":""}"></span>`).join("");
+ const slides=[...document.querySelectorAll(".hero-slide")],dots=[...document.querySelectorAll(".dot")];
+ if(urls[0])document.documentElement.style.setProperty("--home-bg",`url("${urls[0].url}")`);
+ let current=0;
+ if(heroTimer)clearInterval(heroTimer);
+ if(slides.length>1)heroTimer=setInterval(()=>{current=(current+1)%slides.length;slides.forEach((x,i)=>x.classList.toggle("active",i===current));dots.forEach((x,i)=>x.classList.toggle("active",i===current));if(urls[current])document.documentElement.style.setProperty("--home-bg",`url("${urls[current].url}")`);},5000);
+}
 const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));const attr=v=>String(v??'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 async function loadNotices(){const box=document.getElementById('noticeTrack');const {data,error}=await supabaseClient.from('notices').select('id,title,description,notice_date,file_url').order('notice_date',{ascending:false}).limit(8);if(error){box.textContent='Notice load করা যাচ্ছে না।';return}if(!data?.length){box.textContent='এখনও কোনো Notice প্রকাশিত হয়নি।';return}box.innerHTML=data.map(n=>`<div class="notice-item"><a class="notice-title" href="notices.html">📄 ${esc(n.title||'Notice')}</a><div class="notice-date">প্রকাশের তারিখ: ${esc(n.notice_date||'')}</div>${n.file_url?`<a class="notice-pdf" href="${attr(n.file_url)}" target="_blank" rel="noopener">View / Download PDF</a>`:''}</div>`).join('')}
-loadNotices();
+loadHomeHero().catch(console.error);loadNotices();
 </script>
 </body>
