@@ -1,7 +1,52 @@
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Website Content Manager</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background:#083f88;color:#fff;padding:17px 25px;display:flex;justify-content:space-between}.top button{background:#e11;color:#fff;border:0;padding:9px 16px;border-radius:7px}.wrap{max-width:1200px;margin:22px auto;padding:0 16px}.tabs{background:#fff;padding:12px;border-radius:12px;display:flex;gap:7px;flex-wrap:wrap}.tab{border:0;padding:10px 13px;border-radius:7px;font-weight:700;color:#12427e;cursor:pointer}.tab.active{background:#0b4a9a;color:white}.panel{display:none;background:#fff;margin-top:15px;padding:20px;border-radius:12px;box-shadow:0 3px 14px #0001}.panel.active{display:block}.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1}label{font-weight:700;display:block;margin-bottom:5px}input,textarea{width:100%;padding:10px;border:1px solid #ccd5e1;border-radius:7px;box-sizing:border-box}textarea{min-height:90px}.primary,.secondary,.edit,.del{border:0;padding:10px 14px;border-radius:7px;font-weight:700;cursor:pointer}.primary{background:#087f3f;color:white}.secondary{background:#e7edf4}.edit{background:#e7a300;color:white}.del{background:#b00020;color:white}.actions{margin:14px 0;display:flex;gap:8px}.item{border:1px solid #e1e6ed;border-radius:9px;padding:13px;margin:9px 0;display:flex;justify-content:space-between;gap:12px}.item h3{margin:0 0 5px;color:#17447e}.item p{margin:4px 0;color:#5d6878;white-space:pre-wrap}.msg{display:none;padding:10px;border-radius:7px;margin:8px 0}.ok{display:block;background:#dcfce7;color:#166534}.bad{display:block;background:#fee2e2;color:#991b1b}.preview{width:120px;height:80px;object-fit:cover;border-radius:6px}@media(max-width:700px){.form{grid-template-columns:1fr}.full{grid-column:auto}.item{flex-direction:column}}
-</style></head><body>
+
+/* Development Excel tools */
+.dev-excel-tools{
+  margin:18px 0 10px;
+  padding:16px;
+  border:1px solid #d8e0ea;
+  border-radius:12px;
+  background:linear-gradient(135deg,#f7fbff,#eef6ff);
+}
+.dev-excel-title{
+  font-size:16px;
+  font-weight:800;
+  color:#17365d;
+  margin-bottom:10px;
+}
+.dev-excel-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.dev-excel-actions button,
+.excel-upload{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:10px 16px;
+  border:0;
+  border-radius:8px;
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+  text-decoration:none;
+}
+.excel-download{background:#198754}
+.excel-upload{background:#1769aa}
+.excel-upload input{display:none}
+.dev-excel-note{
+  margin-top:10px;
+  font-size:12px;
+  line-height:1.5;
+  color:#536274;
+}
+
+</style><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head><body>
 <div class="top">
   <b>Manbazar-I Development Block — Content Manager</b>
   <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end">
@@ -158,6 +203,23 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
   <button class="primary" onclick="saveDev()">Save Work</button>
   <button class="secondary" onclick="clearDev()">Clear</button>
 </div>
+
+<!-- DEVELOPMENT EXCEL IMPORT / EXPORT -->
+<div class="dev-excel-tools">
+  <div class="dev-excel-title">📊 Development Excel Management</div>
+  <div class="dev-excel-actions">
+    <button type="button" class="excel-download" onclick="downloadDevelopmentExcel()">⬇ Download Excel</button>
+    <label class="excel-upload">
+      📤 Upload Excel
+      <input type="file" id="developmentExcelFile" accept=".xlsx,.xls,.csv" onchange="importDevelopmentExcel(event)">
+    </label>
+  </div>
+  <div class="dev-excel-note">
+    Excel columns must be: <b>Work Category, Work Name, Sector, Status, Year, Fund, Image URL, Work Details</b>.
+    Uploading Excel will replace the current Development Works list with the Excel rows.
+  </div>
+</div>
+
 <div id="dMsg" class="msg"></div>
 <div id="devList"></div>
 </section>
@@ -326,6 +388,135 @@ async function deleteSchemeAd(){
   if(r.error)return say("schemeAdMsg","Remove failed: "+r.error.message,false);
   await loadSchemeAd();
   say("schemeAdMsg","Advertisement removed.");
+}
+
+
+function developmentExcelValue(row, names){
+  for(const name of names){
+    if(Object.prototype.hasOwnProperty.call(row,name) && row[name]!==undefined && row[name]!==null){
+      return String(row[name]).trim();
+    }
+  }
+  return "";
+}
+
+function developmentExcelRowsFromSheet(rows){
+  return rows.map(row=>({
+    work_category: developmentExcelValue(row,["Work Category","work_category","Category"]),
+    title: developmentExcelValue(row,["Work Name","title","Title"]),
+    sector: developmentExcelValue(row,["Sector","sector"]),
+    status: developmentExcelValue(row,["Status","status"])==="Completed" ? "Completed" : "Ongoing",
+    work_year: developmentExcelValue(row,["Year","work_year","Work Year"]),
+    fund: developmentExcelValue(row,["Fund","fund"]),
+    image_url: developmentExcelValue(row,["Image URL","image_url","Image Url","Image"]),
+    work_details: developmentExcelValue(row,["Work Details","work_details","Description","description"])
+  })).filter(x=>x.title);
+}
+
+async function downloadDevelopmentExcel(){
+  if(typeof XLSX==="undefined"){
+    return say("dMsg","Excel library load হয়নি। Internet connection check করুন।",false);
+  }
+
+  const r=await sb.from("development_content")
+    .select("work_category,title,sector,status,work_year,fund,image_url,work_details,description")
+    .order("created_at",{ascending:true});
+
+  if(r.error)return say("dMsg","Excel download data load failed: "+r.error.message,false);
+
+  const rows=(r.data||[]).map(x=>({
+    "Work Category":x.work_category||"",
+    "Work Name":x.title||"",
+    "Sector":x.sector||"",
+    "Status":x.status||"Ongoing",
+    "Year":x.work_year||"",
+    "Fund":x.fund||"",
+    "Image URL":x.image_url||"",
+    "Work Details":x.work_details||x.description||""
+  }));
+
+  if(!rows.length){
+    rows.push({
+      "Work Category":"",
+      "Work Name":"",
+      "Sector":"",
+      "Status":"Ongoing",
+      "Year":"",
+      "Fund":"",
+      "Image URL":"",
+      "Work Details":""
+    });
+  }
+
+  const ws=XLSX.utils.json_to_sheet(rows);
+  ws["!cols"]=[
+    {wch:30},{wch:38},{wch:22},{wch:14},
+    {wch:14},{wch:25},{wch:45},{wch:65}
+  ];
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,"Development Works");
+  XLSX.writeFile(wb,"Manbazar-I_Development_Works.xlsx");
+  say("dMsg","Development Excel downloaded successfully.");
+}
+
+async function importDevelopmentExcel(event){
+  const file=event.target.files?.[0];
+  event.target.value="";
+  if(!file)return;
+
+  if(typeof XLSX==="undefined"){
+    return say("dMsg","Excel library load হয়নি। Internet connection check করুন।",false);
+  }
+
+  const confirmed=confirm(
+    "Excel upload করলে বর্তমানে থাকা সব Development Works replace হয়ে Excel-এর data public page-এ দেখানো হবে.\\n\\nContinue?"
+  );
+  if(!confirmed)return;
+
+  try{
+    const buffer=await file.arrayBuffer();
+    const wb=XLSX.read(buffer,{type:"array"});
+    const firstSheet=wb.Sheets[wb.SheetNames[0]];
+    const raw=XLSX.utils.sheet_to_json(firstSheet,{defval:""});
+    const rows=developmentExcelRowsFromSheet(raw);
+
+    if(!rows.length){
+      return say("dMsg","Excel-এ valid Work Name পাওয়া যায়নি।",false);
+    }
+
+    const invalid=rows.find(x=>!x.title);
+    if(invalid)return say("dMsg","প্রতিটি row-তে Work Name থাকতে হবে।",false);
+
+    const payload=rows.map(x=>({
+      title:x.title,
+      description:x.work_details||"",
+      work_details:x.work_details||"",
+      image_url:x.image_url||null,
+      work_category:x.work_category||"General Development",
+      sector:x.sector||"General",
+      status:x.status==="Completed"?"Completed":"Ongoing",
+      work_year:x.work_year||null,
+      fund:x.fund||null
+    }));
+
+    /* Replace current development master data */
+    const del=await sb.from("development_content").delete().not("id","is",null);
+    if(del.error){
+      return say("dMsg","Existing Development data delete failed: "+del.error.message,false);
+    }
+
+    const ins=await sb.from("development_content").insert(payload);
+    if(ins.error){
+      return say("dMsg","Excel data save failed: "+ins.error.message,false);
+    }
+
+    say("dMsg",`${payload.length}টি Development Work Excel থেকে successfully uploaded হয়েছে। Public page এখন Excel-এর data দেখাবে।`);
+    await loadDev();
+
+  }catch(err){
+    console.error(err);
+    say("dMsg","Excel upload error: "+(err?.message||String(err)),false);
+  }
 }
 
 async function loadDev(){
