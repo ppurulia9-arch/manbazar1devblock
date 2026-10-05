@@ -45,6 +45,19 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
   color:#536274;
 }
 
+
+.dev-source{
+  display:inline-block;
+  margin-left:7px;
+  padding:3px 7px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:800;
+  background:#e8f3ff;
+  color:#1769aa;
+}
+.dev-excel-note strong{color:#17365d}
+
 </style><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head><body>
 <div class="top">
@@ -216,7 +229,7 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
   </div>
   <div class="dev-excel-note">
     Excel columns must be: <b>Work Category, Work Name, Sector, Status, Year, Fund, Image URL, Work Details</b>.
-    Uploading Excel will replace the current Development Works list with the Excel rows.
+    Excel upload will <b>ADD</b> new rows. Existing Manual entries and previous Excel entries will NOT be deleted or replaced.
   </div>
 </div>
 
@@ -523,19 +536,31 @@ async function loadDev(){
   let r=await sb.from("development_content").select("*").order("created_at",{ascending:false});
   if(r.error)return say("dMsg",r.error.message,false);
   devs=r.data||[];
-  $("devList").innerHTML=devs.map(x=>`
-    <div class=item>
+
+  $("devList").innerHTML=devs.map(x=>{
+    const source=(x.entry_source||"manual").toLowerCase();
+    const badge=source==="excel"
+      ? '<span class="dev-source">EXCEL</span>'
+      : '<span class="dev-source">MANUAL</span>';
+
+    return `<div class=item>
       <div>
-        <h3>${esc(x.title||"")}</h3>
-        <p><b>Category:</b> ${esc(x.work_category||"General Development")}</p>
-        <p><b>Sector:</b> ${esc(x.sector||"General")} &nbsp; <b>Status:</b> ${esc(x.status||"Ongoing")} &nbsp; <b>Year:</b> ${esc(x.work_year||"")}</p>
-        <p>${esc(x.work_details||x.description||"")}</p>
+        <h3>${esc(x.title)} ${badge}</h3>
+        <p>${esc(x.description||x.work_details||"")}</p>
+        <p>
+          <b>Category:</b> ${esc(x.work_category||"")} |
+          <b>Sector:</b> ${esc(x.sector||"")} |
+          <b>Status:</b> ${esc(x.status||"")} |
+          <b>Year:</b> ${esc(x.work_year||"")} |
+          <b>Fund:</b> ${esc(x.fund||"")}
+        </p>
       </div>
       <div>
         <button class=edit onclick="editDev('${x.id}')">Edit</button>
         <button class=del onclick="delDev('${x.id}')">Delete</button>
       </div>
-    </div>`).join("")||"<p>No development works.</p>";
+    </div>`;
+  }).join("")||"<p>No development works.</p>";
 }
 function clearDev(){
   $("dId").value="";
@@ -576,12 +601,19 @@ async function saveDev(){
     fund:$("dFund").value.trim()||null
   };
 
-  let r=$("dId").value
-    ?await sb.from("development_content").update(p).eq("id",$("dId").value)
-    :await sb.from("development_content").insert(p);
+  let r;
+  if($("dId").value){
+    r=await sb.from("development_content").update(p).eq("id",$("dId").value);
+  }else{
+    const p2={...p,entry_source:"manual"};
+    r=await sb.from("development_content").insert(p2);
+    if(r.error && /entry_source|column/i.test(r.error.message)){
+      r=await sb.from("development_content").insert(p);
+    }
+  }
 
   if(r.error)return say("dMsg",r.error.message,false);
-  say("dMsg","Development work saved successfully");
+  say("dMsg",$("dId").value?"Manual work updated successfully.":"Manual work saved successfully.");
   clearDev();
   await loadDev();
 }
@@ -591,6 +623,155 @@ async function delDev(id){
   if(r.error)return say("dMsg",r.error.message,false);
   await loadDev();
 }
+
+
+/* ================= DEVELOPMENT EXCEL ADD / EXPORT ================= */
+
+const DEV_EXCEL_HEADERS=[
+  "Work Category",
+  "Work Name",
+  "Sector",
+  "Status",
+  "Year",
+  "Fund",
+  "Image URL",
+  "Work Details"
+];
+
+function developmentRowsForExcel(rows){
+  return rows.map(x=>({
+    "Work Category":x.work_category||"",
+    "Work Name":x.title||"",
+    "Sector":x.sector||"",
+    "Status":x.status||"",
+    "Year":x.work_year||"",
+    "Fund":x.fund||"",
+    "Image URL":x.image_url||"",
+    "Work Details":x.work_details||x.description||""
+  }));
+}
+
+async function downloadDevelopmentExcel(){
+  const r=await sb.from("development_content")
+    .select("title,description,work_details,image_url,work_category,sector,status,work_year,fund,created_at")
+    .order("created_at",{ascending:true});
+
+  if(r.error)return say("dMsg","Excel download failed: "+r.error.message,false);
+
+  const rows=developmentRowsForExcel(r.data||[]);
+  const ws=XLSX.utils.json_to_sheet(rows, {header:DEV_EXCEL_HEADERS});
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,"Development Works");
+
+  ws["!cols"]=[
+    {wch:30},{wch:38},{wch:22},{wch:14},
+    {wch:14},{wch:25},{wch:45},{wch:65}
+  ];
+
+  XLSX.writeFile(wb,"Manbazar-I_Development_Works.xlsx");
+  say("dMsg","Excel downloaded successfully.");
+}
+
+function cleanExcelValue(v){
+  if(v===undefined || v===null)return "";
+  return String(v).trim();
+}
+
+async function importDevelopmentExcel(event){
+  const file=event.target.files[0];
+  if(!file)return;
+
+  const input=event.target;
+  try{
+    const data=await file.arrayBuffer();
+    const wb=XLSX.read(data,{type:"array"});
+    const sheet=wb.Sheets[wb.SheetNames[0]];
+    const raw=XLSX.utils.sheet_to_json(sheet,{defval:""});
+
+    if(!raw.length){
+      input.value="";
+      return say("dMsg","Excel file-এ কোনো data পাওয়া যায়নি।",false);
+    }
+
+    const normalized=raw.map(row=>{
+      const get=(...keys)=>{
+        for(const k of keys){
+          if(Object.prototype.hasOwnProperty.call(row,k))return cleanExcelValue(row[k]);
+        }
+        return "";
+      };
+
+      return {
+        title:get("Work Name","work name","Title","title"),
+        work_category:get("Work Category","work category","Category","category"),
+        sector:get("Sector","sector"),
+        status:get("Status","status")||"Ongoing",
+        work_year:get("Year","year"),
+        fund:get("Fund","fund"),
+        image_url:get("Image URL","image url","ImageURL","image_url"),
+        work_details:get("Work Details","work details","Description","description")
+      };
+    }).filter(x=>x.title);
+
+    if(!normalized.length){
+      input.value="";
+      return say("dMsg","Excel-এ valid Work Name পাওয়া যায়নি।",false);
+    }
+
+    const invalid=normalized.find(x=>!["Ongoing","Completed"].includes(x.status));
+    if(invalid){
+      input.value="";
+      return say("dMsg","Status শুধু Ongoing অথবা Completed হতে পারবে।",false);
+    }
+
+    const ok=confirm(
+      normalized.length+"টি Development Work Excel থেকে ADD হবে।\\n\\n"+
+      "⚠️ Existing Manual entries বা আগের Excel entries DELETE/REPLACE হবে না।\\n\\n"+
+      "Continue করবেন?"
+    );
+
+    if(!ok){
+      input.value="";
+      return;
+    }
+
+    const payload=normalized.map(x=>({
+      title:x.title,
+      description:x.work_details||null,
+      work_details:x.work_details||null,
+      image_url:x.image_url||null,
+      work_category:x.work_category||"General Development",
+      sector:x.sector||"General",
+      status:x.status,
+      work_year:x.work_year||null,
+      fund:x.fund||null,
+      entry_source:"excel"
+    }));
+
+    let r=await sb.from("development_content").insert(payload);
+
+    // Compatibility fallback if entry_source column has not yet been added.
+    if(r.error && /entry_source|column/i.test(r.error.message)){
+      const fallback=payload.map(({entry_source,...rest})=>rest);
+      r=await sb.from("development_content").insert(fallback);
+    }
+
+    if(r.error){
+      input.value="";
+      return say("dMsg","EXCEL UPLOAD ERROR: "+r.error.message,false);
+    }
+
+    input.value="";
+    say("dMsg",normalized.length+"টি Excel Development Work successfully added. Existing entries unchanged.");
+    await loadDev();
+
+  }catch(err){
+    input.value="";
+    say("dMsg","EXCEL FILE ERROR: "+(err?.message||String(err)),false);
+  }
+}
+
+/* ================= END DEVELOPMENT EXCEL ================= */
 
 async function loadDls(){let r=await sb.from("downloads").select("*").order("created_at",{ascending:false});if(r.error)return say("dlMsg",r.error.message,false);dls=r.data||[];$("dlList").innerHTML=dls.map(x=>`<div class=item><div><h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></div><div><button class=edit onclick="editDl('${x.id}')">Edit</button> <button class=del onclick="delDl('${x.id}')">Delete</button></div></div>`).join("")||"<p>No downloads.</p>"}
 function clearDownload(){$("dlId").value="";$("dlTitle").value="";$("dlDesc").value="";$("dlFile").value=""}
