@@ -35,6 +35,8 @@ const supabaseClient = window.supabase.createClient(
 @media(max-width:1050px){.hero-layout{grid-template-columns:1fr 1.8fr}.latest-panel{grid-column:1/-1}.notice-window{height:180px}.service-row{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:750px){.topbar{height:auto;padding:8px;justify-content:center}.topbar span:last-child{display:none}.header{flex-direction:column;text-align:center;padding:15px}.brand{flex-direction:column;gap:5px}.brand h1{font-size:23px}.nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}.nav a{font-size:12px;padding:11px 12px}.hero-layout{grid-template-columns:1fr}.hero{height:360px}.service-row{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){.hero-text h2{font-size:30px}.service-row{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.leader{width:70px;height:80px}}
+
+.home-admin-login-top{width:100%;background:#760b22;padding:9px 15px;display:flex;justify-content:center;align-items:center;border-top:1px solid rgba(255,255,255,.12);border-bottom:3px solid #d7a316}.home-admin-login-btn{display:flex;align-items:center;gap:10px;min-width:210px;padding:8px 16px;text-decoration:none;color:#65091d;background:linear-gradient(135deg,#fff,#fff8df);border:1px solid #e2b52c;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.22);transition:.25s ease}.home-admin-login-btn:hover{background:#f5c642;transform:translateY(-2px);box-shadow:0 7px 17px rgba(0,0,0,.28)}.home-admin-lock{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#d5a116,#f4ca51);font-size:20px;flex:none}.home-admin-login-text{display:flex;flex-direction:column;line-height:1.15}.home-admin-login-text strong{font-size:14px;font-weight:800}.home-admin-login-text small{margin-top:3px;font-size:9px;color:#805264;letter-spacing:.4px}.home-admin-arrow{margin-left:auto;font-size:20px;font-weight:800}@media(max-width:600px){.home-admin-login-top{padding:7px 10px}.home-admin-login-btn{min-width:190px;padding:7px 12px}.home-admin-lock{width:34px;height:34px;font-size:18px}}
 </style>
 
 <style id="floating-notice-final-fix">
@@ -66,6 +68,16 @@ const supabaseClient = window.supabase.createClient(
 <body>
 <div class="topbar"><span>Government of West Bengal</span><span>📍 Manbazar-I Development Block, Purulia</span></div>
 <header class="header"><div class="brand"><div class="logo"><img src="ashoka.jpg" alt="Ashoka Stambha"></div><div><h1>Manbazar-I Development Block</h1><p>Purulia, West Bengal</p></div></div><div class="leaders"><img class="leader" src="https://www.pmindia.gov.in/wp-content/uploads/2025/12/02.jpg" alt="Prime Minister"><img class="leader" src="https://wb.gov.in/images/cm_new2.jpg" alt="Chief Minister"></div></header>
+
+<!-- HOME PAGE ADMIN LOGIN -->
+<div class="home-admin-login-top">
+  <a href="admin/login.html" class="home-admin-login-btn">
+    <span class="home-admin-lock">🔐</span>
+    <span class="home-admin-login-text"><strong>Admin Login</strong><small>Authorized Officials Only</small></span>
+    <span class="home-admin-arrow">→</span>
+  </a>
+</div>
+
 <nav class="nav"><a class="active" href="index.html">🏠 Home</a><a href="about.html">ℹ️ About</a><a href="administration.html">🏛️ Administration</a><a href="development.html">📈 Development</a><a href="schemes.html">📋 Schemes</a><a href="notices.html">🔔 Notices</a><a href="downloads.html">⬇️ Downloads</a><a href="gallery.html">🖼️ Gallery</a><a href="contact.html">☎️ Contact</a><a href="public-grievance.html">📝 Grievance</a></nav>
 <div class="main-wrap"><div class="hero-layout">
 <aside class="links-panel panel"><div class="panel-title">🔗 Important Links</div><div class="link-list">
