@@ -162,7 +162,23 @@ body{margin:0;font-family:Arial;background:#eef3f8;color:#172033}.top{background
 <div id="devList"></div>
 </section>
 <section id="downloads" class="panel"><h2>⬇️ Downloads</h2><input type="hidden" id="dlId"><div class="form"><div><label>Title</label><input id="dlTitle"></div><div><label>Description</label><input id="dlDesc"></div><div><label>File</label><input id="dlFile" type="file"></div></div><div class="actions"><button class="primary" onclick="saveDownload()">Upload / Save</button><button class="secondary" onclick="clearDownload()">Clear</button></div><div id="dlMsg" class="msg"></div><div id="dlList"></div></section>
-<section id="gallery" class="panel"><h2>🖼️ Gallery</h2><input type="hidden" id="gId"><div class="form"><div><label>Photo Title</label><input id="gTitle"></div><div><label>Caption</label><input id="gCaption"></div><div><label>Photo</label><input id="gFile" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"></div></div><div class="actions"><button class="primary" onclick="saveGallery()">Upload / Save</button><button class="secondary" onclick="clearGallery()">Clear</button></div><div id="gMsg" class="msg"></div><div id="gList"></div></section>
+<section id="gallery" class="panel"><h2>🖼️ Gallery</h2><input type="hidden" id="gId"><div class="form">
+<div><label>Photo Title</label><input id="gTitle"></div>
+<div><label>Caption</label><input id="gCaption"></div>
+<div><label>Photo Category *</label>
+<select id="gCategory" style="width:100%;padding:10px;border:1px solid #ccd5e1;border-radius:7px;box-sizing:border-box">
+<option value="">Select Category</option>
+<option value="development">Development Works</option>
+<option value="events">Events & Programs</option>
+<option value="meeting">Meetings</option>
+<option value="infrastructure">Infrastructure</option>
+<option value="awareness">Awareness Programs</option>
+<option value="nature">Natural View</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div><label>Photo</label><input id="gFile" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"></div>
+</div><div class="actions"><button class="primary" onclick="saveGallery()">Upload / Save</button><button class="secondary" onclick="clearGallery()">Clear</button></div><div id="gMsg" class="msg"></div><div id="gList"></div></section>
 <section id="contacts" class="panel"><h2>☎️ Contact Information</h2><input type="hidden" id="cId"><div class="form"><div><label>Department / Office</label><input id="cDept"></div><div><label>Contact Person</label><input id="cName"></div><div><label>Designation</label><input id="cDes"></div><div><label>Phone</label><input id="cPhone"></div><div><label>Email</label><input id="cEmail"></div><div><label>Address</label><input id="cAddress"></div></div><div class="actions"><button class="primary" onclick="saveContact()">Save Contact</button><button class="secondary" onclick="clearContact()">Clear</button></div><div id="cMsg" class="msg"></div><div id="cList"></div></section>
 </div>
 <section id="administration" class="panel">
@@ -379,49 +395,98 @@ async function delDev(id){
 async function loadDls(){let r=await sb.from("downloads").select("*").order("created_at",{ascending:false});if(r.error)return say("dlMsg",r.error.message,false);dls=r.data||[];$("dlList").innerHTML=dls.map(x=>`<div class=item><div><h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></div><div><button class=edit onclick="editDl('${x.id}')">Edit</button> <button class=del onclick="delDl('${x.id}')">Delete</button></div></div>`).join("")||"<p>No downloads.</p>"}
 function clearDownload(){$("dlId").value="";$("dlTitle").value="";$("dlDesc").value="";$("dlFile").value=""}
 function editDl(id){let x=dls.find(y=>y.id==id);$("dlId").value=id;$("dlTitle").value=x.title;$("dlDesc").value=x.description||""}
-async function saveDownload(){
-  const id=$("dlId").value;
-  const title=$("dlTitle").value.trim();
-  const f=$("dlFile").files[0];
-  const old=dls.find(x=>x.id==id);
-  if(!title)return say("dlMsg","Title required",false);
-
-  let path=old?.file_path||null;
-  let fileUrl=old?.file_url||null;
-
-  if(f){
-    const p=""+Date.now()+"-"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");
-    const u=await sb.storage.from("site-downloads").upload(p,f,{upsert:true,contentType:f.type||"application/octet-stream"});
-    if(u.error)return say("dlMsg",u.error.message,false);
-    path=p;
-    fileUrl=sb.storage.from("site-downloads").getPublicUrl(p).data.publicUrl;
-  }
-
-  if(!fileUrl)return say("dlMsg","Select a file",false);
-
-  const data={
-    title,
-    description:$("dlDesc").value.trim()||null,
-    file_url:fileUrl,
-    file_path:path
-  };
-
-  const r=id
-    ?await sb.from("downloads").update(data).eq("id",id)
-    :await sb.from("downloads").insert(data);
-
-  if(r.error)return say("dlMsg",r.error.message,false);
-  say("dlMsg","Download saved");
-  clearDownload();
-  loadDls();
-}
+async function saveDownload(){let title=$("dlTitle").value.trim(),f=$("dlFile").files[0],old=dls.find(x=>x.id==$("dlId").value)?.file_path;if(!title)return say("dlMsg","Title required",false);let path=old;if(f){let p=""+Date.now()+"-"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");let u=await sb.storage.from("site-downloads").upload(p,f,{upsert:true,contentType:f.type||"application/octet-stream"});if(u.error)return say("dlMsg",u.error.message,false);path=p}if(!path)return say("dlMsg","Select a file",false);let data={title,description:$("dlDesc").value.trim(),file_path:path};let r=$("dlId").value?await sb.from("downloads").update(data).eq("id",$("dlId").value):await sb.from("downloads").insert(data);if(r.error)return say("dlMsg",r.error.message,false);say("dlMsg","Download saved");clearDownload();loadDls()}
 async function delDl(id){if(!confirm("Delete download?"))return;let x=dls.find(y=>y.id==id);if(x?.file_path)await sb.storage.from("site-downloads").remove([x.file_path]);let r=await sb.from("downloads").delete().eq("id",id);if(r.error)return say("dlMsg",r.error.message,false);loadDls()}
 
-async function loadGals(){let r=await sb.from("gallery_photos").select("*").order("created_at",{ascending:false});if(r.error)return say("gMsg",r.error.message,false);gals=r.data||[];$("gList").innerHTML=gals.map(x=>`<div class=item><div><img class=preview src="${sb.storage.from("site-gallery").getPublicUrl(x.image_path).data.publicUrl}"><h3>${esc(x.title||"Photo")}</h3><p>${esc(x.caption||"")}</p></div><div><button class=edit onclick="editGal('${x.id}')">Edit</button> <button class=del onclick="delGal('${x.id}')">Delete</button></div></div>`).join("")||"<p>No photos.</p>"}
-function clearGallery(){$("gId").value="";$("gTitle").value="";$("gCaption").value="";$("gFile").value=""}
-function editGal(id){let x=gals.find(y=>y.id==id);$("gId").value=id;$("gTitle").value=x.title||"";$("gCaption").value=x.caption||""}
-async function saveGallery(){let f=$("gFile").files[0],old=gals.find(x=>x.id==$("gId").value)?.image_path;if(!f&&!old)return say("gMsg","Select a photo",false);let path=old;if(f){let p=Date.now()+"-"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");let u=await sb.storage.from("site-gallery").upload(p,f,{upsert:true,contentType:f.type});if(u.error)return say("gMsg",u.error.message,false);path=p}let data={title:$("gTitle").value.trim()||null,caption:$("gCaption").value.trim()||null,image_path:path};let r=$("gId").value?await sb.from("gallery_photos").update(data).eq("id",$("gId").value):await sb.from("gallery_photos").insert(data);if(r.error)return say("gMsg",r.error.message,false);say("gMsg","Photo saved");clearGallery();loadGals()}
-async function delGal(id){if(!confirm("Delete photo?"))return;let x=gals.find(y=>y.id==id);if(x?.image_path)await sb.storage.from("site-gallery").remove([x.image_path]);let r=await sb.from("gallery_photos").delete().eq("id",id);if(r.error)return say("gMsg",r.error.message,false);loadGals()}
+async function loadGals(){
+  let r=await sb.from("gallery_photos").select("*").order("created_at",{ascending:false});
+  if(r.error)return say("gMsg",r.error.message,false);
+  gals=r.data||[];
+  $("gList").innerHTML=gals.map(x=>{
+    const catLabels={
+      development:"Development Works",
+      events:"Events & Programs",
+      meeting:"Meetings",
+      infrastructure:"Infrastructure",
+      awareness:"Awareness Programs",
+      nature:"Natural View",
+      other:"Other"
+    };
+    const cat=catLabels[x.category]||"Other";
+    return `<div class=item>
+      <div>
+        <img class=preview src="${sb.storage.from("site-gallery").getPublicUrl(x.image_path).data.publicUrl}">
+        <h3>${esc(x.title||"Photo")}</h3>
+        <p>${esc(x.caption||"")}</p>
+        <p><b>Category:</b> ${esc(cat)}</p>
+      </div>
+      <div>
+        <button class=edit onclick="editGal('${x.id}')">Edit</button>
+        <button class=del onclick="delGal('${x.id}')">Delete</button>
+      </div>
+    </div>`;
+  }).join("")||"<p>No photos.</p>";
+}
+function clearGallery(){
+  $("gId").value="";
+  $("gTitle").value="";
+  $("gCaption").value="";
+  $("gCategory").value="";
+  $("gFile").value="";
+}
+function editGal(id){
+  let x=gals.find(y=>y.id==id);
+  if(!x)return;
+  $("gId").value=id;
+  $("gTitle").value=x.title||"";
+  $("gCaption").value=x.caption||"";
+  $("gCategory").value=x.category||"";
+}
+async function saveGallery(){
+  let f=$("gFile").files[0];
+  let old=gals.find(x=>x.id==$("gId").value)?.image_path;
+  let category=$("gCategory").value;
+  if(!category)return say("gMsg","Photo Category select করুন",false);
+  if(!f&&!old)return say("gMsg","Select a photo",false);
+
+  if(f){
+    const allowed=["image/jpeg","image/png","image/webp"];
+    if(!allowed.includes(f.type))return say("gMsg","JPG, PNG অথবা WebP photo upload করুন",false);
+    if(f.size>5*1024*1024)return say("gMsg","Photo সর্বোচ্চ 5 MB হতে পারবে",false);
+  }
+
+  let path=old;
+  if(f){
+    let p=Date.now()+"-"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+    let u=await sb.storage.from("site-gallery").upload(p,f,{upsert:true,contentType:f.type});
+    if(u.error)return say("gMsg",u.error.message,false);
+    path=p;
+  }
+
+  let data={
+    title:$("gTitle").value.trim()||null,
+    caption:$("gCaption").value.trim()||null,
+    category:category,
+    image_path:path
+  };
+
+  let r=$("gId").value
+    ?await sb.from("gallery_photos").update(data).eq("id",$("gId").value)
+    :await sb.from("gallery_photos").insert(data);
+
+  if(r.error)return say("gMsg",r.error.message,false);
+  say("gMsg","Photo saved successfully");
+  clearGallery();
+  loadGals();
+}
+async function delGal(id){
+  if(!confirm("Delete photo?"))return;
+  let x=gals.find(y=>y.id==id);
+  if(x?.image_path)await sb.storage.from("site-gallery").remove([x.image_path]);
+  let r=await sb.from("gallery_photos").delete().eq("id",id);
+  if(r.error)return say("gMsg",r.error.message,false);
+  loadGals();
+}
 
 async function loadCons(){let r=await sb.from("contacts").select("*").order("created_at",{ascending:false});if(r.error)return say("cMsg",r.error.message,false);cons=r.data||[];$("cList").innerHTML=cons.map(x=>`<div class=item><div><h3>${esc(x.department)}</h3><p>${esc(x.officer_name||"")} ${esc(x.designation||"")}</p><p>${esc(x.phone||"")} ${esc(x.email||"")}</p><p>${esc(x.address||"")}</p></div><div><button class=edit onclick="editCon('${x.id}')">Edit</button> <button class=del onclick="delCon('${x.id}')">Delete</button></div></div>`).join("")||"<p>No contacts.</p>"}
 function clearContact(){$("cId").value="";["cDept","cName","cDes","cPhone","cEmail","cAddress"].forEach(id=>$(id).value="")}
@@ -447,37 +512,21 @@ $("logout").onclick=async()=>{await sb.auth.signOut();location.href="login.html"
 
 /* ================= GOVT FORMS DOWNLOAD MANAGER ================= */
 async function loadGovtCategories(){
-  const [catRes, formRes] = await Promise.all([
-    sb.from("govt_form_categories").select("*").order("name",{ascending:true}),
-    sb.from("govt_forms").select("id,category_id")
-  ]);
-
-  if(catRes.error){
-    if($("gfCatMsg")) say("gfCatMsg",catRes.error.message,false);
+  const r=await sb.from("govt_form_categories").select("*").order("name",{ascending:true});
+  if(r.error){
+    if($("gfCatMsg")) say("gfCatMsg",r.error.message,false);
     return;
   }
-  if(formRes.error){
-    if($("gfCatMsg")) say("gfCatMsg",formRes.error.message,false);
-    return;
-  }
-
-  const cats=catRes.data||[];
-  const forms=formRes.data||[];
-  const counts={};
-  forms.forEach(f=>{
-    if(f.category_id) counts[f.category_id]=(counts[f.category_id]||0)+1;
-  });
-
+  const cats=r.data||[];
   const sel=$("gfCategory");
   if(sel){
     sel.innerHTML='<option value="">Select Category</option>'+
-      cats.map(c=>'<option value="'+esc(c.id)+'">'+esc(c.name)+' — '+(counts[c.id]||0)+' Forms</option>').join("");
+      cats.map(c=>'<option value="'+esc(c.id)+'">'+esc(c.name)+'</option>').join("");
   }
-
   const box=$("gfCategories");
   if(box){
-    box.innerHTML='<table><tr><th>Category</th><th>Uploaded Forms</th><th>Action</th></tr>'+
-      cats.map(c=>'<tr><td><b>'+esc(c.name)+'</b></td><td><span style="display:inline-block;padding:5px 12px;border-radius:20px;background:#eef6ff;color:#07549a;font-weight:700">'+(counts[c.id]||0)+' Forms</span></td><td>'+
+    box.innerHTML='<table><tr><th>Category</th><th>Action</th></tr>'+
+      cats.map(c=>'<tr><td>'+esc(c.name)+'</td><td>'+
       '<button type="button" class="del" onclick="deleteGovtCategory(\''+c.id+'\')">Delete</button>'+
       '</td></tr>').join("")+'</table>';
   }
